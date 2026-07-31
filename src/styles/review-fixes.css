@@ -1,0 +1,32 @@
+.info-panel .button--quiet {
+  color: var(--ink);
+  border-color: var(--line);
+  background: var(--white);
+}
+
+.info-panel .button--quiet:hover {
+  color: var(--blue-dark);
+  background: var(--mist);
+}
+
+.provider {
+  grid-template-columns: minmax(18rem, 22rem) minmax(0, 1fr);
+}
+
+.provider > img {
+  width: 100%;
+  aspect-ratio: 5 / 4;
+  object-fit: cover;
+  border-radius: 1rem;
+  box-shadow: var(--shadow);
+}
+
+@media (max-width: 700px) {
+  .provider {
+    grid-template-columns: 1fr;
+  }
+
+  .provider > img {
+    max-width: 32rem;
+  }
+}
