@@ -21,8 +21,9 @@ test('primary actions work', async ({ page }) => {
 test('mobile navigation opens and closes', async ({ page, isMobile }) => {
   test.skip(!isMobile, 'Mobile-only behavior');
   await page.goto('/');
-  const button = page.getByRole('button', { name: 'Menu' });
+  const header = page.getByRole('banner');
+  const button = header.getByRole('button', { name: 'Menu' });
   await button.click();
   await expect(button).toHaveAttribute('aria-expanded', 'true');
-  await expect(page.getByRole('navigation', { name: 'Primary navigation' })).toBeVisible();
+  await expect(header.getByRole('navigation', { name: 'Primary navigation' })).toBeVisible();
 });
