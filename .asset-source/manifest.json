@@ -20,16 +20,10 @@
   {
     "target": "public/forms/privacy-practices.pdf",
     "chunks": [
-      "privacy-practices.pdf.b64.000",
-      "privacy-practices.pdf.b64.001",
-      "privacy-practices.pdf.b64.002",
-      "privacy-practices.pdf.b64.003",
-      "privacy-practices.pdf.b64.004",
-      "privacy-practices.pdf.b64.005",
-      "privacy-practices.pdf.b64.006",
-      "privacy-practices.pdf.b64.007"
+      "privacy-practices.pdf.b64.000"
     ],
     "encoding": "gzip+base64",
-    "sourceBytes": 93588
+    "sourceBytes": 18664,
+    "sha256": "88a2fb6f6694a5deef6e1d2d713d3796ad2d64b0f271203115d65e4bb9d6b6ef"
   }
 ]
