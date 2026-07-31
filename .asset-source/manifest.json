@@ -25,16 +25,12 @@
   {
     "target": "public/forms/new-patient-medical-history.pdf",
     "chunks": [
-      "new-patient-medical-history.pdf.v2.b64.000a",
-      "new-patient-medical-history.pdf.v2.b64.000b",
-      "new-patient-medical-history.pdf.v2.b64.000c",
-      "new-patient-medical-history.pdf.v2.b64.001a",
-      "new-patient-medical-history.pdf.v2.b64.001b",
-      "new-patient-medical-history.pdf.v2.b64.001c"
+      "new-patient-medical-history.pdf.v3.b64.a",
+      "new-patient-medical-history.pdf.v3.b64.b"
     ],
     "encoding": "gzip+base64",
-    "sourceBytes": 80426,
-    "sha256": "0fbaf5775b8149e6eece42fb6b41c8edc17b91761e43c9839cfe280ec3c6fd0f"
+    "sourceBytes": 70012,
+    "sha256": "dff29e5fa208ed67d70fce8d6b328befe6eb9f11af11474ea5cd13c35afe038b"
   },
   {
     "target": "public/forms/privacy-practices.pdf",
