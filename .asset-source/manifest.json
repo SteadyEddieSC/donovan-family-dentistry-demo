@@ -1,0 +1,35 @@
+[
+  {
+    "target": "public/images/office-exterior.webp",
+    "chunks": [
+      "office-exterior.webp.b64.000",
+      "office-exterior.webp.b64.001"
+    ],
+    "encoding": "gzip+base64",
+    "sourceBytes": 18284
+  },
+  {
+    "target": "public/forms/new-patient-medical-history.pdf",
+    "chunks": [
+      "new-patient-medical-history.pdf.b64.000",
+      "new-patient-medical-history.pdf.b64.001"
+    ],
+    "encoding": "gzip+base64",
+    "sourceBytes": 92659
+  },
+  {
+    "target": "public/forms/privacy-practices.pdf",
+    "chunks": [
+      "privacy-practices.pdf.b64.000",
+      "privacy-practices.pdf.b64.001",
+      "privacy-practices.pdf.b64.002",
+      "privacy-practices.pdf.b64.003",
+      "privacy-practices.pdf.b64.004",
+      "privacy-practices.pdf.b64.005",
+      "privacy-practices.pdf.b64.006",
+      "privacy-practices.pdf.b64.007"
+    ],
+    "encoding": "gzip+base64",
+    "sourceBytes": 93588
+  }
+]

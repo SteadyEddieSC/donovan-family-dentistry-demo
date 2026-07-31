@@ -1,0 +1,18 @@
+[
+  {
+    "title": "New Patient and Medical History Form",
+    "description": "Download and complete this three-page fillable PDF before your first office visit, or print it and complete it by hand.",
+    "file": "/forms/new-patient-medical-history.pdf",
+    "visible": true,
+    "order": 1,
+    "fillable": true
+  },
+  {
+    "title": "Notice of Privacy Practices",
+    "description": "Review the practice privacy notice and acknowledgement form.",
+    "file": "/forms/privacy-practices.pdf",
+    "visible": true,
+    "order": 2,
+    "fillable": false
+  }
+]

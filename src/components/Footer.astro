@@ -1,0 +1,32 @@
+---
+import site from '../data/site.json';
+interface Props { fullAddress: string; }
+const { fullAddress } = Astro.props;
+const mapHref = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(fullAddress)}`;
+---
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <section>
+        <h2>{site.practiceName}</h2>
+        <p>Established, local dental care in Beaufort, South Carolina.</p>
+        <p><a href={`tel:${site.phoneHref}`}>{site.phoneDisplay}</a><br /><a href={mapHref} rel="noopener">{fullAddress}</a></p>
+      </section>
+      <section>
+        <h3>Explore</h3>
+        <nav class="footer-nav" aria-label="Footer navigation">
+          <a href="/about/">About</a>
+          <a href="/services/">Services</a>
+          <a href="/forms/">Patient Forms</a>
+          <a href="/contact/">Contact & Directions</a>
+        </nav>
+      </section>
+      <section>
+        <h3>Office hours</h3>
+        <p>Monday-Thursday<br />7:30 AM-5:00 PM</p>
+        <p>Friday-Sunday<br />Closed</p>
+      </section>
+    </div>
+    <div class="footer-bottom">© {new Date().getFullYear()} {site.practiceName}. Private demonstration website.</div>
+  </div>
+</footer>

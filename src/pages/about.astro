@@ -1,0 +1,22 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import providers from '../data/providers.json';
+const visibleProviders = providers.filter((provider) => provider.visible).sort((a, b) => a.order - b.order);
+---
+<BaseLayout title="About | Donovan Family Dentistry" description="Meet Dr. William Donovan and learn about Donovan Family Dentistry in Beaufort, South Carolina.">
+  <header class="page-hero"><div class="container"><p class="eyebrow">About the practice</p><h1>Local care shaped by experience and service</h1><p class="lead">The current provider information published by Donovan Family Dentistry.</p></div></header>
+  <section class="section">
+    <div class="container">
+      {visibleProviders.map((provider) => (
+        <article class="provider">
+          {provider.photo ? <img src={provider.photo} alt={provider.photoAlt} /> : <div class="provider-placeholder" aria-hidden="true">WD</div>}
+          <div>
+            <p class="eyebrow">Doctor profile</p>
+            <h2>{provider.name}, {provider.credentials}</h2>
+            {provider.biography.map((paragraph) => <p>{paragraph}</p>)}
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+</BaseLayout>

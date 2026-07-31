@@ -1,0 +1,127 @@
+media:
+  - name: images
+    label: Website images
+    input: public/images
+    output: /images
+    extensions: [png, jpg, jpeg, webp, svg]
+    rename: safe
+  - name: forms
+    label: Patient PDF forms
+    input: public/forms
+    output: /forms
+    extensions: [pdf]
+    rename: safe
+
+settings:
+  commit:
+    identity: user
+    templates:
+      create: "content: add {filename}"
+      update: "content: update {filename}"
+      delete: "content: remove {filename}"
+
+content:
+  - name: site
+    label: Practice details and homepage
+    type: file
+    path: src/data/site.json
+    format: json
+    operations:
+      create: false
+      rename: false
+      delete: false
+    fields:
+      - { name: practiceName, label: Practice name, type: string, required: true }
+      - { name: tagline, label: Homepage headline, type: string, required: true, options: { maxlength: 110 } }
+      - { name: introduction, label: Homepage introduction, type: text, required: true, options: { maxlength: 350 } }
+      - { name: phoneDisplay, label: Display phone number, type: string, required: true }
+      - { name: phoneHref, label: Click-to-call number, type: string, required: true, description: "Use +1 followed by the ten-digit number." }
+      - name: address
+        label: Address
+        type: object
+        required: true
+        fields:
+          - { name: street, label: Street, type: string, required: true }
+          - { name: city, label: City, type: string, required: true }
+          - { name: state, label: State, type: string, required: true }
+          - { name: postalCode, label: ZIP code, type: string, required: true }
+      - name: hours
+        label: Office hours
+        type: object
+        list:
+          min: 7
+          max: 7
+          collapsible:
+            collapsed: true
+            summary: "{day}: {hours}"
+        fields:
+          - { name: day, label: Day, type: string, required: true, readonly: true }
+          - { name: hours, label: Hours, type: string, required: true }
+      - { name: heroImage, label: Office image, type: image, required: true, options: { media: images } }
+      - { name: heroAlt, label: Office image alternative text, type: text, required: true, description: "Describe the image for visitors who cannot see it." }
+      - { name: logo, label: Practice logo, type: image, required: true, options: { media: images } }
+      - { name: logoAlt, label: Logo alternative text, type: string, required: true }
+      - name: announcement
+        label: Homepage announcement
+        type: object
+        fields:
+          - { name: enabled, label: Show announcement, type: boolean }
+          - { name: text, label: Announcement text, type: text, options: { maxlength: 300 } }
+      - name: seo
+        label: Search preview
+        type: object
+        fields:
+          - { name: title, label: Homepage page title, type: string, required: true, options: { maxlength: 65 } }
+          - { name: description, label: Homepage description, type: text, required: true, options: { maxlength: 165 } }
+
+  - name: services
+    label: Services
+    type: file
+    path: src/data/services.json
+    format: json
+    list: true
+    operations:
+      create: false
+      rename: false
+      delete: false
+    fields:
+      - { name: name, label: Service name, type: string, required: true, options: { maxlength: 100 } }
+      - { name: visible, label: Show service, type: boolean }
+      - { name: order, label: Display order, type: number, required: true }
+
+  - name: providers
+    label: Dentists and staff profiles
+    type: file
+    path: src/data/providers.json
+    format: json
+    list: true
+    operations:
+      create: false
+      rename: false
+      delete: false
+    fields:
+      - { name: name, label: Name, type: string, required: true }
+      - { name: credentials, label: Credentials, type: string }
+      - { name: visible, label: Show profile, type: boolean }
+      - { name: order, label: Display order, type: number, required: true }
+      - { name: photo, label: Photograph, type: image, options: { media: images } }
+      - { name: photoAlt, label: Photograph alternative text, type: text }
+      - { name: biography, label: Biography paragraphs, type: text, list: true }
+
+  - name: forms
+    label: Downloadable patient forms
+    type: file
+    path: src/data/forms.json
+    format: json
+    list: true
+    operations:
+      create: false
+      rename: false
+      delete: false
+    fields:
+      - { name: title, label: Form title, type: string, required: true }
+      - { name: description, label: Description, type: text, required: true }
+      - { name: file, label: PDF file, type: file, required: true, options: { media: forms, extensions: [pdf] } }
+      - { name: visible, label: Show form, type: boolean }
+      - { name: order, label: Display order, type: number, required: true }
+      - { name: fillable, label: Fillable on a device, type: boolean, readonly: true }
