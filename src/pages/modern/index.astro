@@ -1,0 +1,253 @@
+---
+import ModernLayout from '../../layouts/ModernLayout.astro';
+import site from '../../data/site.json';
+import providers from '../../data/providers.json';
+
+const doctor = providers.find((provider) => provider.visible);
+const fullAddress = `${site.address.street}, ${site.address.city}, ${site.address.state} ${site.address.postalCode}`;
+const mapHref = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(fullAddress)}`;
+const serviceGroups = [
+  {
+    title: 'Restore & renew',
+    services: [
+      'Esthetic dental restorations (tooth-colored fillings)',
+      'Durable silver restorations',
+      'Dental implants',
+      'Esthetic ceramic veneers, crowns and bridges'
+    ]
+  },
+  {
+    title: 'Smile & confidence',
+    services: [
+      'Smile makeovers',
+      'Bleaching / teeth whitening',
+      'Dentures and partials',
+      'Flexible, metal-free partials'
+    ]
+  },
+  {
+    title: 'Advanced & ongoing care',
+    services: [
+      'Root canal therapy',
+      'Extractions',
+      'Management of gum disease',
+      'Minor gum surgeries'
+    ]
+  }
+];
+const teamRoles = [
+  {
+    initials: 'PC',
+    title: 'Front Desk & Patient Care',
+    copy: 'A welcoming first point of contact for scheduling, forms, directions, and general office questions.'
+  },
+  {
+    initials: 'DH',
+    title: 'Dental Hygiene Team',
+    copy: 'A modern team section can introduce hygienists, their experience, and the preventive-care approach they bring to each visit.'
+  },
+  {
+    initials: 'DA',
+    title: 'Dental Assisting Team',
+    copy: 'Assistant profiles can highlight the people who help visits feel organized, comfortable, and personal.'
+  }
+];
+---
+<ModernLayout>
+  <section class="modern-hero">
+    <div class="modern-shell modern-hero__grid">
+      <div class="modern-hero__copy">
+        <p class="modern-kicker">Lady's Island · Beaufort, South Carolina</p>
+        <h1>Your Lowcountry smile, cared for <em>close to home.</em></h1>
+        <p class="modern-lead">A warmer, more useful digital front door for Donovan Family Dentistry - built around clear next steps, local character, and comprehensive care for patients of all ages.</p>
+        <div class="modern-actions">
+          <a class="modern-button modern-button--primary" href={`tel:${site.phoneHref}`}>Call the office</a>
+          <a class="modern-button modern-button--secondary" href="#connect">Send a general inquiry</a>
+          <a class="modern-button modern-button--secondary" href="/forms/">Patient forms</a>
+        </div>
+      </div>
+      <div class="modern-hero__visual">
+        <img src={site.heroImage} width="900" height="675" alt={site.heroAlt} fetchpriority="high" />
+        <div class="modern-location-card">
+          <strong>At home in the Lowcountry</strong>
+          <span>91 Sams Point Road on Lady's Island, minutes from Beaufort.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="modern-quickfacts">
+    <div class="modern-shell modern-quickfacts__grid">
+      <div class="modern-fact"><small>Office hours</small><strong>Monday-Thursday, 7:30-5</strong></div>
+      <div class="modern-fact"><small>Call</small><strong>{site.phoneDisplay}</strong></div>
+      <div class="modern-fact"><small>Visit</small><strong>91 Sams Point Road</strong></div>
+    </div>
+  </div>
+
+  <section class="modern-section" id="care" aria-labelledby="modern-care-heading">
+    <div class="modern-shell">
+      <div class="modern-section__head">
+        <p class="modern-eyebrow">Comprehensive care</p>
+        <h2 id="modern-care-heading">Services organized around what patients need.</h2>
+        <p>This concept keeps the practice's existing published procedures while presenting them in clearer, easier-to-scan groups.</p>
+      </div>
+      <div class="modern-service-grid">
+        {serviceGroups.map((group, index) => (
+          <article class="modern-service-card" data-number={`0${index + 1}`}>
+            <h3>{group.title}</h3>
+            <ul>{group.services.map((service) => <li>{service}</li>)}</ul>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {doctor && (
+    <section class="modern-section modern-section--sea" aria-labelledby="modern-doctor-heading">
+      <div class="modern-shell modern-doctor">
+        <div class="modern-doctor__photo">
+          <img src={doctor.photo} width="900" height="720" alt={doctor.photoAlt} />
+        </div>
+        <div>
+          <p class="modern-eyebrow">Meet Dr. Donovan</p>
+          <h2 id="modern-doctor-heading">Experience, service, and deep Beaufort roots.</h2>
+          <div class="modern-doctor__highlights">
+            <span class="modern-chip">Medical College of Georgia</span>
+            <span class="modern-chip">Advanced Education in General Dentistry</span>
+            <span class="modern-chip">U.S. Navy Dental Officer</span>
+            <span class="modern-chip">Beaufort community</span>
+          </div>
+          <p>{doctor.biography[0]}</p>
+          <p>{doctor.biography[2]}</p>
+          <a class="modern-button modern-button--primary" href="/about/">Read the full profile</a>
+        </div>
+      </div>
+    </section>
+  )}
+
+  <section class="modern-section modern-section--deep" id="team" aria-labelledby="modern-team-heading">
+    <div class="modern-shell">
+      <div class="modern-section__head">
+        <p class="modern-eyebrow">The people patients meet</p>
+        <h2 id="modern-team-heading">Make the whole team part of the welcome.</h2>
+        <p>This concept leaves room for approved staff names, photographs, credentials, and short personal introductions instead of showing only the dentist.</p>
+      </div>
+      <div class="modern-team-grid">
+        {teamRoles.map((role) => (
+          <article class="modern-team-card">
+            <div class="modern-team-icon" aria-hidden="true">{role.initials}</div>
+            <span class="modern-placeholder">Concept placeholder</span>
+            <h3>{role.title}</h3>
+            <p>{role.copy}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="modern-section modern-section--sand" id="visit" aria-labelledby="modern-visit-heading">
+    <div class="modern-shell">
+      <div class="modern-section__head">
+        <p class="modern-eyebrow">Before your visit</p>
+        <h2 id="modern-visit-heading">Give new patients a simple path from screen to chair.</h2>
+      </div>
+      <div class="modern-visit-grid">
+        <article class="modern-visit-card">
+          <h3>New-patient checklist</h3>
+          <ol class="modern-checklist">
+            <li><strong>Call the office.</strong><br />Confirm appointment availability and ask any general scheduling questions.</li>
+            <li><strong>Complete the forms.</strong><br />Use the fillable patient form and review the Notice of Privacy Practices.</li>
+            <li><strong>Bring the paperwork.</strong><br />Print completed forms and bring them to the office unless the practice provides an approved secure delivery method.</li>
+          </ol>
+          <div class="modern-actions">
+            <a class="modern-button modern-button--primary" href="/forms/">Open patient forms</a>
+            <a class="modern-button modern-button--secondary" href={mapHref} rel="noopener">Get directions</a>
+          </div>
+        </article>
+        <aside class="modern-visit-card">
+          <h3>Office hours</h3>
+          <table class="modern-hours">
+            <tbody>{site.hours.map((item) => <tr><th scope="row">{item.day}</th><td>{item.hours}</td></tr>)}</tbody>
+          </table>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <section class="modern-section modern-section--deep" id="connect" aria-labelledby="modern-connect-heading">
+    <div class="modern-shell modern-connect-grid">
+      <div>
+        <p class="modern-eyebrow">Connect with the office</p>
+        <h2 id="modern-connect-heading">Clear ways to call, visit, or start a general conversation.</h2>
+        <p class="modern-lead">The live version could connect a general-inquiry form to a practice-approved email service, add spam protection, and optionally support texting after the office confirms a text-capable number.</p>
+        <div class="modern-contact-stack">
+          <a class="modern-contact-tile" href={`tel:${site.phoneHref}`}><span><strong>Call the office</strong><span>{site.phoneDisplay}</span></span><strong aria-hidden="true">→</strong></a>
+          <a class="modern-contact-tile" href={mapHref} rel="noopener"><span><strong>Open directions</strong><span>{fullAddress}</span></span><strong aria-hidden="true">→</strong></a>
+          <div class="modern-contact-tile"><span><strong>Optional office texting</strong><span>Enable only after the practice confirms a text-capable number and retention policy.</span></span><strong aria-hidden="true">Concept</strong></div>
+        </div>
+      </div>
+
+      <div class="modern-form-card">
+        <h3>General inquiry preview</h3>
+        <p>This interactive demo validates the message locally. It does not transmit or store anything.</p>
+        <form id="modern-inquiry-form" class="modern-form-grid">
+          <div class="modern-field"><label for="inquiry-name">Name</label><input id="inquiry-name" name="name" autocomplete="name" required /></div>
+          <div class="modern-field"><label for="inquiry-phone">Phone</label><input id="inquiry-phone" name="phone" autocomplete="tel" inputmode="tel" /></div>
+          <div class="modern-field"><label for="inquiry-email">Email</label><input id="inquiry-email" name="email" type="email" autocomplete="email" required /></div>
+          <div class="modern-field"><label for="inquiry-preference">Preferred reply</label><select id="inquiry-preference" name="preference"><option>Email</option><option>Phone call</option></select></div>
+          <div class="modern-field modern-field--full"><label for="inquiry-message">General message</label><textarea id="inquiry-message" name="message" required maxlength="800" placeholder="Example: I am a new patient and would like to ask about scheduling."></textarea></div>
+          <div class="modern-phi-warning"><strong>Do not include protected health information.</strong> Do not enter symptoms, diagnoses, medications, Social Security numbers, insurance IDs, medical history, or treatment details.</div>
+          <label class="modern-consent"><input name="safe" type="checkbox" required /> <span>I understand this concept form is for general administrative questions only and is not a secure patient portal.</span></label>
+          <div class="modern-form-actions">
+            <button class="modern-button modern-button--coral" type="submit">Preview inquiry</button>
+            <button class="modern-button modern-button--secondary" type="reset">Clear</button>
+          </div>
+        </form>
+        <div id="modern-inquiry-result" class="modern-inquiry-result" role="status" hidden>
+          <strong>Demo preview - nothing was sent</strong>
+          <pre id="modern-inquiry-summary"></pre>
+          <button id="modern-copy-inquiry" class="modern-button modern-button--secondary" type="button">Copy preview</button>
+        </div>
+        <p class="modern-form-note">Production recommendation: connect this only to an approved recipient and service, add Cloudflare Turnstile, retain the PHI warning, and avoid collecting clinical details.</p>
+      </div>
+    </div>
+  </section>
+
+  <script is:inline>
+    const inquiryForm = document.querySelector('#modern-inquiry-form');
+    const inquiryResult = document.querySelector('#modern-inquiry-result');
+    const inquirySummary = document.querySelector('#modern-inquiry-summary');
+    const copyInquiry = document.querySelector('#modern-copy-inquiry');
+
+    inquiryForm?.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const data = new FormData(inquiryForm);
+      const summary = [
+        `Name: ${data.get('name') || ''}`,
+        `Email: ${data.get('email') || ''}`,
+        `Phone: ${data.get('phone') || 'Not provided'}`,
+        `Preferred reply: ${data.get('preference') || ''}`,
+        '',
+        `${data.get('message') || ''}`
+      ].join('\n');
+      inquirySummary.textContent = summary;
+      inquiryResult.hidden = false;
+      inquiryResult.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    });
+
+    inquiryForm?.addEventListener('reset', () => {
+      inquiryResult.hidden = true;
+      inquirySummary.textContent = '';
+    });
+
+    copyInquiry?.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(inquirySummary.textContent || '');
+        copyInquiry.textContent = 'Copied';
+        window.setTimeout(() => { copyInquiry.textContent = 'Copy preview'; }, 1800);
+      } catch {
+        copyInquiry.textContent = 'Select and copy the preview';
+      }
+    });
+  </script>
+</ModernLayout>
