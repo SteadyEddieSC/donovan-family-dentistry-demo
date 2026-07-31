@@ -25,7 +25,8 @@
   {
     "target": "public/forms/new-patient-medical-history.pdf",
     "chunks": [
-      "new-patient-medical-history.pdf.v3.b64.000"
+      "new-patient-medical-history.pdf.v3.b64.a",
+      "new-patient-medical-history.pdf.v3.b64.b"
     ],
     "encoding": "gzip+base64",
     "sourceBytes": 70012,
