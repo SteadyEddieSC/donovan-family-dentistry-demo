@@ -2,7 +2,7 @@ import type { APIRoute } from 'astro';
 
 export const prerender = true;
 
-const routes = ['/', '/about/', '/services/', '/forms/', '/contact/'];
+const routes = ['/', '/about/', '/services/', '/forms/', '/contact/', '/modern/'];
 
 export const GET: APIRoute = ({ site }) => {
   const base = site ?? new URL('https://donovan-family-dentistry-demo.pages.dev');

@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 
-const pages = ['/', '/about/', '/services/', '/forms/', '/contact/'];
+const pages = ['/', '/about/', '/services/', '/forms/', '/contact/', '/modern/'];
 
 for (const path of pages) {
   test(`${path} has no serious accessibility violations`, async ({ page }) => {
@@ -39,6 +39,18 @@ test('directions button has visible text contrast', async ({ page }) => {
   expect(styles.color).not.toBe(styles.backgroundColor);
 });
 
+test('modern inquiry preview validates locally and sends nothing', async ({ page }) => {
+  await page.goto('/modern/');
+  await page.getByLabel('Name').fill('Alex Patient');
+  await page.getByLabel('Email').fill('alex@example.com');
+  await page.getByLabel('General message').fill('I would like to ask about scheduling a new-patient visit.');
+  await page.getByRole('checkbox').check();
+  await page.getByRole('button', { name: 'Preview inquiry' }).click();
+  const result = page.getByRole('status');
+  await expect(result).toContainText('Demo preview - nothing was sent');
+  await expect(result).toContainText('alex@example.com');
+});
+
 test('internal links and downloadable forms resolve', async ({ page, request }) => {
   const internalLinks = new Set<string>();
 
@@ -62,10 +74,19 @@ test('internal links and downloadable forms resolve', async ({ page, request }) 
   }
 });
 
-test('homepage review screenshot', async ({ page }, testInfo) => {
+test('classic homepage review screenshot', async ({ page }, testInfo) => {
   await page.goto('/');
   await page.screenshot({
-    path: testInfo.outputPath('homepage.png'),
+    path: testInfo.outputPath('classic-homepage.png'),
+    fullPage: true,
+    animations: 'disabled'
+  });
+});
+
+test('modern concept review screenshot', async ({ page }, testInfo) => {
+  await page.goto('/modern/');
+  await page.screenshot({
+    path: testInfo.outputPath('modern-concept.png'),
     fullPage: true,
     animations: 'disabled'
   });
