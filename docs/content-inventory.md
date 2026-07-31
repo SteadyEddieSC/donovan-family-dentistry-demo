@@ -8,7 +8,7 @@ Captured July 31, 2026 for the private demonstration rebuild.
 | --- | --- | --- | --- |
 | Home | `https://donovanfamilydentistry.com/` | `/` | Recreated |
 | About | `https://donovanfamilydentistry.com/about/` | `/about/` | Dr. Donovan retained; former provider removed |
-| Forms | `https://donovanfamilydentistry.com/patient-forms/` | `/forms/` | Recreated with supplied PDFs |
+| Forms | `https://donovanfamilydentistry.com/patient-forms/` | `/forms/` | Recreated with fillable demo PDFs based on the supplied forms |
 | Procedures | `https://donovanfamilydentistry.com/procedures/` | `/services/` | Recreated; redirect needed later |
 | Contact | `https://donovanfamilydentistry.com/contact/` | `/contact/` | Combined contact and directions |
 | Directions | Existing navigation item | `/contact/` | Exact legacy destination not captured because the live site returned 502 errors |
@@ -28,8 +28,8 @@ Captured July 31, 2026 for the private demonstration rebuild.
 | --- | --- | --- |
 | Practice logo | `/public/images/donovan-logo.svg` | Recreated from the branding shown in the supplied current-site screenshot |
 | Office exterior | `/public/images/office-exterior.webp` | Cropped from supplied current-site screenshot |
-| New-patient and medical-history form | `/public/forms/new-patient-medical-history.pdf` | Owner-supplied PDF; accessible fillable replacement created for the demo |
-| Notice of Privacy Practices | `/public/forms/privacy-practices.pdf` | Owner-supplied PDF |
+| New-patient and medical-history form | `/public/forms/new-patient-medical-history.pdf` | Owner-supplied form recreated as an accessible, locally fillable demo PDF |
+| Notice of Privacy Practices | `/public/forms/privacy-practices.pdf` | Owner-supplied notice recreated as a cleaner PDF with a fillable acknowledgement page |
 
 ## Service wording
 
