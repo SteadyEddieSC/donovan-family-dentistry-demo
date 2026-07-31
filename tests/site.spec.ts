@@ -20,6 +20,25 @@ test('primary actions work', async ({ page }) => {
   await expect(page.getByRole('link', { name: 'Patient forms' }).first()).toHaveAttribute('href', '/forms/');
 });
 
+test('Dr. Donovan profile uses the approved photograph', async ({ page }) => {
+  await page.goto('/about/');
+  const photo = page.getByRole('img', { name: 'Dr. William Donovan with his family and dog outdoors.' });
+  await expect(photo).toBeVisible();
+  await expect(photo).toHaveAttribute('src', '/images/dr-william-donovan-family.webp');
+  expect(await photo.evaluate((image: HTMLImageElement) => image.naturalWidth)).toBeGreaterThan(0);
+});
+
+test('directions button has visible text contrast', async ({ page }) => {
+  await page.goto('/contact/');
+  const button = page.getByRole('link', { name: 'Open directions' });
+  await expect(button).toBeVisible();
+  const styles = await button.evaluate((element) => {
+    const computed = getComputedStyle(element);
+    return { color: computed.color, backgroundColor: computed.backgroundColor };
+  });
+  expect(styles.color).not.toBe(styles.backgroundColor);
+});
+
 test('internal links and downloadable forms resolve', async ({ page, request }) => {
   const internalLinks = new Set<string>();
 
@@ -31,6 +50,7 @@ test('internal links and downloadable forms resolve', async ({ page, request }) 
     links.forEach((href) => internalLinks.add(href));
   }
 
+  internalLinks.add('/images/dr-william-donovan-family.webp');
   internalLinks.add('/forms/new-patient-medical-history.pdf');
   internalLinks.add('/forms/privacy-practices.pdf');
   internalLinks.add('/sitemap.xml');
