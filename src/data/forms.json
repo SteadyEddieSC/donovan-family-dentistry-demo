@@ -9,10 +9,10 @@
   },
   {
     "title": "Notice of Privacy Practices",
-    "description": "Review the practice privacy notice and acknowledgement form.",
+    "description": "Review the practice privacy notice and complete the acknowledgement page electronically or by hand.",
     "file": "/forms/privacy-practices.pdf",
     "visible": true,
     "order": 2,
-    "fillable": false
+    "fillable": true
   }
 ]
