@@ -1,0 +1,29 @@
+[
+  {
+    "target": "public/images/office-exterior.webp",
+    "chunks": [
+      "office-exterior.webp.b64.000",
+      "office-exterior.webp.b64.001"
+    ],
+    "encoding": "gzip+base64",
+    "sourceBytes": 18284
+  },
+  {
+    "target": "public/forms/new-patient-medical-history.pdf",
+    "chunks": [
+      "new-patient-medical-history.pdf.b64.000",
+      "new-patient-medical-history.pdf.b64.001"
+    ],
+    "encoding": "gzip+base64",
+    "sourceBytes": 92659
+  },
+  {
+    "target": "public/forms/privacy-practices.pdf",
+    "chunks": [
+      "privacy-practices.pdf.b64.000"
+    ],
+    "encoding": "gzip+base64",
+    "sourceBytes": 18664,
+    "sha256": "88a2fb6f6694a5deef6e1d2d713d3796ad2d64b0f271203115d65e4bb9d6b6ef"
+  }
+]

@@ -1,0 +1,40 @@
+---
+import site from '../data/site.json';
+const path = Astro.url.pathname;
+const nav = [
+  { href: '/', label: 'Home' },
+  { href: '/about/', label: 'About' },
+  { href: '/services/', label: 'Services' },
+  { href: '/forms/', label: 'Patient Forms' },
+  { href: '/contact/', label: 'Contact & Directions' }
+];
+---
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="/" aria-label={`${site.practiceName} home`}>
+      <img src={site.logo} width="235" height="59" alt={site.logoAlt} />
+    </a>
+    <button class="menu-button" type="button" aria-expanded="false" aria-controls="primary-navigation">Menu</button>
+    <nav id="primary-navigation" class="site-nav" aria-label="Primary navigation" data-open="false">
+      {nav.map((item) => <a href={item.href} aria-current={path === item.href ? 'page' : undefined}>{item.label}</a>)}
+      <a class="nav-call" href={`tel:${site.phoneHref}`}>Call {site.phoneDisplay}</a>
+    </nav>
+  </div>
+</header>
+<script>
+  const button = document.querySelector<HTMLButtonElement>('.menu-button');
+  const nav = document.querySelector<HTMLElement>('.site-nav');
+  if (button && nav) {
+    button.addEventListener('click', () => {
+      const open = button.getAttribute('aria-expanded') === 'true';
+      button.setAttribute('aria-expanded', String(!open));
+      nav.dataset.open = String(!open);
+    });
+    nav.addEventListener('click', (event) => {
+      if ((event.target as HTMLElement).closest('a')) {
+        button.setAttribute('aria-expanded', 'false');
+        nav.dataset.open = 'false';
+      }
+    });
+  }
+</script>

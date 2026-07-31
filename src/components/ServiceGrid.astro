@@ -1,0 +1,7 @@
+---
+import services from '../data/services.json';
+const visible = services.filter((service) => service.visible).sort((a, b) => a.order - b.order);
+---
+<ul class="service-list">
+  {visible.map((service) => <li>{service.name}</li>)}
+</ul>

@@ -1,0 +1,10 @@
+---
+import site from '../data/site.json';
+const address = `${site.address.street}, ${site.address.city}, ${site.address.state} ${site.address.postalCode}`;
+const mapHref = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`;
+---
+<div class="actions">
+  <a class="button button--primary" href={`tel:${site.phoneHref}`}>Call the office</a>
+  <a class="button button--secondary" href={mapHref} rel="noopener">Get directions</a>
+  <a class="button button--quiet" href="/forms/">Patient forms</a>
+</div>

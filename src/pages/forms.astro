@@ -1,0 +1,25 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import forms from '../data/forms.json';
+const visibleForms = forms.filter((form) => form.visible).sort((a, b) => a.order - b.order);
+---
+<BaseLayout title="Patient Forms | Donovan Family Dentistry" description="Download current new-patient paperwork and the privacy notice for Donovan Family Dentistry.">
+  <header class="page-hero"><div class="container"><p class="eyebrow">Patient forms</p><h1>Download paperwork before your visit</h1><p class="lead">The current forms are provided as downloadable PDFs. They are not submitted through this website.</p></div></header>
+  <section class="section">
+    <div class="container split">
+      <div class="form-list">
+        {visibleForms.map((form) => (
+          <article class="form-card">
+            <div><h2>{form.title}</h2><p>{form.description}</p>{form.fillable ? <p><strong>Current format:</strong> Fill electronically or print and complete by hand.</p> : <p><strong>Current format:</strong> Review or print as needed.</p>}</div>
+            <a class="button button--primary" href={form.file} target="_blank" rel="noopener">Open PDF</a>
+          </article>
+        ))}
+      </div>
+      <aside class="info-panel">
+        <h2>Your privacy</h2>
+        <p>This demonstration site does not collect or transmit patient information.</p>
+        <p>Do not email completed forms unless the dental office provides a separately approved secure process.</p>
+      </aside>
+    </div>
+  </section>
+</BaseLayout>

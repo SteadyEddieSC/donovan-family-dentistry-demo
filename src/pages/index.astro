@@ -1,0 +1,59 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ActionButtons from '../components/ActionButtons.astro';
+import ServiceGrid from '../components/ServiceGrid.astro';
+import site from '../data/site.json';
+---
+<BaseLayout>
+  {site.announcement.enabled && site.announcement.text && <div class="notice container" role="status">{site.announcement.text}</div>}
+  <section class="hero">
+    <div class="container hero-grid">
+      <div class="hero-copy">
+        <p class="eyebrow">Family dentistry in Beaufort, South Carolina</p>
+        <h1>{site.tagline}</h1>
+        <p class="lead">{site.introduction}</p>
+        <ActionButtons />
+      </div>
+      <div class="hero-image">
+        <img src={site.heroImage} width="600" height="336" alt={site.heroAlt} fetchpriority="high" />
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="services-heading">
+    <div class="container">
+      <p class="eyebrow">Our services</p>
+      <h2 id="services-heading">Comprehensive care, clearly presented</h2>
+      <p class="lead">Explore the dental procedures currently listed by Donovan Family Dentistry.</p>
+      <ServiceGrid />
+      <p style="margin-top: 1.5rem"><a class="button button--secondary" href="/services/">View all services</a></p>
+    </div>
+  </section>
+
+  <section class="section section--soft">
+    <div class="container split">
+      <div>
+        <p class="eyebrow">Meet the practice</p>
+        <h2>Experienced care with deep Lowcountry roots</h2>
+        <p class="lead">Learn about Dr. William Donovan's education, Navy service, and path to serving patients in Beaufort.</p>
+        <a class="button button--secondary" href="/about/">About Dr. Donovan</a>
+      </div>
+      <aside class="info-panel" aria-labelledby="hours-heading">
+        <h2 id="hours-heading">Office hours</h2>
+        <table class="hours">
+          <tbody>
+            {site.hours.map((item) => <tr><th scope="row">{item.day}</th><td>{item.hours}</td></tr>)}
+          </tbody>
+        </table>
+      </aside>
+    </div>
+  </section>
+
+  <section class="section section--cream">
+    <div class="container card-grid">
+      <article class="card"><p class="eyebrow">New patients</p><h3>Prepare before your visit</h3><p>Download the current patient paperwork and privacy notice.</p><a href="/forms/">Open patient forms</a></article>
+      <article class="card"><p class="eyebrow">Call</p><h3>{site.phoneDisplay}</h3><p>Contact the office directly during regular business hours.</p><a href={`tel:${site.phoneHref}`}>Call now</a></article>
+      <article class="card"><p class="eyebrow">Visit</p><h3>{site.address.street}</h3><p>{site.address.city}, {site.address.state} {site.address.postalCode}</p><a href="/contact/">Directions and hours</a></article>
+    </div>
+  </section>
+</BaseLayout>

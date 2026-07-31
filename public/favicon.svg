@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Donovan Family Dentistry">
+  <rect width="64" height="64" rx="12" fill="#004b66"/>
+  <path d="M17 14h13c12 0 20 7 20 18S42 50 30 50H17V14zm10 9v18h3c6 0 10-3 10-9s-4-9-10-9h-3z" fill="#fff"/>
+  <rect x="49" y="13" width="4" height="15" rx="2" fill="#79a61a"/>
+</svg>
