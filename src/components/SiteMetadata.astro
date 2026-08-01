@@ -1,0 +1,115 @@
+---
+import site from '../data/site.json';
+
+interface Props {
+  title: string;
+  description: string;
+  image?: string;
+  imageAlt?: string;
+  themeColor?: string;
+  canonicalPath?: string;
+  pageType?: 'website' | 'article';
+}
+
+const {
+  title,
+  description,
+  image = site.socialImage,
+  imageAlt = site.heroAlt,
+  themeColor = '#004b66',
+  canonicalPath = Astro.url.pathname,
+  pageType = 'website'
+} = Astro.props;
+
+const siteUrl = Astro.site ?? new URL('https://donovan-family-dentistry-demo.pages.dev');
+const canonical = new URL(canonicalPath, siteUrl).toString();
+const socialImage = new URL(image, siteUrl).toString();
+const rootUrl = new URL('/', siteUrl).toString();
+const dentistId = new URL('/#dentist', siteUrl).toString();
+const websiteId = new URL('/#website', siteUrl).toString();
+const webpageId = `${canonical}#webpage`;
+const robots = site.previewMode ? 'noindex, nofollow, noarchive' : 'index, follow';
+
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Dentist',
+      '@id': dentistId,
+      name: site.practiceName,
+      url: rootUrl,
+      telephone: site.phoneHref,
+      image: socialImage,
+      description: site.seo.description,
+      address: {
+        '@type': 'PostalAddress',
+        streetAddress: site.address.street,
+        addressLocality: site.address.city,
+        addressRegion: site.address.state,
+        postalCode: site.address.postalCode,
+        addressCountry: 'US'
+      },
+      areaServed: site.serviceArea.map((name) => ({ '@type': 'Place', name })),
+      openingHoursSpecification: [
+        {
+          '@type': 'OpeningHoursSpecification',
+          dayOfWeek: [
+            'https://schema.org/Monday',
+            'https://schema.org/Tuesday',
+            'https://schema.org/Wednesday',
+            'https://schema.org/Thursday'
+          ],
+          opens: '07:30',
+          closes: '17:00'
+        }
+      ]
+    },
+    {
+      '@type': 'WebSite',
+      '@id': websiteId,
+      url: rootUrl,
+      name: site.practiceName,
+      inLanguage: 'en-US',
+      publisher: { '@id': dentistId }
+    },
+    {
+      '@type': 'WebPage',
+      '@id': webpageId,
+      url: canonical,
+      name: title,
+      description,
+      inLanguage: 'en-US',
+      isPartOf: { '@id': websiteId },
+      about: { '@id': dentistId },
+      primaryImageOfPage: {
+        '@type': 'ImageObject',
+        url: socialImage,
+        caption: imageAlt
+      }
+    }
+  ]
+};
+---
+<title>{title}</title>
+<meta name="description" content={description} />
+<meta name="robots" content={robots} />
+<meta name="application-name" content={site.practiceName} />
+<meta name="theme-color" content={themeColor} />
+<meta name="color-scheme" content="light" />
+<link rel="canonical" href={canonical} />
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<link rel="manifest" href="/site.webmanifest" />
+<meta property="og:locale" content={site.locale} />
+<meta property="og:type" content={pageType} />
+<meta property="og:site_name" content={site.practiceName} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonical} />
+<meta property="og:image" content={socialImage} />
+<meta property="og:image:alt" content={imageAlt} />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={socialImage} />
+<meta name="twitter:image:alt" content={imageAlt} />
+<script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
