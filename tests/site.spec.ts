@@ -61,6 +61,7 @@ test('classic and modern logos use intentional white rounded cards', async ({ pa
   });
   expect(modernStyles.background).toBe('rgb(255, 255, 255)');
   expect(modernStyles.radius).toBeGreaterThan(0);
+  await expect(page.locator('.modern-footer__logo-card img')).toBeVisible();
 });
 
 test('modern concept is self-contained', async ({ page }) => {
@@ -71,6 +72,12 @@ test('modern concept is self-contained', async ({ page }) => {
   expect(headerLinks.every((href) => href?.startsWith('/modern/'))).toBeTruthy();
   await expect(page.getByRole('link', { name: 'Patient forms' }).first()).toHaveAttribute('href', '/modern/forms/');
   await expect(page.getByRole('link', { name: 'Request a call' })).toHaveAttribute('href', '/modern/contact/');
+});
+
+test('modern concept uses a controlled light palette', async ({ page }) => {
+  await page.goto('/modern/contact/');
+  await expect(page.locator('meta[name="color-scheme"]')).toHaveAttribute('content', 'light');
+  expect(await page.locator('html').evaluate((element) => getComputedStyle(element).colorScheme)).toContain('light');
 });
 
 test('modern hero preserves the full office image and footer logo is visible', async ({ page }) => {
@@ -87,11 +94,11 @@ test('modern pages have distinct content responsibilities', async ({ page }) => 
   await page.goto('/modern/');
   await expect(page.getByRole('heading', { name: /Dr\. William Donovan/i })).toHaveCount(0);
   await expect(page.getByRole('heading', { name: /Dr\. Caroline Whitaker/i })).toHaveCount(0);
-  await expect(page.getByRole('heading', { name: 'Begin with the need, then review the details.' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Begin with what you need today.' })).toBeVisible();
 
   await page.goto('/modern/about/');
   await expect(page.getByText('Dr. William Donovan', { exact: false })).toHaveCount(0);
-  await expect(page.getByRole('heading', { name: 'The website should make common tasks easier.' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Common tasks should feel straightforward.' })).toBeVisible();
 
   await page.goto('/modern/team/');
   await expect(page.getByRole('heading', { name: 'Dr. William Donovan, DMD' })).toBeVisible();
@@ -135,6 +142,27 @@ test('modern secondary actions have a visible outline', async ({ page }) => {
   expect(styles.color).not.toBe('rgba(0, 0, 0, 0)');
 });
 
+test('PHI warning stays readable on the contact form', async ({ page }) => {
+  await page.goto('/modern/contact/');
+  const warning = page.locator('.modern-phi-warning');
+  await expect(warning).toContainText('Do not include protected health information.');
+  const styles = await warning.evaluate((element) => {
+    const computed = getComputedStyle(element);
+    return { color: computed.color, background: computed.backgroundColor };
+  });
+  expect(styles.color).toBe('rgb(68, 38, 29)');
+  expect(styles.background).toBe('rgb(255, 242, 237)');
+});
+
+test('modern mobile header shows one Call label', async ({ page, isMobile }) => {
+  test.skip(!isMobile, 'Mobile-only layout assertion');
+  await page.goto('/modern/contact/');
+  const call = page.locator('.modern-header .modern-call');
+  await expect(call).toBeVisible();
+  await expect(call).toHaveText('Call');
+  await expect(call).not.toContainText('CallCall');
+});
+
 test('modern mobile location card does not cover the office image', async ({ page, isMobile }) => {
   test.skip(!isMobile, 'Mobile-only layout assertion');
   await page.goto('/modern/');
@@ -157,12 +185,12 @@ test('modern inquiry preview validates locally and sends nothing', async ({ page
   await expect(result).toContainText('(843) 555-0100');
 });
 
-test('aligned patient form materializes with the reviewed hash', async ({ request }) => {
+test('rebuilt patient form materializes with the reviewed hash', async ({ request }) => {
   const response = await request.get('/forms/new-patient-medical-history.pdf');
   expect(response.status()).toBeLessThan(400);
   const bytes = Buffer.from(await response.body());
-  expect(bytes.length).toBe(77358);
-  expect(createHash('sha256').update(bytes).digest('hex')).toBe('66d1b7db33ed1dcde1d1480d363b4f633948e376bfe05b17fc7a200fc6bcf99a');
+  expect(bytes.length).toBe(91107);
+  expect(createHash('sha256').update(bytes).digest('hex')).toBe('697bf74180dd1e4319756d5f37defd4a5b8cbd37a414073939d4b6899967dafd');
 });
 
 test('internal links and downloadable assets resolve', async ({ page, request }) => {
