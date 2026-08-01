@@ -8,12 +8,19 @@ on:
         required: true
         default: donovanfamilydentistry.com
         type: string
+  pull_request:
+    paths:
+      - .github/workflows/domain-readiness-inventory.yml
+      - scripts/inventory-domain.mjs
+      - scripts/check-release15-readiness.mjs
+      - src/data/launch-readiness.json
+      - tests/release15.unit.test.mjs
 
 permissions:
   contents: read
 
 concurrency:
-  group: domain-readiness-inventory-${{ inputs.domain }}
+  group: domain-readiness-inventory-${{ inputs.domain || 'donovanfamilydentistry.com' }}
   cancel-in-progress: false
 
 jobs:
@@ -21,7 +28,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     env:
-      TARGET_DOMAIN: ${{ inputs.domain }}
+      TARGET_DOMAIN: ${{ inputs.domain || 'donovanfamilydentistry.com' }}
     steps:
       - name: Check out the launch-readiness code
         uses: actions/checkout@v4
@@ -50,7 +57,7 @@ jobs:
       - name: Upload the domain inventory
         uses: actions/upload-artifact@v4
         with:
-          name: domain-readiness-${{ inputs.domain }}
+          name: domain-readiness-${{ inputs.domain || 'donovanfamilydentistry.com' }}
           path: artifacts/domain-inventory.json
           retention-days: 30
           if-no-files-found: error
