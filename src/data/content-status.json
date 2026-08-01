@@ -37,6 +37,12 @@
       "label": "About page uses verified provider background and avoids invented practice-history claims",
       "status": "verified",
       "source": "Release 12 content review and regression tests"
+    },
+    {
+      "id": "administrative-inquiry-handler",
+      "label": "Same-origin administrative inquiry handler, server-side validation, Turnstile verification, allowlisted forwarding, and fail-closed preview defaults",
+      "status": "verified",
+      "source": "Release 13 unit, browser, accessibility, and deployment validation"
     }
   ],
   "launchBlockers": [
@@ -63,10 +69,10 @@
     },
     {
       "id": "production-integrations",
-      "label": "Administrative inquiry recipient, Turnstile, analytics, retention, and response ownership",
-      "status": "not-configured",
-      "paths": ["/modern/contact/"],
-      "replacementNeeded": "Configure approved accounts and documented operating procedures before enabling production submission."
+      "label": "Administrative inquiry recipient, Basin account, Turnstile keys, allowed origins, edge rate limit, retention, and response ownership",
+      "status": "office-configuration-needed",
+      "paths": ["/modern/contact/", "/api/administrative-inquiry"],
+      "replacementNeeded": "Create and approve the office-owned Basin form and notification recipient, set encrypted Cloudflare runtime values, add the Turnstile widget and allowed hostnames, deploy the rate-limiting rule, choose the retention period, name the daily response owner, and complete a real delivery test before enabling PUBLIC_ADMIN_INQUIRY_ENABLED."
     }
   ],
   "editorialFollowUps": [
