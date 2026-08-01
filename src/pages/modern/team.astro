@@ -30,7 +30,16 @@ const visibleTeam = teamData.team.filter((member) => member.visible);
           <article class:list={['modern-doctor', index % 2 === 1 && 'modern-doctor--reverse']} id={`provider-${provider.id}`}>
             <div class="modern-doctor__photo">
               {provider.imageType === 'photo' && provider.photo
-                ? <img src={provider.photo} width="900" height="720" alt={provider.photoAlt} loading={index === 0 ? 'eager' : 'lazy'} decoding="async" />
+                ? <img
+                    src={provider.photo}
+                    srcset="/images/dr-william-donovan-family-480.webp 480w, /images/dr-william-donovan-family-720.webp 720w, /images/dr-william-donovan-family.webp 900w"
+                    sizes="(max-width: 820px) calc(100vw - 2rem), 44vw"
+                    width="900"
+                    height="720"
+                    alt={provider.photoAlt}
+                    loading={index === 0 ? 'eager' : 'lazy'}
+                    decoding="async"
+                  />
                 : <ModernPortrait name={provider.name} variant={provider.portrait} />}
             </div>
             <div>
