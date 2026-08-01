@@ -1,0 +1,105 @@
+---
+import ModernLayout from '../../../layouts/ModernLayout.astro';
+import site from '../../../data/site.json';
+
+const fullAddress = `${site.address.street}, ${site.address.city}, ${site.address.state} ${site.address.postalCode}`;
+const mapHref = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(fullAddress)}`;
+---
+<ModernLayout
+  title="New Patients | Donovan Family Dentistry"
+  description="New-patient guidance, forms, appointment preparation, and administrative information for Donovan Family Dentistry on Lady's Island."
+>
+  <section class="modern-page-hero">
+    <div class="modern-shell modern-page-hero__grid">
+      <div>
+        <p class="modern-kicker">New patients</p>
+        <h1>A clear first step toward a comfortable visit.</h1>
+      </div>
+      <p class="modern-page-hero__aside">Call the office, prepare your forms, and arrive with the information the team needs to keep your first appointment organized.</p>
+    </div>
+  </section>
+
+  <section class="modern-section modern-section--sand" aria-labelledby="new-patient-start">
+    <div class="modern-shell">
+      <div class="modern-section__head">
+        <p class="modern-eyebrow">Getting started</p>
+        <h2 id="new-patient-start">From first call to first visit.</h2>
+        <p>The office can answer general scheduling questions, explain what paperwork is needed, and help you understand the next administrative step.</p>
+      </div>
+      <div class="modern-onboarding-grid">
+        <article class="modern-onboarding-card">
+          <span class="modern-onboarding-card__number" aria-hidden="true">1</span>
+          <h3>Call the office</h3>
+          <p>Ask about appointment availability and let the front desk know whether you are a new or returning patient.</p>
+          <a href={`tel:${site.phoneHref}`}>Call {site.phoneDisplay}</a>
+        </article>
+        <article class="modern-onboarding-card">
+          <span class="modern-onboarding-card__number" aria-hidden="true">2</span>
+          <h3>Complete the paperwork</h3>
+          <p>Download the fillable medical-history form and review the Notice of Privacy Practices before your appointment.</p>
+          <a href="/modern/forms/">Open patient forms</a>
+        </article>
+        <article class="modern-onboarding-card">
+          <span class="modern-onboarding-card__number" aria-hidden="true">3</span>
+          <h3>Prepare for arrival</h3>
+          <p>Bring the completed forms and the information needed to confirm identity, benefits, medications, and recent dental care.</p>
+          <a href={mapHref} rel="noopener">Get directions</a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="modern-section" aria-labelledby="new-patient-bring">
+    <div class="modern-shell modern-arrival-grid">
+      <article class="modern-arrival-card">
+        <p class="modern-eyebrow">What to bring</p>
+        <h2 id="new-patient-bring">A little preparation helps the visit stay on track.</h2>
+        <ul class="modern-bring-list">
+          <li>A photo ID and current dental-insurance card, when applicable</li>
+          <li>Your completed new-patient and medical-history form</li>
+          <li>A current medication list and relevant allergy information</li>
+          <li>Recent dental records or X-rays when the office has asked you to bring them</li>
+          <li>Questions you would like the dentist or care team to address during the visit</li>
+        </ul>
+        <div class="modern-new-patient-actions">
+          <a class="modern-button modern-button--primary" href="/forms/new-patient-medical-history.pdf">Download the patient form</a>
+          <a class="modern-button modern-button--secondary" href="/forms/privacy-practices.pdf">Review privacy practices</a>
+        </div>
+      </article>
+
+      <aside class="modern-arrival-card">
+        <p class="modern-eyebrow">Insurance and payment</p>
+        <h3>Confirm details before the appointment.</h3>
+        <p>Dental benefits vary by plan. Call the office before your visit so the team can explain what information is needed to review benefits and prepare an estimate.</p>
+        <ul class="modern-policy-list">
+          <li>Coverage estimates are not guarantees of payment.</li>
+          <li>Patients remain responsible for charges not paid by their plan.</li>
+          <li>Ask the office about available payment arrangements and current policies.</li>
+        </ul>
+        <p class="modern-fine-print">Do not send insurance numbers, Social Security numbers, diagnoses, medication details, or treatment information through the general website inquiry form.</p>
+      </aside>
+    </div>
+  </section>
+
+  <section class="modern-section modern-section--sea" aria-labelledby="new-patient-urgent">
+    <div class="modern-shell modern-arrival-grid">
+      <article class="modern-urgent-card">
+        <p class="modern-eyebrow">Urgent dental concerns</p>
+        <h3 id="new-patient-urgent">Call instead of using the website form.</h3>
+        <p>Website messages are intended for general administrative questions and may not be reviewed immediately. For a dental concern that needs prompt attention, call <a href={`tel:${site.phoneHref}`}>{site.phoneDisplay}</a>.</p>
+        <p><strong>Call 911 or seek emergency care immediately</strong> for difficulty breathing or swallowing, severe uncontrolled bleeding, or a serious injury involving the face or head.</p>
+      </article>
+
+      <article class="modern-arrival-card">
+        <p class="modern-eyebrow">At the office</p>
+        <h3>What the first visit may include.</h3>
+        <p>Depending on your needs and the appointment scheduled, the team may review your health history, discuss concerns, take appropriate records or images, and explain recommended next steps.</p>
+        <p>Every treatment recommendation should be discussed with the dentist before care begins, including expected benefits, alternatives, timing, and financial considerations.</p>
+        <div class="modern-new-patient-actions">
+          <a class="modern-button modern-button--primary" href={`tel:${site.phoneHref}`}>Call the office</a>
+          <a class="modern-button modern-button--secondary" href="/modern/contact/">Administrative contact</a>
+        </div>
+      </article>
+    </div>
+  </section>
+</ModernLayout>
