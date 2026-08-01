@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "lastReviewed": "2026-08-01",
   "verified": [
     {
@@ -19,30 +19,27 @@
       "label": "Fillable new-patient form layout and field integrity",
       "status": "verified",
       "source": "Owner-reviewed and regression-tested"
+    },
+    {
+      "id": "office-editor-system",
+      "label": "Structured office editor, content validation, and one-click website check",
+      "status": "verified",
+      "source": "Release 12 automated validation"
+    },
+    {
+      "id": "public-team-safety",
+      "label": "Public Team page contains one verified dentist and role-based staff descriptions without fictional identities",
+      "status": "verified",
+      "source": "Release 12 content review and regression tests"
+    },
+    {
+      "id": "about-copy-safety",
+      "label": "About page uses verified provider background and avoids invented practice-history claims",
+      "status": "verified",
+      "source": "Release 12 content review and regression tests"
     }
   ],
   "launchBlockers": [
-    {
-      "id": "associate-dentist",
-      "label": "Associate dentist name, credentials, biography, and image",
-      "status": "sample",
-      "paths": ["/modern/team/"],
-      "replacementNeeded": "Replace Dr. Caroline Whitaker and the sample portrait with approved provider information."
-    },
-    {
-      "id": "staff-roster",
-      "label": "Front desk, hygiene, and dental-assisting names, biographies, and illustrations",
-      "status": "sample",
-      "paths": ["/modern/team/"],
-      "replacementNeeded": "Replace or remove all sample staff identities before public launch."
-    },
-    {
-      "id": "practice-history",
-      "label": "Practice history and Lowcountry narrative",
-      "status": "sample",
-      "paths": ["/modern/about/"],
-      "replacementNeeded": "Confirm dates, milestones, ownership details, and preferred public wording."
-    },
     {
       "id": "services",
       "label": "Current service list and patient-friendly terminology",
@@ -70,6 +67,29 @@
       "status": "not-configured",
       "paths": ["/modern/contact/"],
       "replacementNeeded": "Configure approved accounts and documented operating procedures before enabling production submission."
+    }
+  ],
+  "editorialFollowUps": [
+    {
+      "id": "associate-dentist",
+      "label": "Optional associate dentist profile",
+      "status": "hidden-template",
+      "paths": ["/modern/team/", "/about/"],
+      "nextStep": "Replace the hidden template with approved provider information and change its status before making it visible."
+    },
+    {
+      "id": "staff-roster",
+      "label": "Optional individual staff names, biographies, and photographs",
+      "status": "role-based-public-copy",
+      "paths": ["/modern/team/"],
+      "nextStep": "The role-based profiles are safe to keep. Add individual staff only when names, wording, and images are approved."
+    },
+    {
+      "id": "practice-history",
+      "label": "Optional practice history and milestones",
+      "status": "not-published",
+      "paths": ["/modern/about/"],
+      "nextStep": "The public page now avoids invented history. Add dates and milestones later if the office wants them published."
     }
   ]
 }
