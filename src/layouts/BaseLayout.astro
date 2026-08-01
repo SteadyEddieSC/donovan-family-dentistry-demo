@@ -5,6 +5,7 @@ import CloudflareAnalytics from '../components/CloudflareAnalytics.astro';
 import site from '../data/site.json';
 import '../styles/global.css';
 import '../styles/review-fixes.css';
+import '../styles/logo-hardening.css';
 
 interface Props {
   title?: string;
@@ -49,6 +50,7 @@ const structuredData = {
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={new URL(site.heroImage, siteUrl)} />
     <meta name="theme-color" content="#004b66" />
+    <meta name="color-scheme" content="only light" />
     <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
     <CloudflareAnalytics />
   </head>
