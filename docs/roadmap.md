@@ -63,20 +63,24 @@ The modern concept is the patient-facing digital front door. Each page has one p
 
 Practice-approved provider, staff, history, service, image, and policy updates can now be entered through the office editor whenever that information becomes available; they do not require a separate code release unless layout changes are needed.
 
-## Release 13 — low-cost administrative inquiry activation
+### Release 13 — protected administrative inquiry foundation
 
-**This is the next release after Release 12.**
+- Replaced direct browser-to-Basin submission with a same-origin Cloudflare Pages Function.
+- Kept the public page in local preview mode unless an administrator explicitly enables the live build and supplies a public Turnstile site key.
+- Added fail-closed runtime checks for the Basin endpoint and Turnstile secret.
+- Added server-side origin, method, content-type, size, field, length, timing, topic, reply-method, consent, honeypot, and Turnstile validation.
+- Rebuilt the upstream payload from an allowlist so arbitrary fields, files, tokens, IP addresses, browser details, and internal controls are not forwarded.
+- Added optional edge-rate-limiter binding support and a documented Cloudflare zone-level rate-limiting rule.
+- Added clear success, validation, verification, rate-limit, delivery-failure, and call-the-office fallback states.
+- Restricted Functions invocation to `/api/*` so normal static requests remain static.
+- Added serverless unit tests to both CI and the office's one-click website check.
+- Documented Basin, Turnstile, allowed origins, notification recipient, retention, deletion, response ownership, delivery testing, failure handling, and rollback.
 
-- Select either Basin or a small Cloudflare Worker for non-PHI administrative requests.
-- Configure Cloudflare Turnstile and a honeypot.
-- Add server-side validation, rate limiting, and minimal safe logging.
-- Route requests only to an office-approved mailbox.
-- Display clear success, failure, and call-the-office fallback states.
-- Document response ownership, expected response time, retention, deletion, and failed-delivery handling.
-- Keep medical-history submission and protected health information completely outside the public form.
-- Add service-health checks without exposing message contents.
+The code portion of Release 13 is complete. Actual message delivery remains intentionally disabled until the office-owned Basin account, notification mailbox, retention decision, response owner, Turnstile keys, allowed origins, rate limit, and real delivery test are completed. That operational activation remains a launch blocker rather than a code defect.
 
 ## Release 14 — production candidate
+
+**This is the next code release after Release 13.**
 
 - Conduct manual WCAG 2.2 AA review in addition to automated axe checks.
 - Test current iOS Safari, Android Chrome, Chrome, Firefox, Edge, and Safari.
