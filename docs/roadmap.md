@@ -53,7 +53,7 @@ The modern concept is the patient-facing digital front door. Each page has one p
 - Added a one-click **Build and verify website** action.
 - Added content validation before every local or Cloudflare build.
 - Made About, Team, and Services wording editable without code changes.
-- Established one provider source shared by the classic and modern concepts.
+- Established one provider source shared by both concepts.
 - Removed fictional public identities and replaced them with safe role-based team descriptions.
 - Kept a hidden associate-dentist template for future approved information.
 - Removed invented practice-history claims from the public About page.
@@ -78,27 +78,35 @@ Practice-approved provider, staff, history, service, image, and policy updates c
 
 The code portion of Release 13 is complete. Actual message delivery remains intentionally disabled until the office-owned Basin account, notification mailbox, retention decision, response owner, Turnstile keys, allowed origins, rate limit, and real delivery test are completed. That operational activation remains a launch blocker rather than a code defect.
 
-## Release 14 — production candidate
+### Release 14 — production-candidate testing and launch hardening
 
-**This is the next code release after Release 13.**
+- Added automated branded Chrome and Edge, Firefox, WebKit, Android Chrome emulation, and iOS Safari emulation coverage for the core patient journey.
+- Added WCAG 2.2 AA-focused axe checks, visible-focus checks, target-size checks, keyboard-focus visibility, 320-pixel reflow, reduced-motion behavior, and public accessibility guidance.
+- Added a human WCAG review checklist and explicitly separated automated emulation from pending physical-device verification.
+- Added deterministic responsive WebP derivatives for approved photography, explicit image dimensions, responsive selection hints, and a 1200 by 630 social card that preserves the office sign.
+- Added static HTML, CSS, JavaScript, image, and total-site performance budgets plus local layout-shift, loading-time, and resource-count guardrails.
+- Completed production-candidate canonical, Open Graph, Twitter, structured-image, manifest, sitemap, robots, and noindex regression coverage.
+- Added public Accessibility and Website Use & Privacy pages without representing unapproved service, insurance, payment, or emergency policies as finalized.
+- Added a committed npm lockfile, deterministic installs, npm audit, weekly Dependabot, daily deployed-site checks, internal-link checks, PDF checks, performance checks, and rollback instructions.
+- Expanded the office's one-click website check to include the production-candidate gates.
+- Preserved the four practice-owned launch blockers and kept live inquiry delivery, indexing, DNS, and domain changes disabled.
 
-- Conduct manual WCAG 2.2 AA review in addition to automated axe checks.
-- Test current iOS Safari, Android Chrome, Chrome, Firefox, Edge, and Safari.
-- Optimize responsive images and establish Core Web Vitals budgets.
-- Complete final metadata, social imagery, structured data, and sitemap review for the selected design.
-- Add uptime monitoring, broken-link monitoring, dependency review, and rollback instructions.
-- Verify privacy, accessibility, disclaimer, insurance, payment, and emergency language.
-- Confirm all launch-blocker records are verified or removed from the public site.
+The Release 14 code and automated production-candidate controls are complete. The physical-device matrix, human WCAG review, service approval, insurance/payment approval, urgent-care workflow approval, and office-owned inquiry configuration remain required launch evidence rather than items silently marked complete.
 
 ## Release 15 — domain and operations launch
 
+**This is the next governed release after Release 14, but it cannot begin cutover until the remaining launch evidence is complete.**
+
+- Complete and record the physical-device/browser matrix and human WCAG checklist.
+- Obtain practice approval for the service list, insurance/payment wording, and urgent/after-hours workflow.
+- Configure and test the office-owned inquiry recipient, Basin account, Turnstile keys, allowed origins, rate limiting, retention, response ownership, and backup handling—or keep the form preview-only for launch.
 - Inventory current DNS, MX, SPF, DKIM, DMARC, portal, and scheduling records.
 - Select the final classic or modern design path.
 - Back up the existing DNS zone and document rollback.
 - Attach the real domain without disrupting email or existing services.
 - Change preview controls from `noindex` to the approved production policy only after all launch gates pass.
 - Perform post-cutover checks for TLS, redirects, forms, analytics, email, sitemap, and search-console ownership.
-- Train the office on routine updates, the one-click website check, hiding outdated content, and restoring prior versions.
+- Train the office on routine updates, the one-click website check, hiding outdated content, monitoring results, and restoring prior versions.
 
 ## Optional later release — secure patient workflow
 
