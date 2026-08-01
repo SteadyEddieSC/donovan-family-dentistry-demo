@@ -2,11 +2,12 @@
 import ModernLayout from '../../layouts/ModernLayout.astro';
 import ModernPortrait from '../../components/ModernPortrait.astro';
 import practiceContent from '../../data/practice-content.json';
+import providers from '../../data/providers.json';
 import site from '../../data/site.json';
 import teamData from '../../data/modern-team.json';
 
 const pageContent = practiceContent.teamPage;
-const visibleProviders = teamData.providers.filter((provider) => provider.visible);
+const visibleProviders = providers.filter((provider) => provider.visible).sort((a, b) => a.order - b.order);
 const visibleTeam = teamData.team.filter((member) => member.visible);
 ---
 <ModernLayout title="Meet the Team | Donovan Family Dentistry" description="Meet the dentist and learn how the front-office, hygiene, and dental-assisting teams support patients at Donovan Family Dentistry.">
@@ -28,8 +29,8 @@ const visibleTeam = teamData.team.filter((member) => member.visible);
         {visibleProviders.map((provider, index) => (
           <article class:list={['modern-doctor', index % 2 === 1 && 'modern-doctor--reverse']} id={`provider-${provider.id}`}>
             <div class="modern-doctor__photo">
-              {provider.imageType === 'photo'
-                ? <img src={provider.image} width="900" height="720" alt={provider.imageAlt} loading={index === 0 ? 'eager' : 'lazy'} decoding="async" />
+              {provider.imageType === 'photo' && provider.photo
+                ? <img src={provider.photo} width="900" height="720" alt={provider.photoAlt} loading={index === 0 ? 'eager' : 'lazy'} decoding="async" />
                 : <ModernPortrait name={provider.name} variant={provider.portrait} />}
             </div>
             <div>
