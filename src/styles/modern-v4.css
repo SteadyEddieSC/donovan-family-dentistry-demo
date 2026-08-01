@@ -1,0 +1,27 @@
+.modern-honeypot {
+  position: absolute !important;
+  left: -10000px !important;
+  width: 1px !important;
+  height: 1px !important;
+  overflow: hidden !important;
+}
+
+.modern-turnstile {
+  min-height: 4.1rem;
+  display: flex;
+  align-items: center;
+}
+
+.modern-turnstile .cf-turnstile {
+  width: 100%;
+}
+
+.modern-form-actions .modern-button:disabled {
+  cursor: wait;
+  opacity: .68;
+}
+
+.modern-inquiry-result pre {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
