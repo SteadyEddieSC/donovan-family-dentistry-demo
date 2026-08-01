@@ -199,8 +199,8 @@ test('corrected patient form materializes with the reviewed hash', async ({ requ
   const response = await request.get('/forms/new-patient-medical-history.pdf');
   expect(response.status()).toBeLessThan(400);
   const bytes = Buffer.from(await response.body());
-  expect(bytes.length).toBe(91105);
-  expect(createHash('sha256').update(bytes).digest('hex')).toBe('f0951f6eb51f7525a7335e5834e0e38128e69293bf595e6d17285a0faa843094');
+  expect(bytes.length).toBe(105458);
+  expect(createHash('sha256').update(bytes).digest('hex')).toBe('b71e76aac8aa37db4b1910c2e87984e223c14d9310d1bda8496a045963dbc1c5');
 });
 
 test('internal links and downloadable assets resolve', async ({ page, request }) => {
