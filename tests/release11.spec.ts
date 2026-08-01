@@ -26,17 +26,19 @@ for (const route of ['/', '/modern/', '/modern/new-patients/']) {
     const jsonLd = await page.locator('script[type="application/ld+json"]').first().textContent();
     expect(jsonLd).not.toBeNull();
     const parsed = JSON.parse(jsonLd ?? '{}');
-    const graph = parsed['@graph'];
+    const graph: any[] = parsed['@graph'];
     expect(Array.isArray(graph)).toBeTruthy();
 
-    const dentist = graph.find((item: Record<string, unknown>) => item['@type'] === 'Dentist');
+    const dentist = graph.find((item) => item['@type'] === 'Dentist');
+    expect(dentist).toBeTruthy();
     expect(dentist.name).toBe('Donovan Family Dentistry');
     expect(dentist.telephone).toBe('+18435256866');
     expect(dentist.address.streetAddress).toBe('91 Sams Point Road');
     expect(dentist.openingHoursSpecification[0].opens).toBe('07:30');
     expect(dentist.openingHoursSpecification[0].closes).toBe('17:00');
 
-    const webPage = graph.find((item: Record<string, unknown>) => item['@type'] === 'WebPage');
+    const webPage = graph.find((item) => item['@type'] === 'WebPage');
+    expect(webPage).toBeTruthy();
     expect(webPage.url).toBe(canonical);
     expect(webPage.name).toBe(title);
   });
