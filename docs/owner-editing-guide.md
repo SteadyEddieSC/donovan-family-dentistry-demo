@@ -23,7 +23,7 @@ The office editor is organized into four plain-language areas:
 3. Use **Show profile**, **Show service**, or **Show announcement** to control whether an item appears publicly.
 4. Save the change.
 5. Choose **Build and verify website** from the editor actions.
-6. Wait for the check to finish. A successful check confirms that the content is valid, the site builds, links and forms resolve, mobile layouts pass, and the automated accessibility checks are green.
+6. Wait for the check to finish. A successful check confirms that the content is valid, the protected administrative-request handler passes its safety tests, the site builds, links and forms resolve, mobile layouts pass, and the automated accessibility checks are green.
 7. Open the Cloudflare Pages deployment or branch-preview link and review the changed page on both a phone and a desktop browser.
 
 Cloudflare Pages automatically rebuilds the website after a saved change. A failed build does not replace the last successful deployment.
@@ -41,7 +41,8 @@ The editor and build pipeline reject common mistakes before they can replace the
 - a visible provider without biography content;
 - duplicate provider or team IDs;
 - missing page headings or required public text;
-- broken builds, links, form assets, responsive layouts, or serious accessibility checks.
+- unsafe public inquiry configuration or a public secret/endpoint variable;
+- broken builds, links, form assets, responsive layouts, serverless inquiry safeguards, or serious accessibility checks.
 
 When a validation fails, the prior successfully deployed website remains available. Correct the highlighted editor field and save again.
 
@@ -62,6 +63,17 @@ When a validation fails, the prior successfully deployed website remains availab
 - Replace a patient PDF inside its existing form entry so public links continue to work.
 - Never upload completed patient forms, records, insurance cards, identification, or any other patient information to the website repository.
 
+## Administrative request form
+
+The Contact page is limited to general administrative requests. The dentist or office editor does not need to manage its technical keys.
+
+- In preview mode, **Preview request** displays the proposed message only in the visitor's browser. It sends and stores nothing.
+- Live delivery is enabled only by the website administrator after the office mailbox, Basin account, Turnstile keys, allowed domains, retention, response owner, and rate limit have been approved and tested.
+- Never ask a visitor to enter symptoms, diagnoses, medications, treatment details, Social Security numbers, insurance identifiers, medical history, photographs, files, or other protected health information.
+- The designated office owner should review the approved mailbox and Basin inbox according to the office procedure.
+- Clinical or urgent content must move to the approved telephone or secure workflow rather than continuing through the public form.
+- Do not copy form messages into GitHub issues, website content, or unrelated personal systems.
+
 ## Safe wording rules
 
 - Do not publish a service, insurance plan, payment method, office policy, credential, professional affiliation, or emergency workflow unless the practice has confirmed it.
@@ -72,3 +84,5 @@ When a validation fails, the prior successfully deployed website remains availab
 ## Recovery
 
 Every editor save becomes a GitHub commit, so prior wording can be restored. If an office user is uncertain, hide the item, run the website check, and ask the website administrator to review the change before making it visible again.
+
+To disable live administrative requests quickly, the website administrator sets `PUBLIC_ADMIN_INQUIRY_ENABLED=false` and redeploys. The office telephone path remains available.
