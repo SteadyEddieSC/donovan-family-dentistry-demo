@@ -9,6 +9,17 @@ permissions:
   contents: read
 
 jobs:
+  dependency-review:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Review dependency changes
+        uses: actions/dependency-review-action@v4
+        with:
+          fail-on-severity: high
+
   build-and-test:
     runs-on: ubuntu-latest
     timeout-minutes: 30
@@ -17,15 +28,9 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      - name: Install dependencies and create the initial lockfile
-        run: npm install --no-audit --no-fund
-      - name: Save generated lockfile for Release 14 review
-        uses: actions/upload-artifact@v4
-        with:
-          name: generated-package-lock
-          path: package-lock.json
-          retention-days: 7
-          if-no-files-found: error
+          cache: npm
+      - name: Install locked dependencies
+        run: npm ci --no-audit --no-fund
       - name: Review dependency vulnerabilities
         run: npm audit --audit-level=high
       - name: Run serverless inquiry unit tests
