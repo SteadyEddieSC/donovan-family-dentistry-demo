@@ -24,9 +24,10 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 22
+          cache: npm
 
-      - name: Install website dependencies
-        run: npm install --no-audit --no-fund
+      - name: Install locked website dependencies
+        run: npm ci --no-audit --no-fund
 
       - name: Review dependency vulnerabilities
         run: npm audit --audit-level=high
@@ -62,7 +63,7 @@ jobs:
           {
             echo '## Website check passed'
             echo ''
-            echo 'The editable content is valid; dependency, administrative-request, launch-safety, responsive-image, performance-budget, browser, link, form, mobile, metadata, and automated accessibility checks passed.'
+            echo 'The editable content is valid; locked-dependency, administrative-request, launch-safety, responsive-image, performance-budget, browser, link, form, mobile, metadata, and automated accessibility checks passed.'
             echo ''
             echo 'Automated browser emulation does not replace the real-device and office-approval items listed in docs/release-14-production-candidate.md.'
             echo ''
