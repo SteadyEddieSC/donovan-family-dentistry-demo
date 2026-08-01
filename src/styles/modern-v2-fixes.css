@@ -1,0 +1,28 @@
+.modern-section--deep .modern-button--secondary {
+  color: var(--modern-deep);
+  background: var(--modern-white);
+  border-color: var(--modern-white);
+}
+
+.modern-section--deep .modern-button--secondary:hover {
+  color: var(--modern-white);
+  background: transparent;
+}
+
+.modern-section--deep .modern-visit-card {
+  color: var(--modern-ink);
+}
+
+.modern-section--deep .modern-visit-card h3 {
+  color: var(--modern-ink);
+}
+
+.modern-section--deep .modern-visit-card p {
+  color: var(--modern-ink-soft);
+}
+
+.modern-form-download .modern-form-download__icon,
+.modern-form-download .modern-button,
+.modern-form-download .modern-button span {
+  color: var(--modern-white);
+}

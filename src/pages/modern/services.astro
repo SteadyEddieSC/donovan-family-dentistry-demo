@@ -1,0 +1,15 @@
+---
+import ModernLayout from '../../layouts/ModernLayout.astro';
+const groups = [
+  { title: 'Restorative care', copy: 'Repair damaged teeth and restore function with materials and treatment options selected for the individual situation.', services: ['Esthetic tooth-colored restorations', 'Durable silver restorations', 'Dental implants', 'Ceramic veneers, crowns and bridges'] },
+  { title: 'Smile & tooth replacement', copy: 'Explore options intended to improve appearance, replace missing teeth, and support confidence in your smile.', services: ['Smile makeovers', 'Bleaching / teeth whitening', 'Dentures and partials', 'Flexible, metal-free partials'] },
+  { title: 'Advanced care', copy: 'Address pain, infection, gum concerns, and teeth that cannot be predictably restored.', services: ['Root canal therapy', 'Extractions', 'Management of gum disease', 'Minor gum surgeries'] }
+];
+---
+<ModernLayout title="Dental Services | Donovan Family Dentistry" description="Explore the published dental services offered by Donovan Family Dentistry in Beaufort, South Carolina.">
+  <section class="modern-page-hero"><div class="modern-shell modern-page-hero__grid"><div><p class="modern-kicker">Services</p><h1>Comprehensive care, easier to understand.</h1></div><p class="modern-page-hero__aside">The modern concept organizes the practice's existing published procedures into clear categories while leaving treatment decisions to an in-person dental evaluation.</p></div></section>
+  <section class="modern-section"><div class="modern-shell"><div class="modern-service-grid">
+    {groups.map((group,index) => <article class="modern-service-card" data-number={`0${index+1}`}><h3>{group.title}</h3><p>{group.copy}</p><ul>{group.services.map((service) => <li>{service}</li>)}</ul></article>)}
+  </div></div></section>
+  <section class="modern-section modern-section--sea"><div class="modern-shell"><div class="modern-section__head"><p class="modern-eyebrow">Planning care</p><h2>Questions are part of the process.</h2><p>The website can explain categories and help patients prepare, but a dentist must evaluate the individual situation before recommending treatment.</p></div><div class="modern-card-grid"><article class="modern-card"><h3>Start by calling</h3><p>Contact the office for availability and general scheduling questions.</p><a href="tel:+18435256866">Call (843) 525-6866</a></article><article class="modern-card"><h3>Prepare your forms</h3><p>Complete the fillable medical-history form and bring it to the visit.</p><a href="/modern/forms/">Open patient forms</a></article><article class="modern-card"><h3>Find the office</h3><p>Visit 91 Sams Point Road on Lady's Island in Beaufort.</p><a href="/modern/contact/">Contact and directions</a></article></div></div></section>
+</ModernLayout>

@@ -1,0 +1,32 @@
+---
+import ModernLayout from '../../layouts/ModernLayout.astro';
+import ModernPortrait from '../../components/ModernPortrait.astro';
+import teamData from '../../data/modern-team.json';
+---
+<ModernLayout title="About the Practice | Donovan Family Dentistry" description="Meet the dentists and learn about the modern Lowcountry care concept for Donovan Family Dentistry.">
+  <section class="modern-page-hero"><div class="modern-shell modern-page-hero__grid"><div><p class="modern-kicker">About the practice</p><h1>Local care with service at its foundation.</h1></div><p class="modern-page-hero__aside">A modern practice story centered on Lady's Island, Beaufort, and the people who make each visit feel personal.</p></div></section>
+
+  <section class="modern-section"><div class="modern-shell"><div class="modern-value-grid">
+    <article class="modern-value-card"><div class="modern-value-icon">01</div><h3>Clear communication</h3><p>Patients deserve practical explanations, understandable options, and time to ask questions before deciding on care.</p></article>
+    <article class="modern-value-card"><div class="modern-value-icon">02</div><h3>Comfortable visits</h3><p>A friendly team, organized process, and calm environment help reduce uncertainty from check-in through follow-up.</p></article>
+    <article class="modern-value-card"><div class="modern-value-icon">03</div><h3>Lowcountry connection</h3><p>The practice serves families on Lady's Island, throughout Beaufort, and across the surrounding Lowcountry community.</p></article>
+  </div></div></section>
+
+  <section class="modern-section modern-section--sea" aria-labelledby="dentists-heading"><div class="modern-shell"><div class="modern-section__head"><p class="modern-eyebrow">The dentists</p><h2 id="dentists-heading">Meet the doctors.</h2></div>
+    {teamData.providers.map((provider, index) => (
+      <article class:list={['modern-doctor', index % 2 === 1 && 'modern-doctor--reverse']}>
+        <div class="modern-doctor__photo">
+          {provider.imageType === 'photo' ? <img src={provider.image} width="900" height="720" alt={provider.imageAlt} /> : <ModernPortrait name={provider.name} variant={provider.portrait} />}
+        </div>
+        <div>
+          <p class="modern-eyebrow">{provider.role}</p>
+          <h2>{provider.name}, {provider.credentials}</h2>
+          <div class="modern-doctor__highlights">{provider.highlights.map((item) => <span class="modern-chip">{item}</span>)}</div>
+          {provider.details.map((paragraph) => <p>{paragraph}</p>)}
+        </div>
+      </article>
+    ))}
+  </div></section>
+
+  <section class="modern-section"><div class="modern-shell modern-visit-grid"><article class="modern-visit-card"><p class="modern-eyebrow">What patients can expect</p><h2>A useful digital front door.</h2><p>The modern concept makes the most common next steps easy to find: calling the office, getting directions, downloading forms, learning about services, and meeting the team.</p><div class="modern-actions"><a class="modern-button modern-button--primary" href="/modern/contact/">Contact the office</a><a class="modern-button modern-button--secondary" href="/modern/team/">Meet the team</a></div></article><aside class="modern-visit-card"><h3>Serving the Lowcountry</h3><p>Conveniently located on Lady's Island at 91 Sams Point Road, with direct access to directions and office hours from every page.</p></aside></div></section>
+</ModernLayout>
