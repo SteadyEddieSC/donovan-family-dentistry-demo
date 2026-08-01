@@ -1,3 +1,4 @@
+import { createHash } from 'node:crypto';
 import { readFile, writeFile } from 'node:fs/promises';
 import { PDFDocument, StandardFonts, rgb } from 'pdf-lib';
 
@@ -86,4 +87,5 @@ for (const field of fields) {
   }
 }
 
-console.log(`Patched patient form responsible-party row (${output.length} bytes).`);
+const digest = createHash('sha256').update(output).digest('hex');
+console.log(`Patched patient form responsible-party row (${output.length} bytes, sha256=${digest}).`);
