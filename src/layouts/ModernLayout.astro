@@ -38,6 +38,7 @@ const nav = [
   { href: '/modern/contact/', label: 'Contact' }
 ];
 const isActive = (href: string) => href === '/modern/' ? path === href : path.startsWith(href);
+const showMobileDock = !path.startsWith('/modern/contact/');
 ---
 <!doctype html>
 <html lang="en">
@@ -98,10 +99,10 @@ const isActive = (href: string) => href === '/modern/' ? path === href : path.st
         <span><a href="/forms/privacy-practices.pdf">Privacy practices</a> · <a href="/">View the classic concept</a></span>
       </div>
     </footer>
-    <nav class="modern-mobile-dock" aria-label="Quick actions">
+    {showMobileDock && <nav class="modern-mobile-dock" aria-label="Quick actions">
       <a href={`tel:${site.phoneHref}`}>Call</a>
       <a href={mapHref} rel="noopener">Directions</a>
       <a href="/modern/forms/">Forms</a>
-    </nav>
+    </nav>}
   </body>
 </html>
