@@ -7,6 +7,7 @@ import '../styles/modern-v2.css';
 import '../styles/modern-v2-fixes.css';
 import '../styles/modern-v3.css';
 import '../styles/modern-v4.css';
+import '../styles/logo-hardening.css';
 
 interface Props {
   title?: string;
@@ -49,7 +50,7 @@ const isActive = (href: string) => href === '/modern/' ? path === href : path.st
     <header class="modern-header">
       <div class="modern-shell modern-header__inner">
         <a class="modern-brand" href="/modern/" aria-label="Donovan Family Dentistry modern concept home">
-          <img src={site.logo} width="320" height="80" alt={site.logoAlt} />
+          <img src={site.logo} width="320" height="87" alt={site.logoAlt} />
         </a>
         <nav class="modern-nav" aria-label="Modern concept navigation">
           {nav.map((item) => <a href={item.href} aria-current={isActive(item.href) ? 'page' : undefined}>{item.label}</a>)}
@@ -67,7 +68,7 @@ const isActive = (href: string) => href === '/modern/' ? path === href : path.st
     <footer class="modern-footer">
       <div class="modern-shell modern-footer__grid">
         <div>
-          <div class="modern-footer__logo-card"><img src={site.logo} width="300" height="75" alt={site.logoAlt} /></div>
+          <div class="modern-footer__logo-card"><img src={site.logo} width="300" height="81" alt={site.logoAlt} /></div>
           <p>A welcoming Lady's Island dental practice rooted in Beaufort and the Lowcountry.</p>
         </div>
         <div>

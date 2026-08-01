@@ -1,0 +1,84 @@
+:root,
+html,
+body,
+.modern-body {
+  color-scheme: only light;
+}
+
+.brand,
+.footer-brand-card,
+.modern-brand,
+.modern-footer__logo-card {
+  overflow: hidden !important;
+  border: 1px solid rgba(6, 47, 53, .14) !important;
+  border-radius: 1rem !important;
+  background-color: #fff !important;
+  background-image: linear-gradient(#fff, #fff) !important;
+  background-size: 100% 100% !important;
+  box-shadow: 0 10px 28px rgba(6, 47, 53, .12) !important;
+  forced-color-adjust: none;
+  isolation: isolate;
+}
+
+.brand,
+.modern-brand {
+  padding: .35rem !important;
+}
+
+.footer-brand-card,
+.modern-footer__logo-card {
+  width: min(19rem, 100%);
+  padding: .35rem !important;
+}
+
+.brand img,
+.footer-brand-card img,
+.modern-brand img,
+.modern-footer__logo-card img {
+  width: 100%;
+  height: auto;
+  border-radius: clamp(.65rem, 2vw, 1.05rem);
+  background-color: #fff !important;
+  background-image: linear-gradient(#fff, #fff) !important;
+  filter: none !important;
+  forced-color-adjust: none;
+  mix-blend-mode: normal;
+}
+
+@media (max-width: 760px) {
+  .modern-footer__grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 2.25rem !important;
+  }
+
+  .modern-footer__grid > * {
+    min-width: 0;
+  }
+
+  .modern-footer__links {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: .55rem 1rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .modern-footer__bottom {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: .85rem;
+  }
+
+  .modern-footer a,
+  .modern-footer p,
+  .modern-footer span {
+    overflow-wrap: anywhere;
+  }
+}
+
+@media (max-width: 420px) {
+  .modern-footer__links {
+    grid-template-columns: 1fr;
+  }
+}
