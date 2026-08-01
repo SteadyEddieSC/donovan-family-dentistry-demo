@@ -1,0 +1,169 @@
+{
+  "schemaVersion": 1,
+  "release": 16,
+  "reviewedOn": "2026-08-01",
+  "actualDomainCutoverRelease": 17,
+  "cms": {
+    "product": "Pages CMS hosted app",
+    "editorUrl": "https://app.pagescms.org/",
+    "repository": "SteadyEddieSC/donovan-family-dentistry-demo",
+    "normalBranch": "main",
+    "repositoryConfiguration": "ready",
+    "operationalAcceptance": "pending-owner-test",
+    "cost": "$0 hosted service",
+    "acceptanceSteps": [
+      "An owner or authorized administrator installs or authorizes the Pages CMS GitHub App for the private repository.",
+      "The office editor signs in and opens the main branch.",
+      "The editor makes a harmless announcement-text edit while keeping the announcement hidden.",
+      "The editor saves the change and runs Build and verify website.",
+      "The owner confirms the GitHub commit, successful workflow, and Cloudflare rebuild.",
+      "The owner restores the prior wording and confirms the recovery commit and rebuild."
+    ]
+  },
+  "legacySite": {
+    "domain": "donovanfamilydentistry.com",
+    "webAddress": "107.180.115.120",
+    "dnsProviderObservation": "GoDaddy domaincontrol.com nameservers",
+    "hostingObservation": "The web address is within a GoDaddy-owned network range, so the legacy origin is likely hosted on GoDaddy infrastructure.",
+    "hostingProductConfirmed": false,
+    "hostingProductNeeded": "Confirm the exact GoDaddy product, subscription owner, renewal date, control-panel access, document root, backups, and cancellation timing from the GoDaddy account or invoice.",
+    "mailObservation": "Microsoft 365 mail routing and Outlook autodiscover are publicly visible; the current SPF record also references secureserver.net.",
+    "tlsObservation": "The legacy certificate was observed expired, but that alone does not prove the remaining website content or hosting account is unavailable.",
+    "migrationRule": "Change only the apex and www web records after preserving every mail and application record."
+  },
+  "tools": [
+    {
+      "id": "pages-cms",
+      "label": "Self-edit website CMS",
+      "provider": "Pages CMS",
+      "status": "configured-pending-acceptance",
+      "cost": "$0",
+      "phiAllowed": false,
+      "codeReady": true,
+      "accountReady": false,
+      "ownerDecisionNeeded": true,
+      "blockers": [
+        "Authorize the Pages CMS GitHub App for the private repository.",
+        "Confirm who will hold repository and editor access.",
+        "Complete a real save, verification workflow, Cloudflare rebuild, and recovery exercise."
+      ]
+    },
+    {
+      "id": "cloudflare-pages",
+      "label": "Website hosting and deployment",
+      "provider": "Cloudflare Pages",
+      "status": "preview-deployed",
+      "cost": "$0 at current project scale",
+      "phiAllowed": false,
+      "codeReady": true,
+      "accountReady": true,
+      "ownerDecisionNeeded": true,
+      "blockers": [
+        "Complete all launch evidence.",
+        "Attach the real domain during an approved change window.",
+        "Change only the minimum apex and www records and verify rollback."
+      ]
+    },
+    {
+      "id": "turnstile",
+      "label": "Public-form bot protection",
+      "provider": "Cloudflare Turnstile",
+      "status": "code-ready-unconfigured",
+      "cost": "$0 on the Free plan",
+      "phiAllowed": false,
+      "codeReady": true,
+      "accountReady": false,
+      "ownerDecisionNeeded": true,
+      "blockers": [
+        "Create an office-controlled widget.",
+        "Restrict the widget to approved preview and production hostnames.",
+        "Store the site key and secret only in Cloudflare environment settings.",
+        "Complete a real verification test."
+      ]
+    },
+    {
+      "id": "administrative-inquiry",
+      "label": "General administrative inquiry delivery",
+      "provider": "Basin through the same-origin Cloudflare function",
+      "status": "code-ready-disabled",
+      "cost": "$0 for light testing; current paid entry tier is approximately $12.50 per month when billed yearly",
+      "phiAllowed": false,
+      "codeReady": true,
+      "accountReady": false,
+      "ownerDecisionNeeded": true,
+      "blockers": [
+        "Decide whether launch remains preview-only or enables delivery.",
+        "Create an office-owned Basin endpoint and notification mailbox.",
+        "Approve retention, deletion, response owner, backup owner, and rate limiting.",
+        "Complete successful and failure-path delivery tests without PHI."
+      ]
+    },
+    {
+      "id": "web-analytics",
+      "label": "Privacy-first website analytics",
+      "provider": "Cloudflare Web Analytics",
+      "status": "optional-disabled",
+      "cost": "$0",
+      "phiAllowed": false,
+      "codeReady": true,
+      "accountReady": false,
+      "ownerDecisionNeeded": true,
+      "blockers": [
+        "Approve whether analytics is needed at launch.",
+        "Create the site in the office-controlled Cloudflare account.",
+        "Add and test the beacon without collecting form contents or patient information.",
+        "Update public privacy wording before enabling."
+      ]
+    },
+    {
+      "id": "search-console",
+      "label": "Search ownership and indexing",
+      "provider": "Google Search Console",
+      "status": "post-cutover",
+      "cost": "$0",
+      "phiAllowed": false,
+      "codeReady": true,
+      "accountReady": false,
+      "ownerDecisionNeeded": true,
+      "blockers": [
+        "Complete the real-domain cutover and canonical-host verification.",
+        "Approve public indexing.",
+        "Verify domain ownership and submit the production sitemap."
+      ]
+    },
+    {
+      "id": "secure-patient-intake",
+      "label": "Secure online patient intake",
+      "provider": "Not selected; Jotform HIPAA or a dental-platform forms product are candidates",
+      "status": "not-selected",
+      "cost": "Jotform currently advertises HIPAA-enabled features on Gold at about $99 per month billed annually; dental-platform pricing is generally quote-based",
+      "phiAllowed": true,
+      "codeReady": false,
+      "accountReady": false,
+      "ownerDecisionNeeded": true,
+      "blockers": [
+        "Confirm the practice-management system and required integrations.",
+        "Select a healthcare-capable vendor and execute an appropriate BAA.",
+        "Approve access roles, consent, retention, deletion, incident response, and staff workflow.",
+        "Keep the current public repository and Basin inquiry path free of PHI."
+      ]
+    },
+    {
+      "id": "scheduling-messaging-payments",
+      "label": "Online scheduling, patient messaging, payments, and reviews",
+      "provider": "Not selected; NexHealth or the practice's existing dental platform are candidates",
+      "status": "not-selected",
+      "cost": "Quote required",
+      "phiAllowed": true,
+      "codeReady": false,
+      "accountReady": false,
+      "ownerDecisionNeeded": true,
+      "blockers": [
+        "Identify the current practice-management and patient-communication systems.",
+        "Confirm supported read/write integration and prevent duplicate scheduling or messaging workflows.",
+        "Execute required agreements and approve staff ownership, downtime, reconciliation, and rollback procedures.",
+        "Test in a vendor sandbox or controlled pilot before adding website links or widgets."
+      ]
+    }
+  ]
+}
