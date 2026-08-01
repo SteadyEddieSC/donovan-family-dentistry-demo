@@ -4,7 +4,7 @@ export const prerender = true;
 
 const routes = [
   '/', '/about/', '/services/', '/forms/', '/contact/',
-  '/modern/', '/modern/about/', '/modern/services/', '/modern/team/', '/modern/forms/', '/modern/contact/'
+  '/modern/', '/modern/about/', '/modern/services/', '/modern/team/', '/modern/new-patients/', '/modern/forms/', '/modern/contact/'
 ];
 
 export const GET: APIRoute = ({ site }) => {
