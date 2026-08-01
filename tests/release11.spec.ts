@@ -63,9 +63,10 @@ test('content verification register tracks launch blockers and nonblocking follo
   const followUpIds = register.editorialFollowUps.map((item: { id: string }) => item.id);
   expect(new Set(blockerIds).size).toBe(blockerIds.length);
   expect(new Set(followUpIds).size).toBe(followUpIds.length);
+  expect(blockerIds).toContain('provider-roster');
   expect(blockerIds).toContain('services');
   expect(blockerIds).toContain('production-integrations');
-  expect(followUpIds).toContain('associate-dentist');
+  expect(followUpIds).not.toContain('associate-dentist');
   expect(followUpIds).toContain('staff-roster');
   expect(register.launchBlockers.every((item: { replacementNeeded?: string }) => Boolean(item.replacementNeeded))).toBeTruthy();
 });
