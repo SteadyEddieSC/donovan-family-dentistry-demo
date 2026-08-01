@@ -2,6 +2,7 @@
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import CloudflareAnalytics from '../components/CloudflareAnalytics.astro';
+import SiteMetadata from '../components/SiteMetadata.astro';
 import site from '../data/site.json';
 import '../styles/global.css';
 import '../styles/review-fixes.css';
@@ -10,29 +11,17 @@ import '../styles/logo-hardening.css';
 interface Props {
   title?: string;
   description?: string;
+  image?: string;
+  imageAlt?: string;
 }
 
-const { title = site.seo.title, description = site.seo.description } = Astro.props;
-const siteUrl = Astro.site ?? new URL('https://donovan-family-dentistry-demo.pages.dev');
-const canonical = new URL(Astro.url.pathname, siteUrl);
+const {
+  title = site.seo.title,
+  description = site.seo.description,
+  image = site.socialImage,
+  imageAlt = site.heroAlt
+} = Astro.props;
 const fullAddress = `${site.address.street}, ${site.address.city}, ${site.address.state} ${site.address.postalCode}`;
-const structuredData = {
-  '@context': 'https://schema.org',
-  '@type': 'Dentist',
-  name: site.practiceName,
-  url: siteUrl.toString(),
-  telephone: site.phoneHref,
-  image: new URL(site.heroImage, siteUrl).toString(),
-  address: {
-    '@type': 'PostalAddress',
-    streetAddress: site.address.street,
-    addressLocality: site.address.city,
-    addressRegion: site.address.state,
-    postalCode: site.address.postalCode,
-    addressCountry: 'US'
-  },
-  openingHours: ['Mo-Th 07:30-17:00']
-};
 ---
 <!doctype html>
 <html lang="en">
@@ -40,18 +29,13 @@ const structuredData = {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
-    <title>{title}</title>
-    <meta name="description" content={description} />
-    <link rel="canonical" href={canonical} />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta property="og:type" content="website" />
-    <meta property="og:title" content={title} />
-    <meta property="og:description" content={description} />
-    <meta property="og:url" content={canonical} />
-    <meta property="og:image" content={new URL(site.heroImage, siteUrl)} />
-    <meta name="theme-color" content="#004b66" />
-    <meta name="color-scheme" content="light" />
-    <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+    <SiteMetadata
+      title={title}
+      description={description}
+      image={image}
+      imageAlt={imageAlt}
+      themeColor="#004b66"
+    />
     <CloudflareAnalytics />
   </head>
   <body>
