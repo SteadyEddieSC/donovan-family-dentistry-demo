@@ -14,6 +14,13 @@ const [site, contentStatus] = await Promise.all([
   readJson('src/data/content-status.json')
 ]);
 
+const modeOverride = process.env.LAUNCH_PREVIEW_MODE;
+if (modeOverride !== undefined && !['true', 'false'].includes(modeOverride)) {
+  console.error('LAUNCH_PREVIEW_MODE must be either true or false when supplied.');
+  process.exit(1);
+}
+const previewMode = modeOverride === undefined ? site.previewMode : modeOverride === 'true';
+
 const ids = [
   ...contentStatus.verified.map((item) => item.id),
   ...contentStatus.launchBlockers.map((item) => item.id)
@@ -27,7 +34,7 @@ if (duplicateIds.length > 0) {
 
 const unresolved = contentStatus.launchBlockers.filter((item) => item.status !== 'verified');
 
-if (site.previewMode) {
+if (previewMode) {
   console.log(
     `Launch-readiness gate: preview mode is active with ${unresolved.length} documented blocker${unresolved.length === 1 ? '' : 's'}.`
   );
