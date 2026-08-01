@@ -18,7 +18,7 @@ test('production-candidate safety gate preserves preview controls and launch blo
   });
   expect(result.status, result.stderr).toBe(0);
   expect(result.stdout).toContain('preview indexing disabled');
-  expect(result.stdout).toContain('4 enforced launch blocker');
+  expect(result.stdout).toContain('5 enforced launch blocker');
 });
 
 test('release 14 evidence distinguishes automated coverage from pending real-device review', async ({ isMobile }) => {
