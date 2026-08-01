@@ -1,0 +1,145 @@
+.modern-onboarding-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.modern-onboarding-card {
+  position: relative;
+  min-height: 100%;
+  border: 1px solid var(--modern-line);
+  border-radius: var(--modern-radius);
+  padding: 1.55rem;
+  background: #fff;
+  box-shadow: 0 14px 36px rgba(6, 47, 53, .08);
+}
+
+.modern-onboarding-card__number {
+  display: grid;
+  width: 2.65rem;
+  height: 2.65rem;
+  place-items: center;
+  margin-bottom: 1rem;
+  border-radius: .85rem;
+  color: #fff;
+  background: var(--modern-teal);
+  font-weight: 950;
+}
+
+.modern-onboarding-card h3,
+.modern-arrival-card h3,
+.modern-urgent-card h3 {
+  margin: 0 0 .7rem;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.55rem;
+}
+
+.modern-onboarding-card p,
+.modern-arrival-card p {
+  color: var(--modern-ink-soft);
+}
+
+.modern-arrival-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.08fr) minmax(19rem, .92fr);
+  gap: 1rem;
+  align-items: stretch;
+}
+
+.modern-arrival-card {
+  border: 1px solid var(--modern-line);
+  border-radius: var(--modern-radius);
+  padding: clamp(1.4rem, 4vw, 2.15rem);
+  background: #fff;
+  box-shadow: 0 12px 34px rgba(6, 47, 53, .07);
+}
+
+.modern-bring-list,
+.modern-policy-list {
+  display: grid;
+  gap: .8rem;
+  margin: 1.25rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.modern-bring-list li,
+.modern-policy-list li {
+  position: relative;
+  padding-left: 1.7rem;
+}
+
+.modern-bring-list li::before,
+.modern-policy-list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: .52rem;
+  width: .65rem;
+  height: .65rem;
+  border-radius: 50%;
+  background: var(--modern-lime);
+}
+
+.modern-new-patient-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .8rem;
+  margin-top: 1.5rem;
+}
+
+.modern-urgent-card {
+  border: 2px solid #c85f42;
+  border-radius: var(--modern-radius);
+  padding: clamp(1.4rem, 4vw, 2.15rem);
+  color: #44261d;
+  background: #fff2ed;
+}
+
+.modern-urgent-card strong {
+  color: #7b2d1a;
+}
+
+.modern-urgent-card a {
+  font-weight: 850;
+}
+
+.modern-fine-print {
+  color: var(--modern-ink-soft);
+  font-size: .9rem;
+}
+
+@media (max-width: 1120px) {
+  .modern-nav {
+    display: none !important;
+  }
+
+  .modern-menu {
+    display: block !important;
+    margin-left: auto;
+  }
+}
+
+@media (min-width: 1121px) {
+  .modern-menu {
+    display: none !important;
+  }
+}
+
+@media (max-width: 820px) {
+  .modern-onboarding-grid,
+  .modern-arrival-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 720px) {
+  .modern-new-patient-actions {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .modern-new-patient-actions .modern-button {
+    width: 100%;
+  }
+}

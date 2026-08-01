@@ -5,30 +5,29 @@ body,
   color-scheme: only light;
 }
 
+/*
+ * The white rounded card is now part of the SVG itself. Keep the link wrappers
+ * exactly flush with the artwork so mobile forced-dark processing cannot create
+ * a second visible card around the logo.
+ */
 .brand,
 .footer-brand-card,
 .modern-brand,
 .modern-footer__logo-card {
   overflow: hidden !important;
-  border: 1px solid rgba(6, 47, 53, .14) !important;
+  padding: 0 !important;
+  border: 0 !important;
   border-radius: 1rem !important;
   background-color: #fff !important;
-  background-image: linear-gradient(#fff, #fff) !important;
-  background-size: 100% 100% !important;
-  box-shadow: 0 10px 28px rgba(6, 47, 53, .12) !important;
+  background-image: none !important;
+  box-shadow: none !important;
   forced-color-adjust: none;
   isolation: isolate;
-}
-
-.brand,
-.modern-brand {
-  padding: .35rem !important;
 }
 
 .footer-brand-card,
 .modern-footer__logo-card {
   width: min(19rem, 100%);
-  padding: .35rem !important;
 }
 
 .brand img,
@@ -37,10 +36,9 @@ body,
 .modern-footer__logo-card img {
   width: 100%;
   height: auto;
-  border-radius: clamp(.65rem, 2vw, 1.05rem);
-  background-color: #fff !important;
-  background-image: linear-gradient(#fff, #fff) !important;
-  filter: none !important;
+  border-radius: 1rem;
+  background: transparent !important;
+  filter: drop-shadow(0 8px 18px rgba(0, 0, 0, .12)) !important;
   forced-color-adjust: none;
   mix-blend-mode: normal;
 }

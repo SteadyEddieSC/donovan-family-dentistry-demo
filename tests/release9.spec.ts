@@ -8,21 +8,34 @@ test('logo artwork contains its own rounded white card', async ({ request }) => 
   expect(svg).toContain('width="508" height="136" rx="22" ry="22" fill="#fff"');
 });
 
-test('logo surfaces include a non-color background layer', async ({ page }) => {
+test('logo wrappers preserve the white artwork without adding a second card', async ({ page }) => {
   for (const path of ['/', '/modern/']) {
     await page.goto(path);
     const selector = path === '/' ? '.brand' : '.modern-brand';
     const styles = await page.locator(selector).evaluate((element) => {
       const computed = getComputedStyle(element);
+      const image = element.querySelector('img');
+      const wrapperBox = element.getBoundingClientRect();
+      const imageBox = image?.getBoundingClientRect();
       return {
         backgroundColor: computed.backgroundColor,
         backgroundImage: computed.backgroundImage,
-        radius: Number.parseFloat(computed.borderRadius)
+        padding: Number.parseFloat(computed.paddingTop),
+        border: Number.parseFloat(computed.borderTopWidth),
+        shadow: computed.boxShadow,
+        radius: Number.parseFloat(computed.borderRadius),
+        widthDifference: imageBox ? Math.abs(wrapperBox.width - imageBox.width) : 999,
+        heightDifference: imageBox ? Math.abs(wrapperBox.height - imageBox.height) : 999
       };
     });
     expect(styles.backgroundColor).toBe('rgb(255, 255, 255)');
-    expect(styles.backgroundImage).not.toBe('none');
+    expect(styles.backgroundImage).toBe('none');
+    expect(styles.padding).toBe(0);
+    expect(styles.border).toBe(0);
+    expect(styles.shadow).toBe('none');
     expect(styles.radius).toBeGreaterThan(0);
+    expect(styles.widthDifference).toBeLessThanOrEqual(1);
+    expect(styles.heightDifference).toBeLessThanOrEqual(1);
   }
 });
 
