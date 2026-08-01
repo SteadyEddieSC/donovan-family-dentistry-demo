@@ -9,11 +9,12 @@
     "preview": "astro preview",
     "test:e2e": "playwright test",
     "test:e2e:update": "playwright test --update-snapshots",
-    "predev": "node scripts/materialize-assets.mjs",
-    "prebuild": "node scripts/materialize-assets.mjs"
+    "predev": "node scripts/materialize-assets.mjs && node scripts/patch-patient-form.mjs",
+    "prebuild": "node scripts/materialize-assets.mjs && node scripts/patch-patient-form.mjs"
   },
   "dependencies": {
-    "astro": "7.1.4"
+    "astro": "7.1.4",
+    "pdf-lib": "1.17.1"
   },
   "devDependencies": {
     "@axe-core/playwright": "4.12.1",
