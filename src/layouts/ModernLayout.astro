@@ -1,5 +1,6 @@
 ---
 import CloudflareAnalytics from '../components/CloudflareAnalytics.astro';
+import SiteMetadata from '../components/SiteMetadata.astro';
 import site from '../data/site.json';
 import '../styles/modern.css';
 import '../styles/modern-a11y.css';
@@ -13,11 +14,15 @@ import '../styles/logo-hardening.css';
 interface Props {
   title?: string;
   description?: string;
+  image?: string;
+  imageAlt?: string;
 }
 
 const {
   title = "Donovan Family Dentistry | Lady's Island, Beaufort, SC",
-  description = 'A modern design concept for Donovan Family Dentistry on Lady’s Island in Beaufort, South Carolina.'
+  description = 'A modern design concept for Donovan Family Dentistry on Lady’s Island in Beaufort, South Carolina.',
+  image = site.socialImage,
+  imageAlt = site.heroAlt
 } = Astro.props;
 const path = Astro.url.pathname;
 const fullAddress = `${site.address.street}, ${site.address.city}, ${site.address.state} ${site.address.postalCode}`;
@@ -39,12 +44,13 @@ const isActive = (href: string) => href === '/modern/' ? path === href : path.st
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
-    <title>{title}</title>
-    <meta name="description" content={description} />
-    <meta name="robots" content="noindex, nofollow" />
-    <meta name="color-scheme" content="light" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="theme-color" content="#fffdf9" />
+    <SiteMetadata
+      title={title}
+      description={description}
+      image={image}
+      imageAlt={imageAlt}
+      themeColor="#fffdf9"
+    />
     <CloudflareAnalytics />
   </head>
   <body class="modern-body">
@@ -52,7 +58,7 @@ const isActive = (href: string) => href === '/modern/' ? path === href : path.st
     <header class="modern-header">
       <div class="modern-shell modern-header__inner">
         <a class="modern-brand" href="/modern/" aria-label="Donovan Family Dentistry modern concept home">
-          <img src={site.logo} width="320" height="87" alt={site.logoAlt} />
+          <img src={site.logo} width="320" height="87" alt={site.logoAlt} decoding="async" />
         </a>
         <nav class="modern-nav" aria-label="Modern concept navigation">
           {nav.map((item) => <a href={item.href} aria-current={isActive(item.href) ? 'page' : undefined}>{item.label}</a>)}
@@ -70,7 +76,7 @@ const isActive = (href: string) => href === '/modern/' ? path === href : path.st
     <footer class="modern-footer">
       <div class="modern-shell modern-footer__grid">
         <div>
-          <div class="modern-footer__logo-card"><img src={site.logo} width="300" height="81" alt={site.logoAlt} /></div>
+          <div class="modern-footer__logo-card"><img src={site.logo} width="300" height="81" alt={site.logoAlt} loading="lazy" decoding="async" /></div>
           <p>A welcoming Lady's Island dental practice rooted in Beaufort and the Lowcountry.</p>
         </div>
         <div>
