@@ -157,6 +157,44 @@ test('handler forwards only allowlisted administrative fields after Turnstile su
   assert.equal(forwarded.get('form_started_at'), null);
 });
 
+test('handler rejects an oversized body even when no Content-Length header is supplied', async () => {
+  let called = false;
+  const handler = createAdministrativeInquiryHandler({
+    now: () => NOW,
+    fetchImpl: async () => {
+      called = true;
+      return Response.json({ success: true });
+    }
+  });
+
+  const oversized = new URLSearchParams({
+    name: 'Alex Patient',
+    phone: '(843) 555-0100',
+    preference: 'Phone call',
+    topic: 'Other general question',
+    message: 'x'.repeat(20_000),
+    safe: 'confirmed',
+    form_started_at: String(NOW - 5_000),
+    'cf-turnstile-response': 'valid-turnstile-token'
+  }).toString();
+  const request = new Request(`${ORIGIN}/api/administrative-inquiry`, {
+    method: 'POST',
+    body: oversized,
+    headers: {
+      Origin: ORIGIN,
+      'Sec-Fetch-Site': 'same-origin',
+      'Content-Type': 'application/x-www-form-urlencoded'
+    }
+  });
+
+  assert.equal(request.headers.has('Content-Length'), false);
+  const response = await handler({ request, env: environment() });
+  const body = await response.json();
+  assert.equal(response.status, 413);
+  assert.equal(body.code, 'request_too_large');
+  assert.equal(called, false);
+});
+
 test('handler fails closed when runtime services are not configured', async () => {
   let called = false;
   const handler = createAdministrativeInquiryHandler({
