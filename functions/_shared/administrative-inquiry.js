@@ -177,6 +177,21 @@ async function applyOptionalRateLimit(context, remoteIp) {
   return Boolean(result?.success);
 }
 
+async function parseSizedFormData(request) {
+  const rawBody = await request.arrayBuffer();
+  if (rawBody.byteLength > MAX_REQUEST_BYTES) {
+    return { ok: false, status: 413, code: 'request_too_large' };
+  }
+
+  const parsingRequest = new Request(request.url, {
+    method: 'POST',
+    headers: request.headers,
+    body: rawBody
+  });
+  const formData = await parsingRequest.formData();
+  return { ok: true, formData };
+}
+
 export function createAdministrativeInquiryHandler(options = {}) {
   const fetchImpl = options.fetchImpl ?? fetch;
   const now = options.now ?? (() => Date.now());
@@ -224,9 +239,9 @@ export function createAdministrativeInquiryHandler(options = {}) {
       );
     }
 
-    let formData;
+    let parsed;
     try {
-      formData = await request.formData();
+      parsed = await parseSizedFormData(request);
     } catch {
       return jsonResponse(
         { ok: false, code: 'invalid_form', message: 'The request could not be read. Please review the form and try again.' },
@@ -234,6 +249,14 @@ export function createAdministrativeInquiryHandler(options = {}) {
       );
     }
 
+    if (!parsed.ok) {
+      return jsonResponse(
+        { ok: false, code: parsed.code, message: 'The request is too large.' },
+        parsed.status
+      );
+    }
+
+    const formData = parsed.formData;
     const validation = validateAdministrativeInquiry(formData, {
       now: now(),
       minFormAgeMs: envNumber(env.ADMIN_INQUIRY_MIN_FORM_AGE_MS, DEFAULT_MIN_FORM_AGE_MS),
