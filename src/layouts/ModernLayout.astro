@@ -1,4 +1,5 @@
 ---
+import CloudflareAnalytics from '../components/CloudflareAnalytics.astro';
 import site from '../data/site.json';
 import '../styles/modern.css';
 import '../styles/modern-a11y.css';
@@ -40,6 +41,7 @@ const isActive = (href: string) => href === '/modern/' ? path === href : path.st
     <meta name="color-scheme" content="light" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="theme-color" content="#fffdf9" />
+    <CloudflareAnalytics />
   </head>
   <body class="modern-body">
     <a class="modern-skip" href="#modern-main">Skip to main content</a>
