@@ -21,14 +21,22 @@
   ],
   "heroImage": "/images/office-exterior.webp",
   "heroAlt": "Exterior of Donovan Family Dentistry at 91 Sams Point Road in Beaufort, South Carolina",
+  "socialImage": "/images/office-exterior.webp",
   "logo": "/images/donovan-logo.svg",
   "logoAlt": "Donovan Family Dentistry",
+  "locale": "en_US",
+  "serviceArea": [
+    "Lady's Island",
+    "Beaufort",
+    "South Carolina Lowcountry"
+  ],
+  "previewMode": true,
   "announcement": {
     "enabled": false,
     "text": ""
   },
   "seo": {
     "title": "Donovan Family Dentistry | Beaufort, SC",
-    "description": "Donovan Family Dentistry provides comprehensive dental care for patients of all ages in Beaufort, South Carolina."
+    "description": "Donovan Family Dentistry provides comprehensive dental care for patients of all ages on Lady's Island in Beaufort, South Carolina."
   }
 }
