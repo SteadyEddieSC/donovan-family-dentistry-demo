@@ -28,12 +28,13 @@ for (const definition of responsiveImages) {
     throw new Error(`${definition.source}: image dimensions could not be read.`);
   }
 
+  console.log(`${definition.source}: approved source is ${metadata.width}x${metadata.height}.`);
+
   for (const width of definition.widths) {
-    if (width >= metadata.width) continue;
     const outputPath = path.join(imageRoot, `${definition.outputBase}-${width}.webp`);
     await sharp(sourcePath)
       .rotate()
-      .resize({ width, withoutEnlargement: true })
+      .resize({ width, withoutEnlargement: false })
       .webp({ quality: 82, effort: 6, smartSubsample: true })
       .toFile(outputPath);
     console.log(`Generated ${path.relative(repositoryRoot, outputPath)} (${width}w)`);
