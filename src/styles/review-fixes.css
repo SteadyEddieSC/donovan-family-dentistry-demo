@@ -9,6 +9,35 @@
   background: var(--mist);
 }
 
+.brand,
+.footer-brand-card {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: .5rem .7rem;
+  overflow: hidden;
+  border: 1px solid rgba(0, 75, 102, .16);
+  border-radius: .9rem;
+  background: #fff;
+  box-shadow: 0 10px 26px rgba(0, 40, 58, .14);
+}
+
+.brand img,
+.footer-brand-card img {
+  display: block;
+  background: #fff;
+}
+
+.footer-brand-card {
+  max-width: 19rem;
+  margin-bottom: 1rem;
+}
+
+.footer-brand-card img {
+  width: 100%;
+  height: auto;
+}
+
 .provider {
   grid-template-columns: minmax(18rem, 22rem) minmax(0, 1fr);
 }
@@ -22,6 +51,12 @@
 }
 
 @media (max-width: 700px) {
+  .brand {
+    max-width: 14rem;
+    padding: .4rem .55rem;
+    border-radius: .75rem;
+  }
+
   .provider {
     grid-template-columns: 1fr;
   }
