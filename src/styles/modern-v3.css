@@ -1,0 +1,368 @@
+:root {
+  color-scheme: light dark;
+}
+
+.modern-brand,
+.modern-footer__logo-card {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: .55rem .8rem;
+  overflow: hidden;
+  border: 1px solid rgba(6, 47, 53, .14);
+  border-radius: 1rem;
+  background: #fff;
+  box-shadow: 0 10px 28px rgba(6, 47, 53, .12);
+}
+
+.modern-brand img,
+.modern-footer__logo-card img {
+  background: #fff;
+}
+
+.modern-call,
+.modern-menu summary,
+.modern-mobile-dock,
+.modern-button {
+  border-width: 2px;
+}
+
+.modern-menu summary {
+  border-color: rgba(11, 102, 112, .45);
+  background: rgba(255, 255, 255, .88);
+}
+
+.modern-button--primary {
+  border-color: var(--modern-deep);
+}
+
+.modern-button--secondary {
+  color: var(--modern-deep);
+  border-color: var(--modern-teal);
+  background: rgba(255, 255, 255, .96);
+  box-shadow: 0 9px 24px rgba(6, 47, 53, .1);
+}
+
+.modern-button--secondary:hover {
+  color: #fff;
+  border-color: var(--modern-teal);
+  background: var(--modern-teal);
+}
+
+.modern-section--deep .modern-button--secondary {
+  color: #fff;
+  border-color: rgba(255, 255, 255, .84);
+  background: transparent;
+  box-shadow: none;
+}
+
+.modern-section--deep .modern-button--secondary:hover {
+  color: var(--modern-deep);
+  background: #fff;
+}
+
+.modern-path-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.modern-path-card {
+  display: flex;
+  min-height: 18rem;
+  flex-direction: column;
+  border: 1px solid var(--modern-line);
+  border-radius: var(--modern-radius);
+  padding: 1.55rem;
+  background: rgba(255, 255, 255, .9);
+  box-shadow: 0 12px 32px rgba(6, 47, 53, .07);
+}
+
+.modern-path-card h3 {
+  margin: 0 0 .65rem;
+  font-family: Georgia, serif;
+  font-size: 1.65rem;
+  line-height: 1.15;
+}
+
+.modern-path-card p {
+  margin-top: 0;
+  color: var(--modern-ink-soft);
+}
+
+.modern-path-card ul {
+  display: grid;
+  gap: .4rem;
+  margin: 0 0 1.25rem;
+  padding-left: 1.15rem;
+  color: var(--modern-ink-soft);
+}
+
+.modern-path-card a {
+  margin-top: auto;
+  font-weight: 850;
+}
+
+.modern-team-overview {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(18rem, .85fr);
+  gap: 1rem;
+  align-items: stretch;
+}
+
+.modern-team-overview > * {
+  border: 1px solid var(--modern-line);
+  border-radius: var(--modern-radius);
+  padding: clamp(1.5rem, 4vw, 2.4rem);
+  background: rgba(255, 255, 255, .86);
+}
+
+.modern-team-overview h3 {
+  margin: 0 0 .75rem;
+  font-family: Georgia, serif;
+  font-size: 1.7rem;
+}
+
+.modern-team-overview ul {
+  display: grid;
+  gap: .75rem;
+  margin: 0;
+  padding-left: 1.2rem;
+}
+
+.modern-provider-list {
+  display: grid;
+  gap: 5rem;
+}
+
+.modern-provider-list .modern-doctor + .modern-doctor {
+  margin-top: 0;
+}
+
+.modern-service-jump {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .65rem;
+  margin-top: 1.4rem;
+}
+
+.modern-service-jump a {
+  padding: .55rem .8rem;
+  border: 2px solid var(--modern-teal);
+  border-radius: 999px;
+  background: #fff;
+  font-weight: 850;
+  text-decoration: none;
+}
+
+.modern-service-jump a:hover {
+  color: #fff;
+  background: var(--modern-teal);
+}
+
+@media (max-width: 1050px) {
+  .modern-path-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .modern-team-overview {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 720px) {
+  .modern-header__inner {
+    min-height: 4.8rem;
+    gap: .45rem;
+  }
+
+  .modern-brand {
+    flex: 0 1 11rem;
+    padding: .4rem .55rem;
+    border-radius: .8rem;
+  }
+
+  .modern-menu summary,
+  .modern-call {
+    min-height: 2.85rem;
+    padding: .52rem .68rem;
+    font-size: .9rem;
+  }
+
+  .modern-call__number {
+    display: none;
+  }
+
+  .modern-hero {
+    padding: 2.4rem 0 3rem;
+  }
+
+  .modern-hero__grid {
+    gap: 2rem;
+  }
+
+  .modern-hero h1 {
+    font-size: clamp(2.7rem, 13vw, 4rem);
+  }
+
+  .modern-actions {
+    display: grid;
+    grid-template-columns: 1fr;
+    width: 100%;
+  }
+
+  .modern-actions .modern-button {
+    width: 100%;
+  }
+
+  .modern-hero__visual {
+    padding: 0;
+  }
+
+  .modern-hero__visual::before {
+    inset: .65rem -.35rem -.45rem .65rem;
+    border-radius: 1.6rem 3rem 1.6rem 3rem;
+  }
+
+  .modern-hero__visual img {
+    border-radius: 1.6rem 3rem 1.6rem 3rem;
+  }
+
+  .modern-location-card {
+    position: relative;
+    left: auto;
+    bottom: auto;
+    max-width: none;
+    margin-top: 1rem;
+    border-radius: 1rem;
+  }
+
+  .modern-quickfacts {
+    margin-top: 0;
+  }
+
+  .modern-quickfacts__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .modern-fact + .modern-fact {
+    border-top: 1px solid var(--modern-line);
+    border-left: 0;
+  }
+
+  .modern-path-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .modern-path-card {
+    min-height: 0;
+  }
+
+  .modern-mobile-dock {
+    border: 2px solid rgba(116, 214, 219, .45);
+    background: rgba(6, 47, 53, .97);
+    box-shadow: 0 -8px 30px rgba(0, 0, 0, .24);
+  }
+}
+
+@media (max-width: 470px) {
+  .modern-brand {
+    flex-basis: 9.5rem;
+  }
+
+  .modern-menu summary,
+  .modern-call {
+    padding-inline: .58rem;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --modern-ink: #effafa;
+    --modern-ink-soft: #b6cacc;
+    --modern-line: rgba(228, 248, 248, .18);
+    --modern-sea: #163433;
+    --modern-sky: #142d30;
+    --modern-sand: #252218;
+  }
+
+  .modern-body {
+    background: #0d1515;
+  }
+
+  .modern-header {
+    border-bottom-color: rgba(255, 255, 255, .12);
+    background: rgba(13, 21, 21, .94);
+  }
+
+  .modern-menu summary {
+    color: #effafa;
+    border-color: rgba(116, 214, 219, .5);
+    background: #152020;
+  }
+
+  .modern-menu nav {
+    border-color: var(--modern-line);
+    background: #152020;
+  }
+
+  .modern-hero {
+    background: radial-gradient(circle at 85% 20%, rgba(136, 173, 45, .18), transparent 30%), linear-gradient(145deg, #111817, #132b2a 68%, #173735);
+  }
+
+  .modern-page-hero {
+    background: linear-gradient(135deg, #15302e, #171915);
+  }
+
+  .modern-quickfacts__grid,
+  .modern-location-card,
+  .modern-service-card,
+  .modern-value-card,
+  .modern-card,
+  .modern-faq,
+  .modern-visit-card,
+  .modern-team-card,
+  .modern-form-download,
+  .modern-form-card,
+  .modern-path-card,
+  .modern-team-overview > * {
+    color: var(--modern-ink);
+    border-color: var(--modern-line);
+    background: #142020;
+  }
+
+  .modern-service-card p,
+  .modern-service-card li,
+  .modern-value-card p,
+  .modern-card p,
+  .modern-faq p,
+  .modern-visit-card p,
+  .modern-team-card p,
+  .modern-path-card p,
+  .modern-path-card ul,
+  .modern-location-card span,
+  .modern-page-hero__aside,
+  .modern-section__head p,
+  .modern-doctor p {
+    color: var(--modern-ink-soft);
+  }
+
+  .modern-chip,
+  .modern-service-jump a {
+    color: var(--modern-ink);
+    border-color: rgba(116, 214, 219, .5);
+    background: #1a2929;
+  }
+
+  .modern-button--secondary {
+    color: #effafa;
+    border-color: #74d6db;
+    background: transparent;
+  }
+
+  .modern-button--secondary:hover,
+  .modern-service-jump a:hover {
+    color: var(--modern-deep);
+    background: #effafa;
+  }
+}
