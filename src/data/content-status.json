@@ -1,0 +1,75 @@
+{
+  "schemaVersion": 1,
+  "lastReviewed": "2026-08-01",
+  "verified": [
+    {
+      "id": "contact-details",
+      "label": "Address, telephone number, and office hours",
+      "status": "verified",
+      "source": "Owner-confirmed"
+    },
+    {
+      "id": "dr-donovan-profile",
+      "label": "Dr. William Donovan profile and supplied family photograph",
+      "status": "verified",
+      "source": "Owner-confirmed"
+    },
+    {
+      "id": "patient-form-layout",
+      "label": "Fillable new-patient form layout and field integrity",
+      "status": "verified",
+      "source": "Owner-reviewed and regression-tested"
+    }
+  ],
+  "launchBlockers": [
+    {
+      "id": "associate-dentist",
+      "label": "Associate dentist name, credentials, biography, and image",
+      "status": "sample",
+      "paths": ["/modern/team/"],
+      "replacementNeeded": "Replace Dr. Caroline Whitaker and the sample portrait with approved provider information."
+    },
+    {
+      "id": "staff-roster",
+      "label": "Front desk, hygiene, and dental-assisting names, biographies, and illustrations",
+      "status": "sample",
+      "paths": ["/modern/team/"],
+      "replacementNeeded": "Replace or remove all sample staff identities before public launch."
+    },
+    {
+      "id": "practice-history",
+      "label": "Practice history and Lowcountry narrative",
+      "status": "sample",
+      "paths": ["/modern/about/"],
+      "replacementNeeded": "Confirm dates, milestones, ownership details, and preferred public wording."
+    },
+    {
+      "id": "services",
+      "label": "Current service list and patient-friendly terminology",
+      "status": "owner-review-needed",
+      "paths": ["/services/", "/modern/services/"],
+      "replacementNeeded": "Confirm that every published procedure remains offered and uses office-approved wording."
+    },
+    {
+      "id": "insurance-payment",
+      "label": "Insurance participation, payment methods, and financial policies",
+      "status": "unverified",
+      "paths": ["/modern/new-patients/"],
+      "replacementNeeded": "Add only office-approved plan, payment, financing, and estimate language."
+    },
+    {
+      "id": "urgent-care-wording",
+      "label": "Urgent dental and emergency guidance",
+      "status": "owner-review-needed",
+      "paths": ["/modern/new-patients/"],
+      "replacementNeeded": "Have the practice approve the wording and after-hours workflow."
+    },
+    {
+      "id": "production-integrations",
+      "label": "Administrative inquiry recipient, Turnstile, analytics, retention, and response ownership",
+      "status": "not-configured",
+      "paths": ["/modern/contact/"],
+      "replacementNeeded": "Configure approved accounts and documented operating procedures before enabling production submission."
+    }
+  ]
+}

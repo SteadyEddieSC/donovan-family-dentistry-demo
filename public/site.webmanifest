@@ -1,0 +1,18 @@
+{
+  "name": "Donovan Family Dentistry",
+  "short_name": "Donovan Dentistry",
+  "description": "Patient information, services, forms, hours, and directions for Donovan Family Dentistry on Lady's Island in Beaufort, South Carolina.",
+  "start_url": "/modern/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#fffdf9",
+  "theme_color": "#0b6670",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
