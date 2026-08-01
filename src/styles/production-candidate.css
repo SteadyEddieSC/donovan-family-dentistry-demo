@@ -6,6 +6,14 @@ html {
   scroll-margin-top: 7rem;
 }
 
+:where(main, main section, main article, .card-grid, .card-grid > *) {
+  min-width: 0;
+}
+
+:where(main h1, main h2, main h3, main p, main li, main a) {
+  overflow-wrap: anywhere;
+}
+
 :where(a, button, input, select, textarea, summary):focus-visible {
   outline: 3px solid #ffbf47;
   outline-offset: 3px;
