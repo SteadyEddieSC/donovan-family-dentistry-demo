@@ -1,0 +1,132 @@
+{
+  "schemaVersion": 1,
+  "release": 15,
+  "phase": "readiness",
+  "selectedDesign": "modern",
+  "targetDomain": "donovanfamilydentistry.com",
+  "canonicalOrigin": "https://donovanfamilydentistry.com",
+  "productionCutoverApproved": false,
+  "indexingApproved": false,
+  "inquiryLaunchMode": "preview-only",
+  "analyticsApproved": false,
+  "changeWindow": null,
+  "rollbackOwner": null,
+  "requiredEvidence": [
+    {
+      "id": "provider-roster",
+      "label": "Current dentist roster and publication approval",
+      "status": "pending-owner-approval",
+      "evidenceRef": null,
+      "clearanceNeeded": "Confirm whether Dr. Robert Koolkin currently practices with Donovan Family Dentistry and either approve a current profile and photograph or explicitly approve omission from the replacement website."
+    },
+    {
+      "id": "services",
+      "label": "Current services and patient-friendly terminology",
+      "status": "pending-owner-approval",
+      "evidenceRef": null,
+      "clearanceNeeded": "Confirm that the twelve procedures mirrored from the current public website remain offered and approve the replacement-site wording."
+    },
+    {
+      "id": "insurance-payment",
+      "label": "Insurance, payment, estimates, and financial-policy wording",
+      "status": "pending-owner-approval",
+      "evidenceRef": null,
+      "clearanceNeeded": "Approve the general wording and any specific plan, payment, financing, estimate, or financial-policy details that will be published."
+    },
+    {
+      "id": "urgent-care-wording",
+      "label": "Urgent dental and after-hours workflow",
+      "status": "pending-owner-approval",
+      "evidenceRef": null,
+      "clearanceNeeded": "Approve the telephone instructions, urgent-dental wording, emergency escalation language, and after-hours workflow."
+    },
+    {
+      "id": "production-integrations",
+      "label": "Administrative inquiry launch decision and operating controls",
+      "status": "pending-operational-decision",
+      "evidenceRef": null,
+      "clearanceNeeded": "Approve either preview-only launch or a fully configured live workflow with the office-owned recipient, Basin account, Turnstile keys, allowed origins, rate limiting, retention, response owner, backup owner, and a real delivery test."
+    },
+    {
+      "id": "physical-device-review",
+      "label": "Physical-device and current-browser matrix",
+      "status": "pending-launch-review",
+      "evidenceRef": null,
+      "clearanceNeeded": "Record device, operating system, browser version, tester, date, and result for the required iPhone, iPad, Android, macOS, and Windows checks."
+    },
+    {
+      "id": "human-wcag-review",
+      "label": "Human WCAG 2.2 AA and supported-PDF review",
+      "status": "pending-launch-review",
+      "evidenceRef": null,
+      "clearanceNeeded": "Complete the human accessibility checklist and test the patient PDFs in the office-approved desktop and mobile applications."
+    },
+    {
+      "id": "dns-zone-backup",
+      "label": "Complete production DNS-zone backup",
+      "status": "pending-administrator-evidence",
+      "evidenceRef": null,
+      "clearanceNeeded": "Export or record every production DNS record, TTL, proxy state, and provider before changing the web records."
+    },
+    {
+      "id": "email-service-preservation",
+      "label": "MX, SPF, DKIM, DMARC, autodiscover, and mail-service preservation",
+      "status": "pending-administrator-evidence",
+      "evidenceRef": null,
+      "clearanceNeeded": "Identify and preserve all mail-related records and confirm that the website cutover does not alter the email service."
+    },
+    {
+      "id": "portal-scheduling-preservation",
+      "label": "Portal, scheduling, payment, and other application records",
+      "status": "pending-administrator-evidence",
+      "evidenceRef": null,
+      "clearanceNeeded": "Inventory application subdomains and vendor records, document owners, and exclude them from the website-only change."
+    },
+    {
+      "id": "rollback-rehearsal",
+      "label": "DNS and Cloudflare rollback rehearsal",
+      "status": "pending-administrator-evidence",
+      "evidenceRef": null,
+      "clearanceNeeded": "Record the prior web targets and TTLs, verify the last green Pages deployment, and rehearse the steps to restore both."
+    },
+    {
+      "id": "change-window",
+      "label": "Approved launch window and named operators",
+      "status": "pending-owner-approval",
+      "evidenceRef": null,
+      "clearanceNeeded": "Choose a monitored change window and identify the DNS operator, website operator, office verifier, and rollback decision-maker."
+    }
+  ],
+  "currentSiteSources": [
+    {
+      "id": "current-home",
+      "url": "https://donovanfamilydentistry.com/",
+      "reviewedOn": "2026-08-01",
+      "purpose": "Current public service list, practice tagline, patient forms, contact path, and directions."
+    },
+    {
+      "id": "current-about",
+      "url": "https://donovanfamilydentistry.com/about/",
+      "reviewedOn": "2026-08-01",
+      "purpose": "Current public provider roster, provider biographies, and practice-history text."
+    },
+    {
+      "id": "current-procedures",
+      "url": "https://donovanfamilydentistry.com/procedures/",
+      "reviewedOn": "2026-08-01",
+      "purpose": "Current public twelve-item procedure list."
+    },
+    {
+      "id": "current-forms",
+      "url": "https://donovanfamilydentistry.com/patient-forms/",
+      "reviewedOn": "2026-08-01",
+      "purpose": "Current public patient-form and privacy-practices download journey."
+    },
+    {
+      "id": "current-contact",
+      "url": "https://donovanfamilydentistry.com/contact/",
+      "reviewedOn": "2026-08-01",
+      "purpose": "Current public telephone number and street address."
+    }
+  ]
+}
