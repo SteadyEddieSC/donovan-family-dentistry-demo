@@ -97,6 +97,14 @@
       "clearanceNeeded": "Choose a monitored change window and identify the DNS operator, website operator, office verifier, and rollback decision-maker."
     }
   ],
+  "publicDomainObservation": {
+    "status": "collected-public-only",
+    "observedOn": "2026-08-01",
+    "evidenceRef": "docs/evidence/domain-inventory-2026-08-01.md",
+    "workflowRunId": 30718591705,
+    "artifactDigest": "sha256:8b0eb8289db550a0736aef6505b39cca2f93573f511a25516548e1a57532c8d7",
+    "authoritativeZoneExportStillRequired": true
+  },
   "currentSiteSources": [
     {
       "id": "current-home",
