@@ -11,9 +11,20 @@ const requiredPaths = new Set([
   'src/data/services.json',
   'src/data/forms.json',
   'public/images',
-  'public/forms',
   '.github/workflows/office-site-check.yml'
 ]);
+
+const assetManifest = [
+  { target: 'public/forms/new-patient-medical-history.pdf' },
+  { target: 'public/forms/privacy-practices.pdf' }
+];
+
+const materializer = `
+for (const asset of manifest) {
+  const target = join(root, asset.target);
+  if (existsSync(target)) continue;
+}
+`;
 
 const pagesConfig = `
 media:
@@ -94,13 +105,16 @@ function fixture() {
   };
 }
 
-function evaluate(toolReadiness = fixture(), existingPaths = requiredPaths) {
+function evaluate(toolReadiness = fixture(), existingPaths = requiredPaths, overrides = {}) {
   return evaluateRelease16Readiness({
     toolReadiness,
     pagesConfig,
     quickstart,
     officeWorkflow,
-    existingPaths
+    assetManifest,
+    materializer,
+    existingPaths,
+    ...overrides
   });
 }
 
@@ -143,4 +157,18 @@ test('missing CMS-managed files fail the readiness gate', () => {
   const result = evaluate(fixture(), paths);
   assert.equal(result.ok, false);
   assert.match(result.failures.join('\n'), /providers\.json/);
+});
+
+test('generated blank PDFs remain represented and office uploads cannot be overwritten', () => {
+  const missingTarget = evaluate(fixture(), requiredPaths, {
+    assetManifest: [{ target: 'public/forms/new-patient-medical-history.pdf' }]
+  });
+  assert.equal(missingTarget.ok, false);
+  assert.match(missingTarget.failures.join('\n'), /privacy-practices\.pdf/);
+
+  const overwritingMaterializer = evaluate(fixture(), requiredPaths, {
+    materializer: 'writeFileSync(target, bytes);'
+  });
+  assert.equal(overwritingMaterializer.ok, false);
+  assert.match(overwritingMaterializer.failures.join('\n'), /overwriting/);
 });
