@@ -26,14 +26,10 @@ The current service list, insurance/payment language, urgent-care workflow, and 
 
 ## Local development
 
-After the committed lockfile is added, use:
-
 ```bash
 npm ci
 npm run dev
 ```
-
-Until then, the Release 14 branch temporarily uses `npm install` to generate and validate the first lockfile.
 
 Open `http://localhost:4321`.
 
@@ -69,7 +65,7 @@ Do not connect `donovanfamilydentistry.com` or `www.donovanfamilydentistry.com` 
 
 ## Monitoring
 
-- CI runs unit, dependency, build, performance, browser, compatibility, metadata, link, PDF, and accessibility checks on pull requests and `main`.
+- CI uses the committed npm lockfile and runs dependency review, npm audit, unit, build, performance, browser, compatibility, metadata, link, PDF, and accessibility checks on pull requests and `main`.
 - **Production candidate monitor** runs daily and can be dispatched manually for another Pages URL using `SITE_URL`.
 - Dependabot checks npm dependencies weekly.
 - Monitoring never submits the administrative form and must not include visitor messages, completed patient forms, or patient information in issues or artifacts.
