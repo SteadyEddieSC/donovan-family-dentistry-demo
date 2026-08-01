@@ -61,15 +61,23 @@ test('modern hero preserves the full office image and footer logo is visible', a
   expect(await footerLogo.evaluate((image: HTMLImageElement) => image.naturalWidth)).toBeGreaterThan(0);
 });
 
-test('modern service numbers do not occupy the heading corner', async ({ page }) => {
+test('modern service numbers stay below the headings', async ({ page }) => {
   await page.goto('/modern/');
-  const card = page.locator('.modern-service-card').nth(2);
-  const pseudo = await card.evaluate((element) => {
-    const styles = getComputedStyle(element, '::before');
-    return { top: styles.top, bottom: styles.bottom };
-  });
-  expect(pseudo.top).toBe('auto');
-  expect(pseudo.bottom).not.toBe('auto');
+  const cards = page.locator('.modern-service-card');
+  for (let index = 0; index < await cards.count(); index += 1) {
+    const metrics = await cards.nth(index).evaluate((element) => {
+      const cardRect = element.getBoundingClientRect();
+      const headingRect = element.querySelector('h3')?.getBoundingClientRect();
+      const pseudo = getComputedStyle(element, '::before');
+      return {
+        pseudoTop: cardRect.top + Number.parseFloat(pseudo.top),
+        headingBottom: headingRect?.bottom ?? cardRect.top,
+        bottom: pseudo.bottom
+      };
+    });
+    expect(metrics.bottom).not.toBe('auto');
+    expect(metrics.pseudoTop).toBeGreaterThan(metrics.headingBottom + 20);
+  }
 });
 
 test('modern inquiry preview validates locally and sends nothing', async ({ page }) => {
