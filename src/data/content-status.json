@@ -43,6 +43,36 @@
       "label": "Same-origin administrative inquiry handler, server-side validation, Turnstile verification, allowlisted forwarding, and fail-closed preview defaults",
       "status": "verified",
       "source": "Release 13 unit, browser, accessibility, and deployment validation"
+    },
+    {
+      "id": "browser-compatibility-automation",
+      "label": "Automated Chrome, Edge, Firefox, WebKit, Android Chrome emulation, and iOS Safari emulation matrix",
+      "status": "verified",
+      "source": "Release 14 compatibility suite; physical-device verification remains separately pending"
+    },
+    {
+      "id": "accessibility-automation",
+      "label": "WCAG 2.2 AA-focused automated checks, focus and target safeguards, reflow, reduced-motion behavior, and public accessibility statement",
+      "status": "verified",
+      "source": "Release 14 axe, keyboard, focus, target-size, reflow, motion, and responsive-browser tests; human review remains separately pending"
+    },
+    {
+      "id": "responsive-image-system",
+      "label": "Deterministic responsive WebP derivatives, explicit image dimensions, responsive selection hints, and 1200 by 630 social card",
+      "status": "verified",
+      "source": "Release 14 generated-image dimension, build, metadata, browser, and performance-budget tests"
+    },
+    {
+      "id": "production-candidate-monitoring",
+      "label": "Locked dependencies, npm audit, Dependabot, daily deployed-site checks, internal-link checks, PDF checks, performance budgets, and rollback documentation",
+      "status": "verified",
+      "source": "Release 14 CI, scheduled workflow, scripts, and operations review"
+    },
+    {
+      "id": "metadata-and-discovery-controls",
+      "label": "Canonical, Open Graph, Twitter, structured image data, manifest, sitemap, robots, and preview noindex controls",
+      "status": "verified",
+      "source": "Release 14 metadata, route-inventory, generated social-image, and browser regression tests"
     }
   ],
   "launchBlockers": [
@@ -57,15 +87,15 @@
       "id": "insurance-payment",
       "label": "Insurance participation, payment methods, and financial policies",
       "status": "unverified",
-      "paths": ["/modern/new-patients/"],
-      "replacementNeeded": "Add only office-approved plan, payment, financing, and estimate language."
+      "paths": ["/modern/new-patients/", "/website-use/"],
+      "replacementNeeded": "Approve the final general wording and add only office-approved plan, payment, financing, estimate, and financial-policy details."
     },
     {
       "id": "urgent-care-wording",
       "label": "Urgent dental and emergency guidance",
       "status": "owner-review-needed",
-      "paths": ["/modern/new-patients/"],
-      "replacementNeeded": "Have the practice approve the wording and after-hours workflow."
+      "paths": ["/modern/new-patients/", "/website-use/"],
+      "replacementNeeded": "Have the practice approve the urgent wording, telephone instructions, and after-hours workflow."
     },
     {
       "id": "production-integrations",
@@ -96,6 +126,20 @@
       "status": "not-published",
       "paths": ["/modern/about/"],
       "nextStep": "The public page now avoids invented history. Add dates and milestones later if the office wants them published."
+    },
+    {
+      "id": "physical-device-review",
+      "label": "Current physical iPhone, iPad, Android, macOS, and Windows browser verification",
+      "status": "pending-launch-review",
+      "paths": ["all public routes"],
+      "nextStep": "Record the device, operating system, browser version, tester, date, and result for the real-device matrix in the Release 14 checklist."
+    },
+    {
+      "id": "human-wcag-review",
+      "label": "Human WCAG 2.2 AA review and supported PDF-application check",
+      "status": "pending-launch-review",
+      "paths": ["all public routes", "/forms/new-patient-medical-history.pdf", "/forms/privacy-practices.pdf"],
+      "nextStep": "Complete and record every applicable item in the Release 14 human accessibility checklist before public launch."
     }
   ]
 }
