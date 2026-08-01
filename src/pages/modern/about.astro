@@ -1,26 +1,28 @@
 ---
 import ModernLayout from '../../layouts/ModernLayout.astro';
+import practiceContent from '../../data/practice-content.json';
+
+const about = practiceContent.about;
 ---
 <ModernLayout title="About the Practice | Donovan Family Dentistry" description="Learn about the care approach, patient experience, and Lowcountry setting of Donovan Family Dentistry.">
   <section class="modern-page-hero">
     <div class="modern-shell modern-page-hero__grid">
-      <div><p class="modern-kicker">About the practice</p><h1>Rooted on Lady's Island. Built around neighbors.</h1></div>
-      <p class="modern-page-hero__aside">Donovan Family Dentistry pairs the warmth of a local Lowcountry practice with organized, modern care for children, adults, and seniors.</p>
+      <div><p class="modern-kicker">{about.kicker}</p><h1>{about.headline}</h1></div>
+      <p class="modern-page-hero__aside">{about.introduction}</p>
     </div>
   </section>
 
   <section class="modern-section">
     <div class="modern-shell modern-visit-grid">
       <article class="modern-visit-card">
-        <p class="modern-eyebrow">Our story</p>
-        <h2>A neighborhood practice with a long view.</h2>
-        <p>Donovan Family Dentistry grew from a simple idea: families should be able to receive thoughtful, comprehensive dental care close to home. From its Lady's Island office, the practice has welcomed generations of Beaufort-area patients and built relationships through clear explanations, practical treatment plans, and a team that remembers the people behind the appointment.</p>
-        <p>The practice continues to blend time-tested personal service with current techniques and materials. The goal is not to make dentistry feel complicated. It is to help each patient understand what is happening, what options are available, and what the next step should be.</p>
+        <p class="modern-eyebrow">{about.storyEyebrow}</p>
+        <h2>{about.storyTitle}</h2>
+        {about.storyParagraphs.map((paragraph) => <p>{paragraph}</p>)}
       </article>
       <aside class="modern-visit-card">
-        <p class="modern-eyebrow">The Lowcountry connection</p>
-        <h3>Close to home and easy to reach.</h3>
-        <p>Located at 91 Sams Point Road, the office is convenient to Lady's Island, downtown Beaufort, Port Royal, and surrounding Lowcountry communities.</p>
+        <p class="modern-eyebrow">{about.locationEyebrow}</p>
+        <h3>{about.locationTitle}</h3>
+        <p>{about.locationText}</p>
         <div class="modern-actions"><a class="modern-button modern-button--primary" href="/modern/contact/">Contact and directions</a></div>
       </aside>
     </div>
@@ -29,13 +31,17 @@ import ModernLayout from '../../layouts/ModernLayout.astro';
   <section class="modern-section modern-section--sea">
     <div class="modern-shell">
       <div class="modern-section__head">
-        <p class="modern-eyebrow">What guides the experience</p>
-        <h2>Useful information, calm communication, and a clear next step.</h2>
+        <p class="modern-eyebrow">{about.valuesEyebrow}</p>
+        <h2>{about.valuesTitle}</h2>
       </div>
       <div class="modern-value-grid">
-        <article class="modern-value-card"><div class="modern-value-icon">01</div><h3>Clear communication</h3><p>Patients receive practical explanations, understandable options, and time to ask questions before deciding on care.</p></article>
-        <article class="modern-value-card"><div class="modern-value-icon">02</div><h3>Comfortable visits</h3><p>A friendly team, organized process, and calm environment help reduce uncertainty from check-in through follow-up.</p></article>
-        <article class="modern-value-card"><div class="modern-value-icon">03</div><h3>Care across generations</h3><p>Services are presented with the needs of children, working adults, retirees, and caregivers in mind.</p></article>
+        {about.values.map((value) => (
+          <article class="modern-value-card">
+            <div class="modern-value-icon">{value.number}</div>
+            <h3>{value.title}</h3>
+            <p>{value.text}</p>
+          </article>
+        ))}
       </div>
     </div>
   </section>
@@ -43,13 +49,11 @@ import ModernLayout from '../../layouts/ModernLayout.astro';
   <section class="modern-section">
     <div class="modern-shell">
       <div class="modern-section__head">
-        <p class="modern-eyebrow">A smoother patient journey</p>
-        <h2>Common tasks should feel straightforward.</h2>
+        <p class="modern-eyebrow">{about.journeyEyebrow}</p>
+        <h2>{about.journeyTitle}</h2>
       </div>
       <div class="modern-card-grid">
-        <article class="modern-card"><h3>Before the visit</h3><p>Find office hours, directions, downloadable forms, and the right phone number without hunting through the site.</p></article>
-        <article class="modern-card"><h3>During the conversation</h3><p>Expect plain-language explanations and a treatment plan organized around health, comfort, priorities, and timing.</p></article>
-        <article class="modern-card"><h3>After the appointment</h3><p>Know what to expect next, when follow-up may be needed, and who to call with an administrative question.</p></article>
+        {about.journey.map((item) => <article class="modern-card"><h3>{item.title}</h3><p>{item.text}</p></article>)}
       </div>
       <div class="modern-actions"><a class="modern-button modern-button--primary" href="/modern/team/">Meet the team</a><a class="modern-button modern-button--secondary" href="/modern/services/">Explore services</a></div>
     </div>
