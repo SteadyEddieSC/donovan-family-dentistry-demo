@@ -1,0 +1,12 @@
+---
+import ModernLayout from '../../layouts/ModernLayout.astro';
+import ModernPortrait from '../../components/ModernPortrait.astro';
+import teamData from '../../data/modern-team.json';
+---
+<ModernLayout title="Meet the Team | Donovan Family Dentistry" description="Meet the dentists, hygienists, assistants, and patient-care team in the modern Donovan Family Dentistry concept.">
+  <section class="modern-page-hero"><div class="modern-shell modern-page-hero__grid"><div><p class="modern-kicker">Meet the team</p><h1>The people behind a comfortable visit.</h1></div><p class="modern-page-hero__aside">A complete team page helps patients recognize the people they may speak with at the front desk, during hygiene visits, and in the treatment room.</p></div></section>
+  <section class="modern-section"><div class="modern-shell"><div class="modern-section__head"><p class="modern-eyebrow">Patient care team</p><h2>Friendly faces, clear roles.</h2><p>Each profile gives patients a quick sense of who is here to help and how that person supports the visit.</p></div><div class="modern-team-grid">
+    {teamData.team.map((member) => <article class="modern-team-card"><ModernPortrait name={member.name} variant={member.portrait} /><div class="modern-team-card__body"><h3>{member.name}</h3><span class="modern-team-card__role">{member.role}</span><p>{member.bio}</p></div></article>)}
+  </div></div></section>
+  <section class="modern-section modern-section--deep"><div class="modern-shell modern-visit-grid"><article><p class="modern-eyebrow">Need help before a visit?</p><h2>Start with the patient-care team.</h2><p class="modern-lead">Call for scheduling, directions, forms, and general administrative questions.</p><div class="modern-actions"><a class="modern-button modern-button--coral" href="tel:+18435256866">Call (843) 525-6866</a><a class="modern-button modern-button--secondary" href="/modern/contact/">General inquiry</a></div></article><aside class="modern-visit-card"><h3>Privacy reminder</h3><p>Do not send symptoms, diagnoses, medication lists, insurance identifiers, or treatment details through a general website inquiry.</p></aside></div></section>
+</ModernLayout>
