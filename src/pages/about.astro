@@ -9,7 +9,16 @@ const visibleProviders = providers.filter((provider) => provider.visible).sort((
     <div class="container">
       {visibleProviders.map((provider) => (
         <article class="provider">
-          {provider.photo ? <img src={provider.photo} alt={provider.photoAlt} /> : <div class="provider-placeholder" aria-hidden="true">WD</div>}
+          {provider.photo ? <img
+            src={provider.photo}
+            srcset="/images/dr-william-donovan-family-480.webp 480w, /images/dr-william-donovan-family-720.webp 720w, /images/dr-william-donovan-family.webp 900w"
+            sizes="(max-width: 760px) calc(100vw - 2rem), 42vw"
+            width="900"
+            height="720"
+            alt={provider.photoAlt}
+            loading="eager"
+            decoding="async"
+          /> : <div class="provider-placeholder" aria-hidden="true">WD</div>}
           <div>
             <p class="eyebrow">Doctor profile</p>
             <h2>{provider.name}, {provider.credentials}</h2>
