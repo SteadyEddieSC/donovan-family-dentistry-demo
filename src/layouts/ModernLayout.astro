@@ -2,6 +2,7 @@
 import site from '../data/site.json';
 import '../styles/modern.css';
 import '../styles/modern-a11y.css';
+import '../styles/modern-v2.css';
 
 interface Props {
   title?: string;
@@ -9,11 +10,21 @@ interface Props {
 }
 
 const {
-  title = 'Modern Lowcountry Concept | Donovan Family Dentistry',
+  title = "Donovan Family Dentistry | Lady's Island, Beaufort, SC",
   description = 'A modern design concept for Donovan Family Dentistry on Lady’s Island in Beaufort, South Carolina.'
 } = Astro.props;
+const path = Astro.url.pathname;
 const fullAddress = `${site.address.street}, ${site.address.city}, ${site.address.state} ${site.address.postalCode}`;
 const mapHref = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(fullAddress)}`;
+const nav = [
+  { href: '/modern/', label: 'Home' },
+  { href: '/modern/about/', label: 'About' },
+  { href: '/modern/services/', label: 'Services' },
+  { href: '/modern/team/', label: 'Team' },
+  { href: '/modern/forms/', label: 'Patient Forms' },
+  { href: '/modern/contact/', label: 'Contact' }
+];
+const isActive = (href: string) => href === '/modern/' ? path === href : path.startsWith(href);
 ---
 <!doctype html>
 <html lang="en">
@@ -29,24 +40,20 @@ const mapHref = `https://www.google.com/maps/search/?api=1&query=${encodeURIComp
   </head>
   <body class="modern-body">
     <a class="modern-skip" href="#modern-main">Skip to main content</a>
-    <div class="concept-ribbon">
-      <div class="modern-shell concept-ribbon__inner">
-        <strong>Concept B</strong>
-        <span>Modern Lowcountry direction - sample team content and inquiry workflow</span>
-        <a href="/">View the classic concept</a>
-      </div>
-    </div>
     <header class="modern-header">
       <div class="modern-shell modern-header__inner">
         <a class="modern-brand" href="/modern/" aria-label="Donovan Family Dentistry modern concept home">
           <img src={site.logo} width="320" height="80" alt={site.logoAlt} />
         </a>
         <nav class="modern-nav" aria-label="Modern concept navigation">
-          <a href="#care">Care</a>
-          <a href="#team">Team</a>
-          <a href="#visit">Visit</a>
-          <a href="#connect">Connect</a>
+          {nav.map((item) => <a href={item.href} aria-current={isActive(item.href) ? 'page' : undefined}>{item.label}</a>)}
         </nav>
+        <details class="modern-menu">
+          <summary>Menu</summary>
+          <nav aria-label="Modern mobile navigation">
+            {nav.map((item) => <a href={item.href} aria-current={isActive(item.href) ? 'page' : undefined}>{item.label}</a>)}
+          </nav>
+        </details>
         <a class="modern-call" href={`tel:${site.phoneHref}`}>Call {site.phoneDisplay}</a>
       </div>
     </header>
@@ -54,29 +61,31 @@ const mapHref = `https://www.google.com/maps/search/?api=1&query=${encodeURIComp
     <footer class="modern-footer">
       <div class="modern-shell modern-footer__grid">
         <div>
-          <img class="modern-footer__logo" src={site.logo} width="300" height="75" alt={site.logoAlt} />
-          <p>Modern concept for a welcoming Lady's Island dental practice rooted in Beaufort and the Lowcountry.</p>
+          <div class="modern-footer__logo-card"><img src={site.logo} width="300" height="75" alt={site.logoAlt} /></div>
+          <p>A welcoming Lady's Island dental practice rooted in Beaufort and the Lowcountry.</p>
+        </div>
+        <div>
+          <h2>Explore</h2>
+          <ul class="modern-footer__links">
+            {nav.slice(1).map((item) => <li><a href={item.href}>{item.label}</a></li>)}
+          </ul>
         </div>
         <div>
           <h2>Visit</h2>
           <p><a href={mapHref} rel="noopener">{fullAddress}</a></p>
           <p><a href={`tel:${site.phoneHref}`}>{site.phoneDisplay}</a></p>
-        </div>
-        <div>
-          <h2>Office hours</h2>
           <p>Monday-Thursday<br />7:30 AM-5:00 PM</p>
-          <p>Friday-Sunday: Closed</p>
         </div>
       </div>
       <div class="modern-shell modern-footer__bottom">
-        <span>Concept content must be reviewed and approved before production.</span>
-        <a href="/">Classic concept</a>
+        <span>Sample staff names, portraits, and unverified biography details are included only for design review.</span>
+        <a href="/">View the classic concept</a>
       </div>
     </footer>
     <nav class="modern-mobile-dock" aria-label="Quick actions">
       <a href={`tel:${site.phoneHref}`}>Call</a>
       <a href={mapHref} rel="noopener">Directions</a>
-      <a href="/forms/">Forms</a>
+      <a href="/modern/forms/">Forms</a>
     </nav>
   </body>
 </html>
