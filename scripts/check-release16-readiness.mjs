@@ -24,8 +24,12 @@ const REQUIRED_CMS_PATHS = [
   'src/data/services.json',
   'src/data/forms.json',
   'public/images',
-  'public/forms',
   '.github/workflows/office-site-check.yml'
+];
+
+const REQUIRED_GENERATED_FORM_TARGETS = [
+  'public/forms/new-patient-medical-history.pdf',
+  'public/forms/privacy-practices.pdf'
 ];
 
 const ALLOWED_TOOL_STATUSES = new Set([
@@ -47,6 +51,8 @@ export function evaluateRelease16Readiness({
   pagesConfig,
   quickstart,
   officeWorkflow,
+  assetManifest = [],
+  materializer = '',
   existingPaths = new Set()
 }) {
   const failures = [];
@@ -128,6 +134,16 @@ export function evaluateRelease16Readiness({
     if (!existingPaths.has(cmsPath)) failures.push(`Required CMS path does not exist: ${cmsPath}.`);
   }
 
+  const generatedTargets = new Set(
+    Array.isArray(assetManifest) ? assetManifest.map((asset) => asset?.target).filter(Boolean) : []
+  );
+  for (const target of REQUIRED_GENERATED_FORM_TARGETS) {
+    if (!generatedTargets.has(target)) failures.push(`Asset manifest is missing generated CMS form target ${target}.`);
+  }
+  if (!materializer.includes('if (existsSync(target)) continue;')) {
+    failures.push('Asset materialization must preserve a PDF committed through Pages CMS instead of overwriting it.');
+  }
+
   for (const requiredText of [
     'https://app.pagescms.org/',
     'main',
@@ -182,11 +198,13 @@ async function pathExists(relativePath) {
 }
 
 async function main() {
-  const [toolReadiness, pagesConfig, quickstart, officeWorkflow] = await Promise.all([
+  const [toolReadiness, pagesConfig, quickstart, officeWorkflow, assetManifest, materializer] = await Promise.all([
     readJson('src/data/tool-readiness.json'),
     readText('.pages.yml'),
     readText('docs/office-cms-quickstart.md'),
-    readText('.github/workflows/office-site-check.yml')
+    readText('.github/workflows/office-site-check.yml'),
+    readJson('.asset-source/manifest.json'),
+    readText('scripts/materialize-assets.mjs')
   ]);
 
   const pathEntries = await Promise.all(
@@ -199,6 +217,8 @@ async function main() {
     pagesConfig,
     quickstart,
     officeWorkflow,
+    assetManifest,
+    materializer,
     existingPaths
   });
 
