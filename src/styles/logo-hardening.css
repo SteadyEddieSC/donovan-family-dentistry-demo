@@ -9,13 +9,26 @@ body,
 .footer-brand-card,
 .modern-brand,
 .modern-footer__logo-card {
-  padding: 0 !important;
-  overflow: visible !important;
-  border: 0 !important;
-  border-radius: 0 !important;
-  background: transparent !important;
-  box-shadow: none !important;
+  overflow: hidden !important;
+  border: 1px solid rgba(6, 47, 53, .14) !important;
+  border-radius: 1rem !important;
+  background-color: #fff !important;
+  background-image: linear-gradient(#fff, #fff) !important;
+  background-size: 100% 100% !important;
+  box-shadow: 0 10px 28px rgba(6, 47, 53, .12) !important;
   forced-color-adjust: none;
+  isolation: isolate;
+}
+
+.brand,
+.modern-brand {
+  padding: .35rem !important;
+}
+
+.footer-brand-card,
+.modern-footer__logo-card {
+  width: min(19rem, 100%);
+  padding: .35rem !important;
 }
 
 .brand img,
@@ -24,16 +37,12 @@ body,
 .modern-footer__logo-card img {
   width: 100%;
   height: auto;
-  border-radius: clamp(.65rem, 2vw, 1.15rem);
-  background: transparent !important;
-  filter: drop-shadow(0 10px 24px rgba(0, 0, 0, .14)) !important;
+  border-radius: clamp(.65rem, 2vw, 1.05rem);
+  background-color: #fff !important;
+  background-image: linear-gradient(#fff, #fff) !important;
+  filter: none !important;
   forced-color-adjust: none;
   mix-blend-mode: normal;
-}
-
-.footer-brand-card,
-.modern-footer__logo-card {
-  width: min(19rem, 100%);
 }
 
 @media (max-width: 760px) {
