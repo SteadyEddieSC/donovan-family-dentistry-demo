@@ -54,16 +54,19 @@ test('web manifest is valid and points to the modern patient experience', async 
   expect(manifest.icons[0].src).toBe('/favicon.svg');
 });
 
-test('content verification register tracks every public-launch blocker', async ({ isMobile }) => {
+test('content verification register tracks launch blockers and nonblocking follow-ups separately', async ({ isMobile }) => {
   test.skip(isMobile, 'Repository-level validation only needs to run once.');
   const register = JSON.parse(
     readFileSync(path.join(repositoryRoot, 'src/data/content-status.json'), 'utf8')
   );
-  const ids = register.launchBlockers.map((item: { id: string }) => item.id);
-  expect(new Set(ids).size).toBe(ids.length);
-  expect(ids).toContain('associate-dentist');
-  expect(ids).toContain('staff-roster');
-  expect(ids).toContain('production-integrations');
+  const blockerIds = register.launchBlockers.map((item: { id: string }) => item.id);
+  const followUpIds = register.editorialFollowUps.map((item: { id: string }) => item.id);
+  expect(new Set(blockerIds).size).toBe(blockerIds.length);
+  expect(new Set(followUpIds).size).toBe(followUpIds.length);
+  expect(blockerIds).toContain('services');
+  expect(blockerIds).toContain('production-integrations');
+  expect(followUpIds).toContain('associate-dentist');
+  expect(followUpIds).toContain('staff-roster');
   expect(register.launchBlockers.every((item: { replacementNeeded?: string }) => Boolean(item.replacementNeeded))).toBeTruthy();
 });
 
@@ -84,7 +87,7 @@ test('launch gate allows preview builds and blocks premature public promotion', 
   });
   expect(productionAttempt.status).toBe(1);
   expect(productionAttempt.stderr).toContain('Public launch is blocked');
-  expect(productionAttempt.stderr).toContain('Associate dentist');
+  expect(productionAttempt.stderr).toContain('Current service list');
 });
 
 test('modern logo images include explicit loading behavior', async ({ page }) => {
