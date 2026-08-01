@@ -9,8 +9,9 @@
     "preview": "astro preview",
     "test:e2e": "playwright test",
     "test:e2e:update": "playwright test --update-snapshots",
-    "predev": "node scripts/materialize-assets.mjs && node scripts/patch-patient-form.mjs",
-    "prebuild": "node scripts/materialize-assets.mjs && node scripts/patch-patient-form.mjs"
+    "check:launch": "node scripts/check-launch-readiness.mjs",
+    "predev": "node scripts/check-launch-readiness.mjs && node scripts/materialize-assets.mjs && node scripts/patch-patient-form.mjs",
+    "prebuild": "node scripts/check-launch-readiness.mjs && node scripts/materialize-assets.mjs && node scripts/patch-patient-form.mjs"
   },
   "dependencies": {
     "astro": "7.1.4",
