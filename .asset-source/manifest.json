@@ -30,9 +30,12 @@
       "new-patient-medical-history.pdf.v4.b64.002",
       "new-patient-medical-history.pdf.v4.b64.003"
     ],
-    "encoding": "gzip+base64",
-    "sourceBytes": 71893,
-    "sha256": "900f0bc755042c013688f468d6162f831d7a1cdd62c339031b735f9ad184badf"
+    "appendChunks": [
+      "new-patient-medical-history.pdf.v5.patch.b64.000"
+    ],
+    "encoding": "gzip+base64+incremental-append",
+    "sourceBytes": 77358,
+    "sha256": "66d1b7db33ed1dcde1d1480d363b4f633948e376bfe05b17fc7a200fc6bcf99a"
   },
   {
     "target": "public/forms/privacy-practices.pdf",
