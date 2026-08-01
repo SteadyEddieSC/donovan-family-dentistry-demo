@@ -1,3 +1,34 @@
+.modern-body {
+  color-scheme: light;
+  background: #fffdf9;
+}
+
+.modern-header,
+.modern-menu nav,
+.modern-footer,
+.modern-mobile-dock {
+  color-scheme: light;
+}
+
+.modern-brand {
+  display: inline-flex;
+  align-items: center;
+  padding: .45rem .65rem;
+  border: 1px solid rgba(16,47,51,.12);
+  border-radius: .9rem;
+  background: #fff;
+  box-shadow: 0 8px 24px rgba(6,47,53,.08);
+}
+
+.modern-brand img {
+  background: #fff;
+}
+
+.modern-footer__logo-card {
+  border: 1px solid rgba(255,255,255,.16);
+  box-shadow: 0 12px 30px rgba(0,0,0,.18);
+}
+
 .modern-section--deep .modern-button--secondary {
   color: var(--modern-deep);
   background: var(--modern-white);
@@ -9,10 +40,7 @@
   background: transparent;
 }
 
-.modern-section--deep .modern-visit-card {
-  color: var(--modern-ink);
-}
-
+.modern-section--deep .modern-visit-card,
 .modern-section--deep .modern-visit-card h3 {
   color: var(--modern-ink);
 }
@@ -25,4 +53,94 @@
 .modern-form-download .modern-button,
 .modern-form-download .modern-button span {
   color: var(--modern-white);
+}
+
+@media (max-width: 720px) {
+  .modern-header__inner {
+    min-height: 5rem;
+  }
+
+  .modern-brand {
+    max-width: 12.5rem;
+    padding: .35rem .5rem;
+    border-radius: .75rem;
+  }
+
+  .modern-call {
+    border: 2px solid rgba(255,255,255,.88);
+    box-shadow: 0 0 0 1px rgba(6,47,53,.3), 0 10px 26px rgba(11,102,112,.24);
+  }
+
+  .modern-menu summary {
+    border: 2px solid var(--modern-ink);
+    background: rgba(255,255,255,.94);
+  }
+
+  .modern-hero {
+    padding-top: 2rem;
+  }
+
+  .modern-hero__grid {
+    gap: 1.6rem;
+  }
+
+  .modern-hero__visual {
+    padding: 0;
+  }
+
+  .modern-hero__visual::before {
+    inset: .65rem -.35rem -.65rem .65rem;
+    border-radius: 2rem;
+  }
+
+  .modern-hero__visual img {
+    border-radius: 1.6rem;
+  }
+
+  .modern-location-card {
+    position: relative;
+    left: auto;
+    bottom: auto;
+    max-width: none;
+    margin-top: .9rem;
+    border-color: var(--modern-line);
+    background: #fff;
+    box-shadow: 0 12px 30px rgba(6,47,53,.1);
+    backdrop-filter: none;
+  }
+
+  .modern-actions {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .modern-button,
+  .modern-button--secondary {
+    width: 100%;
+    min-height: 3.45rem;
+    border-width: 2px;
+  }
+
+  .modern-button--secondary {
+    color: var(--modern-deep);
+    border-color: var(--modern-deep);
+    background: #fff;
+    box-shadow: 0 8px 22px rgba(6,47,53,.09);
+  }
+
+  .modern-button--secondary:hover {
+    color: #fff;
+    background: var(--modern-deep);
+  }
+
+  .modern-mobile-dock {
+    border-top: 1px solid rgba(255,255,255,.24);
+    background: #063f47;
+    box-shadow: 0 -8px 28px rgba(0,0,0,.22);
+  }
+
+  .modern-mobile-dock a {
+    color: #fff;
+    font-weight: 900;
+  }
 }

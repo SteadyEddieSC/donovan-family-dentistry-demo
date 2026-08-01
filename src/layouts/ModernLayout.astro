@@ -37,9 +37,9 @@ const isActive = (href: string) => href === '/modern/' ? path === href : path.st
     <title>{title}</title>
     <meta name="description" content={description} />
     <meta name="robots" content="noindex, nofollow" />
-    <meta name="color-scheme" content="light dark" />
+    <meta name="color-scheme" content="light" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="theme-color" content="#062f35" />
+    <meta name="theme-color" content="#fffdf9" />
   </head>
   <body class="modern-body">
     <a class="modern-skip" href="#modern-main">Skip to main content</a>
@@ -57,7 +57,7 @@ const isActive = (href: string) => href === '/modern/' ? path === href : path.st
             {nav.map((item) => <a href={item.href} aria-current={isActive(item.href) ? 'page' : undefined}>{item.label}</a>)}
           </nav>
         </details>
-        <a class="modern-call" href={`tel:${site.phoneHref}`}><span>Call</span><span class="modern-call__number"> {site.phoneDisplay}</span></a>
+        <a class="modern-call" href={`tel:${site.phoneHref}`} aria-label={`Call Donovan Family Dentistry at ${site.phoneDisplay}`}>Call</a>
       </div>
     </header>
     <main id="modern-main"><slot /></main>
@@ -81,8 +81,8 @@ const isActive = (href: string) => href === '/modern/' ? path === href : path.st
         </div>
       </div>
       <div class="modern-shell modern-footer__bottom">
-        <span>Sample staff names, portraits, and unverified biography details are included only for design review.</span>
-        <a href="/">View the classic concept</a>
+        <span>© 2026 Donovan Family Dentistry. All rights reserved.</span>
+        <span><a href="/forms/privacy-practices.pdf">Privacy practices</a> · <a href="/">View the classic concept</a></span>
       </div>
     </footer>
     <nav class="modern-mobile-dock" aria-label="Quick actions">

@@ -1,5 +1,10 @@
 :root {
-  color-scheme: light dark;
+  color-scheme: light;
+}
+
+.modern-body {
+  color: var(--modern-ink);
+  background: #fffdf9;
 }
 
 .modern-brand,
@@ -28,8 +33,9 @@
 }
 
 .modern-menu summary {
-  border-color: rgba(11, 102, 112, .45);
-  background: rgba(255, 255, 255, .88);
+  color: var(--modern-deep);
+  border-color: rgba(11, 102, 112, .55);
+  background: #fff;
 }
 
 .modern-button--primary {
@@ -39,7 +45,7 @@
 .modern-button--secondary {
   color: var(--modern-deep);
   border-color: var(--modern-teal);
-  background: rgba(255, 255, 255, .96);
+  background: #fff;
   box-shadow: 0 9px 24px rgba(6, 47, 53, .1);
 }
 
@@ -59,6 +65,31 @@
 .modern-section--deep .modern-button--secondary:hover {
   color: var(--modern-deep);
   background: #fff;
+}
+
+.modern-phi-warning,
+.modern-section--deep .modern-phi-warning {
+  color: #44261d;
+  border-left-color: #b84b32;
+  background: #fff2ed;
+}
+
+.modern-phi-warning strong,
+.modern-section--deep .modern-phi-warning strong {
+  color: #7e2817;
+}
+
+.modern-form-card,
+.modern-section--deep .modern-form-card {
+  color: var(--modern-ink);
+  background: #fff;
+}
+
+.modern-consent,
+.modern-form-note,
+.modern-section--deep .modern-consent,
+.modern-section--deep .modern-form-note {
+  color: var(--modern-ink-soft);
 }
 
 .modern-path-grid {
@@ -193,6 +224,10 @@
     display: none;
   }
 
+  .modern-call::after {
+    content: none !important;
+  }
+
   .modern-hero {
     padding: 2.4rem 0 3rem;
   }
@@ -259,8 +294,8 @@
   }
 
   .modern-mobile-dock {
-    border: 2px solid rgba(116, 214, 219, .45);
-    background: rgba(6, 47, 53, .97);
+    border: 2px solid rgba(116, 214, 219, .55);
+    background: rgba(6, 47, 53, .98);
     box-shadow: 0 -8px 30px rgba(0, 0, 0, .24);
   }
 }
@@ -274,95 +309,12 @@
   .modern-call {
     padding-inline: .58rem;
   }
-}
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --modern-ink: #effafa;
-    --modern-ink-soft: #b6cacc;
-    --modern-line: rgba(228, 248, 248, .18);
-    --modern-sea: #163433;
-    --modern-sky: #142d30;
-    --modern-sand: #252218;
+  .modern-call {
+    font-size: .9rem !important;
   }
 
-  .modern-body {
-    background: #0d1515;
-  }
-
-  .modern-header {
-    border-bottom-color: rgba(255, 255, 255, .12);
-    background: rgba(13, 21, 21, .94);
-  }
-
-  .modern-menu summary {
-    color: #effafa;
-    border-color: rgba(116, 214, 219, .5);
-    background: #152020;
-  }
-
-  .modern-menu nav {
-    border-color: var(--modern-line);
-    background: #152020;
-  }
-
-  .modern-hero {
-    background: radial-gradient(circle at 85% 20%, rgba(136, 173, 45, .18), transparent 30%), linear-gradient(145deg, #111817, #132b2a 68%, #173735);
-  }
-
-  .modern-page-hero {
-    background: linear-gradient(135deg, #15302e, #171915);
-  }
-
-  .modern-quickfacts__grid,
-  .modern-location-card,
-  .modern-service-card,
-  .modern-value-card,
-  .modern-card,
-  .modern-faq,
-  .modern-visit-card,
-  .modern-team-card,
-  .modern-form-download,
-  .modern-form-card,
-  .modern-path-card,
-  .modern-team-overview > * {
-    color: var(--modern-ink);
-    border-color: var(--modern-line);
-    background: #142020;
-  }
-
-  .modern-service-card p,
-  .modern-service-card li,
-  .modern-value-card p,
-  .modern-card p,
-  .modern-faq p,
-  .modern-visit-card p,
-  .modern-team-card p,
-  .modern-path-card p,
-  .modern-path-card ul,
-  .modern-location-card span,
-  .modern-page-hero__aside,
-  .modern-section__head p,
-  .modern-doctor p {
-    color: var(--modern-ink-soft);
-  }
-
-  .modern-chip,
-  .modern-service-jump a {
-    color: var(--modern-ink);
-    border-color: rgba(116, 214, 219, .5);
-    background: #1a2929;
-  }
-
-  .modern-button--secondary {
-    color: #effafa;
-    border-color: #74d6db;
-    background: transparent;
-  }
-
-  .modern-button--secondary:hover,
-  .modern-service-jump a:hover {
-    color: var(--modern-deep);
-    background: #effafa;
+  .modern-call::after {
+    content: none !important;
   }
 }
