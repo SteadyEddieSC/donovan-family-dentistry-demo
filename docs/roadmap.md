@@ -5,9 +5,9 @@
 The modern concept is the patient-facing digital front door. Each page has one primary responsibility:
 
 - **Home:** orient visitors and route them to the correct next step.
-- **About:** explain the practice history, experience, values, and Lowcountry setting.
+- **About:** explain the care approach, verified provider background, values, and Lowcountry setting.
 - **Services:** serve as the detailed source of truth for published procedures.
-- **Team:** contain dentist biographies and staff profiles.
+- **Team:** contain dentist biographies and staff or role-based team profiles.
 - **New Patients:** explain the first-call, paperwork, arrival, payment, and urgent-contact journey.
 - **Patient Forms:** provide reviewed downloads and clear privacy instructions.
 - **Contact:** provide directions, hours, phone access, and a limited administrative inquiry path.
@@ -39,35 +39,42 @@ The modern concept is the patient-facing digital front door. Each page has one p
 - Added the dedicated New Patients page.
 - Added first-visit preparation, forms, insurance/payment cautions, and urgent-contact guidance.
 
-## Release 11 — launch metadata and safety gates
+### Release 11 — launch metadata and safety gates
 
-- Use one shared metadata component across both concepts.
-- Add canonical, Open Graph, Twitter, manifest, and Dentist/WebPage structured-data support.
-- Keep the entire demo explicitly `noindex` while sample content remains.
-- Add a structured content-verification register.
-- Fail the build if preview mode is disabled while fictional, unverified, or unconfigured launch blockers remain.
-- Add automated tests for metadata, structured data, the web manifest, and the launch gate.
+- Added one shared metadata component across both concepts.
+- Added canonical, Open Graph, Twitter, manifest, and Dentist/WebPage structured-data support.
+- Kept the entire demo explicitly `noindex` while unverified launch blockers remain.
+- Added a structured content-verification register.
+- Added a build gate that rejects premature public promotion.
 
-## Release 12 — verified practice content
+### Release 12 — office editor and safe public content
 
-**This is the next release after Release 11.**
+- Reorganized Pages CMS into plain-language office editing groups.
+- Added a one-click **Build and verify website** action.
+- Added content validation before every local or Cloudflare build.
+- Made About, Team, and Services wording editable without code changes.
+- Established one provider source shared by the classic and modern concepts.
+- Removed fictional public identities and replaced them with safe role-based team descriptions.
+- Kept a hidden associate-dentist template for future approved information.
+- Removed invented practice-history claims from the public About page.
+- Connected modern service groups to the shared service list.
+- Enforced a system-font policy and verified that clean browser sessions make no Google Fonts requests.
+- Reduced the launch-blocker register to service approval, policy wording, urgent-care wording, and production integrations.
 
-- Replace the sample associate dentist with the actual provider name, credentials, biography, and photograph.
-- Replace or remove sample front-desk, hygiene, and assisting identities.
-- Confirm the practice history and Lowcountry narrative.
-- Confirm every listed service and the preferred patient-friendly wording.
-- Confirm insurance, payment, urgent-care, and after-hours language.
-- Update the content-verification register as each item is approved.
-- Add any additional real office and team photography supplied by the practice.
+Practice-approved provider, staff, history, service, image, and policy updates can now be entered through the office editor whenever that information becomes available; they do not require a separate code release unless layout changes are needed.
 
 ## Release 13 — low-cost administrative inquiry activation
 
-- Create the approved Basin endpoint or small Cloudflare Worker.
-- Configure Cloudflare Turnstile.
-- Add server-side validation, rate limiting, honeypot controls, and minimal safe logging.
-- Route only non-PHI administrative inquiries to an owner-approved mailbox.
-- Document response ownership, retention, deletion, and fallback procedures.
-- Keep medical-history submission offline.
+**This is the next release after Release 12.**
+
+- Select either Basin or a small Cloudflare Worker for non-PHI administrative requests.
+- Configure Cloudflare Turnstile and a honeypot.
+- Add server-side validation, rate limiting, and minimal safe logging.
+- Route requests only to an office-approved mailbox.
+- Display clear success, failure, and call-the-office fallback states.
+- Document response ownership, expected response time, retention, deletion, and failed-delivery handling.
+- Keep medical-history submission and protected health information completely outside the public form.
+- Add service-health checks without exposing message contents.
 
 ## Release 14 — production candidate
 
@@ -76,7 +83,8 @@ The modern concept is the patient-facing digital front door. Each page has one p
 - Optimize responsive images and establish Core Web Vitals budgets.
 - Complete final metadata, social imagery, structured data, and sitemap review for the selected design.
 - Add uptime monitoring, broken-link monitoring, dependency review, and rollback instructions.
-- Verify privacy, accessibility, disclaimer, and emergency language.
+- Verify privacy, accessibility, disclaimer, insurance, payment, and emergency language.
+- Confirm all launch-blocker records are verified or removed from the public site.
 
 ## Release 15 — domain and operations launch
 
@@ -86,6 +94,7 @@ The modern concept is the patient-facing digital front door. Each page has one p
 - Attach the real domain without disrupting email or existing services.
 - Change preview controls from `noindex` to the approved production policy only after all launch gates pass.
 - Perform post-cutover checks for TLS, redirects, forms, analytics, email, sitemap, and search-console ownership.
+- Train the office on routine updates, the one-click website check, hiding outdated content, and restoring prior versions.
 
 ## Optional later release — secure patient workflow
 
