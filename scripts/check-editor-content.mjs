@@ -8,10 +8,11 @@ async function readJson(relativePath) {
   return JSON.parse(await readFile(path.join(repositoryRoot, relativePath), 'utf8'));
 }
 
-const [site, practiceContent, services, teamData] = await Promise.all([
+const [site, practiceContent, services, providers, teamData] = await Promise.all([
   readJson('src/data/site.json'),
   readJson('src/data/practice-content.json'),
   readJson('src/data/services.json'),
+  readJson('src/data/providers.json'),
   readJson('src/data/modern-team.json')
 ]);
 
@@ -61,9 +62,9 @@ for (const service of visibleServices) {
   }
 }
 
-const allProfiles = [...teamData.providers, ...teamData.team];
+const allProfiles = [...providers, ...teamData.team];
 requireUnique(allProfiles.map((profile) => profile.id), 'Team and provider IDs');
-const visibleProviders = teamData.providers.filter((provider) => provider.visible);
+const visibleProviders = providers.filter((provider) => provider.visible);
 if (visibleProviders.length === 0) errors.push('At least one visible dentist profile is required.');
 for (const provider of visibleProviders) {
   requireText(provider.name, `Provider name for ${provider.id}`);
@@ -72,7 +73,10 @@ for (const provider of visibleProviders) {
     errors.push(`Sample provider ${provider.id} cannot be visible.`);
   }
   if (!Array.isArray(provider.details) || provider.details.length === 0) {
-    errors.push(`Visible provider ${provider.id} needs at least one biography paragraph.`);
+    errors.push(`Visible provider ${provider.id} needs at least one modern biography paragraph.`);
+  }
+  if (!Array.isArray(provider.biography) || provider.biography.length === 0) {
+    errors.push(`Visible provider ${provider.id} needs at least one classic biography paragraph.`);
   }
 }
 for (const member of teamData.team.filter((item) => item.visible)) {
