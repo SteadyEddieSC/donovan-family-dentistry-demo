@@ -1,0 +1,13 @@
+# Local Cloudflare Pages Function development only.
+# Copy to .dev.vars, replace the placeholders, and never commit that file.
+
+BASIN_FORM_ENDPOINT="https://usebasin.com/f/replace-with-form-id"
+TURNSTILE_SECRET_KEY="replace-with-turnstile-secret"
+ADMIN_INQUIRY_ALLOWED_ORIGINS="http://localhost:8788"
+ADMIN_INQUIRY_PUBLIC_ORIGIN="http://localhost:8788"
+
+# Optional timing overrides. Defaults are 1500 ms minimum and two hours maximum.
+# ADMIN_INQUIRY_MIN_FORM_AGE_MS="1500"
+# ADMIN_INQUIRY_MAX_FORM_AGE_MS="7200000"
+
+# ADMIN_INQUIRY_RATE_LIMITER is an optional Cloudflare runtime binding, not a text value.

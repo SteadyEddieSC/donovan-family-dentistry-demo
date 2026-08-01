@@ -4,20 +4,19 @@ import site from '../../data/site.json';
 
 const fullAddress = `${site.address.street}, ${site.address.city}, ${site.address.state} ${site.address.postalCode}`;
 const mapHref = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(fullAddress)}`;
-const basinEndpoint = import.meta.env.PUBLIC_BASIN_FORM_ENDPOINT?.trim() ?? '';
 const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY?.trim() ?? '';
-const liveFormEnabled = /^https:\/\/usebasin\.com\/f\/[A-Za-z0-9_-]+$/.test(basinEndpoint);
-const turnstileEnabled = liveFormEnabled && Boolean(turnstileSiteKey);
+const liveRequested = (import.meta.env.PUBLIC_ADMIN_INQUIRY_ENABLED?.trim() ?? '').toLowerCase() === 'true';
+const liveFormEnabled = liveRequested && Boolean(turnstileSiteKey);
 const submitLabel = liveFormEnabled ? 'Send administrative request' : 'Preview request';
 const consentText = liveFormEnabled
   ? 'I understand this form is for general administrative questions and is not a secure patient portal.'
   : 'I understand this is a design-preview form for general administrative questions and is not a secure patient portal.';
 ---
 <ModernLayout title="Contact & Directions | Donovan Family Dentistry" description="Call Donovan Family Dentistry, get directions to 91 Sams Point Road, or send a general administrative inquiry without health information.">
-  {turnstileEnabled && <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>}
+  {liveFormEnabled && <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>}
   <section class="modern-page-hero"><div class="modern-shell modern-page-hero__grid"><div><p class="modern-kicker">Contact & directions</p><h1>Get in touch with the office.</h1></div><p class="modern-page-hero__aside">Call for the fastest response, open directions to Lady's Island, or use the administrative request form without entering health information.</p></div></section>
   <section class="modern-section modern-section--deep"><div class="modern-shell modern-connect-grid"><div><p class="modern-eyebrow">Visit or call</p><h2>Clear next steps.</h2><p class="modern-lead">The practice is located at 91 Sams Point Road on Lady's Island in Beaufort.</p><div class="modern-contact-stack"><a class="modern-contact-tile" href={`tel:${site.phoneHref}`}><span><strong>Call the office</strong><span>{site.phoneDisplay}</span></span><strong aria-hidden="true">→</strong></a><a class="modern-contact-tile" href={mapHref} rel="noopener"><span><strong>Open directions</strong><span>{fullAddress}</span></span><strong aria-hidden="true">→</strong></a><a class="modern-contact-tile" href="/modern/forms/"><span><strong>Patient forms</strong><span>Download the fillable medical-history form and privacy notice.</span></span><strong aria-hidden="true">→</strong></a></div></div>
-    <div class="modern-form-card"><h2>Request a call</h2><p>{liveFormEnabled ? 'Use this form for general administrative questions only. It is not a secure patient portal.' : 'This private demo validates and previews the request locally. Nothing entered here is transmitted or stored.'}</p><form id="modern-inquiry-form" class="modern-form-grid" action={liveFormEnabled ? basinEndpoint : undefined} method="POST" data-mode={liveFormEnabled ? 'live' : 'preview'} data-turnstile={turnstileEnabled ? 'enabled' : 'disabled'} accept-charset="UTF-8"><input type="hidden" name="form_name" value="Donovan Family Dentistry administrative request" /><input type="hidden" name="source_page" value="Modern contact page" /><div class="modern-honeypot" aria-hidden="true"><label for="inquiry-company">Leave this field blank</label><input id="inquiry-company" name="_gotcha" tabindex="-1" autocomplete="off" /></div><div class="modern-field"><label for="inquiry-name">Name</label><input id="inquiry-name" name="name" autocomplete="name" maxlength="100" required /></div><div class="modern-field"><label for="inquiry-phone">Phone</label><input id="inquiry-phone" name="phone" autocomplete="tel" inputmode="tel" maxlength="40" required /></div><div class="modern-field"><label for="inquiry-email">Email</label><input id="inquiry-email" name="email" type="email" autocomplete="email" maxlength="160" /></div><div class="modern-field"><label for="inquiry-preference">Preferred reply</label><select id="inquiry-preference" name="preference"><option>Phone call</option><option>Email</option></select></div><div class="modern-field modern-field--full"><label for="inquiry-topic">General topic</label><select id="inquiry-topic" name="topic"><option>New-patient scheduling</option><option>Existing appointment</option><option>Forms question</option><option>Billing or insurance administration</option><option>Directions or office information</option><option>Other general question</option></select></div><div class="modern-field modern-field--full"><label for="inquiry-message">Administrative message</label><textarea id="inquiry-message" name="message" maxlength="600" required placeholder="Example: I am a new patient and would like a call about appointment availability."></textarea></div><div class="modern-phi-warning"><strong>Do not include protected health information.</strong> Do not enter symptoms, diagnoses, medications, Social Security numbers, insurance IDs, medical history, or treatment details.</div><label class="modern-consent"><input name="safe" type="checkbox" value="confirmed" required /> <span>{consentText}</span></label>{turnstileEnabled && <div class="modern-turnstile modern-field--full"><div class="cf-turnstile" data-sitekey={turnstileSiteKey} data-theme="light" data-size="flexible" data-action="administrative-contact"></div></div>}<div class="modern-form-actions"><button id="modern-inquiry-submit" class="modern-button modern-button--coral" type="submit">{submitLabel}</button><button class="modern-button modern-button--secondary" type="reset">Clear</button></div></form><div id="modern-inquiry-result" class="modern-inquiry-result" role="status" aria-live="polite" hidden><strong id="modern-inquiry-result-title">Preview complete - nothing was sent</strong><pre id="modern-inquiry-summary"></pre>{!liveFormEnabled && <button id="modern-copy-inquiry" class="modern-button modern-button--secondary" type="button">Copy preview</button>}</div><p class="modern-form-note">Medical and dental history should still be completed in the fillable PDF and brought to the office unless the practice adopts an approved secure intake platform.</p></div>
+    <div class="modern-form-card"><h2>Request a call</h2><p>{liveFormEnabled ? 'Use this form for general administrative questions only. It is not a secure patient portal.' : 'This private demo validates and previews the request locally. Nothing entered here is transmitted or stored.'}</p><form id="modern-inquiry-form" class="modern-form-grid" action="/api/administrative-inquiry" method="POST" data-mode={liveFormEnabled ? 'live' : 'preview'} data-turnstile={liveFormEnabled ? 'enabled' : 'disabled'} accept-charset="UTF-8"><input type="hidden" name="form_started_at" value="" /><div class="modern-honeypot" aria-hidden="true"><label for="inquiry-company">Leave this field blank</label><input id="inquiry-company" name="_gotcha" tabindex="-1" autocomplete="off" /></div><div class="modern-field"><label for="inquiry-name">Name</label><input id="inquiry-name" name="name" autocomplete="name" maxlength="100" required /></div><div class="modern-field"><label for="inquiry-phone">Phone</label><input id="inquiry-phone" name="phone" autocomplete="tel" inputmode="tel" maxlength="40" required /></div><div class="modern-field"><label for="inquiry-email">Email</label><input id="inquiry-email" name="email" type="email" autocomplete="email" maxlength="160" /></div><div class="modern-field"><label for="inquiry-preference">Preferred reply</label><select id="inquiry-preference" name="preference"><option>Phone call</option><option>Email</option></select></div><div class="modern-field modern-field--full"><label for="inquiry-topic">General topic</label><select id="inquiry-topic" name="topic"><option>New-patient scheduling</option><option>Existing appointment</option><option>Forms question</option><option>Billing or insurance administration</option><option>Directions or office information</option><option>Other general question</option></select></div><div class="modern-field modern-field--full"><label for="inquiry-message">Administrative message</label><textarea id="inquiry-message" name="message" minlength="10" maxlength="600" required aria-describedby="inquiry-safety-note" placeholder="Example: I am a new patient and would like a call about appointment availability."></textarea></div><div id="inquiry-safety-note" class="modern-phi-warning"><strong>Do not include protected health information.</strong> Do not enter symptoms, diagnoses, medications, Social Security numbers, insurance IDs, medical history, or treatment details.</div><label class="modern-consent"><input name="safe" type="checkbox" value="confirmed" required /> <span>{consentText}</span></label>{liveFormEnabled && <div class="modern-turnstile modern-field--full"><div class="cf-turnstile" data-sitekey={turnstileSiteKey} data-theme="light" data-size="flexible" data-action="administrative-contact"></div></div>}<div class="modern-form-actions"><button id="modern-inquiry-submit" class="modern-button modern-button--coral" type="submit">{submitLabel}</button><button class="modern-button modern-button--secondary" type="reset">Clear</button></div></form><div id="modern-inquiry-result" class="modern-inquiry-result" role="status" aria-live="polite" hidden><strong id="modern-inquiry-result-title">Preview complete - nothing was sent</strong><pre id="modern-inquiry-summary"></pre>{!liveFormEnabled && <button id="modern-copy-inquiry" class="modern-button modern-button--secondary" type="button">Copy preview</button>}</div><p class="modern-form-note">Medical and dental history should still be completed in the fillable PDF and brought to the office unless the practice adopts an approved secure intake platform.</p></div>
   </div></section>
   <section class="modern-section modern-section--sand"><div class="modern-shell modern-visit-grid"><article class="modern-visit-card"><h3>Office hours</h3><table class="modern-hours"><tbody>{site.hours.map((item) => <tr><th scope="row">{item.day}</th><td>{item.hours}</td></tr>)}</tbody></table></article><aside class="modern-visit-card"><h3>Text messaging</h3><p>Texting can be added after the practice confirms a text-capable number, patient expectations, staffing coverage, and the appropriate retention and privacy controls.</p></aside></div></section>
   <script is:inline>
@@ -27,14 +26,35 @@ const consentText = liveFormEnabled
     const summary = document.querySelector('#modern-inquiry-summary');
     const copy = document.querySelector('#modern-copy-inquiry');
     const submit = document.querySelector('#modern-inquiry-submit');
+    const startedAt = form?.querySelector('input[name="form_started_at"]');
     const initialSubmitLabel = submit?.textContent || 'Submit';
+    let preserveResultOnReset = false;
 
-    const previewRequest = (data) => {
-      summary.textContent = [`Name: ${data.get('name') || ''}`, `Phone: ${data.get('phone') || ''}`, `Email: ${data.get('email') || 'Not provided'}`, `Preferred reply: ${data.get('preference') || ''}`, `Topic: ${data.get('topic') || ''}`, '', `${data.get('message') || ''}`].join('\n');
-      resultTitle.textContent = 'Preview complete - nothing was sent';
+    const setStartedAt = () => {
+      if (startedAt) startedAt.value = String(Date.now());
+    };
+
+    const showResult = (title, detail = '') => {
+      resultTitle.textContent = title;
+      summary.textContent = detail;
       result.hidden = false;
       result.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     };
+
+    const previewRequest = (data) => {
+      const preview = [`Name: ${data.get('name') || ''}`, `Phone: ${data.get('phone') || ''}`, `Email: ${data.get('email') || 'Not provided'}`, `Preferred reply: ${data.get('preference') || ''}`, `Topic: ${data.get('topic') || ''}`, '', `${data.get('message') || ''}`].join('\n');
+      showResult('Preview complete - nothing was sent', preview);
+    };
+
+    const responsePayload = async (response) => {
+      try {
+        return await response.json();
+      } catch {
+        return {};
+      }
+    };
+
+    setStartedAt();
 
     form?.addEventListener('submit', async (event) => {
       event.preventDefault();
@@ -46,37 +66,48 @@ const consentText = liveFormEnabled
 
       submit.disabled = true;
       submit.textContent = 'Sending…';
-      result.hidden = false;
-      resultTitle.textContent = 'Sending your administrative request…';
-      summary.textContent = '';
+      showResult('Sending your administrative request…');
 
       try {
         if (form.dataset.turnstile === 'enabled' && !data.get('cf-turnstile-response')) {
           throw new Error('Please complete the anti-spam check and try again.');
         }
+
         const response = await fetch(form.action, {
           method: 'POST',
           body: data,
           headers: { Accept: 'application/json' }
         });
-        if (!response.ok) throw new Error('The request could not be sent. Please call the office instead.');
-        resultTitle.textContent = 'Your administrative request was sent.';
-        summary.textContent = 'The office can follow up using the contact details you provided. For urgent needs, call the office directly.';
+        const payload = await responsePayload(response);
+
+        if (response.status === 429) {
+          throw new Error('Too many requests were received. Please wait a minute and try again, or call the office.');
+        }
+        if (!response.ok) {
+          throw new Error(payload.message || 'The request could not be sent. Please call the office instead.');
+        }
+
+        showResult('Your administrative request was sent.', 'The office can follow up using the contact details you provided. For urgent needs, call the office directly.');
+        preserveResultOnReset = true;
         form.reset();
+        preserveResultOnReset = false;
+        setStartedAt();
         if (window.turnstile) window.turnstile.reset();
       } catch (error) {
-        resultTitle.textContent = 'The request was not sent.';
-        summary.textContent = error instanceof Error ? error.message : 'Please call the office instead.';
+        showResult('The request was not sent.', error instanceof Error ? error.message : 'Please call the office instead.');
+        if (window.turnstile) window.turnstile.reset();
       } finally {
         submit.disabled = false;
         submit.textContent = initialSubmitLabel;
-        result.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
       }
     });
 
     form?.addEventListener('reset', () => {
-      result.hidden = true;
-      summary.textContent = '';
+      window.requestAnimationFrame(setStartedAt);
+      if (!preserveResultOnReset) {
+        result.hidden = true;
+        summary.textContent = '';
+      }
       if (window.turnstile) window.turnstile.reset();
     });
 

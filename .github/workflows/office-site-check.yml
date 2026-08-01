@@ -28,6 +28,9 @@ jobs:
       - name: Install website dependencies
         run: npm install --no-audit --no-fund
 
+      - name: Check the protected administrative request handler
+        run: npm run test:unit
+
       - name: Validate office-managed content and build the site
         run: npm run build
 
@@ -50,7 +53,7 @@ jobs:
           {
             echo '## Website check passed'
             echo ''
-            echo 'The editable content is valid, the site built successfully, and the automated browser and accessibility checks passed.'
+            echo 'The editable content is valid, the protected administrative-request handler passed its safety tests, the site built successfully, and the automated browser and accessibility checks passed.'
             echo ''
             echo 'When this check runs on the main branch, Cloudflare Pages also rebuilds the public demo automatically. When it runs on another branch, use the Cloudflare branch-preview link for review.'
           } >> "$GITHUB_STEP_SUMMARY"
