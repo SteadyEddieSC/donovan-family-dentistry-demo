@@ -32,9 +32,10 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 22
+          cache: npm
 
       - name: Install locked dependencies
-        run: npm install --no-audit --no-fund
+        run: npm ci --no-audit --no-fund
 
       - name: Review high-severity dependency findings
         run: npm audit --audit-level=high
@@ -56,7 +57,7 @@ jobs:
             echo ''
             echo "Checked: ${SITE_URL}"
             echo ''
-            echo 'Dependency, unit, build, performance-budget, sitemap, internal-link, PDF, social-image, robots, noindex, and preview-form checks passed.'
+            echo 'Locked-dependency, unit, build, performance-budget, sitemap, internal-link, PDF, social-image, robots, noindex, and preview-form checks passed.'
             echo ''
             echo 'This monitor does not submit the administrative form and does not collect or store visitor message content.'
           } >> "$GITHUB_STEP_SUMMARY"
