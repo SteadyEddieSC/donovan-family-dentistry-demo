@@ -39,7 +39,16 @@ const carePaths = [
         </div>
       </div>
       <div class="modern-hero__visual">
-        <img src={site.heroImage} width="900" height="675" alt={site.heroAlt} fetchpriority="high" />
+        <img
+          src={site.heroImage}
+          srcset="/images/office-exterior-480.webp 480w, /images/office-exterior-720.webp 720w, /images/office-exterior.webp 900w"
+          sizes="(max-width: 820px) calc(100vw - 2rem), 50vw"
+          width={site.heroImageWidth}
+          height={site.heroImageHeight}
+          alt={site.heroAlt}
+          fetchpriority="high"
+          decoding="async"
+        />
         <div class="modern-location-card">
           <strong>At home in the Lowcountry</strong>
           <span>On Lady's Island, minutes from downtown Beaufort.</span>
