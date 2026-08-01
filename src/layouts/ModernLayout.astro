@@ -57,7 +57,7 @@ const isActive = (href: string) => href === '/modern/' ? path === href : path.st
             {nav.map((item) => <a href={item.href} aria-current={isActive(item.href) ? 'page' : undefined}>{item.label}</a>)}
           </nav>
         </details>
-        <a class="modern-call" href={`tel:${site.phoneHref}`} aria-label={`Call Donovan Family Dentistry at ${site.phoneDisplay}`}>Call<span class="modern-call__number"> {site.phoneDisplay}</span></a>
+        <a class="modern-call" href={`tel:${site.phoneHref}`} aria-label={`Call Donovan Family Dentistry at ${site.phoneDisplay}`}>Call</a>
       </div>
     </header>
     <main id="modern-main"><slot /></main>
