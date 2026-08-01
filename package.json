@@ -7,12 +7,15 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
+    "test": "npm run test:unit && npm run test:e2e",
+    "test:unit": "node --test tests/*.unit.test.mjs",
     "test:e2e": "playwright test",
     "test:e2e:update": "playwright test --update-snapshots",
     "check:content": "node scripts/check-editor-content.mjs",
+    "check:inquiry": "node scripts/check-inquiry-configuration.mjs",
     "check:launch": "node scripts/check-launch-readiness.mjs",
-    "predev": "node scripts/check-editor-content.mjs && node scripts/check-launch-readiness.mjs && node scripts/materialize-assets.mjs && node scripts/patch-patient-form.mjs",
-    "prebuild": "node scripts/check-editor-content.mjs && node scripts/check-launch-readiness.mjs && node scripts/materialize-assets.mjs && node scripts/patch-patient-form.mjs"
+    "predev": "node scripts/check-inquiry-configuration.mjs && node scripts/check-editor-content.mjs && node scripts/check-launch-readiness.mjs && node scripts/materialize-assets.mjs && node scripts/patch-patient-form.mjs",
+    "prebuild": "node scripts/check-inquiry-configuration.mjs && node scripts/check-editor-content.mjs && node scripts/check-launch-readiness.mjs && node scripts/materialize-assets.mjs && node scripts/patch-patient-form.mjs"
   },
   "dependencies": {
     "astro": "7.1.4",
