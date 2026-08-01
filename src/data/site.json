@@ -20,8 +20,12 @@
     { "day": "Sunday", "hours": "Closed" }
   ],
   "heroImage": "/images/office-exterior.webp",
+  "heroImageWidth": 900,
+  "heroImageHeight": 675,
   "heroAlt": "Exterior of Donovan Family Dentistry at 91 Sams Point Road in Beaufort, South Carolina",
-  "socialImage": "/images/office-exterior.webp",
+  "socialImage": "/images/donovan-social-card.webp",
+  "socialImageWidth": 1200,
+  "socialImageHeight": 630,
   "logo": "/images/donovan-logo.svg",
   "logoAlt": "Donovan Family Dentistry",
   "locale": "en_US",
