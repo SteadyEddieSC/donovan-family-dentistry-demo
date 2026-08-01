@@ -1,0 +1,39 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import site from '../data/site.json';
+---
+<BaseLayout
+  title="Accessibility | Donovan Family Dentistry"
+  description="Accessibility approach, current review status, and contact information for the Donovan Family Dentistry website."
+>
+  <header class="page-hero">
+    <div class="container">
+      <p class="eyebrow">Website accessibility</p>
+      <h1>Designed to be usable across devices and assistive technologies.</h1>
+      <p class="lead">This production-candidate website is being reviewed against WCAG 2.2 Level AA before any public launch.</p>
+    </div>
+  </header>
+
+  <section class="section">
+    <div class="container split">
+      <article>
+        <h2>Accessibility measures</h2>
+        <p>The website uses semantic headings and landmarks, keyboard-operable controls, visible focus indicators, text alternatives for meaningful images, labeled form controls, responsive layouts, reduced-motion support, and automated accessibility testing.</p>
+        <p>Automated checks are supplemented by manual review because no automated tool can establish complete conformance.</p>
+
+        <h2>Current review status</h2>
+        <p>Chromium, Firefox, WebKit, Android Chrome emulation, iOS Safari emulation, and Microsoft Edge are included in the automated compatibility plan. Final verification on current physical iOS, Android, macOS, and Windows devices remains a launch requirement and is not represented as complete until those tests are recorded.</p>
+
+        <h2>Documents and third-party destinations</h2>
+        <p>Some patient documents are provided as PDFs and may be opened by the visitor's browser or PDF application. External directions and other third-party destinations are controlled by their respective providers.</p>
+      </article>
+
+      <aside class="info-panel" aria-labelledby="accessibility-help">
+        <h2 id="accessibility-help">Report an accessibility barrier</h2>
+        <p>Call the office at <a href={`tel:${site.phoneHref}`}>{site.phoneDisplay}</a> and describe the page, control, or document that is difficult to use.</p>
+        <p>Do not include symptoms, diagnoses, medications, insurance identifiers, or other protected health information in a general website message.</p>
+        <p><strong>Last reviewed:</strong> August 1, 2026</p>
+      </aside>
+    </div>
+  </section>
+</BaseLayout>
