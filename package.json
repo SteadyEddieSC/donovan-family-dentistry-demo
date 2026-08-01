@@ -6,16 +6,21 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
+    "postbuild": "node scripts/check-performance-budgets.mjs",
     "preview": "astro preview",
-    "test": "npm run test:unit && npm run test:e2e",
+    "test": "npm run test:unit && npm run test:e2e && npm run test:compat",
     "test:unit": "node --test tests/*.unit.test.mjs",
     "test:e2e": "playwright test",
+    "test:compat": "playwright test --config=playwright.compat.config.ts",
     "test:e2e:update": "playwright test --update-snapshots",
     "check:content": "node scripts/check-editor-content.mjs",
     "check:inquiry": "node scripts/check-inquiry-configuration.mjs",
     "check:launch": "node scripts/check-launch-readiness.mjs",
-    "predev": "node scripts/check-inquiry-configuration.mjs && node scripts/check-editor-content.mjs && node scripts/check-launch-readiness.mjs && node scripts/materialize-assets.mjs && node scripts/patch-patient-form.mjs",
-    "prebuild": "node scripts/check-inquiry-configuration.mjs && node scripts/check-editor-content.mjs && node scripts/check-launch-readiness.mjs && node scripts/materialize-assets.mjs && node scripts/patch-patient-form.mjs"
+    "check:performance": "node scripts/check-performance-budgets.mjs",
+    "check:production-candidate": "node scripts/check-production-candidate.mjs",
+    "generate:images": "node scripts/generate-responsive-images.mjs",
+    "predev": "node scripts/check-inquiry-configuration.mjs && node scripts/check-editor-content.mjs && node scripts/check-launch-readiness.mjs && node scripts/check-production-candidate.mjs && node scripts/materialize-assets.mjs && node scripts/generate-responsive-images.mjs && node scripts/patch-patient-form.mjs",
+    "prebuild": "node scripts/check-inquiry-configuration.mjs && node scripts/check-editor-content.mjs && node scripts/check-launch-readiness.mjs && node scripts/check-production-candidate.mjs && node scripts/materialize-assets.mjs && node scripts/generate-responsive-images.mjs && node scripts/patch-patient-form.mjs"
   },
   "dependencies": {
     "astro": "7.1.4",
@@ -24,6 +29,7 @@
   "devDependencies": {
     "@axe-core/playwright": "4.12.1",
     "@playwright/test": "1.62.0",
+    "sharp": "0.35.3",
     "typescript": "5.9.2"
   },
   "engines": {
