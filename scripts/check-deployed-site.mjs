@@ -36,8 +36,13 @@ const failures = [];
 const sitemapResponse = await get(absolute('/sitemap.xml'));
 if (!sitemapResponse.ok) failures.push(`Sitemap returned ${sitemapResponse.status}.`);
 const sitemap = await sitemapResponse.text();
-const pageUrls = [...sitemap.matchAll(/<loc>(.*?)<\/loc>/g)].map((match) => match[1]);
-if (pageUrls.length < 14) failures.push(`Sitemap contains only ${pageUrls.length} page URL(s).`);
+const canonicalPageUrls = [...sitemap.matchAll(/<loc>(.*?)<\/loc>/g)].map((match) => match[1]);
+if (canonicalPageUrls.length < 14) failures.push(`Sitemap contains only ${canonicalPageUrls.length} page URL(s).`);
+
+const pageUrls = canonicalPageUrls.map((canonicalUrl) => {
+  const canonical = new URL(canonicalUrl);
+  return new URL(`${canonical.pathname}${canonical.search}`, base).toString();
+});
 
 const links = new Set([
   absolute('/robots.txt').toString(),
