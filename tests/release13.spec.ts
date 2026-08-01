@@ -54,6 +54,19 @@ test('clear resets the private preview and starts a fresh timing window', async 
   await expect.poll(async () => Number(await startedAt.inputValue())).toBeGreaterThanOrEqual(before);
 });
 
+test('contact page omits the duplicate mobile dock while other pages retain it', async ({ page, isMobile }) => {
+  test.skip(!isMobile, 'Mobile-only overlap safeguard.');
+
+  await page.goto('/modern/contact/');
+  await expect(page.locator('.modern-mobile-dock')).toHaveCount(0);
+  await expect(page.getByRole('link', { name: 'Call the office' })).toBeVisible();
+  await expect(page.getByRole('link', { name: 'Open directions' })).toBeVisible();
+  await expect(page.getByRole('link', { name: 'Patient forms' }).first()).toBeVisible();
+
+  await page.goto('/modern/');
+  await expect(page.locator('.modern-mobile-dock')).toBeVisible();
+});
+
 test('browser security policy no longer permits direct Basin submission', async () => {
   const headers = await readFile(path.join(repositoryRoot, 'public/_headers'), 'utf8');
   expect(headers).toContain("form-action 'self'");
