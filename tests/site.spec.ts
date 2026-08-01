@@ -1,3 +1,4 @@
+import { createHash } from 'node:crypto';
 import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 
@@ -41,6 +42,27 @@ test('directions button has visible text contrast', async ({ page }) => {
   expect(styles.color).not.toBe(styles.backgroundColor);
 });
 
+test('classic and modern logos use intentional white rounded cards', async ({ page }) => {
+  await page.goto('/');
+  const classicBrand = page.locator('.brand');
+  const classicStyles = await classicBrand.evaluate((element) => {
+    const styles = getComputedStyle(element);
+    return { background: styles.backgroundColor, radius: Number.parseFloat(styles.borderRadius) };
+  });
+  expect(classicStyles.background).toBe('rgb(255, 255, 255)');
+  expect(classicStyles.radius).toBeGreaterThan(0);
+  await expect(page.locator('.footer-brand-card img')).toBeVisible();
+
+  await page.goto('/modern/');
+  const modernBrand = page.locator('.modern-brand');
+  const modernStyles = await modernBrand.evaluate((element) => {
+    const styles = getComputedStyle(element);
+    return { background: styles.backgroundColor, radius: Number.parseFloat(styles.borderRadius) };
+  });
+  expect(modernStyles.background).toBe('rgb(255, 255, 255)');
+  expect(modernStyles.radius).toBeGreaterThan(0);
+});
+
 test('modern concept is self-contained', async ({ page }) => {
   await page.goto('/modern/');
   const headerLinks = await page.locator('.modern-header a[href^="/"]').evaluateAll((anchors) =>
@@ -61,9 +83,26 @@ test('modern hero preserves the full office image and footer logo is visible', a
   expect(await footerLogo.evaluate((image: HTMLImageElement) => image.naturalWidth)).toBeGreaterThan(0);
 });
 
-test('modern service numbers stay below the headings', async ({ page }) => {
+test('modern pages have distinct content responsibilities', async ({ page }) => {
   await page.goto('/modern/');
+  await expect(page.getByRole('heading', { name: /Dr\. William Donovan/i })).toHaveCount(0);
+  await expect(page.getByRole('heading', { name: /Dr\. Caroline Whitaker/i })).toHaveCount(0);
+  await expect(page.getByRole('heading', { name: 'Begin with the need, then review the details.' })).toBeVisible();
+
+  await page.goto('/modern/about/');
+  await expect(page.getByText('Dr. William Donovan', { exact: false })).toHaveCount(0);
+  await expect(page.getByRole('heading', { name: 'The website should make common tasks easier.' })).toBeVisible();
+
+  await page.goto('/modern/team/');
+  await expect(page.getByRole('heading', { name: 'Dr. William Donovan, DMD' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Dr. Caroline Whitaker, DMD' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Friendly faces, clear roles.' })).toBeVisible();
+});
+
+test('modern service numbers stay below the headings', async ({ page }) => {
+  await page.goto('/modern/services/');
   const cards = page.locator('.modern-service-card');
+  await expect(cards).toHaveCount(3);
   for (let index = 0; index < await cards.count(); index += 1) {
     const metrics = await cards.nth(index).evaluate((element) => {
       const cardRect = element.getBoundingClientRect();
@@ -80,6 +119,32 @@ test('modern service numbers stay below the headings', async ({ page }) => {
   }
 });
 
+test('modern secondary actions have a visible outline', async ({ page }) => {
+  await page.goto('/modern/');
+  const button = page.getByRole('link', { name: 'Request a call' });
+  const styles = await button.evaluate((element) => {
+    const computed = getComputedStyle(element);
+    return {
+      width: Number.parseFloat(computed.borderTopWidth),
+      style: computed.borderTopStyle,
+      color: computed.borderTopColor
+    };
+  });
+  expect(styles.width).toBeGreaterThanOrEqual(2);
+  expect(styles.style).toBe('solid');
+  expect(styles.color).not.toBe('rgba(0, 0, 0, 0)');
+});
+
+test('modern mobile location card does not cover the office image', async ({ page, isMobile }) => {
+  test.skip(!isMobile, 'Mobile-only layout assertion');
+  await page.goto('/modern/');
+  const imageBox = await page.locator('.modern-hero__visual img').boundingBox();
+  const cardBox = await page.locator('.modern-location-card').boundingBox();
+  expect(imageBox).not.toBeNull();
+  expect(cardBox).not.toBeNull();
+  expect(cardBox!.y).toBeGreaterThanOrEqual(imageBox!.y + imageBox!.height - 2);
+});
+
 test('modern inquiry preview validates locally and sends nothing', async ({ page }) => {
   await page.goto('/modern/contact/');
   await page.getByLabel('Name').fill('Alex Patient');
@@ -90,6 +155,14 @@ test('modern inquiry preview validates locally and sends nothing', async ({ page
   const result = page.getByRole('status');
   await expect(result).toContainText('Preview complete - nothing was sent');
   await expect(result).toContainText('(843) 555-0100');
+});
+
+test('aligned patient form materializes with the reviewed hash', async ({ request }) => {
+  const response = await request.get('/forms/new-patient-medical-history.pdf');
+  expect(response.status()).toBeLessThan(400);
+  const bytes = Buffer.from(await response.body());
+  expect(bytes.length).toBe(77358);
+  expect(createHash('sha256').update(bytes).digest('hex')).toBe('66d1b7db33ed1dcde1d1480d363b4f633948e376bfe05b17fc7a200fc6bcf99a');
 });
 
 test('internal links and downloadable assets resolve', async ({ page, request }) => {
@@ -120,6 +193,10 @@ test('classic homepage review screenshot', async ({ page }, testInfo) => {
 test('modern concept review screenshots', async ({ page }, testInfo) => {
   await page.goto('/modern/');
   await page.screenshot({ path: testInfo.outputPath('modern-homepage.png'), fullPage: true, animations: 'disabled' });
+  await page.goto('/modern/about/');
+  await page.screenshot({ path: testInfo.outputPath('modern-about.png'), fullPage: true, animations: 'disabled' });
+  await page.goto('/modern/services/');
+  await page.screenshot({ path: testInfo.outputPath('modern-services.png'), fullPage: true, animations: 'disabled' });
   await page.goto('/modern/team/');
   await page.screenshot({ path: testInfo.outputPath('modern-team.png'), fullPage: true, animations: 'disabled' });
   await page.goto('/modern/contact/');
