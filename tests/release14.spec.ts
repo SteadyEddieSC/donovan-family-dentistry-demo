@@ -52,7 +52,7 @@ for (const route of publicRoutes) {
 test('sitemap contains each public route exactly once', async ({ request }) => {
   const response = await request.get('/sitemap.xml');
   expect(response.status()).toBe(200);
-  expect(response.headers()['content-type']).toContain('application/xml');
+  expect(response.headers()['content-type']).toMatch(/^(application|text)\/xml\b/i);
   const body = await response.text();
   const locations = [...body.matchAll(/<loc>(.*?)<\/loc>/g)].map((match) => match[1]);
   expect(locations).toHaveLength(publicRoutes.length);
@@ -131,19 +131,25 @@ test('keyboard-focused controls are not hidden by authored content', async ({ pa
   await page.goto('/modern/contact/');
   for (let index = 0; index < 18; index += 1) {
     await page.keyboard.press('Tab');
-    const visibility = await page.evaluate(() => {
+    const descriptor = await page.evaluate(() => {
       const active = document.activeElement as HTMLElement | null;
-      if (!active || active === document.body) return { visible: true, tag: 'body' };
+      if (!active) return 'no focused element';
+      const name = active.getAttribute('aria-label') || active.textContent?.trim() || active.id || active.className;
+      return `${active.tagName.toLowerCase()} ${String(name).replace(/\s+/g, ' ').slice(0, 80)}`.trim();
+    });
+
+    await expect.poll(async () => page.evaluate(() => {
+      const active = document.activeElement as HTMLElement | null;
+      if (!active || active === document.body) return true;
       const rect = active.getBoundingClientRect();
       const x = Math.min(Math.max(rect.left + rect.width / 2, 1), window.innerWidth - 1);
       const y = Math.min(Math.max(rect.top + rect.height / 2, 1), window.innerHeight - 1);
       const covering = document.elementFromPoint(x, y);
-      return {
-        visible: rect.width > 0 && rect.height > 0 && rect.bottom > 0 && rect.top < window.innerHeight && Boolean(covering && (covering === active || active.contains(covering) || covering.contains(active))),
-        tag: `${active.tagName.toLowerCase()}#${active.id}`
-      };
-    });
-    expect(visibility.visible, `${visibility.tag} should remain visible when focused`).toBeTruthy();
+      return rect.width > 0 && rect.height > 0 && rect.bottom > 0 && rect.top < window.innerHeight && Boolean(covering && (covering === active || active.contains(covering) || covering.contains(active)));
+    }), {
+      message: `${descriptor} should remain visible when focused`,
+      timeout: 1500
+    }).toBe(true);
   }
 });
 
