@@ -91,7 +91,7 @@ test('modern hero preserves the full office image and footer logo is visible', a
 test('modern pages have distinct content responsibilities', async ({ page }) => {
   await page.goto('/modern/');
   await expect(page.getByRole('heading', { name: /Dr\. William Donovan/i })).toHaveCount(0);
-  await expect(page.getByRole('heading', { name: /Dr\. Caroline Whitaker/i })).toHaveCount(0);
+  await expect(page.getByRole('heading', { name: /Associate Dentist/i })).toHaveCount(0);
   await expect(page.getByRole('heading', { name: 'Begin with what you need today.' })).toBeVisible();
 
   await page.goto('/modern/about/');
@@ -100,8 +100,11 @@ test('modern pages have distinct content responsibilities', async ({ page }) => 
 
   await page.goto('/modern/team/');
   await expect(page.getByRole('heading', { name: 'Dr. William Donovan, DMD' })).toBeVisible();
-  await expect(page.getByRole('heading', { name: 'Dr. Caroline Whitaker, DMD' })).toBeVisible();
-  await expect(page.getByRole('heading', { name: 'Friendly faces, clear roles.' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Associate Dentist, DMD' })).toHaveCount(0);
+  await expect(page.getByRole('heading', { name: 'Friendly support at each step.' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Front Office Team' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Dental Hygiene Team' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Dental Assisting Team' })).toBeVisible();
 });
 
 test('modern service numbers stay below the headings', async ({ page }) => {
