@@ -1,14 +1,14 @@
 [
-  { "name": "Esthetic dental restorations (tooth-colored fillings)", "visible": true, "order": 1 },
-  { "name": "Durable silver restorations", "visible": true, "order": 2 },
-  { "name": "Dental implants", "visible": true, "order": 3 },
-  { "name": "Extractions", "visible": true, "order": 4 },
-  { "name": "Esthetic ceramic veneers, crowns and bridges", "visible": true, "order": 5 },
-  { "name": "Smile makeovers", "visible": true, "order": 6 },
-  { "name": "Dentures and partials", "visible": true, "order": 7 },
-  { "name": "Flexible, metal-free partials", "visible": true, "order": 8 },
-  { "name": "Root canal therapy", "visible": true, "order": 9 },
-  { "name": "Bleaching / teeth whitening", "visible": true, "order": 10 },
-  { "name": "Management of gum disease", "visible": true, "order": 11 },
-  { "name": "Minor gum surgeries", "visible": true, "order": 12 }
+  { "name": "Esthetic dental restorations (tooth-colored fillings)", "visible": true, "order": 1, "groupId": "restore" },
+  { "name": "Durable silver restorations", "visible": true, "order": 2, "groupId": "restore" },
+  { "name": "Dental implants", "visible": true, "order": 3, "groupId": "restore" },
+  { "name": "Extractions", "visible": true, "order": 4, "groupId": "advanced" },
+  { "name": "Esthetic ceramic veneers, crowns and bridges", "visible": true, "order": 5, "groupId": "restore" },
+  { "name": "Smile makeovers", "visible": true, "order": 6, "groupId": "smile" },
+  { "name": "Dentures and partials", "visible": true, "order": 7, "groupId": "smile" },
+  { "name": "Flexible, metal-free partials", "visible": true, "order": 8, "groupId": "smile" },
+  { "name": "Root canal therapy", "visible": true, "order": 9, "groupId": "advanced" },
+  { "name": "Bleaching / teeth whitening", "visible": true, "order": 10, "groupId": "smile" },
+  { "name": "Management of gum disease", "visible": true, "order": 11, "groupId": "advanced" },
+  { "name": "Minor gum surgeries", "visible": true, "order": 12, "groupId": "advanced" }
 ]

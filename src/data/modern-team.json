@@ -1,71 +1,31 @@
 {
-  "providers": [
-    {
-      "name": "Dr. William Donovan",
-      "credentials": "DMD",
-      "role": "General Dentist",
-      "imageType": "photo",
-      "image": "/images/dr-william-donovan-family.webp",
-      "imageAlt": "Dr. William Donovan with his family and dog outdoors.",
-      "summary": "A Navy-trained dentist whose career has combined advanced general-dentistry education, service, and long-standing ties to Beaufort.",
-      "details": [
-        "Dr. Donovan graduated from Presbyterian College and attended dental school at the Medical College of Georgia. Before dental school, he worked as a dental laboratory technician, experience that shaped his attention to restorative detail.",
-        "He served as a U.S. Navy Dental Officer, completed an Advanced Education in General Dentistry residency, and later made Beaufort home after being stationed at MCRD Parris Island.",
-        "Outside the practice, Dr. Donovan and his family enjoy traveling, spending time outdoors, and participating in the Beaufort community."
-      ],
-      "highlights": ["U.S. Navy Dental Officer", "Advanced Education in General Dentistry", "Beaufort community"]
-    },
-    {
-      "name": "Dr. Caroline Whitaker",
-      "credentials": "DMD",
-      "role": "Associate Dentist",
-      "imageType": "illustration",
-      "portrait": "provider",
-      "summary": "A thoughtful general dentist focused on comfortable visits, clear explanations, and practical treatment planning for patients of all ages.",
-      "details": [
-        "Dr. Whitaker brings an approachable, prevention-minded style to family dentistry and enjoys helping patients understand their options before deciding on care.",
-        "Her interests include restorative dentistry, cosmetic improvements, and helping anxious patients feel more at ease throughout their visit.",
-        "She and her family enjoy the waterways, trails, and community traditions that make the Lowcountry feel like home."
-      ],
-      "highlights": ["Family dentistry", "Patient education", "Restorative care"]
-    }
-  ],
   "team": [
     {
-      "name": "Megan Ellis",
-      "role": "Practice Administrator",
-      "portrait": "admin",
-      "bio": "Megan helps coordinate the day-to-day patient experience and keeps office questions, scheduling, and follow-up moving smoothly."
-    },
-    {
-      "name": "Brooke Simmons",
-      "role": "Patient Care Coordinator",
+      "id": "front-office-team",
+      "name": "Front Office Team",
+      "role": "Scheduling and patient support",
       "portrait": "frontdesk",
-      "bio": "Brooke welcomes patients, assists with forms and appointment questions, and helps every visit begin with a clear next step."
+      "visible": true,
+      "status": "role-based",
+      "bio": "The front office helps with scheduling, forms, directions, benefit information, and the administrative details that prepare patients for a visit."
     },
     {
-      "name": "Taylor Reed, RDH",
-      "role": "Dental Hygienist",
+      "id": "dental-hygiene-team",
+      "name": "Dental Hygiene Team",
+      "role": "Preventive care and patient education",
       "portrait": "hygienist1",
-      "bio": "Taylor focuses on calm, thorough preventive visits and practical guidance patients can use between appointments."
+      "visible": true,
+      "status": "role-based",
+      "bio": "The hygiene team supports preventive visits, periodontal monitoring, and practical guidance patients can use between appointments."
     },
     {
-      "name": "Allison Harper, RDH",
-      "role": "Dental Hygienist",
-      "portrait": "hygienist2",
-      "bio": "Allison enjoys building long-term relationships and helping patients feel informed and comfortable about their oral health."
-    },
-    {
-      "name": "Jordan Bell, CDA",
-      "role": "Certified Dental Assistant",
+      "id": "dental-assisting-team",
+      "name": "Dental Assisting Team",
+      "role": "Clinical preparation and chairside support",
       "portrait": "assistant1",
-      "bio": "Jordan supports restorative procedures and helps prepare patients so they know what to expect at every stage of care."
-    },
-    {
-      "name": "Sofia Bennett",
-      "role": "Dental Assistant",
-      "portrait": "assistant2",
-      "bio": "Sofia brings a friendly, organized presence to the treatment room and helps visits stay comfortable and efficient."
+      "visible": true,
+      "status": "role-based",
+      "bio": "The assisting team prepares treatment rooms, supports procedures, and helps patients understand what to expect during the clinical portion of a visit."
     }
   ]
 }

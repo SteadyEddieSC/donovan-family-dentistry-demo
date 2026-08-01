@@ -1,0 +1,23 @@
+/*
+ * Privacy-first typography policy.
+ *
+ * The site intentionally uses operating-system fonts and does not load Google
+ * Fonts or another third-party font service. This keeps typography available
+ * when external requests are blocked and avoids an unnecessary third-party
+ * dependency for the public site.
+ */
+body,
+.modern-body,
+button,
+input,
+textarea,
+select {
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif !important;
+}
+
+code,
+pre,
+kbd,
+samp {
+  font-family: ui-monospace, "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+}

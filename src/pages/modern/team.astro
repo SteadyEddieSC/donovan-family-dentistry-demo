@@ -1,32 +1,41 @@
 ---
 import ModernLayout from '../../layouts/ModernLayout.astro';
 import ModernPortrait from '../../components/ModernPortrait.astro';
+import practiceContent from '../../data/practice-content.json';
+import providers from '../../data/providers.json';
+import site from '../../data/site.json';
 import teamData from '../../data/modern-team.json';
+
+const pageContent = practiceContent.teamPage;
+const visibleProviders = providers.filter((provider) => provider.visible).sort((a, b) => a.order - b.order);
+const visibleTeam = teamData.team.filter((member) => member.visible);
 ---
-<ModernLayout title="Meet the Team | Donovan Family Dentistry" description="Meet the dentists, hygienists, assistants, and patient-care team in the modern Donovan Family Dentistry concept.">
+<ModernLayout title="Meet the Team | Donovan Family Dentistry" description="Meet the dentist and learn how the front-office, hygiene, and dental-assisting teams support patients at Donovan Family Dentistry.">
   <section class="modern-page-hero">
     <div class="modern-shell modern-page-hero__grid">
-      <div><p class="modern-kicker">Meet the team</p><h1>The people behind a comfortable visit.</h1></div>
-      <p class="modern-page-hero__aside">Dentist profiles and patient-care roles now live together, creating one clear place to learn who patients may meet during a visit.</p>
+      <div><p class="modern-kicker">{pageContent.kicker}</p><h1>{pageContent.headline}</h1></div>
+      <p class="modern-page-hero__aside">{pageContent.introduction}</p>
     </div>
   </section>
 
   <section class="modern-section modern-section--sea" aria-labelledby="providers-heading">
     <div class="modern-shell">
       <div class="modern-section__head">
-        <p class="modern-eyebrow">The dentists</p>
-        <h2 id="providers-heading">Experience, clear explanations, and a comfortable approach.</h2>
-        <p>These provider biographies are sample presentation content pending final practice review and approval.</p>
+        <p class="modern-eyebrow">{pageContent.providersEyebrow}</p>
+        <h2 id="providers-heading">{pageContent.providersTitle}</h2>
+        <p>{pageContent.providersIntroduction}</p>
       </div>
       <div class="modern-provider-list">
-        {teamData.providers.map((provider, index) => (
-          <article class:list={['modern-doctor', index % 2 === 1 && 'modern-doctor--reverse']} id={`provider-${index + 1}`}>
+        {visibleProviders.map((provider, index) => (
+          <article class:list={['modern-doctor', index % 2 === 1 && 'modern-doctor--reverse']} id={`provider-${provider.id}`}>
             <div class="modern-doctor__photo">
-              {provider.imageType === 'photo' ? <img src={provider.image} width="900" height="720" alt={provider.imageAlt} /> : <ModernPortrait name={provider.name} variant={provider.portrait} />}
+              {provider.imageType === 'photo' && provider.photo
+                ? <img src={provider.photo} width="900" height="720" alt={provider.photoAlt} loading={index === 0 ? 'eager' : 'lazy'} decoding="async" />
+                : <ModernPortrait name={provider.name} variant={provider.portrait} />}
             </div>
             <div>
               <p class="modern-eyebrow">{provider.role}</p>
-              <h2>{provider.name}, {provider.credentials}</h2>
+              <h2>{provider.name}{provider.credentials ? `, ${provider.credentials}` : ''}</h2>
               <div class="modern-doctor__highlights">{provider.highlights.map((item) => <span class="modern-chip">{item}</span>)}</div>
               {provider.details.map((paragraph) => <p>{paragraph}</p>)}
             </div>
@@ -39,12 +48,12 @@ import teamData from '../../data/modern-team.json';
   <section class="modern-section" aria-labelledby="care-team-heading">
     <div class="modern-shell">
       <div class="modern-section__head">
-        <p class="modern-eyebrow">Patient care team</p>
-        <h2 id="care-team-heading">Friendly faces, clear roles.</h2>
-        <p>Each profile gives patients a quick sense of who is here to help and how that person supports the visit.</p>
+        <p class="modern-eyebrow">{pageContent.teamEyebrow}</p>
+        <h2 id="care-team-heading">{pageContent.teamTitle}</h2>
+        <p>{pageContent.teamIntroduction}</p>
       </div>
       <div class="modern-team-grid">
-        {teamData.team.map((member) => (
+        {visibleTeam.map((member) => (
           <article class="modern-team-card">
             <ModernPortrait name={member.name} variant={member.portrait} />
             <div class="modern-team-card__body">
@@ -64,7 +73,7 @@ import teamData from '../../data/modern-team.json';
         <p class="modern-eyebrow">Need help before a visit?</p>
         <h2>Start with the patient-care team.</h2>
         <p class="modern-lead">Call for scheduling, directions, forms, and general administrative questions.</p>
-        <div class="modern-actions"><a class="modern-button modern-button--coral" href="tel:+18435256866">Call (843) 525-6866</a><a class="modern-button modern-button--secondary" href="/modern/contact/">General inquiry</a></div>
+        <div class="modern-actions"><a class="modern-button modern-button--coral" href={`tel:${site.phoneHref}`}>Call {site.phoneDisplay}</a><a class="modern-button modern-button--secondary" href="/modern/contact/">General inquiry</a></div>
       </article>
       <aside class="modern-visit-card"><h3>Privacy reminder</h3><p>Do not send symptoms, diagnoses, medication lists, insurance identifiers, or treatment details through a general website inquiry.</p></aside>
     </div>

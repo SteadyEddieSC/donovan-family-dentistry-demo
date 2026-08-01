@@ -1,16 +1,58 @@
 [
   {
+    "id": "william-donovan",
     "name": "Dr. William Donovan",
     "credentials": "DMD",
+    "role": "General Dentist",
     "visible": true,
     "order": 1,
+    "status": "verified",
+    "imageType": "photo",
     "photo": "/images/dr-william-donovan-family.webp",
     "photoAlt": "Dr. William Donovan with his family and dog outdoors.",
+    "portrait": "provider",
+    "summary": "A Navy-trained dentist whose career has combined advanced general-dentistry education, service, and long-standing ties to Beaufort.",
     "biography": [
       "Dr. William Donovan spent much of his life in and around the dental profession. The grandson of a dentist, he decided at an early age to pursue a career in dentistry. After graduating from Presbyterian College in Clinton, South Carolina, with a degree in Biology, he attended dental school at the Medical College of Georgia in Augusta, Georgia. Before starting dental school, he worked as a dental lab technician at one of the most prominent labs in the Southeast.",
       "While in school, he accepted a commission as a Dental Officer in the U.S. Navy. After graduation, he began a rigorous twelve-month Advanced Education in General Dentistry residency. Dr. Donovan served for eight years in locations including Chicago, Biloxi, and Spain before being stationed at MCRD Parris Island. While at Parris Island, he worked with Navy specialists and trained annually at the National Naval Medical Center. The highlight of his Naval career was a two-year tour with the Navy Seabees, NMCB Seven, which included a ten-month overseas deployment.",
       "Upon moving to Beaufort, Dr. Donovan had the pleasure of getting to know Dr. Jack McGill. After almost two years of friendship, Dr. Donovan began working for Dr. McGill for several months before taking over the practice following Dr. McGill's retirement.",
       "Dr. Donovan is married to Mary Beth Donovan, a nurse practitioner at Beaufort Memorial Hospital. The couple has one daughter. They enjoy traveling, spending time outdoors, participating in organizations in the Beaufort community, and are members of Sea Island Presbyterian Church."
+    ],
+    "details": [
+      "Dr. Donovan graduated from Presbyterian College and attended dental school at the Medical College of Georgia. Before dental school, he worked as a dental laboratory technician, experience that shaped his attention to restorative detail.",
+      "He served as a U.S. Navy Dental Officer, completed an Advanced Education in General Dentistry residency, and later made Beaufort home after being stationed at MCRD Parris Island.",
+      "Outside the practice, Dr. Donovan and his family enjoy traveling, spending time outdoors, and participating in the Beaufort community."
+    ],
+    "highlights": [
+      "U.S. Navy Dental Officer",
+      "Advanced Education in General Dentistry",
+      "Beaufort community"
+    ]
+  },
+  {
+    "id": "associate-dentist-template",
+    "name": "Associate Dentist",
+    "credentials": "DMD",
+    "role": "Associate Dentist",
+    "visible": false,
+    "order": 2,
+    "status": "sample",
+    "imageType": "illustration",
+    "photo": "",
+    "photoAlt": "",
+    "portrait": "provider",
+    "summary": "Hidden template for a future office-approved associate-dentist profile.",
+    "biography": [
+      "Replace this text with the provider's approved public biography before making the profile visible."
+    ],
+    "details": [
+      "Replace this text with the provider's approved education, experience, care approach, and community information.",
+      "Keep this profile hidden until the provider's name, credentials, biography, and image are approved for publication."
+    ],
+    "highlights": [
+      "Add approved focus area",
+      "Add approved background",
+      "Add approved community detail"
     ]
   }
 ]

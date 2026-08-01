@@ -1,0 +1,56 @@
+name: Office website check
+
+on:
+  workflow_dispatch:
+    inputs:
+      payload:
+        description: Pages CMS action context
+        required: false
+        default: '{}'
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  verify-website:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out selected website version
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install website dependencies
+        run: npm install --no-audit --no-fund
+
+      - name: Validate office-managed content and build the site
+        run: npm run build
+
+      - name: Install the browser used for website checks
+        run: npx playwright install --with-deps chromium
+
+      - name: Run layout, link, form, mobile, and accessibility checks
+        run: npm run test:e2e
+
+      - name: Save a copy of the successfully built website
+        uses: actions/upload-artifact@v4
+        with:
+          name: office-website-build
+          path: dist/
+          retention-days: 7
+          if-no-files-found: error
+
+      - name: Write a plain-language result
+        run: |
+          {
+            echo '## Website check passed'
+            echo ''
+            echo 'The editable content is valid, the site built successfully, and the automated browser and accessibility checks passed.'
+            echo ''
+            echo 'When this check runs on the main branch, Cloudflare Pages also rebuilds the public demo automatically. When it runs on another branch, use the Cloudflare branch-preview link for review.'
+          } >> "$GITHUB_STEP_SUMMARY"

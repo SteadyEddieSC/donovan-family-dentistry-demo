@@ -1,35 +1,25 @@
 ---
 import ModernLayout from '../../layouts/ModernLayout.astro';
-const groups = [
-  {
-    id: 'restore',
-    title: 'Restorative care',
-    copy: 'Repair damaged teeth and restore function with materials and treatment options selected for the individual situation.',
-    services: ['Esthetic tooth-colored restorations', 'Durable silver restorations', 'Dental implants', 'Ceramic veneers, crowns and bridges'],
-    planning: 'A clinical examination helps determine whether a filling, crown, bridge, implant, or another approach is appropriate.'
-  },
-  {
-    id: 'smile',
-    title: 'Smile and tooth replacement',
-    copy: 'Explore options intended to improve appearance, replace missing teeth, and support confidence in your smile.',
-    services: ['Smile makeovers', 'Bleaching / teeth whitening', 'Dentures and partials', 'Flexible, metal-free partials'],
-    planning: 'Bring questions about appearance, comfort, maintenance, timing, and how each option may fit your goals.'
-  },
-  {
-    id: 'advanced',
-    title: 'Advanced care',
-    copy: 'Address pain, infection, gum concerns, and teeth that cannot be predictably restored.',
-    services: ['Root canal therapy', 'Extractions', 'Management of gum disease', 'Minor gum surgeries'],
-    planning: 'Symptoms and urgency vary. Call the office so the team can explain the appropriate scheduling process.'
-  }
-];
+import practiceContent from '../../data/practice-content.json';
+import services from '../../data/services.json';
+import site from '../../data/site.json';
+
+const pageContent = practiceContent.servicesPage;
+const visibleServices = services.filter((service) => service.visible).sort((a, b) => a.order - b.order);
+const groups = pageContent.groups
+  .map((group) => ({
+    ...group,
+    services: visibleServices.filter((service) => service.groupId === group.id)
+  }))
+  .filter((group) => group.services.length > 0)
+  .sort((a, b) => a.order - b.order);
 ---
 <ModernLayout title="Dental Services | Donovan Family Dentistry" description="Explore the published dental services offered by Donovan Family Dentistry in Beaufort, South Carolina.">
   <section class="modern-page-hero">
     <div class="modern-shell modern-page-hero__grid">
-      <div><p class="modern-kicker">Services</p><h1>Comprehensive care, easier to understand.</h1></div>
+      <div><p class="modern-kicker">{pageContent.kicker}</p><h1>{pageContent.headline}</h1></div>
       <div class="modern-page-hero__aside">
-        <p>This is the detailed services page. The homepage now provides only brief care paths so the complete list is not repeated in two places.</p>
+        <p>{pageContent.introduction}</p>
         <nav class="modern-service-jump" aria-label="Service categories">
           {groups.map((group) => <a href={`#${group.id}`}>{group.title}</a>)}
         </nav>
@@ -40,11 +30,11 @@ const groups = [
   <section class="modern-section">
     <div class="modern-shell">
       <div class="modern-service-grid">
-        {groups.map((group,index) => (
-          <article class="modern-service-card" data-number={`0${index+1}`} id={group.id}>
+        {groups.map((group, index) => (
+          <article class="modern-service-card" data-number={`0${index + 1}`} id={group.id}>
             <h3>{group.title}</h3>
-            <p>{group.copy}</p>
-            <ul>{group.services.map((service) => <li>{service}</li>)}</ul>
+            <p>{group.summary}</p>
+            <ul>{group.services.map((service) => <li>{service.name}</li>)}</ul>
             <p><strong>Planning note:</strong> {group.planning}</p>
           </article>
         ))}
@@ -55,14 +45,14 @@ const groups = [
   <section class="modern-section modern-section--sea">
     <div class="modern-shell">
       <div class="modern-section__head">
-        <p class="modern-eyebrow">Planning care</p>
-        <h2>Questions are part of the process.</h2>
-        <p>The website can explain categories and help patients prepare, but a dentist must evaluate the individual situation before recommending treatment.</p>
+        <p class="modern-eyebrow">{pageContent.planningEyebrow}</p>
+        <h2>{pageContent.planningTitle}</h2>
+        <p>{pageContent.planningText}</p>
       </div>
       <div class="modern-card-grid">
-        <article class="modern-card"><h3>Start by calling</h3><p>Contact the office for availability and general scheduling questions.</p><a href="tel:+18435256866">Call (843) 525-6866</a></article>
+        <article class="modern-card"><h3>Start by calling</h3><p>Contact the office for availability and general scheduling questions.</p><a href={`tel:${site.phoneHref}`}>Call {site.phoneDisplay}</a></article>
         <article class="modern-card"><h3>Prepare your forms</h3><p>Complete the fillable medical-history form and bring it to the visit.</p><a href="/modern/forms/">Open patient forms</a></article>
-        <article class="modern-card"><h3>Know who you may meet</h3><p>Provider biographies and staff roles are together on the Team page.</p><a href="/modern/team/">Meet the team</a></article>
+        <article class="modern-card"><h3>Know who you may meet</h3><p>Provider information and staff roles are together on the Team page.</p><a href="/modern/team/">Meet the team</a></article>
       </div>
     </div>
   </section>
