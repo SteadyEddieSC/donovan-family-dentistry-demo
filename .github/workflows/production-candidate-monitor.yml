@@ -1,0 +1,63 @@
+name: Production candidate monitor
+
+on:
+  workflow_dispatch:
+    inputs:
+      site_url:
+        description: Optional Pages URL to check
+        required: false
+        default: https://donovan-family-dentistry-demo.pages.dev
+        type: string
+  schedule:
+    - cron: '17 12 * * *'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: production-candidate-monitor
+  cancel-in-progress: true
+
+jobs:
+  health-and-dependency-check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      SITE_URL: ${{ inputs.site_url || 'https://donovan-family-dentistry-demo.pages.dev' }}
+    steps:
+      - name: Check out the current production candidate
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install locked dependencies
+        run: npm ci --no-audit --no-fund
+
+      - name: Review high-severity dependency findings
+        run: npm audit --audit-level=high
+
+      - name: Run serverless safety tests
+        run: npm run test:unit
+
+      - name: Build and enforce launch and performance budgets
+        run: npm run build
+
+      - name: Check deployed pages, links, forms, robots, and preview controls
+        run: npm run check:deployed
+
+      - name: Write monitoring result
+        if: success()
+        run: |
+          {
+            echo '## Production candidate healthy'
+            echo ''
+            echo "Checked: ${SITE_URL}"
+            echo ''
+            echo 'Locked-dependency, unit, build, performance-budget, sitemap, internal-link, PDF, social-image, robots, noindex, and preview-form checks passed.'
+            echo ''
+            echo 'This monitor does not submit the administrative form and does not collect or store visitor message content.'
+          } >> "$GITHUB_STEP_SUMMARY"

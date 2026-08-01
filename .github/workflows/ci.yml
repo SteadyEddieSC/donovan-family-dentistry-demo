@@ -11,22 +11,29 @@ permissions:
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      - name: Install dependencies
-        run: npm install --no-audit --no-fund
+          cache: npm
+      - name: Install locked dependencies
+        run: npm ci --no-audit --no-fund
+      - name: Review dependency vulnerabilities
+        run: npm audit --audit-level=high
       - name: Run serverless inquiry unit tests
         run: npm run test:unit
-      - name: Build static site
+      - name: Build static site and enforce performance budgets
         run: npm run build
-      - name: Install Chromium
-        run: npx playwright install --with-deps chromium
-      - name: Run browser and accessibility tests
+      - name: Install Chromium, Firefox, and WebKit
+        run: npx playwright install --with-deps chromium firefox webkit
+      - name: Install branded Chrome and Edge
+        run: npx playwright install chrome msedge
+      - name: Run primary browser and accessibility tests
         run: npm run test:e2e
+      - name: Run production-candidate compatibility matrix
+        run: npm run test:compat
       - name: Upload browser-test reports and screenshots
         if: always()
         uses: actions/upload-artifact@v4
@@ -34,6 +41,8 @@ jobs:
           name: browser-test-results
           path: |
             playwright-report/
+            playwright-report-compatibility/
             test-results/
+            test-results-compatibility/
           retention-days: 14
           if-no-files-found: warn
