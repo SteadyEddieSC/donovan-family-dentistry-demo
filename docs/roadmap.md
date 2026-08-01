@@ -1,77 +1,90 @@
-# Donovan Family Dentistry Demo Roadmap
+# Donovan Family Dentistry Website Roadmap
 
 ## Product direction
 
-The modern concept should function as a clear patient-facing digital front door rather than a collection of repeated marketing sections. Each page should have one primary responsibility:
+The modern concept should function as a clear patient-facing digital front door rather than a collection of repeated marketing sections. Each page has one primary responsibility:
 
 - **Home:** orient visitors and route them to the correct next step.
-- **About:** explain the practice experience, values, and local setting.
+- **About:** explain the practice history, experience, values, and Lowcountry setting.
 - **Services:** serve as the detailed source of truth for published procedures.
 - **Team:** contain all dentist biographies and staff profiles.
 - **Patient Forms:** provide reviewed downloads and clear privacy instructions.
 - **Contact:** provide directions, hours, phone access, and a limited administrative inquiry path.
 
-## Milestone 1 - Corrective design pass
+## Release 7 — mobile and document stabilization
 
-Status: implemented in the mobile/content/form-alignment build.
+- Rebuild the fillable patient form on a fixed layout grid.
+- Apply one consistent field border, fill, height, and label gap.
+- Verify all 137 fillable fields and render all three pages in multiple PDF engines.
+- Lock the modern design to its intentional light palette rather than browser auto-darkening.
+- Keep the logo on a white rounded brand card in the header and footer.
+- Fix the duplicate mobile Call label.
+- Ensure the Lowcountry photo caption does not cover the office photograph.
+- Strengthen outlines and contrast for mobile actions and the PHI warning.
+- Remove visible design-review language from public-facing pages.
+- Add automated regression checks for PDF integrity, mobile call text, PHI-warning colors, branding, and content separation.
 
-- Stop the mobile location card from covering the office image.
-- Add stronger outlines and contrast to secondary actions.
-- Put logo artwork inside intentional white rounded brand cards.
-- Consolidate dentists and staff on the Team page.
-- Remove duplicated full service lists and provider profiles from the homepage.
-- Refocus the About page on the practice experience.
-- Align Date of birth, Sex M/F, and Marital status fields in the fillable PDF.
-- Add mobile, dark-mode, content-ownership, branding, and PDF-hash regression tests.
+## Release 8 — content depth and visual credibility
 
-## Milestone 2 - Practice content approval
+Until verified practice content is available, use polished fictional content and clearly track every item that must be replaced before production.
 
-Priority: required before any public launch.
+- Add more distinct office, team, and patient-experience imagery.
+- Expand the practice story and Lowcountry identity without duplicating the Team page.
+- Deepen service explanations while keeping the homepage concise.
+- Add an emergency-care information block with owner-approved language.
+- Add insurance and payment content after owner confirmation.
+- Create a dedicated new-patient guide only if it adds information beyond the Forms page.
 
-- Confirm the complete dentist roster, credentials, biographies, and approved photographs.
-- Replace all sample staff names, roles, biographies, and illustrations with approved content or remove the section.
-- Confirm the exact service list and preferred patient-friendly terminology.
-- Verify office hours, phone number, address, emergency instructions, and accepted-insurance wording.
-- Decide whether Social Security number fields remain necessary in the patient form.
-- Obtain approval for privacy, accessibility, and website disclaimer language.
+## Release 9 — low-cost production inquiry workflow
 
-## Milestone 3 - Patient conversion and trust
+- Implement Cloudflare Turnstile.
+- Connect a non-PHI administrative form through Basin or a small Cloudflare Worker.
+- Add server-side validation, rate limiting, honeypot controls, and safe logging.
+- Send inquiries only to an owner-approved mailbox.
+- Document retention, deletion, and response ownership.
+- Keep medical-history submission offline until a secure vendor and BAA are approved.
 
-Priority: high after content approval.
+## Release 10 — production readiness
 
-- Add an approved appointment-request workflow with spam protection and a documented response owner.
-- Keep medical, insurance, and treatment details out of general web forms unless a secure healthcare workflow is selected.
-- Add real practice photography for the office, team, and patient experience.
-- Add approved reviews or testimonials with source and consent tracking.
-- Add a concise new-patient page or expandable section covering arrival time, paperwork, payment expectations, and what to bring.
-- Add visible emergency guidance clarifying when to call the office versus emergency services.
+- Replace fictional names, biographies, and portraits with verified practice content.
+- Confirm the second dentist and all staff roles.
+- Verify every service, policy, hour, telephone number, and address.
+- Conduct manual WCAG review in addition to automated axe checks.
+- Test current iOS Safari, Android Chrome, Chrome, Firefox, Edge, and Safari.
+- Optimize responsive images and Core Web Vitals.
+- Add final SEO titles, descriptions, canonical URLs, local-business schema, sitemap rules, and social imagery.
+- Configure uptime monitoring and rollback instructions.
+- Inventory existing DNS, MX, SPF, DKIM, DMARC, portal, and scheduling records.
+- Attach the real domain only after email and rollback testing.
 
-## Milestone 4 - Accessibility, performance, and search readiness
+## Release 11 — secure patient workflow, optional
 
-Priority: required before production promotion.
+Choose one path based on actual office needs.
 
-- Run full WCAG 2.2 AA review, including keyboard, zoom, screen-reader, contrast, and reduced-motion checks.
-- Test current iOS Safari, Android Chrome, desktop Chrome, Firefox, Edge, and Safari.
-- Convert approved images to responsive formats and define width/height and lazy-loading rules.
-- Establish Core Web Vitals budgets and automated Lighthouse checks.
-- Replace demo `noindex` behavior only after final content approval.
-- Add final metadata, canonical URLs, sitemap rules, local-business structured data, and social preview images.
+### Secure forms only
 
-## Milestone 5 - Production operations
+- Hushmail Secure Messaging & Forms or a Jotform HIPAA-enabled plan.
+- Signed BAA.
+- Secure notification and role-based access.
+- Retention and deletion policy.
 
-Priority: launch gate.
+### Secure communications
 
-- Select and document the production domain, DNS, hosting, email, analytics, and form-processing owners.
-- Add privacy-respecting analytics only after approval.
-- Define content update ownership and a quarterly accuracy review.
-- Add uptime monitoring, broken-link checks, dependency updates, and security-header validation.
-- Document backup, rollback, incident response, and credential-management procedures.
-- Perform a final production-readiness review before changing DNS or accepting patient submissions.
+- Spruce, Weave, or another approved healthcare communication platform.
+- Confirm calling, texting, fax, number porting, consent, staffing expectations, and telecom fees.
 
-## Suggested release sequence
+### Full scheduling and engagement
 
-1. **Design review release:** current corrective build for visual and content-structure feedback.
-2. **Content-approved release:** verified practice information and real people/assets.
-3. **Conversion release:** approved request workflow, patient guidance, and trust content.
-4. **Production candidate:** accessibility, performance, SEO, privacy, and operational gates complete.
-5. **Public launch:** DNS promotion only after written owner approval.
+- Obtain comparable quotes from Weave, NexHealth, and LocalMed.
+- Confirm compatibility with the practice-management system.
+- Pilot scheduling before making it the primary appointment path.
+
+## Longer-term ideas
+
+- Secure online new-patient intake.
+- Real-time appointment scheduling.
+- Closure and storm-alert banner editable by office staff.
+- Approved patient testimonials and review links.
+- Service-specific landing pages only where useful to patients and local search.
+- Google Business Profile integration.
+- Quarterly accessibility, link, content-freshness, and privacy reviews.
