@@ -1,17 +1,29 @@
 ---
 import ModernLayout from '../../layouts/ModernLayout.astro';
-import ModernPortrait from '../../components/ModernPortrait.astro';
 import site from '../../data/site.json';
-import teamData from '../../data/modern-team.json';
 
 const fullAddress = `${site.address.street}, ${site.address.city}, ${site.address.state} ${site.address.postalCode}`;
 const mapHref = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(fullAddress)}`;
-const serviceGroups = [
-  { title: 'Restore & renew', services: ['Tooth-colored fillings', 'Durable silver restorations', 'Dental implants', 'Ceramic veneers, crowns and bridges'] },
-  { title: 'Smile & confidence', services: ['Smile makeovers', 'Teeth whitening', 'Dentures and partials', 'Flexible metal-free partials'] },
-  { title: 'Advanced & ongoing care', services: ['Root canal therapy', 'Extractions', 'Management of gum disease', 'Minor gum surgeries'] }
+const carePaths = [
+  {
+    title: 'Repair and restore',
+    copy: 'Start here when a tooth is damaged, missing, or no longer functioning comfortably.',
+    examples: ['Fillings and durable restorations', 'Crowns, bridges, and implants'],
+    href: '/modern/services/#restore'
+  },
+  {
+    title: 'Improve or replace',
+    copy: 'Explore options that address appearance, missing teeth, and confidence in your smile.',
+    examples: ['Whitening and smile improvements', 'Dentures and partials'],
+    href: '/modern/services/#smile'
+  },
+  {
+    title: 'Relieve and protect',
+    copy: 'Learn about care for pain, infection, gum concerns, and teeth that may need advanced treatment.',
+    examples: ['Root canal therapy and extractions', 'Gum-disease management'],
+    href: '/modern/services/#advanced'
+  }
 ];
-const featuredTeam = teamData.team.slice(0, 3);
 ---
 <ModernLayout>
   <section class="modern-hero">
@@ -47,71 +59,39 @@ const featuredTeam = teamData.team.slice(0, 3);
   <section class="modern-section" aria-labelledby="home-care-heading">
     <div class="modern-shell">
       <div class="modern-section__head">
-        <p class="modern-eyebrow">Comprehensive care</p>
-        <h2 id="home-care-heading">Dental services organized around your needs.</h2>
-        <p>Explore the practice's published procedures in clear, patient-friendly groups.</p>
+        <p class="modern-eyebrow">Find the right starting point</p>
+        <h2 id="home-care-heading">Begin with the need, then review the details.</h2>
+        <p>The homepage offers a quick route into care. The Services page carries the complete published procedure list and fuller explanations.</p>
       </div>
-      <div class="modern-service-grid">
-        {serviceGroups.map((group, index) => (
-          <article class="modern-service-card" data-number={`0${index + 1}`}>
-            <h3>{group.title}</h3>
-            <ul>{group.services.map((service) => <li>{service}</li>)}</ul>
+      <div class="modern-path-grid">
+        {carePaths.map((path) => (
+          <article class="modern-path-card">
+            <h3>{path.title}</h3>
+            <p>{path.copy}</p>
+            <ul>{path.examples.map((example) => <li>{example}</li>)}</ul>
+            <a href={path.href}>Explore this care path</a>
           </article>
         ))}
-      </div>
-      <div class="modern-actions"><a class="modern-button modern-button--primary" href="/modern/services/">View all services</a></div>
-    </div>
-  </section>
-
-  <section class="modern-section modern-section--sea" aria-labelledby="home-doctors-heading">
-    <div class="modern-shell">
-      <div class="modern-section__head">
-        <p class="modern-eyebrow">Meet the dentists</p>
-        <h2 id="home-doctors-heading">Experience, clear explanations, and a comfortable approach.</h2>
-      </div>
-      <div class="modern-doctor">
-        <div class="modern-doctor__photo"><img src={teamData.providers[0].image} width="900" height="720" alt={teamData.providers[0].imageAlt} /></div>
-        <div>
-          <p class="modern-eyebrow">{teamData.providers[0].role}</p>
-          <h2>{teamData.providers[0].name}, {teamData.providers[0].credentials}</h2>
-          <p>{teamData.providers[0].summary}</p>
-          <div class="modern-doctor__highlights">{teamData.providers[0].highlights.map((item) => <span class="modern-chip">{item}</span>)}</div>
-          <a class="modern-button modern-button--primary" href="/modern/about/">Meet the dentists</a>
-        </div>
-      </div>
-      <div class="modern-doctor modern-doctor--reverse">
-        <div class="modern-doctor__photo"><ModernPortrait name={teamData.providers[1].name} variant={teamData.providers[1].portrait} /></div>
-        <div>
-          <p class="modern-eyebrow">{teamData.providers[1].role}</p>
-          <h2>{teamData.providers[1].name}, {teamData.providers[1].credentials}</h2>
-          <p>{teamData.providers[1].summary}</p>
-          <div class="modern-doctor__highlights">{teamData.providers[1].highlights.map((item) => <span class="modern-chip">{item}</span>)}</div>
-          <a class="modern-button modern-button--primary" href="/modern/about/">Read the profile</a>
-        </div>
       </div>
     </div>
   </section>
 
-  <section class="modern-section modern-section--deep" aria-labelledby="home-team-heading">
-    <div class="modern-shell">
-      <div class="modern-section__head">
-        <p class="modern-eyebrow">The people patients meet</p>
-        <h2 id="home-team-heading">A full team focused on a smooth visit.</h2>
-        <p>From the first phone call through treatment and follow-up, patients should know who is here to help.</p>
-      </div>
-      <div class="modern-team-grid">
-        {featuredTeam.map((member) => (
-          <article class="modern-team-card">
-            <ModernPortrait name={member.name} variant={member.portrait} />
-            <div class="modern-team-card__body">
-              <h3>{member.name}</h3>
-              <span class="modern-team-card__role">{member.role}</span>
-              <p>{member.bio}</p>
-            </div>
-          </article>
-        ))}
-      </div>
-      <div class="modern-actions"><a class="modern-button modern-button--coral" href="/modern/team/">Meet the whole team</a></div>
+  <section class="modern-section modern-section--sea" aria-labelledby="home-team-heading">
+    <div class="modern-shell modern-team-overview">
+      <article>
+        <p class="modern-eyebrow">One team page</p>
+        <h2 id="home-team-heading">Meet the dentists and the people who support each visit.</h2>
+        <p class="modern-lead">Provider profiles, front-desk roles, hygienists, and dental assistants now live together so patients do not have to search across several pages.</p>
+        <div class="modern-actions"><a class="modern-button modern-button--primary" href="/modern/team/">Meet the whole team</a></div>
+      </article>
+      <aside>
+        <h3>What you can find there</h3>
+        <ul>
+          <li>Full dentist profiles and areas of focus</li>
+          <li>Clear descriptions of patient-care roles</li>
+          <li>A direct path to scheduling and general questions</li>
+        </ul>
+      </aside>
     </div>
   </section>
 
