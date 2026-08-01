@@ -1,0 +1,47 @@
+html {
+  scroll-padding-top: 7rem;
+}
+
+:where(main [id], section[id], article[id], h1[id], h2[id], h3[id]) {
+  scroll-margin-top: 7rem;
+}
+
+:where(a, button, input, select, textarea, summary):focus-visible {
+  outline: 3px solid #ffbf47;
+  outline-offset: 3px;
+  box-shadow: 0 0 0 1px #1b1b1b;
+}
+
+:where(button, .button, .modern-button, input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]), select, textarea, summary) {
+  min-height: 44px;
+}
+
+:where(input[type="checkbox"], input[type="radio"]) {
+  min-width: 24px;
+  min-height: 24px;
+}
+
+:where(.site-header nav a, .footer-nav a, .modern-nav a, .modern-menu nav a, .modern-call, .modern-mobile-dock a) {
+  min-width: 24px;
+  min-height: 24px;
+}
+
+:where(.modern-consent, .modern-consent span) {
+  line-height: 1.5;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html:focus-within {
+    scroll-behavior: auto !important;
+  }
+
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+    transition-delay: 0ms !important;
+  }
+}
