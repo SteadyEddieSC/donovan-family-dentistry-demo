@@ -1,0 +1,33 @@
+---
+interface Props {
+  variant?: string;
+  name: string;
+  class?: string;
+}
+
+const { variant = 'provider', name, class: className = '' } = Astro.props;
+const palette: Record<string, { bg: string; skin: string; hair: string; shirt: string; accent: string }> = {
+  provider: { bg: '#d8ece9', skin: '#d8a47f', hair: '#6e4a32', shirt: '#0b6670', accent: '#88ad2d' },
+  admin: { bg: '#f4e7da', skin: '#c98765', hair: '#3a2b26', shirt: '#0b6670', accent: '#d56b4e' },
+  frontdesk: { bg: '#e7eff5', skin: '#e0ae88', hair: '#8a5a38', shirt: '#365f78', accent: '#88ad2d' },
+  hygienist1: { bg: '#e5f1e9', skin: '#9f6a4f', hair: '#2c211f', shirt: '#257f76', accent: '#d8ef7b' },
+  hygienist2: { bg: '#efe7f2', skin: '#e5b692', hair: '#c39a63', shirt: '#6d5c85', accent: '#88ad2d' },
+  assistant1: { bg: '#e8eef6', skin: '#8c5b43', hair: '#1f1a18', shirt: '#315f70', accent: '#d56b4e' },
+  assistant2: { bg: '#faeadf', skin: '#d69a76', hair: '#4e3026', shirt: '#8d5f4d', accent: '#88ad2d' }
+};
+const colors = palette[variant] ?? palette.provider;
+---
+<svg class:list={['modern-portrait', className]} viewBox="0 0 400 460" role="img" aria-label={`Illustrated portrait of ${name}`} xmlns="http://www.w3.org/2000/svg">
+  <rect width="400" height="460" rx="42" fill={colors.bg} />
+  <circle cx="326" cy="82" r="66" fill={colors.accent} opacity=".28" />
+  <path d="M78 424c12-99 59-151 122-151s111 52 123 151" fill={colors.shirt} />
+  <path d="M157 279c8 25 21 38 43 38 23 0 38-14 46-39v-42h-89z" fill={colors.skin} />
+  <ellipse cx="201" cy="182" rx="79" ry="93" fill={colors.skin} />
+  <path d="M125 185c-7-70 26-115 78-115 58 0 91 42 78 119-18-11-34-35-39-59-23 30-68 49-117 55z" fill={colors.hair} />
+  <path d="M129 189c-8 8-12 22-8 35 4 13 12 19 24 18M273 188c9 8 13 22 9 35-4 13-13 19-24 18" fill="none" stroke={colors.skin} stroke-width="16" stroke-linecap="round" />
+  <ellipse cx="169" cy="191" rx="7" ry="6" fill="#162a2e" />
+  <ellipse cx="232" cy="191" rx="7" ry="6" fill="#162a2e" />
+  <path d="M181 230c13 10 27 10 40 0" fill="none" stroke="#8c4e48" stroke-width="6" stroke-linecap="round" />
+  <path d="M197 196c-2 15-5 27-10 34 7 4 15 4 22 0" fill="none" stroke="#b6785c" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+  <path d="M133 421c11-62 34-96 67-103 33 7 57 41 68 103" fill="none" stroke="rgba(255,255,255,.34)" stroke-width="4" />
+</svg>
