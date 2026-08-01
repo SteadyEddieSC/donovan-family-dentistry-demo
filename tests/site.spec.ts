@@ -44,8 +44,7 @@ test('directions button has visible text contrast', async ({ page }) => {
 
 test('classic and modern logos use intentional white rounded cards', async ({ page }) => {
   await page.goto('/');
-  const classicBrand = page.locator('.brand');
-  const classicStyles = await classicBrand.evaluate((element) => {
+  const classicStyles = await page.locator('.brand').evaluate((element) => {
     const styles = getComputedStyle(element);
     return { background: styles.backgroundColor, radius: Number.parseFloat(styles.borderRadius) };
   });
@@ -54,8 +53,7 @@ test('classic and modern logos use intentional white rounded cards', async ({ pa
   await expect(page.locator('.footer-brand-card img')).toBeVisible();
 
   await page.goto('/modern/');
-  const modernBrand = page.locator('.modern-brand');
-  const modernStyles = await modernBrand.evaluate((element) => {
+  const modernStyles = await page.locator('.modern-brand').evaluate((element) => {
     const styles = getComputedStyle(element);
     return { background: styles.backgroundColor, radius: Number.parseFloat(styles.borderRadius) };
   });
@@ -154,6 +152,18 @@ test('PHI warning stays readable on the contact form', async ({ page }) => {
   expect(styles.background).toBe('rgb(255, 242, 237)');
 });
 
+test('free-service integrations default to safe preview mode', async ({ page }) => {
+  await page.goto('/modern/contact/');
+  const form = page.locator('#modern-inquiry-form');
+  await expect(form).toHaveAttribute('data-mode', 'preview');
+  await expect(form).toHaveAttribute('data-turnstile', 'disabled');
+  await expect(page.getByRole('button', { name: 'Preview request' })).toBeVisible();
+  await expect(page.locator('.cf-turnstile')).toHaveCount(0);
+
+  await page.goto('/modern/');
+  await expect(page.locator('script[src="https://static.cloudflareinsights.com/beacon.min.js"]')).toHaveCount(0);
+});
+
 test('modern mobile header shows one Call label', async ({ page, isMobile }) => {
   test.skip(!isMobile, 'Mobile-only layout assertion');
   await page.goto('/modern/contact/');
@@ -185,12 +195,12 @@ test('modern inquiry preview validates locally and sends nothing', async ({ page
   await expect(result).toContainText('(843) 555-0100');
 });
 
-test('rebuilt patient form materializes with the reviewed hash', async ({ request }) => {
+test('corrected patient form materializes with the reviewed hash', async ({ request }) => {
   const response = await request.get('/forms/new-patient-medical-history.pdf');
   expect(response.status()).toBeLessThan(400);
   const bytes = Buffer.from(await response.body());
-  expect(bytes.length).toBe(91107);
-  expect(createHash('sha256').update(bytes).digest('hex')).toBe('697bf74180dd1e4319756d5f37defd4a5b8cbd37a414073939d4b6899967dafd');
+  expect(bytes.length).toBe(105458);
+  expect(createHash('sha256').update(bytes).digest('hex')).toBe('b71e76aac8aa37db4b1910c2e87984e223c14d9310d1bda8496a045963dbc1c5');
 });
 
 test('internal links and downloadable assets resolve', async ({ page, request }) => {
