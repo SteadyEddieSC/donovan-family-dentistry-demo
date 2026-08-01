@@ -89,24 +89,41 @@ The code portion of Release 13 is complete. Actual message delivery remains inte
 - Added public Accessibility and Website Use & Privacy pages without representing unapproved service, insurance, payment, or emergency policies as finalized.
 - Added a committed npm lockfile, deterministic installs, npm audit, weekly Dependabot, daily deployed-site checks, internal-link checks, PDF checks, performance checks, and rollback instructions.
 - Expanded the office's one-click website check to include the production-candidate gates.
-- Preserved the four practice-owned launch blockers and kept live inquiry delivery, indexing, DNS, and domain changes disabled.
+- Preserved the practice-owned launch blockers and kept live inquiry delivery, indexing, DNS, and domain changes disabled.
 
-The Release 14 code and automated production-candidate controls are complete. The physical-device matrix, human WCAG review, service approval, insurance/payment approval, urgent-care workflow approval, and office-owned inquiry configuration remain required launch evidence rather than items silently marked complete.
+The Release 14 code and automated production-candidate controls are complete. The physical-device matrix, human WCAG review, practice approvals, and office-owned inquiry decision remain required launch evidence rather than items silently marked complete.
 
-## Release 15 — domain and operations launch
+## Release 15 — launch readiness and migration reconciliation
 
-**This is the next governed release after Release 14, but it cannot begin cutover until the remaining launch evidence is complete.**
+Release 15 prepares the governed evidence and operating package needed before a real-domain change. It does not perform the cutover.
 
-- Complete and record the physical-device/browser matrix and human WCAG checklist.
-- Obtain practice approval for the service list, insurance/payment wording, and urgent/after-hours workflow.
-- Configure and test the office-owned inquiry recipient, Basin account, Turnstile keys, allowed origins, rate limiting, retention, response ownership, and backup handling—or keep the form preview-only for launch.
-- Inventory current DNS, MX, SPF, DKIM, DMARC, portal, and scheduling records.
-- Select the final classic or modern design path.
-- Back up the existing DNS zone and document rollback.
-- Attach the real domain without disrupting email or existing services.
-- Change preview controls from `noindex` to the approved production policy only after all launch gates pass.
-- Perform post-cutover checks for TLS, redirects, forms, analytics, email, sitemap, and search-console ownership.
-- Train the office on routine updates, the one-click website check, hiding outdated content, monitoring results, and restoring prior versions.
+- Select the modern concept as the planned production design while retaining both concepts in private preview.
+- Reconcile the current public homepage, About page, procedure list, patient forms, and contact page against the candidate.
+- Elevate the current two-dentist provider-roster discrepancy into an explicit launch blocker.
+- Preserve exact current-service parity evidence while retaining practice approval of continued availability and wording.
+- Add a structured launch-evidence register with durable evidence references.
+- Add a fail-closed readiness/production gate that prevents production mode, indexing, analytics, or live inquiry activation without the required evidence.
+- Add a manual public DNS, mail-record, TLS, HTTP, and common-application inventory workflow that never changes records.
+- Add authoritative-zone reconciliation, email/application preservation, change-window, post-change verification, and rollback procedures.
+- Keep physical-device, human WCAG, provider, service, insurance/payment, urgent-care, inquiry, DNS-backup, email-preservation, and rollback evidence visibly open until completed.
+
+See `docs/release-15-launch-readiness.md`.
+
+## Release 16 — governed production cutover
+
+Release 16 begins only after every required Release 15 evidence item is verified or explicitly approved for deferral.
+
+- Export and review the authoritative DNS zone, TTLs, proxy settings, registrar, and account ownership.
+- Confirm MX, SPF, every DKIM selector, DMARC, autodiscover, portal, scheduling, payment, and other vendor records.
+- Complete the physical-device/browser matrix and human WCAG/PDF review.
+- Obtain the required provider, service, insurance/payment, urgent-care, and administrative-inquiry decisions.
+- Prepare the selected modern routing and production canonical host.
+- Attach the real domain in Cloudflare Pages without moving unrelated services.
+- Change only the minimum apex and `www` web records during the approved window.
+- Verify TLS, redirects, canonical URLs, indexing policy, forms, PDFs, analytics decision, email, application subdomains, sitemap, and search-console ownership.
+- Keep named operators available through the monitoring window.
+- Restore the prior web records and deployment immediately when a rollback threshold is met.
+- Train the office on routine updates, monitoring results, content retirement, and prior-version restoration.
 
 ## Optional later release — secure patient workflow
 

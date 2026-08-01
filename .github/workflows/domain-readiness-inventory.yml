@@ -1,0 +1,75 @@
+name: Domain readiness inventory
+
+on:
+  workflow_dispatch:
+    inputs:
+      domain:
+        description: Public domain to inventory without making changes
+        required: true
+        default: donovanfamilydentistry.com
+        type: string
+  pull_request:
+    paths:
+      - .github/workflows/domain-readiness-inventory.yml
+      - scripts/inventory-domain.mjs
+      - scripts/check-release15-readiness.mjs
+      - src/data/launch-readiness.json
+      - tests/release15.unit.test.mjs
+
+permissions:
+  contents: read
+
+concurrency:
+  group: domain-readiness-inventory-${{ inputs.domain || 'donovanfamilydentistry.com' }}
+  cancel-in-progress: false
+
+jobs:
+  collect-public-infrastructure-evidence:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      TARGET_DOMAIN: ${{ inputs.domain || 'donovanfamilydentistry.com' }}
+    steps:
+      - name: Check out the launch-readiness code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install locked dependencies
+        run: npm ci --no-audit --no-fund
+
+      - name: Validate Release 15 launch controls
+        run: npm run check:release15
+
+      - name: Run unit tests
+        run: npm run test:unit
+
+      - name: Build the production candidate without changing launch mode
+        run: npm run build
+
+      - name: Collect public DNS, TLS, and HTTP metadata
+        run: npm run inventory:domain -- --domain "$TARGET_DOMAIN" --output artifacts/domain-inventory.json
+
+      - name: Upload the domain inventory
+        uses: actions/upload-artifact@v4
+        with:
+          name: domain-readiness-${{ inputs.domain || 'donovanfamilydentistry.com' }}
+          path: artifacts/domain-inventory.json
+          retention-days: 30
+          if-no-files-found: error
+
+      - name: Record the safety boundary
+        run: |
+          {
+            echo '## Domain readiness inventory complete'
+            echo ''
+            echo "Target: ${TARGET_DOMAIN}"
+            echo ''
+            echo 'The artifact contains public DNS answers, TLS certificate metadata, and a small allowlist of HTTP response headers. No DNS records were changed.'
+            echo ''
+            echo 'Before cutover, compare the artifact with an authoritative zone export because generic DNS queries cannot discover every DKIM selector, proxy setting, vendor dependency, or private operating detail.'
+          } >> "$GITHUB_STEP_SUMMARY"

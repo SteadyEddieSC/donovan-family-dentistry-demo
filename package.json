@@ -16,12 +16,14 @@
     "check:content": "node scripts/check-editor-content.mjs",
     "check:inquiry": "node scripts/check-inquiry-configuration.mjs",
     "check:launch": "node scripts/check-launch-readiness.mjs",
+    "check:release15": "node scripts/check-release15-readiness.mjs",
     "check:performance": "node scripts/check-performance-budgets.mjs",
     "check:production-candidate": "node scripts/check-production-candidate.mjs",
     "check:deployed": "node scripts/check-deployed-site.mjs",
+    "inventory:domain": "node scripts/inventory-domain.mjs",
     "generate:images": "node scripts/generate-responsive-images.mjs",
-    "predev": "node scripts/check-inquiry-configuration.mjs && node scripts/check-editor-content.mjs && node scripts/check-launch-readiness.mjs && node scripts/check-production-candidate.mjs && node scripts/materialize-assets.mjs && node scripts/generate-responsive-images.mjs && node scripts/patch-patient-form.mjs",
-    "prebuild": "node scripts/check-inquiry-configuration.mjs && node scripts/check-editor-content.mjs && node scripts/check-launch-readiness.mjs && node scripts/check-production-candidate.mjs && node scripts/materialize-assets.mjs && node scripts/generate-responsive-images.mjs && node scripts/patch-patient-form.mjs"
+    "predev": "node scripts/check-inquiry-configuration.mjs && node scripts/check-editor-content.mjs && node scripts/check-launch-readiness.mjs && node scripts/check-production-candidate.mjs && node scripts/check-release15-readiness.mjs && node scripts/materialize-assets.mjs && node scripts/generate-responsive-images.mjs && node scripts/patch-patient-form.mjs",
+    "prebuild": "node scripts/check-inquiry-configuration.mjs && node scripts/check-editor-content.mjs && node scripts/check-launch-readiness.mjs && node scripts/check-production-candidate.mjs && node scripts/check-release15-readiness.mjs && node scripts/materialize-assets.mjs && node scripts/generate-responsive-images.mjs && node scripts/patch-patient-form.mjs"
   },
   "dependencies": {
     "astro": "7.1.4",

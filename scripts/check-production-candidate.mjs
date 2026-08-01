@@ -15,7 +15,13 @@ const [site, status, robots, headers, envExample] = await Promise.all([
 ]);
 
 const failures = [];
-const requiredBlockers = ['services', 'insurance-payment', 'urgent-care-wording', 'production-integrations'];
+const requiredBlockers = [
+  'provider-roster',
+  'services',
+  'insurance-payment',
+  'urgent-care-wording',
+  'production-integrations'
+];
 const blockerIds = status.launchBlockers.map((item) => item.id);
 
 if (site.previewMode !== true) failures.push('site.previewMode must remain true until all launch blockers are genuinely verified.');
@@ -32,10 +38,15 @@ for (const item of status.launchBlockers) {
   if (!item.replacementNeeded) failures.push(`Launch blocker ${item.id} must explain the evidence needed to clear it.`);
 }
 
-try {
-  await access(path.join(repositoryRoot, 'docs', 'release-14-production-candidate.md'));
-} catch {
-  failures.push('Release 14 production-candidate evidence document is missing.');
+for (const requiredDocument of [
+  'docs/release-14-production-candidate.md',
+  'docs/release-15-launch-readiness.md'
+]) {
+  try {
+    await access(path.join(repositoryRoot, requiredDocument));
+  } catch {
+    failures.push(`${requiredDocument} is missing.`);
+  }
 }
 
 if (failures.length > 0) {
