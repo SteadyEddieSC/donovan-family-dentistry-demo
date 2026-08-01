@@ -15,7 +15,16 @@ import site from '../data/site.json';
         <ActionButtons />
       </div>
       <div class="hero-image">
-        <img src={site.heroImage} width="600" height="336" alt={site.heroAlt} fetchpriority="high" />
+        <img
+          src={site.heroImage}
+          srcset="/images/office-exterior-480.webp 480w, /images/office-exterior-720.webp 720w, /images/office-exterior.webp 900w"
+          sizes="(max-width: 820px) calc(100vw - 2rem), 50vw"
+          width={site.heroImageWidth}
+          height={site.heroImageHeight}
+          alt={site.heroAlt}
+          fetchpriority="high"
+          decoding="async"
+        />
       </div>
     </div>
   </section>
