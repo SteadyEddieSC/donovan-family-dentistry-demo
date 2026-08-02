@@ -17,20 +17,24 @@ test('calm communication stays together on the reviewed phone width without wide
     const phrase = document.querySelector('.modern-values-title__phrase')!;
     const headingRect = heading.getBoundingClientRect();
     const phraseRect = phrase.getBoundingClientRect();
-    const phraseStyle = getComputedStyle(phrase);
+    const range = document.createRange();
+    range.selectNodeContents(phrase);
+    const textRects = [...range.getClientRects()].filter((rect) => rect.width > 0 && rect.height > 0);
     return {
       scrollWidth: document.documentElement.scrollWidth,
       clientWidth: document.documentElement.clientWidth,
+      phraseLeft: phraseRect.left,
       phraseRight: phraseRect.right,
+      headingLeft: headingRect.left,
       headingRight: headingRect.right,
-      phraseHeight: phraseRect.height,
-      lineHeight: Number.parseFloat(phraseStyle.lineHeight)
+      lineTops: [...new Set(textRects.map((rect) => Math.round(rect.top)))]
     };
   });
 
   expect(layout.scrollWidth).toBe(layout.clientWidth);
+  expect(layout.phraseLeft).toBeGreaterThanOrEqual(layout.headingLeft - 1);
   expect(layout.phraseRight).toBeLessThanOrEqual(layout.headingRight + 1);
-  expect(layout.phraseHeight).toBeLessThanOrEqual(layout.lineHeight + 1);
+  expect(layout.lineTops).toHaveLength(1);
   await page.screenshot({ path: 'test-results/release16-10-about-mobile.png', fullPage: true });
 });
 
