@@ -8,7 +8,7 @@ Open Pages CMS at:
 
 https://app.pagescms.org/
 
-Use `docs/office-cms-quickstart.md` for the first-time authorization and acceptance exercise. The repository-side configuration is ready, but the editor is not considered operationally accepted until an authorized owner completes a real save, website verification, matching Cloudflare deployment, and restoration exercise.
+Use `docs/office-cms-quickstart.md` for the first-time authorization and acceptance exercise. The owner acceptance test has now proved that an authorized owner can open the private repository, edit `src/data/site.json`, save a direct commit to `main`, and trigger the Cloudflare Pages deployment. The remaining acceptance evidence is the full website-check result and a demonstrated restoration.
 
 ## First-time access
 
@@ -22,18 +22,106 @@ Use `docs/office-cms-quickstart.md` for the first-time authorization and accepta
    - **Dentists and team**
    - **Services and patient forms**
 
+## What Save does
+
+**Save** is the step that changes the website source.
+
+1. Pages CMS writes the edited content or media file directly to the selected GitHub branch.
+2. GitHub records the change as a commit such as `office update: revise site.json`.
+3. When the branch is `main`, the commit starts the repository's normal automated checks and a Cloudflare Pages deployment.
+4. When the branch is not `main`, Cloudflare normally creates a branch preview instead of replacing the main candidate.
+
+Pages CMS has no separate content database. The GitHub file and commit are the saved record.
+
+## What Build and verify website does
+
+**Build and verify website** is an optional manual test action. It does not save a field, undo a field, or create a different deployment.
+
+It checks the already-saved branch with:
+
+- locked dependency installation and high-severity dependency review;
+- serverless administrative-request unit tests;
+- editable-content and launch-safety validation;
+- responsive-image, blank-PDF, and performance-budget checks;
+- browser, mobile, link, form, metadata, and automated accessibility checks;
+- the Chrome, Edge, Firefox, WebKit, Android-emulation, and iOS-emulation compatibility matrix.
+
+It also stores a temporary copy of the successfully built site as a GitHub Actions artifact.
+
+The normal sequence is:
+
+1. edit the intended field;
+2. select **Save**;
+3. confirm the `office update:` commit and Cloudflare deployment;
+4. run **Build and verify website** for the complete acceptance check;
+5. review the same saved version on phone and desktop.
+
 ## Normal update process
 
 1. Open the section that needs to change.
 2. Edit only the relevant fields.
 3. Use **Show profile**, **Show service**, or **Show announcement** to control whether an item appears publicly.
 4. Save the change.
-5. Choose **Build and verify website** from the editor actions.
-6. Wait for the check to finish. A successful check confirms editable content, dependencies, the protected administrative-request handler, launch safeguards, responsive images, performance budgets, links, forms, metadata, browser layouts, mobile behavior, and automated accessibility checks passed.
-7. Open the matching Cloudflare Pages deployment and review the changed page on both a phone and desktop browser.
-8. Keep uncertain or unapproved content hidden until the office owner or website administrator approves it.
+5. Confirm the new `office update:` commit appears in GitHub.
+6. Wait for the Cloudflare deployment for the same commit.
+7. Choose **Build and verify website** from the editor actions for the full validation run.
+8. Wait for the check to finish successfully.
+9. Open the matching Cloudflare Pages deployment and review the changed page on both a phone and desktop browser.
+10. Keep uncertain or unapproved content hidden until the office owner or website administrator approves it.
 
-Cloudflare Pages rebuilds after a save to `main`. A failed build does not replace the last successful deployment.
+A failed build does not replace the last successful deployment.
+
+## Restore or roll back an office edit
+
+There is no ordinary **Revert** button on the GitHub mobile commit page for a direct Pages CMS save. GitHub's web Revert button is normally attached to a merged pull request, not an individual direct commit.
+
+### Method 1 — edit the value back and save again
+
+This is the preferred method for a wording, hours, announcement, provider, service, image-selection, or similar mistake.
+
+1. Open the same Pages CMS entry and branch.
+2. Restore the prior value manually.
+3. Select **Save**.
+4. Confirm a new `office update:` commit appears on `main`.
+5. Confirm Cloudflare deploys that corrective commit.
+6. Review the page on phone and desktop.
+
+This preserves a clear record: the first commit made the mistake and the next commit corrected it.
+
+### Method 2 — use Restore latest office save in GitHub Actions
+
+Use this immediately after the mistaken Pages CMS save when it is still the newest commit on `main`.
+
+1. Open `SteadyEddieSC/donovan-family-dentistry-demo` in GitHub.
+2. On a phone, select **More** and then **Actions**. On desktop, select **Actions** directly.
+3. Select the workflow named **Restore latest office save**.
+4. Select **Run workflow**.
+5. Confirm the selected branch is **main**.
+6. Select the green **Run workflow** button.
+7. Wait for the workflow to complete successfully.
+8. Open the new revert commit created by `github-actions[bot]`.
+9. Confirm Cloudflare deploys the new `main` commit.
+10. Review the restored page on phone and desktop.
+
+The workflow is intentionally fail-closed. It changes nothing unless:
+
+- the newest `main` commit message starts with `office update:`; and
+- every changed file is an approved office-managed data, website-image, or blank-PDF path.
+
+It creates a new revert commit and does not erase history. If a release or another commit has landed after the mistaken office save, it stops without changing anything.
+
+### Method 3 — administrator recovery
+
+Contact the website administrator when:
+
+- the mistaken commit is not the newest commit on `main`;
+- several commits must be undone together;
+- the change involved code, configuration, DNS, secrets, or a production release;
+- the rollback workflow rejects an unexpected path;
+- GitHub reports a conflict; or
+- the desired version is not clear.
+
+The administrator should create a corrective or revert pull request or redeploy the last green Cloudflare deployment. Do not reset or force-push shared `main` history.
 
 ## Built-in protections
 
@@ -94,7 +182,7 @@ A green website check does not authorize public launch by itself. The practice a
 - urgent-dental, emergency-escalation, telephone, and after-hours wording;
 - the preview-only or live administrative-request decision;
 - physical-device/browser checks and human WCAG/PDF review;
-- Pages CMS acceptance and recovery evidence;
+- the completed Pages CMS save, full website-check, and restoration evidence;
 - a complete authoritative DNS-zone backup;
 - the exact legacy-hosting product, owner, backups, renewal, and cancellation plan;
 - preservation of MX, SPF, DKIM, DMARC, autodiscover, portal, scheduling, payment, review, and other application records;
@@ -109,10 +197,10 @@ Office editors may supply and approve content. They must not edit DNS, registrar
 - General website inquiries must not request or contain protected health information.
 - Use the announcement for closures, storms, or short administrative notices, not individual patient messages.
 
-## Monitoring and recovery
+## Monitoring and recovery summary
 
 Every save becomes a GitHub commit. A failed build does not replace the prior green site.
 
-For a wording error, restore the prior field value and save again. For a larger code or content problem, the website administrator can revert the responsible commit or redeploy the last green `main` deployment. To disable live administrative requests quickly, the administrator sets `PUBLIC_ADMIN_INQUIRY_ENABLED=false` and redeploys.
+For a small owner mistake, edit the prior value back and save. For the immediately preceding safe Pages CMS save, use **Actions → Restore latest office save**. For a larger code or content problem, the website administrator creates a corrective/revert pull request or redeploys the last green deployment. To disable live administrative requests quickly, the administrator sets `PUBLIC_ADMIN_INQUIRY_ENABLED=false` and redeploys.
 
 Domain rollback is separate from Pages CMS. Use `docs/release-15-launch-readiness.md` and `docs/release-16-cms-cutover-tool-readiness.md` for DNS, mail, application, monitoring, and rollback procedures.
