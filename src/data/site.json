@@ -1,7 +1,7 @@
 {
   "practiceName": "Donovan Family Dentistry",
   "tagline": "High-quality, comprehensive dental care for patients of all ages.",
-  "introduction": "We utilize up-to-date techniques and dental procedures in a comfortable and caring environment.",
+  "introduction": "We utilize up-to-date techniques and dental procedures in a comfortable and caring environment. Test test test",
   "phoneDisplay": "(843) 525-6866",
   "phoneHref": "+18435256866",
   "address": {
@@ -11,13 +11,34 @@
     "postalCode": "29907"
   },
   "hours": [
-    { "day": "Monday", "hours": "7:30 AM-5:00 PM" },
-    { "day": "Tuesday", "hours": "7:30 AM-5:00 PM" },
-    { "day": "Wednesday", "hours": "7:30 AM-5:00 PM" },
-    { "day": "Thursday", "hours": "7:30 AM-5:00 PM" },
-    { "day": "Friday", "hours": "Closed" },
-    { "day": "Saturday", "hours": "Closed" },
-    { "day": "Sunday", "hours": "Closed" }
+    {
+      "day": "Monday",
+      "hours": "7:30 AM-5:00 PM"
+    },
+    {
+      "day": "Tuesday",
+      "hours": "7:30 AM-5:00 PM"
+    },
+    {
+      "day": "Wednesday",
+      "hours": "7:30 AM-5:00 PM"
+    },
+    {
+      "day": "Thursday",
+      "hours": "7:30 AM-5:00 PM"
+    },
+    {
+      "day": "Friday",
+      "hours": "Closed"
+    },
+    {
+      "day": "Saturday",
+      "hours": "Closed"
+    },
+    {
+      "day": "Sunday",
+      "hours": "Closed"
+    }
   ],
   "heroImage": "/images/office-exterior.webp",
   "heroImageWidth": 900,
@@ -36,8 +57,7 @@
   ],
   "previewMode": true,
   "announcement": {
-    "enabled": false,
-    "text": ""
+    "enabled": false
   },
   "seo": {
     "title": "Donovan Family Dentistry | Beaufort, SC",
