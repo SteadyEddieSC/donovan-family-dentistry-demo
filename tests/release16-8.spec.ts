@@ -29,6 +29,13 @@ test('Open Dental references open directly and safely', async ({ page }) => {
   await expect(apiSetup).toHaveAttribute('rel', /noopener/);
 });
 
+test('Open Dental readiness mobile review screenshot', async ({ page }, testInfo) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/review/open-dental/');
+  await expect(page.getByRole('heading', { name: 'Use Open Dental first—without duplicating the practice system.' })).toBeVisible();
+  await page.screenshot({ path: testInfo.outputPath('release16-8-open-dental-mobile.png'), fullPage: true });
+});
+
 test('announcement remains hidden until the office enables it and does not duplicate', async ({ page }) => {
   for (const path of ['/', '/about/', '/modern/', '/modern/about/']) {
     await page.goto(path);
