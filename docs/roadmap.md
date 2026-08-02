@@ -63,18 +63,15 @@ The modern concept is the patient-facing digital front door. Each page has one p
 
 See `docs/release-15-launch-readiness.md`.
 
-## Release 16 — CMS acceptance, blocker decomposition, and tool enablement
+### Release 16 — CMS acceptance, blocker decomposition, and tool enablement
 
-Release 16 turns the remaining launch work into an owner-usable operating package. It does not change production DNS.
-
-- Verify every Pages CMS editable file, media path, action workflow, and build dependency.
-- Publish the exact hosted editor link and first-time, routine, validation, and recovery process.
-- Keep CMS status as **configured but pending owner acceptance** until a real save, website check, Cloudflare rebuild, and restoration exercise is recorded.
-- Record what public evidence supports about the legacy host while clearly separating likely GoDaddy infrastructure from the still-unconfirmed exact hosting product.
-- Add a structured readiness register for Pages CMS, Cloudflare Pages, Turnstile, Basin, Cloudflare Web Analytics, Search Console, secure patient intake, and dental-platform scheduling/messaging/payments.
-- Separate repository readiness from account ownership, owner decisions, healthcare agreements, operating procedures, and real-world testing.
-- Produce an owner-facing Word guide.
-- Keep the public inquiry path non-PHI and keep healthcare-capable tools unselected until the practice identifies its system of record and approves a vendor and BAA.
+- Verified every Pages CMS editable file, media path, action workflow, and build dependency.
+- Published the exact hosted editor link and first-time, routine, validation, and recovery process.
+- Kept CMS status as configured but pending owner acceptance until a real save, website check, Cloudflare rebuild, and restoration exercise could be recorded.
+- Recorded what public evidence supports about the legacy host while separating likely GoDaddy infrastructure from the still-unconfirmed exact hosting product.
+- Added a structured readiness register for Pages CMS, Cloudflare Pages, Turnstile, Basin, Cloudflare Web Analytics, Search Console, secure patient intake, and dental-platform scheduling/messaging/payments.
+- Separated repository readiness from account ownership, owner decisions, healthcare agreements, operating procedures, and real-world testing.
+- Kept the public inquiry path non-PHI and healthcare-capable tools unselected until the practice identifies its system of record and approves a vendor and BAA.
 
 See:
 
@@ -82,19 +79,36 @@ See:
 - `docs/release-16-cms-cutover-tool-readiness.md`
 - `src/data/tool-readiness.json`
 
+### Release 16.1 — first owner test, recovery, branding, and mobile polish
+
+Release 16.1 incorporates the first real Pages CMS owner test while preserving every pre-cutover safety boundary.
+
+- Records that the owner successfully opened Pages CMS, edited `src/data/site.json`, saved commit `db6c9e9b0393f5c88df4ba83e260bd4fac2ce7bd`, and observed the Cloudflare candidate update.
+- Restores the harmless temporary test wording.
+- Explains that **Save** creates the GitHub commit and triggers the normal main-branch checks and Cloudflare deployment.
+- Explains that **Build and verify website** validates the already-saved branch and does not separately save or deploy content.
+- Adds a guarded **Restore latest office save** workflow for the newest safe `office update:` commit on `main`.
+- Adds exact phone and desktop recovery instructions to the README and owner guides.
+- Removes the redundant fixed quick-action dock from the modern homepage and keeps safe-area clearance on interior pages.
+- Corrects the narrow-screen Services heading so `Comprehensive` does not break mid-word.
+- Revises the vector logo to better match the owner-supplied wordmarks and physical sign: stronger blue outline and underline, darker navy wording, and darker green toothbrush-inspired bars.
+
+See `docs/release-16-1-owner-polish.md`.
+
 ## Release 17 — governed production-domain cutover
 
-Release 17 begins only after every required Release 15 and Release 16 item is verified or explicitly approved for deferral.
+Release 17 begins only after every required Release 15 and Release 16.x item is verified or explicitly approved for deferral.
 
 - Export and review the authoritative DNS zone, TTLs, proxy settings, registrar, and account ownership.
 - Confirm the exact GoDaddy hosting product, subscription owner, backups, renewal, cancellation timing, and rollback target.
 - Confirm MX, SPF, every DKIM selector, DMARC, autodiscover, mail-related records, portal, scheduling, payment, review, remote-access, and other vendor records.
+- Decide whether the simplest safe architecture is a limited web-host change or a complete Cloudflare Free authoritative-DNS migration.
 - Complete the physical-device/browser matrix and human WCAG/PDF review.
-- Complete Pages CMS owner acceptance and recovery testing.
+- Complete Pages CMS owner acceptance by recording the full website-check and restoration result.
 - Obtain the provider, service, insurance/payment, urgent-care, and administrative-inquiry decisions.
 - Prepare the selected modern routing and production canonical host.
 - Attach the real domain in Cloudflare Pages without moving unrelated services.
-- Change only the minimum apex and `www` web records during the approved window.
+- Change only the minimum approved web or authoritative-DNS records during the change window.
 - Verify TLS, redirects, canonical URLs, indexing policy, forms, PDFs, analytics decision, email, application subdomains, sitemap, and search ownership.
 - Keep named operators available through the monitoring window.
 - Restore the prior web records and deployment immediately when a rollback threshold is met.
