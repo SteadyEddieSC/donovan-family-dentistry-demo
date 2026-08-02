@@ -19,11 +19,12 @@ test('team privacy card remains readable in the dark section', async ({ page }) 
   expect(colors.paragraph).not.toBe(colors.background);
 });
 
-test('modern dark mode keeps cards, buttons, and logo readable', async ({ page }) => {
+test('modern dark mode keeps cards, buttons, and the self-protected logo readable', async ({ page }) => {
   await page.emulateMedia({ colorScheme: 'dark' });
   await page.goto('/modern/');
 
   const logoCard = page.locator('.modern-brand');
+  const logoImage = logoCard.locator('img');
   const requestButton = page.getByRole('link', { name: 'Request a call' });
   const pathCard = page.locator('.modern-path-card').first();
 
@@ -44,10 +45,12 @@ test('modern dark mode keeps cards, buttons, and logo readable', async ({ page }
   });
 
   await expect(logoCard).toBeVisible();
+  await expect(logoImage).toBeVisible();
+  await expect(logoImage).toHaveAttribute('src', '/images/donovan-sign-logo.svg');
   await expect(requestButton).toBeVisible();
   await expect(pathCard).toBeVisible();
   expect(colors.bodyBackground).not.toBe(colors.bodyColor);
-  expect(colors.logoBackground).toBe('rgb(255, 255, 255)');
+  expect(colors.logoBackground).toBe('rgba(0, 0, 0, 0)');
   expect(colors.buttonColor).not.toBe(colors.bodyBackground);
   expect(colors.buttonBorder).not.toBe('rgba(0, 0, 0, 0)');
   expect(colors.cardBackground).not.toBe(colors.cardColor);
@@ -102,15 +105,46 @@ test('mobile services heading keeps Comprehensive intact and preserves dock clea
   expect(mainPadding).toBeGreaterThan(80);
 });
 
-test('sign-aligned logo asset uses the stronger approved palette', async ({ page, request }) => {
+test('modern header uses the clean oval sign vector without a rectangular backing card', async ({ page, request }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/modern/');
-  await expect(page.locator('.modern-brand img')).toHaveAttribute('src', '/images/donovan-logo.svg');
 
-  const response = await request.get('/images/donovan-logo.svg');
+  const logo = page.locator('.modern-brand img');
+  await expect(logo).toHaveAttribute('src', '/images/donovan-sign-logo.svg');
+  const metrics = await logo.evaluate((element) => {
+    const image = element as HTMLImageElement;
+    const styles = getComputedStyle(image);
+    const parentStyles = getComputedStyle(image.parentElement!);
+    const rect = image.getBoundingClientRect();
+    return {
+      complete: image.complete,
+      naturalWidth: image.naturalWidth,
+      width: rect.width,
+      height: rect.height,
+      imageBackground: styles.backgroundColor,
+      parentBackground: parentStyles.backgroundColor,
+      parentRadius: parentStyles.borderRadius
+    };
+  });
+
+  expect(metrics.complete).toBe(true);
+  expect(metrics.naturalWidth).toBeGreaterThan(0);
+  expect(metrics.width).toBeGreaterThan(140);
+  expect(metrics.height).toBeLessThan(100);
+  expect(metrics.imageBackground).toBe('rgba(0, 0, 0, 0)');
+  expect(metrics.parentBackground).toBe('rgba(0, 0, 0, 0)');
+  expect(metrics.parentRadius).toBe('0px');
+
+  const response = await request.get('/images/donovan-sign-logo.svg');
   expect(response.status()).toBeLessThan(400);
   const svg = await response.text();
+  expect(svg).toContain('viewBox="0 0 800 400"');
+  expect(svg).toContain('<ellipse');
+  expect(svg).toContain('fill="#fffdf8"');
   expect(svg).toContain('stroke="#006b93"');
-  expect(svg).toContain('fill="#12233f">DONOVAN');
-  expect(svg).toContain('fill="#72a928"');
+  expect(svg).toContain('fill="#12233f"');
+  expect(svg).toContain('fill="#6f9f2b"');
   expect(svg).toContain('fill="#00749d"');
+  expect(svg).not.toContain('<image');
+  expect(svg.toLowerCase()).not.toContain('checker');
 });
