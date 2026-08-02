@@ -21,7 +21,7 @@
   height: auto;
   border-radius: 0 !important;
   background: transparent !important;
-  filter: none !important;
+  filter: drop-shadow(0 7px 10px rgba(6, 47, 53, .2)) !important;
   object-fit: contain;
 }
 
