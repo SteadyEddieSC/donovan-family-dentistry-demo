@@ -35,8 +35,10 @@ test('Release 16.4 publishes a static office vCard without external dependencies
   assert.match(modernContact, /ContactActionStack/);
   for (const document of [layout, contactActions, classicContact]) {
     assert.match(document, /\/donovan-family-dentistry\.vcf/);
-    assert.match(document, /Save office contact/);
   }
+  assert.match(layout, /Download contact card/);
+  assert.match(contactActions, /Downloadable Contact Card/);
+  assert.match(classicContact, /Save office contact/);
 });
 
 test('Release 16.4 modernizes the recovery page without adding unverified claims', async () => {
