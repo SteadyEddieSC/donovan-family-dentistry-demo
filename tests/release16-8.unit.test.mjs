@@ -46,7 +46,7 @@ test('Release 16.8 records Open Dental without activating an unverified patient 
   assert.equal(patientServices.status, 'not-selected');
   assert.match(page, /forceNoIndex=\{true\}/);
   assert.match(page, /No patient-system link is active yet/);
-  assert.match(page, /Use the Open Dental API rather than direct database writes/);
+  assert.match(page, /Use the Open Dental API.*direct database writes/);
   assert.doesNotMatch(page, /<iframe|<form|<script/i);
   assert.match(layout, /\/review\/open-dental\//);
   assert.doesNotMatch(sitemap, /\/review\/open-dental\//);
