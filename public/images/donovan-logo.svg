@@ -1,13 +1,19 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 510 138" role="img" aria-labelledby="title desc">
   <title id="title">Donovan Family Dentistry</title>
-  <desc id="desc">The Donovan Family Dentistry logo on a rounded white card.</desc>
-  <rect x="1" y="1" width="508" height="136" rx="22" ry="22" fill="#fff" stroke="#e4eaeb" stroke-width="2"/>
+  <desc id="desc">Donovan Family Dentistry wordmark with a dark navy name, blue underline and outline, and green toothbrush-inspired mark.</desc>
+  <rect x="3" y="3" width="504" height="132" rx="22" ry="22" fill="#ffffff" stroke="#006b93" stroke-width="6"/>
   <g transform="translate(20 10)">
-    <text x="10" y="70" font-family="Arial, Helvetica, sans-serif" font-size="67" font-weight="300" letter-spacing="-2" fill="#2f3336">DONOVAN</text>
-    <g fill="#6a9f12">
-      <rect x="374" y="28" width="8" height="43"/><rect x="386" y="23" width="8" height="48"/><rect x="398" y="18" width="8" height="53"/><rect x="410" y="25" width="8" height="46"/><rect x="422" y="14" width="8" height="57"/><rect x="434" y="20" width="8" height="51"/><rect x="446" y="16" width="8" height="55"/>
+    <text x="10" y="69" font-family="Arial, Helvetica, sans-serif" font-size="67" font-weight="500" letter-spacing="-2" fill="#12233f">DONOVAN</text>
+    <g fill="#72a928">
+      <rect x="374" y="28" width="9" height="43" rx="1.5"/>
+      <rect x="386" y="23" width="9" height="48" rx="1.5"/>
+      <rect x="398" y="18" width="9" height="53" rx="1.5"/>
+      <rect x="410" y="25" width="9" height="46" rx="1.5"/>
+      <rect x="422" y="14" width="9" height="57" rx="1.5"/>
+      <rect x="434" y="20" width="9" height="51" rx="1.5"/>
+      <rect x="446" y="16" width="9" height="55" rx="1.5"/>
     </g>
-    <rect x="10" y="78" width="444" height="7" fill="#006a8e"/>
-    <text x="20" y="105" font-family="Arial, Helvetica, sans-serif" font-size="13" letter-spacing="10" fill="#6b757b">FAMILY DENTISTRY</text>
+    <rect x="10" y="78" width="445" height="9" rx="2" fill="#00749d"/>
+    <text x="20" y="108" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700" letter-spacing="9" fill="#22314a">FAMILY DENTISTRY</text>
   </g>
 </svg>

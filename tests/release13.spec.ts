@@ -54,7 +54,7 @@ test('clear resets the private preview and starts a fresh timing window', async 
   await expect.poll(async () => Number(await startedAt.inputValue())).toBeGreaterThanOrEqual(before);
 });
 
-test('contact page omits the duplicate mobile dock while other pages retain it', async ({ page, isMobile }) => {
+test('contact and homepage omit duplicate mobile docks while interior pages retain one', async ({ page, isMobile }) => {
   test.skip(!isMobile, 'Mobile-only overlap safeguard.');
 
   await page.goto('/modern/contact/');
@@ -64,6 +64,11 @@ test('contact page omits the duplicate mobile dock while other pages retain it',
   await expect(page.getByRole('link', { name: 'Patient forms' }).first()).toBeVisible();
 
   await page.goto('/modern/');
+  await expect(page.locator('.modern-mobile-dock')).toHaveCount(0);
+  await expect(page.getByRole('link', { name: 'Call the office' })).toBeVisible();
+  await expect(page.getByRole('link', { name: 'Patient forms' }).first()).toBeVisible();
+
+  await page.goto('/modern/services/');
   await expect(page.locator('.modern-mobile-dock')).toBeVisible();
 });
 

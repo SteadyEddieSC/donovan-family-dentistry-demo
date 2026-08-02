@@ -5,7 +5,8 @@ test('logo artwork contains its own rounded white card', async ({ request }) => 
   expect(response.status()).toBeLessThan(400);
   const svg = await response.text();
   expect(svg).toContain('viewBox="0 0 510 138"');
-  expect(svg).toContain('width="508" height="136" rx="22" ry="22" fill="#fff"');
+  expect(svg).toMatch(/<rect[^>]+rx="22"[^>]+ry="22"[^>]+fill="#(?:fff|ffffff)"[^>]*\/>/);
+  expect(svg).toContain('stroke="#006b93"');
 });
 
 test('logo wrappers preserve the white artwork without adding a second card', async ({ page }) => {

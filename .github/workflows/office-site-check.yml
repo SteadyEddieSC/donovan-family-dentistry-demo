@@ -63,9 +63,9 @@ jobs:
           {
             echo '## Website check passed'
             echo ''
-            echo 'The editable content is valid; locked-dependency, administrative-request, launch-safety, responsive-image, performance-budget, browser, link, form, mobile, metadata, and automated accessibility checks passed.'
+            echo 'The already-saved branch is valid; locked-dependency, administrative-request, launch-safety, responsive-image, performance-budget, browser, link, form, mobile, metadata, and automated accessibility checks passed.'
+            echo ''
+            echo 'This manual check does not save content and does not start a separate deployment. Saving to main creates the GitHub commit that triggers the normal Cloudflare Pages deployment; compare the workflow commit with the Cloudflare deployment commit.'
             echo ''
             echo 'Automated browser emulation does not replace the real-device and office-approval items listed in docs/release-14-production-candidate.md.'
-            echo ''
-            echo 'When this check runs on the main branch, Cloudflare Pages also rebuilds the private production candidate automatically. When it runs on another branch, use the Cloudflare branch-preview link for review.'
           } >> "$GITHUB_STEP_SUMMARY"

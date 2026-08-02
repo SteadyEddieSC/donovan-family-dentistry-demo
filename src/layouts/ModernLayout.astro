@@ -12,6 +12,7 @@ import '../styles/modern-v5.css';
 import '../styles/logo-hardening.css';
 import '../styles/font-policy.css';
 import '../styles/production-candidate.css';
+import '../styles/release-16-1.css';
 
 interface Props {
   title?: string;
@@ -39,7 +40,8 @@ const nav = [
   { href: '/modern/contact/', label: 'Contact' }
 ];
 const isActive = (href: string) => href === '/modern/' ? path === href : path.startsWith(href);
-const showMobileDock = !path.startsWith('/modern/contact/');
+const showMobileDock = path !== '/modern/' && !path.startsWith('/modern/contact/');
+const bodyClass = showMobileDock ? 'modern-body modern-body--with-dock' : 'modern-body';
 ---
 <!doctype html>
 <html lang="en">
@@ -56,7 +58,7 @@ const showMobileDock = !path.startsWith('/modern/contact/');
     />
     <CloudflareAnalytics />
   </head>
-  <body class="modern-body">
+  <body class={bodyClass}>
     <a class="modern-skip" href="#modern-main">Skip to main content</a>
     <header class="modern-header">
       <div class="modern-shell modern-header__inner">
