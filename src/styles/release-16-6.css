@@ -16,6 +16,11 @@
   background: rgba(255, 255, 255, .12);
 }
 
+.modern-contact-tile .modern-action-icon {
+  color: #ffffff;
+  font-size: inherit;
+}
+
 .modern-action-icon svg {
   width: 1.55rem;
   height: 1.55rem;
