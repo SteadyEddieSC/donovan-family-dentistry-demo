@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-test('logo artwork contains its own rounded white card', async ({ request }) => {
+test('classic logo artwork contains its own rounded white card', async ({ request }) => {
   const response = await request.get('/images/donovan-logo.svg');
   expect(response.status()).toBeLessThan(400);
   const svg = await response.text();
@@ -9,7 +9,7 @@ test('logo artwork contains its own rounded white card', async ({ request }) => 
   expect(svg).toContain('stroke="#006b93"');
 });
 
-test('logo wrappers preserve the white artwork without adding a second card', async ({ page }) => {
+test('logo wrappers match each artwork contrast treatment without adding a second card', async ({ page }) => {
   for (const path of ['/', '/modern/']) {
     await page.goto(path);
     const selector = path === '/' ? '.brand' : '.modern-brand';
@@ -29,12 +29,19 @@ test('logo wrappers preserve the white artwork without adding a second card', as
         heightDifference: imageBox ? Math.abs(wrapperBox.height - imageBox.height) : 999
       };
     });
-    expect(styles.backgroundColor).toBe('rgb(255, 255, 255)');
+
+    if (path === '/') {
+      expect(styles.backgroundColor).toBe('rgb(255, 255, 255)');
+      expect(styles.radius).toBeGreaterThan(0);
+    } else {
+      expect(styles.backgroundColor).toBe('rgba(0, 0, 0, 0)');
+      expect(styles.radius).toBe(0);
+    }
+
     expect(styles.backgroundImage).toBe('none');
     expect(styles.padding).toBe(0);
     expect(styles.border).toBe(0);
     expect(styles.shadow).toBe('none');
-    expect(styles.radius).toBeGreaterThan(0);
     expect(styles.widthDifference).toBeLessThanOrEqual(1);
     expect(styles.heightDifference).toBeLessThanOrEqual(1);
   }
