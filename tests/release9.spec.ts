@@ -1,21 +1,23 @@
 import { test, expect } from '@playwright/test';
 
-test('classic logo artwork contains its own rounded white card', async ({ request }) => {
+test('shared logo artwork contains its own rounded white card', async ({ request }) => {
   const response = await request.get('/images/donovan-logo.svg');
   expect(response.status()).toBeLessThan(400);
   const svg = await response.text();
   expect(svg).toContain('viewBox="0 0 510 138"');
-  expect(svg).toMatch(/<rect[^>]+rx="22"[^>]+ry="22"[^>]+fill="#(?:fff|ffffff)"[^>]*\/>/);
-  expect(svg).toContain('stroke="#006b93"');
+  expect(svg).toMatch(/<rect[^>]+rx="22"[^>]+ry="22"[^>]+fill="#(?:fff|ffffff)"[^>]*stroke="#006b93"[^>]*\/>/);
+  expect(svg).toContain('color-scheme: only light');
+  expect(svg).toContain('forced-color-adjust: none');
 });
 
-test('logo wrappers match each artwork contrast treatment without adding a second card', async ({ page }) => {
+test('classic and modern logo wrappers use the same explicit light surface without a second card', async ({ page }) => {
   for (const path of ['/', '/modern/']) {
     await page.goto(path);
     const selector = path === '/' ? '.brand' : '.modern-brand';
     const styles = await page.locator(selector).evaluate((element) => {
       const computed = getComputedStyle(element);
       const image = element.querySelector('img');
+      const imageStyles = image ? getComputedStyle(image) : null;
       const wrapperBox = element.getBoundingClientRect();
       const imageBox = image?.getBoundingClientRect();
       return {
@@ -25,23 +27,23 @@ test('logo wrappers match each artwork contrast treatment without adding a secon
         border: Number.parseFloat(computed.borderTopWidth),
         shadow: computed.boxShadow,
         radius: Number.parseFloat(computed.borderRadius),
+        imageBackground: imageStyles?.backgroundColor ?? '',
+        imageFilter: imageStyles?.filter ?? '',
+        imageSource: image?.getAttribute('src') ?? '',
         widthDifference: imageBox ? Math.abs(wrapperBox.width - imageBox.width) : 999,
         heightDifference: imageBox ? Math.abs(wrapperBox.height - imageBox.height) : 999
       };
     });
 
-    if (path === '/') {
-      expect(styles.backgroundColor).toBe('rgb(255, 255, 255)');
-      expect(styles.radius).toBeGreaterThan(0);
-    } else {
-      expect(styles.backgroundColor).toBe('rgba(0, 0, 0, 0)');
-      expect(styles.radius).toBe(0);
-    }
-
+    expect(styles.backgroundColor).toBe('rgb(255, 255, 255)');
     expect(styles.backgroundImage).toBe('none');
     expect(styles.padding).toBe(0);
     expect(styles.border).toBe(0);
     expect(styles.shadow).toBe('none');
+    expect(styles.radius).toBeGreaterThan(0);
+    expect(styles.imageBackground).toBe('rgb(255, 255, 255)');
+    expect(styles.imageFilter).toBe('none');
+    expect(styles.imageSource).toBe('/images/donovan-logo.svg');
     expect(styles.widthDifference).toBeLessThanOrEqual(1);
     expect(styles.heightDifference).toBeLessThanOrEqual(1);
   }
