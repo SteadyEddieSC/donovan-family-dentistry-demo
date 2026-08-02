@@ -5,7 +5,6 @@ import ServiceGrid from '../components/ServiceGrid.astro';
 import site from '../data/site.json';
 ---
 <BaseLayout>
-  {site.announcement.enabled && site.announcement.text && <div class="notice container" role="status">{site.announcement.text}</div>}
   <section class="hero">
     <div class="container hero-grid">
       <div class="hero-copy">
