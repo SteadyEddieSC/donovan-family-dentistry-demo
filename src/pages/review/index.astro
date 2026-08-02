@@ -1,0 +1,287 @@
+---
+import ModernLayout from '../../layouts/ModernLayout.astro';
+import site from '../../data/site.json';
+
+const reviewPages = [
+  { href: '/modern/', label: 'Modern home' },
+  { href: '/modern/services/', label: 'Services' },
+  { href: '/modern/team/', label: 'Team' },
+  { href: '/modern/new-patients/', label: 'New patients' },
+  { href: '/modern/forms/', label: 'Patient forms' },
+  { href: '/modern/contact/', label: 'Contact and directions' },
+  { href: '/404-review-example', label: 'Page-not-found recovery' },
+  { href: '/', label: 'Classic comparison home' }
+];
+---
+<ModernLayout
+  title="Private Launch Review | Donovan Family Dentistry"
+  description="A local-only physical-device, browser, and accessibility review worksheet for the private Donovan Family Dentistry launch candidate."
+  forceNoIndex={true}
+>
+  <section class="modern-page-hero">
+    <div class="modern-shell modern-page-hero__grid">
+      <div>
+        <p class="modern-kicker">Private launch review</p>
+        <h1>Review this device without sending any data.</h1>
+      </div>
+      <p class="modern-page-hero__aside">Use this page on each real phone, tablet, and computer. It records the local browser environment, guides the review, and creates a report you can copy or download.</p>
+    </div>
+  </section>
+
+  <section class="review-shell modern-section modern-section--sand" data-review-center="local-only">
+    <div class="modern-shell">
+      <div class="review-intro">
+        <p class="modern-eyebrow">Evidence helper</p>
+        <h2>One repeatable check for every physical device.</h2>
+        <p class="modern-lead">The report stays in this browser unless you choose Copy, Download JSON, or Print. The page does not submit, store, email, or upload the report.</p>
+        <p class="review-local-note"><strong>Do not enter patient information.</strong> Use only a tester name or initials, the device and browser, visual or accessibility findings, and general website notes.</p>
+      </div>
+
+      <div class="review-grid">
+        <aside class="review-panel" aria-labelledby="environment-heading">
+          <h2 id="environment-heading">Detected environment</h2>
+          <dl class="review-meta">
+            <div><dt>Date and time</dt><dd id="review-detected-time">Detecting…</dd></div>
+            <div><dt>Viewport</dt><dd id="review-detected-viewport">Detecting…</dd></div>
+            <div><dt>Screen</dt><dd id="review-detected-screen">Detecting…</dd></div>
+            <div><dt>Pixel ratio</dt><dd id="review-detected-ratio">Detecting…</dd></div>
+            <div><dt>Color preference</dt><dd id="review-detected-color">Detecting…</dd></div>
+            <div><dt>Reduced motion</dt><dd id="review-detected-motion">Detecting…</dd></div>
+            <div><dt>Touch points</dt><dd id="review-detected-touch">Detecting…</dd></div>
+            <div><dt>User agent</dt><dd id="review-detected-agent">Detecting…</dd></div>
+          </dl>
+
+          <h3>Pages to review</h3>
+          <ul class="review-page-links">
+            {reviewPages.map((item) => <li><a href={item.href} target="_blank" rel="noopener">{item.label}</a></li>)}
+          </ul>
+        </aside>
+
+        <div class="review-panel">
+          <h2>Device review report</h2>
+          <form id="device-review-form" class="review-form" data-mode="local-only">
+            <div class="review-form-grid">
+              <div class="review-field">
+                <label for="review-tester">Tester name or initials <span aria-hidden="true">(optional)</span></label>
+                <input id="review-tester" name="tester" autocomplete="name" maxlength="80" />
+              </div>
+              <div class="review-field">
+                <label for="review-device">Device and operating system</label>
+                <input id="review-device" name="device" required maxlength="120" placeholder="Example: Galaxy S24 FE, Android 16" />
+              </div>
+              <div class="review-field">
+                <label for="review-browser">Browser and version</label>
+                <input id="review-browser" name="browser" required maxlength="120" placeholder="Example: Chrome 151" />
+              </div>
+              <div class="review-field">
+                <label for="review-concept">Concept reviewed</label>
+                <select id="review-concept" name="concept" required>
+                  <option value="modern">Modern production candidate</option>
+                  <option value="classic">Classic comparison</option>
+                  <option value="both">Both concepts</option>
+                </select>
+              </div>
+              <div class="review-field review-field--full">
+                <label for="review-result">Overall result</label>
+                <select id="review-result" name="result" required>
+                  <option value="">Choose a result</option>
+                  <option value="pass">Pass</option>
+                  <option value="pass-with-notes">Pass with notes</option>
+                  <option value="fail">Fail — correction needed</option>
+                  <option value="blocked">Blocked — could not complete</option>
+                </select>
+              </div>
+
+              <fieldset class="review-checklist">
+                <legend>Complete every check</legend>
+                <div class="review-checklist-grid">
+                  <label class="review-check"><input type="checkbox" name="checks" value="logo" required /> <span>Logo corners, colors, and backgrounds are correct.</span></label>
+                  <label class="review-check"><input type="checkbox" name="checks" value="navigation" required /> <span>Menu and navigation work in portrait and landscape.</span></label>
+                  <label class="review-check"><input type="checkbox" name="checks" value="readability" required /> <span>Headings, cards, buttons, and footer text remain readable.</span></label>
+                  <label class="review-check"><input type="checkbox" name="checks" value="actions" required /> <span>Call, directions, forms, and contact actions open correctly.</span></label>
+                  <label class="review-check"><input type="checkbox" name="checks" value="forms-pdfs" required /> <span>Patient PDFs open, zoom, and remain usable in the chosen application.</span></label>
+                  <label class="review-check"><input type="checkbox" name="checks" value="zoom-reflow" required /> <span>Browser zoom or text enlargement does not hide content or controls.</span></label>
+                  <label class="review-check"><input type="checkbox" name="checks" value="dark-mode" required /> <span>Device dark mode or forced-dark behavior does not corrupt the page.</span></label>
+                  <label class="review-check"><input type="checkbox" name="checks" value="focus-access" required /> <span>Keyboard, switch, or screen-reader focus is usable when applicable.</span></label>
+                </div>
+              </fieldset>
+
+              <div class="review-field review-field--full">
+                <label for="review-notes">Findings and notes</label>
+                <textarea id="review-notes" name="notes" maxlength="1600" placeholder="Describe the page, orientation, zoom level, control, visual issue, or accessibility behavior. Do not include patient information."></textarea>
+              </div>
+              <p class="review-warning"><strong>Privacy boundary:</strong> Do not include names of patients, appointment details, symptoms, diagnoses, medications, insurance IDs, completed-form information, or other protected health information.</p>
+            </div>
+
+            <div class="review-actions">
+              <button type="submit">Generate report</button>
+              <button id="review-copy" type="button" disabled>Copy report</button>
+              <button id="review-download" type="button" disabled>Download JSON</button>
+              <button id="review-print" type="button" disabled>Print report</button>
+              <button type="reset">Clear</button>
+            </div>
+            <p id="review-status" class="review-status" role="status" aria-live="polite"></p>
+          </form>
+
+          <section id="review-report" class="review-result" aria-labelledby="review-report-heading" hidden>
+            <h3 id="review-report-heading">Generated local report</h3>
+            <p>Review the details before copying, downloading, printing, or sharing them as launch evidence.</p>
+            <pre id="review-report-text"></pre>
+          </section>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script is:inline>
+    (() => {
+      const form = document.querySelector('#device-review-form');
+      const reportSection = document.querySelector('#review-report');
+      const reportText = document.querySelector('#review-report-text');
+      const status = document.querySelector('#review-status');
+      const copyButton = document.querySelector('#review-copy');
+      const downloadButton = document.querySelector('#review-download');
+      const printButton = document.querySelector('#review-print');
+      let currentReport = null;
+
+      const matches = (query) => window.matchMedia?.(query).matches === true;
+      const environment = () => ({
+        capturedAt: new Date().toISOString(),
+        pageUrl: window.location.href,
+        viewport: `${window.innerWidth} × ${window.innerHeight}`,
+        screen: `${window.screen.width} × ${window.screen.height}`,
+        devicePixelRatio: window.devicePixelRatio || 1,
+        colorPreference: matches('(prefers-color-scheme: dark)') ? 'dark' : 'light',
+        reducedMotion: matches('(prefers-reduced-motion: reduce)') ? 'reduce' : 'no-preference',
+        highContrastPreference: matches('(prefers-contrast: more)') ? 'more' : 'no-preference',
+        forcedColors: matches('(forced-colors: active)') ? 'active' : 'none',
+        maxTouchPoints: navigator.maxTouchPoints || 0,
+        language: navigator.language || '',
+        userAgent: navigator.userAgent || ''
+      });
+
+      const renderEnvironment = () => {
+        const data = environment();
+        document.querySelector('#review-detected-time').textContent = new Date(data.capturedAt).toLocaleString();
+        document.querySelector('#review-detected-viewport').textContent = data.viewport;
+        document.querySelector('#review-detected-screen').textContent = data.screen;
+        document.querySelector('#review-detected-ratio').textContent = String(data.devicePixelRatio);
+        document.querySelector('#review-detected-color').textContent = `${data.colorPreference}; forced colors ${data.forcedColors}`;
+        document.querySelector('#review-detected-motion').textContent = data.reducedMotion;
+        document.querySelector('#review-detected-touch').textContent = String(data.maxTouchPoints);
+        document.querySelector('#review-detected-agent').textContent = data.userAgent;
+      };
+
+      const textFromReport = (report) => {
+        const checked = report.checks.map((item) => `- ${item}`).join('\n');
+        return [
+          'Donovan Family Dentistry — Physical Device Review',
+          `Generated: ${report.generatedAt}`,
+          `Tester: ${report.tester || 'Not provided'}`,
+          `Device / OS: ${report.device}`,
+          `Browser / version: ${report.browser}`,
+          `Concept: ${report.concept}`,
+          `Overall result: ${report.result}`,
+          '',
+          'Detected environment',
+          `- Page: ${report.environment.pageUrl}`,
+          `- Viewport: ${report.environment.viewport}`,
+          `- Screen: ${report.environment.screen}`,
+          `- Device pixel ratio: ${report.environment.devicePixelRatio}`,
+          `- Color preference: ${report.environment.colorPreference}`,
+          `- Forced colors: ${report.environment.forcedColors}`,
+          `- Reduced motion: ${report.environment.reducedMotion}`,
+          `- High contrast preference: ${report.environment.highContrastPreference}`,
+          `- Touch points: ${report.environment.maxTouchPoints}`,
+          `- Language: ${report.environment.language}`,
+          `- User agent: ${report.environment.userAgent}`,
+          '',
+          'Completed checks',
+          checked,
+          '',
+          'Notes',
+          report.notes || 'No notes entered.',
+          '',
+          'Collection boundary: generated locally in the browser; not submitted or stored by the website.'
+        ].join('\n');
+      };
+
+      const setButtons = (enabled) => {
+        copyButton.disabled = !enabled;
+        downloadButton.disabled = !enabled;
+        printButton.disabled = !enabled;
+      };
+
+      renderEnvironment();
+      window.addEventListener('resize', renderEnvironment, { passive: true });
+      window.addEventListener('orientationchange', renderEnvironment, { passive: true });
+
+      form?.addEventListener('submit', (event) => {
+        event.preventDefault();
+        if (!form.reportValidity()) return;
+        const data = new FormData(form);
+        currentReport = {
+          schemaVersion: 1,
+          reportType: 'physical-device-review',
+          generatedAt: new Date().toISOString(),
+          practice: 'Donovan Family Dentistry',
+          tester: String(data.get('tester') || '').trim(),
+          device: String(data.get('device') || '').trim(),
+          browser: String(data.get('browser') || '').trim(),
+          concept: String(data.get('concept') || ''),
+          result: String(data.get('result') || ''),
+          checks: data.getAll('checks').map(String),
+          notes: String(data.get('notes') || '').trim(),
+          environment: environment(),
+          collectionBoundary: 'Generated locally. The website did not submit, store, email, or upload this report.'
+        };
+        reportText.textContent = textFromReport(currentReport);
+        reportSection.hidden = false;
+        setButtons(true);
+        status.textContent = 'Report generated locally. Nothing was sent.';
+        reportSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      });
+
+      copyButton?.addEventListener('click', async () => {
+        if (!currentReport) return;
+        try {
+          await navigator.clipboard.writeText(textFromReport(currentReport));
+          status.textContent = 'Report copied to the clipboard.';
+        } catch {
+          status.textContent = 'Clipboard access was unavailable. Select the generated report and copy it manually.';
+        }
+      });
+
+      downloadButton?.addEventListener('click', () => {
+        if (!currentReport) return;
+        const safeDate = currentReport.generatedAt.slice(0, 10);
+        const blob = new Blob([JSON.stringify(currentReport, null, 2)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const anchor = document.createElement('a');
+        anchor.href = url;
+        anchor.download = `donovan-device-review-${safeDate}.json`;
+        document.body.appendChild(anchor);
+        anchor.click();
+        anchor.remove();
+        URL.revokeObjectURL(url);
+        status.textContent = 'JSON review report downloaded.';
+      });
+
+      printButton?.addEventListener('click', () => {
+        if (!currentReport) return;
+        window.print();
+      });
+
+      form?.addEventListener('reset', () => {
+        window.requestAnimationFrame(() => {
+          currentReport = null;
+          reportText.textContent = '';
+          reportSection.hidden = true;
+          status.textContent = 'Review cleared. No report was stored.';
+          setButtons(false);
+          renderEnvironment();
+        });
+      });
+    })();
+  </script>
+</ModernLayout>

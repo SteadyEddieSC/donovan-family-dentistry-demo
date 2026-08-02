@@ -12,6 +12,7 @@ interface Props {
   themeColor?: string;
   canonicalPath?: string;
   pageType?: 'website' | 'article';
+  forceNoIndex?: boolean;
 }
 
 const {
@@ -24,7 +25,8 @@ const {
   imageType = 'image/webp',
   themeColor = '#004b66',
   canonicalPath = Astro.url.pathname,
-  pageType = 'website'
+  pageType = 'website',
+  forceNoIndex = false
 } = Astro.props;
 
 const siteUrl = Astro.site ?? new URL('https://donovan-family-dentistry-demo.pages.dev');
@@ -34,7 +36,7 @@ const rootUrl = new URL('/', siteUrl).toString();
 const dentistId = new URL('/#dentist', siteUrl).toString();
 const websiteId = new URL('/#website', siteUrl).toString();
 const webpageId = `${canonical}#webpage`;
-const robots = site.previewMode ? 'noindex, nofollow, noarchive' : 'index, follow';
+const robots = site.previewMode || forceNoIndex ? 'noindex, nofollow, noarchive' : 'index, follow';
 
 const imageObject = {
   '@type': 'ImageObject',
