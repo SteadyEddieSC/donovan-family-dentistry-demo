@@ -71,6 +71,34 @@ The normal sequence is:
 
 A failed build does not replace the last successful deployment.
 
+## Site-wide office announcement
+
+The announcement is a single text banner shown immediately below the header on every classic and modern page when **Show announcement** is enabled.
+
+### Appropriate uses
+
+Use it for a short practice-wide notice such as a weather closure, holiday hours, an office-wide phone outage, temporary parking instructions, or the date normal hours will resume.
+
+Do not include an individual patient's name, appointment, balance, insurance matter, symptoms, diagnosis, medication, treatment detail, or other protected health information. The banner is not an emergency-alert service and does not replace the office's approved urgent-dental or emergency workflow.
+
+### Publish or revise the banner
+
+1. Open **Quick updates → Contact, hours, homepage, and announcement**.
+2. Enter one short complete message in **Announcement text**.
+3. Include a date or time period when the notice could otherwise become ambiguous.
+4. Turn on **Show announcement**.
+5. Save and confirm the matching `office update:` commit and Cloudflare deployment.
+6. Review the banner on a phone and desktop. Check a modern page, a classic page, and at least one interior page.
+7. Run **Build and verify website**.
+
+Keep one current message rather than combining unrelated notices into a long paragraph. The banner is text-only; do not paste HTML, scripts, tracking links, shortened links, or a phone number that differs from the approved office number.
+
+### Remove the banner
+
+Turn off **Show announcement**, save, and verify that the banner is absent from both concepts and an interior page. Clear outdated hidden text when leaving it in place could cause confusion during a later emergency.
+
+For an immediately preceding mistaken office save, use **Restore latest office save**. Otherwise disable the announcement, save, and contact the website administrator when the intended state is uncertain. See `docs/office-announcement-guide.md` for the complete operating procedure.
+
 ## Restore or roll back an office edit
 
 There is no ordinary **Revert** button on the GitHub mobile commit page for a direct Pages CMS save. GitHub's web Revert button is normally attached to a merged pull request, not an individual direct commit.

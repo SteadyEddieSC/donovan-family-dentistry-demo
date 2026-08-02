@@ -7,13 +7,13 @@
     "storyTitle": "Experience translated into practical guidance.",
     "storyParagraphs": [
       "Donovan Family Dentistry serves patients from its Lady's Island office with an emphasis on understandable information, thoughtful planning, and a comfortable experience.",
-      "The practice's approach is informed by dental laboratory work, advanced general-dentistry education, and service in Navy dentistry. That experience supports practical planning and clear explanations without repeating the full dentist biography found on the Team page."
+      "Dr. Donovan's path through dental laboratory work, advanced general-dentistry education, and Navy dentistry shaped a practical approach to care: look closely, explain what matters in plain language, and organize recommendations into steps patients can understand and plan for."
     ],
     "locationEyebrow": "The Lowcountry connection",
     "locationTitle": "Close to home and easy to reach.",
     "locationText": "Located at 91 Sams Point Road, the office is convenient to Lady's Island, downtown Beaufort, Port Royal, and surrounding Lowcountry communities.",
     "valuesEyebrow": "What guides the experience",
-    "valuesTitle": "Useful information, calm communication, and a clear next step.",
+    "valuesTitle": "Useful information, calm communication, and a clear next step.",
     "values": [
       {
         "number": "01",
@@ -51,18 +51,18 @@
   "teamPage": {
     "kicker": "Meet the team",
     "headline": "The people and roles behind a comfortable visit.",
-    "introduction": "Meet the dentist and learn how the front-office, hygiene, and assisting teams support each visit. Individual staff names and photographs can be added whenever the office approves them.",
+    "introduction": "Meet the dentist and the front-office, hygiene, and assisting teams who help each visit feel organized, informed, and welcoming.",
     "providersEyebrow": "The dentist",
     "providersTitle": "Experience, clear explanations, and a practical approach.",
-    "providersIntroduction": "Provider details are maintained in the office editor so the public page can stay current without changing site code.",
+    "providersIntroduction": "Learn how education, service, and hands-on experience shape the practice's practical approach to patient care.",
     "teamEyebrow": "Patient care team",
     "teamTitle": "Friendly support at each step.",
-    "teamIntroduction": "Role-based profiles keep the page useful now. The office can later publish individual names, biographies, and approved photographs or continue using team-level descriptions."
+    "teamIntroduction": "From the first phone call through treatment and follow-up, each role helps patients understand what comes next and feel supported along the way."
   },
   "servicesPage": {
     "kicker": "Services",
     "headline": "Comprehensive care, easier to understand.",
-    "introduction": "This page organizes the practice's published procedures into patient-friendly groups. Every service remains subject to office confirmation and an individual clinical evaluation.",
+    "introduction": "Explore the practice's published procedures in patient-friendly groups, with clear context for the questions and examination that help determine an individual plan.",
     "groups": [
       {
         "id": "restore",

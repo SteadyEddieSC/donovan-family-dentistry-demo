@@ -79,6 +79,21 @@ Pages CMS reads `.pages.yml` and provides protected editors for practice details
 
 Repository-side configuration is ready. The owner acceptance test proved that an authorized owner can open the private repository, edit `src/data/site.json`, save a real commit to `main`, and trigger a Cloudflare Pages deployment. The remaining acceptance evidence is the full website-check result and a demonstrated restoration.
 
+### Use the site-wide office announcement
+
+The announcement appears directly below the header on every classic and modern page when **Show announcement** is enabled.
+
+1. Open **Quick updates → Contact, hours, homepage, and announcement**.
+2. Enter a short practice-wide message under **Homepage announcement**.
+3. Use it only for closures, holiday hours, weather notices, phone outages, or temporary arrival instructions.
+4. Do not include a patient name, appointment, balance, insurance matter, treatment detail, or other protected health information.
+5. Turn on **Show announcement**, select **Save**, and confirm the matching GitHub commit and Cloudflare deployment.
+6. Review the banner on a phone and desktop, including a modern page, a classic page, and an interior page.
+7. Run **Build and verify website**.
+8. When the notice is no longer current, turn off **Show announcement**, save, and verify that the banner disappears site-wide.
+
+See `docs/office-announcement-guide.md` for approved uses, revision and removal steps, and emergency rollback instructions.
+
 ### Save versus Build and verify website
 
 These are separate operations:
@@ -147,6 +162,7 @@ See:
 
 - `docs/office-cms-quickstart.md` for the exact first-time and routine process;
 - `docs/owner-editing-guide.md` for editing, verification, and recovery rules;
+- `docs/office-announcement-guide.md` for the site-wide banner workflow;
 - `docs/office-content-backup.md` for the read-only backup workflow;
 - `docs/release-16-cms-cutover-tool-readiness.md` for CMS status, cutover blockers, and tool-enablement choices;
 - `docs/release-16-1-owner-polish.md` for the owner-test findings and mobile recovery release;
@@ -202,6 +218,8 @@ Do not connect `donovanfamilydentistry.com` or `www.donovanfamilydentistry.com`,
 - `docs/release-16-3-shared-logo-dark-mode.md` — owner-preferred shared horizontal logo and device dark-mode protection.
 - `docs/release-16-4-logo-polish-contact-utilities.md` — unclipped logo treatment, office vCard, and recovery page.
 - `docs/release-16-5-private-review-center.md` — local-only physical-device evidence helper.
+- `docs/release-16-8-open-dental-readiness.md` — Open Dental-first readiness and the site-wide announcement implementation.
+- `docs/release-16-9-copy-layout-polish.md` — mobile heading rhythm, patient-facing copy cleanup, and announcement instructions.
 - `docs/roadmap.md` — Release 17 production-domain cutover and optional later patient-system work.
 
 ## Content provenance
