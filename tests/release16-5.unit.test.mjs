@@ -54,3 +54,20 @@ test('Release 16.5 keeps the review page permanently noindex and out of patient 
   assert.match(layout, /href="\/review\/"/);
   assert.doesNotMatch(sitemap, /['"]\/review\/['"]/);
 });
+
+test('Release 16.5 registers review support without clearing launch evidence', async () => {
+  const readiness = JSON.parse(await read('src/data/launch-readiness.json'));
+  const physical = readiness.requiredEvidence.find((item) => item.id === 'physical-device-review');
+  const human = readiness.requiredEvidence.find((item) => item.id === 'human-wcag-review');
+
+  assert.deepEqual(readiness.reviewSupport, {
+    path: '/review/',
+    status: 'available-local-only',
+    storesOrSendsData: false,
+    guide: 'docs/physical-device-review-guide.md'
+  });
+  assert.equal(physical.status, 'pending-launch-review');
+  assert.equal(physical.evidenceRef, null);
+  assert.equal(human.status, 'pending-launch-review');
+  assert.equal(human.evidenceRef, null);
+});
