@@ -11,6 +11,12 @@
   "analyticsApproved": false,
   "changeWindow": null,
   "rollbackOwner": null,
+  "reviewSupport": {
+    "path": "/review/",
+    "status": "available-local-only",
+    "storesOrSendsData": false,
+    "guide": "docs/physical-device-review-guide.md"
+  },
   "requiredEvidence": [
     {
       "id": "provider-roster",
