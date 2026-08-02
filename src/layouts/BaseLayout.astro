@@ -1,6 +1,7 @@
 ---
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import AnnouncementBanner from '../components/AnnouncementBanner.astro';
 import CloudflareAnalytics from '../components/CloudflareAnalytics.astro';
 import SiteMetadata from '../components/SiteMetadata.astro';
 import site from '../data/site.json';
@@ -9,6 +10,7 @@ import '../styles/review-fixes.css';
 import '../styles/logo-hardening.css';
 import '../styles/font-policy.css';
 import '../styles/production-candidate.css';
+import '../styles/release-16-8.css';
 
 interface Props {
   title?: string;
@@ -43,6 +45,7 @@ const fullAddress = `${site.address.street}, ${site.address.city}, ${site.addres
   <body>
     <a class="skip-link" href="#main-content">Skip to main content</a>
     <Header />
+    <AnnouncementBanner />
     <main id="main-content"><slot /></main>
     <Footer fullAddress={fullAddress} />
   </body>

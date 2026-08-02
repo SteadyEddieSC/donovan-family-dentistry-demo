@@ -1,0 +1,14 @@
+---
+import site from '../data/site.json';
+
+const announcement = site.announcement;
+const showAnnouncement = announcement?.enabled === true && Boolean(announcement?.text?.trim());
+---
+{showAnnouncement && (
+  <aside class="office-announcement" aria-label="Office announcement">
+    <div class="office-announcement__inner">
+      <strong>Office update</strong>
+      <span>{announcement.text.trim()}</span>
+    </div>
+  </aside>
+)}

@@ -1,0 +1,93 @@
+---
+import ModernLayout from '../../../layouts/ModernLayout.astro';
+---
+<ModernLayout
+  title="Open Dental Readiness | Donovan Family Dentistry"
+  description="A private, noindex implementation checklist for connecting verified Open Dental patient tools to the Donovan Family Dentistry website."
+  forceNoIndex={true}
+>
+  <section class="modern-page-hero">
+    <div class="modern-shell modern-page-hero__grid">
+      <div>
+        <p class="modern-kicker">Private office readiness</p>
+        <h1>Use Open Dental first—without duplicating the practice system.</h1>
+      </div>
+      <p class="modern-page-hero__aside">This page is an office checklist, not a patient portal. It stores nothing, requests no credentials, and must never contain patient information or API keys.</p>
+    </div>
+  </section>
+
+  <section class="modern-section modern-section--sand">
+    <div class="modern-shell modern-visit-grid">
+      <article class="modern-visit-card">
+        <p class="modern-eyebrow">Recommended first</p>
+        <h2>Connect tools already available through Open Dental.</h2>
+        <ol class="modern-checklist">
+          <li><strong>Web Forms:</strong> confirm the office is on active support, build or approve the registration and medical-history Sheets, enable the mobile layout, and obtain the exact patient link.</li>
+          <li><strong>Patient Portal:</strong> decide which portal features the office will expose and obtain the office-specific portal link.</li>
+          <li><strong>eReminders and General Messages:</strong> inventory what is already enabled before purchasing another communication platform.</li>
+          <li><strong>Web Sched:</strong> consider online scheduling only after appointment types, providers, operatories, availability rules, and staff ownership are approved.</li>
+        </ol>
+      </article>
+
+      <aside class="modern-visit-card">
+        <p class="modern-eyebrow">Why this order</p>
+        <h3>Avoid paying twice.</h3>
+        <p>Open Dental already holds the practice records. Linking its approved patient tools directly can reduce duplicate forms, double entry, competing reminders, and conflicting appointment workflows.</p>
+        <p><a href="https://www.opendental.com/site/eservices.html" target="_blank" rel="noopener">Review Open Dental eServices</a></p>
+        <p><a href="https://www.opendental.com/site/fees.html" target="_blank" rel="noopener">Review current Open Dental fees</a></p>
+      </aside>
+    </div>
+  </section>
+
+  <section class="modern-section modern-section--deep">
+    <div class="modern-shell modern-visit-grid">
+      <article>
+        <p class="modern-eyebrow">Website integration rules</p>
+        <h2>Link to the approved workflow; do not recreate it here.</h2>
+        <ul class="modern-bring-list">
+          <li>Use only exact HTTPS links copied from the office's Open Dental setup.</li>
+          <li>Open Web Forms as a direct page rather than placing them inside an iframe.</li>
+          <li>Keep patient data, API keys, registration keys, credentials, and completed forms out of this public repository.</li>
+          <li>Do not send medical, dental, insurance, payment, or appointment details through the general administrative inquiry form.</li>
+          <li>Use the Open Dental API—not direct database writes—if the practice later approves a custom two-way integration.</li>
+          <li>Require an appropriate agreement, least-privilege access, audit review, downtime procedures, and office testing before enabling any PHI-capable integration.</li>
+        </ul>
+      </article>
+
+      <aside class="modern-visit-card">
+        <h3>Office activation checklist</h3>
+        <ol class="modern-checklist">
+          <li>Confirm the Open Dental version, support status, eConnector health, and enabled eServices.</li>
+          <li>Choose the first patient feature to activate; Web Forms is the recommended starting point.</li>
+          <li>Copy the exact office-specific URL without entering credentials into GitHub or Pages CMS.</li>
+          <li>Test the complete workflow with office-approved non-production test data.</li>
+          <li>Verify import, matching, staff notifications, failure handling, and correction procedures.</li>
+          <li>Only then add the verified link to Patient Forms or New Patients.</li>
+        </ol>
+      </aside>
+    </div>
+  </section>
+
+  <section class="modern-section">
+    <div class="modern-shell modern-visit-grid">
+      <article class="modern-visit-card">
+        <p class="modern-eyebrow">Official references</p>
+        <h2>Use Open Dental's current documentation during setup.</h2>
+        <ul class="modern-policy-list">
+          <li><a href="https://www.opendental.com/site/webforms.html" target="_blank" rel="noopener">Web Forms feature</a></li>
+          <li><a href="https://www.opendental.com/site/patientportal.html" target="_blank" rel="noopener">Patient Portal feature</a></li>
+          <li><a href="https://www.opendental.com/site/websched.html" target="_blank" rel="noopener">Web Sched feature</a></li>
+          <li><a href="https://www.opendental.com/manual/eservicessetup.html" target="_blank" rel="noopener">eServices setup</a></li>
+          <li><a href="https://www.opendental.com/manual/fhir.html" target="_blank" rel="noopener">API setup and third-party access</a></li>
+        </ul>
+      </article>
+
+      <aside class="modern-visit-card">
+        <p class="modern-eyebrow">Current website state</p>
+        <h3>No patient-system link is active yet.</h3>
+        <p>The website continues to provide downloadable blank PDFs and a non-PHI administrative contact path. Open Dental links remain intentionally absent until the office supplies and tests its exact URLs.</p>
+        <a class="modern-button modern-button--secondary" href="/review/">Return to device review</a>
+      </aside>
+    </div>
+  </section>
+</ModernLayout>

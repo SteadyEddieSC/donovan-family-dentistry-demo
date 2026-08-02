@@ -1,0 +1,42 @@
+/* Release 16.8: site-wide office announcements and Open Dental readiness support. */
+.office-announcement {
+  border-block: 1px solid #4f751b;
+  color: #062f35;
+  background: #dceec3;
+}
+
+.office-announcement__inner {
+  display: flex;
+  align-items: baseline;
+  gap: .75rem;
+  width: min(1120px, calc(100% - 2rem));
+  margin-inline: auto;
+  padding: .8rem 0;
+  line-height: 1.45;
+}
+
+.office-announcement__inner strong {
+  flex: 0 0 auto;
+  font-weight: 800;
+}
+
+.office-announcement__inner span {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 620px) {
+  .office-announcement__inner {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: .2rem;
+  }
+}
+
+@media (forced-colors: active) {
+  .office-announcement {
+    border-color: CanvasText;
+    color: CanvasText;
+    background: Canvas;
+  }
+}
