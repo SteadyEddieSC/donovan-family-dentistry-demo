@@ -14,6 +14,7 @@ import '../styles/font-policy.css';
 import '../styles/production-candidate.css';
 import '../styles/release-16-1.css';
 import '../styles/release-16-2.css';
+import '../styles/release-16-3.css';
 
 interface Props {
   title?: string;
@@ -31,7 +32,7 @@ const {
 const path = Astro.url.pathname;
 const fullAddress = `${site.address.street}, ${site.address.city}, ${site.address.state} ${site.address.postalCode}`;
 const mapHref = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(fullAddress)}`;
-const modernLogo = '/images/donovan-sign-logo.svg';
+const modernLogo = site.logo;
 const nav = [
   { href: '/modern/', label: 'Home' },
   { href: '/modern/about/', label: 'About' },
@@ -65,7 +66,7 @@ const bodyClass = showMobileDock ? 'modern-body modern-body--with-dock' : 'moder
     <header class="modern-header">
       <div class="modern-shell modern-header__inner">
         <a class="modern-brand" href="/modern/" aria-label="Donovan Family Dentistry modern concept home">
-          <img src={modernLogo} width="400" height="200" alt={site.logoAlt} decoding="async" />
+          <img src={modernLogo} width="510" height="138" alt={site.logoAlt} decoding="async" />
         </a>
         <nav class="modern-nav" aria-label="Modern concept navigation">
           {nav.map((item) => <a href={item.href} aria-current={isActive(item.href) ? 'page' : undefined}>{item.label}</a>)}
@@ -83,7 +84,7 @@ const bodyClass = showMobileDock ? 'modern-body modern-body--with-dock' : 'moder
     <footer class="modern-footer">
       <div class="modern-shell modern-footer__grid">
         <div>
-          <div class="modern-footer__logo-card"><img src={modernLogo} width="400" height="200" alt={site.logoAlt} loading="lazy" decoding="async" /></div>
+          <div class="modern-footer__logo-card"><img src={modernLogo} width="510" height="138" alt={site.logoAlt} loading="lazy" decoding="async" /></div>
           <p>A welcoming Lady's Island dental practice rooted in Beaufort and the Lowcountry.</p>
         </div>
         <div>
