@@ -42,7 +42,7 @@ test('Release 16.3 documentation records the visual decision and safety boundary
   const roadmap = await read('docs/roadmap.md');
 
   assert.match(release, /horizontal logo/i);
-  assert.match(release, /dark mode/i);
+  assert.match(release, /dark[- ]mode/i);
   assert.match(release, /production DNS/i);
   assert.match(roadmap, /Release 16\.3/);
 });
