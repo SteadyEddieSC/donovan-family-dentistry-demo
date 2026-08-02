@@ -1,7 +1,7 @@
 {
   "practiceName": "Donovan Family Dentistry",
   "tagline": "High-quality, comprehensive dental care for patients of all ages.",
-  "introduction": "We utilize up-to-date techniques and dental procedures in a comfortable and caring environment. Test test test",
+  "introduction": "We utilize up-to-date techniques and dental procedures in a comfortable and caring environment.",
   "phoneDisplay": "(843) 525-6866",
   "phoneHref": "+18435256866",
   "address": {
@@ -57,7 +57,8 @@
   ],
   "previewMode": true,
   "announcement": {
-    "enabled": false
+    "enabled": false,
+    "text": ""
   },
   "seo": {
     "title": "Donovan Family Dentistry | Beaufort, SC",
