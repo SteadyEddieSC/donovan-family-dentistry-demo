@@ -5,7 +5,7 @@ const fullAddress = `${site.address.street}, ${site.address.city}, ${site.addres
 const mapHref = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(fullAddress)}`;
 ---
 <BaseLayout title="Contact and Directions | Donovan Family Dentistry" description="Call Donovan Family Dentistry or get directions to 91 Sams Point Road in Beaufort, South Carolina.">
-  <header class="page-hero"><div class="container"><p class="eyebrow">Contact and directions</p><h1>Visit Donovan Family Dentistry in Beaufort</h1><p class="lead">Call the office directly or open turn-by-turn directions to 91 Sams Point Road.</p></div></header>
+  <header class="page-hero"><div class="container"><p class="eyebrow">Contact and directions</p><h1>Visit Donovan Family Dentistry in Beaufort</h1><p class="lead">Call the office directly, open turn-by-turn directions to 91 Sams Point Road, or save the office contact card to your device.</p></div></header>
   <section class="section">
     <div class="container split">
       <div>
@@ -19,6 +19,7 @@ const mapHref = `https://www.google.com/maps/search/?api=1&query=${encodeURIComp
         <h2>Office hours</h2>
         <table class="hours"><tbody>{site.hours.map((item) => <tr><th scope="row">{item.day}</th><td>{item.hours}</td></tr>)}</tbody></table>
         <p style="margin-top: 1.5rem"><a class="button button--quiet" href={mapHref} rel="noopener">Open directions</a></p>
+        <p><a class="button button--quiet" href="/donovan-family-dentistry.vcf" download>Save office contact</a></p>
       </aside>
     </div>
   </section>
