@@ -1,0 +1,96 @@
+name: Create office content backup
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: office-content-backup
+  cancel-in-progress: false
+
+jobs:
+  backup:
+    if: github.ref_name == 'main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out the current main branch
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 1
+
+      - name: Assemble the office-managed content bundle
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          root="office-content-backup"
+          mkdir -p "$root/src/data" "$root/public/images" "$root/public/forms"
+
+          managed_files=(
+            .pages.yml
+            src/data/site.json
+            src/data/practice-content.json
+            src/data/providers.json
+            src/data/modern-team.json
+            src/data/services.json
+            src/data/forms.json
+          )
+
+          for file in "${managed_files[@]}"; do
+            if [[ -f "$file" ]]; then
+              mkdir -p "$root/$(dirname "$file")"
+              cp "$file" "$root/$file"
+            fi
+          done
+
+          if [[ -d public/images ]]; then
+            cp -a public/images/. "$root/public/images/"
+          fi
+
+          if [[ -d public/forms ]]; then
+            cp -a public/forms/. "$root/public/forms/"
+          fi
+
+          commit_sha="$(git rev-parse HEAD)"
+          created_at="$(date -u +'%Y-%m-%dT%H:%M:%SZ')"
+
+          {
+            echo '# Donovan Family Dentistry office content backup'
+            echo
+            echo "- Created: $created_at"
+            echo "- Source branch: main"
+            echo "- Source commit: $commit_sha"
+            echo "- GitHub workflow run: $GITHUB_RUN_ID"
+            echo
+            echo 'This bundle contains public CMS-managed website data, public images, and blank public forms. It is not a patient-record backup and must never be used to store completed forms, messages, credentials, or protected health information.'
+          } > "$root/MANIFEST.md"
+
+          (
+            cd "$root"
+            find . -type f ! -name SHA256SUMS.txt -print0 \
+              | sort -z \
+              | xargs -0 sha256sum > SHA256SUMS.txt
+          )
+
+      - name: Upload the backup artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: office-content-backup-${{ github.run_id }}
+          path: office-content-backup
+          if-no-files-found: error
+          retention-days: 30
+          compression-level: 9
+
+      - name: Explain the result
+        run: |
+          {
+            echo '## Office content backup created'
+            echo
+            echo 'Download the artifact named `office-content-backup-${{ github.run_id }}` from this workflow run within 30 days.'
+            echo
+            echo 'Creating this backup does not edit the site, create a deployment, or roll back content. It captures the current public CMS-managed files from `main` for administrator-assisted recovery or comparison.'
+          } >> "$GITHUB_STEP_SUMMARY"
