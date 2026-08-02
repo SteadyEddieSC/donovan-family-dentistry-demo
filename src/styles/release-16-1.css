@@ -1,0 +1,37 @@
+/* Release 16.1 owner-polish fixes. Loaded last so these rules win over earlier concept styles. */
+
+.modern-brand img,
+.modern-footer__logo-card img {
+  filter: none !important;
+}
+
+@media (max-width: 720px) {
+  .modern-body--with-dock #modern-main {
+    padding-bottom: calc(5.75rem + env(safe-area-inset-bottom));
+  }
+
+  .modern-mobile-dock {
+    bottom: calc(.65rem + env(safe-area-inset-bottom));
+  }
+
+  .modern-page-hero h1 {
+    max-width: none;
+    font-size: clamp(2.45rem, 10.8vw, 3rem);
+    line-height: 1.02;
+    letter-spacing: -.045em;
+    overflow-wrap: normal;
+    word-break: normal;
+    hyphens: none;
+  }
+}
+
+@media (max-width: 420px) {
+  .modern-brand {
+    flex-basis: 10rem;
+    max-width: 10rem;
+  }
+
+  .modern-page-hero h1 {
+    font-size: clamp(2.35rem, 10.4vw, 2.75rem);
+  }
+}
