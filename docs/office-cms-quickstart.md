@@ -104,6 +104,19 @@ The workflow stops without changing anything if the latest commit is not an `off
 7. Review the resulting deployment on both a phone and desktop.
 8. Keep the item hidden and contact the website administrator when the check fails or the result is uncertain.
 
+## Publish or remove the site-wide announcement
+
+1. Open **Quick updates → Contact, hours, homepage, and announcement**.
+2. Enter one short practice-wide notice under **Homepage announcement**.
+3. Use the banner for closures, storms, holiday hours, phone outages, or temporary arrival instructions—not individual patient information.
+4. Turn on **Show announcement** and save.
+5. Confirm the commit and Cloudflare deployment.
+6. Review the banner on a phone and desktop across a modern page, a classic page, and an interior page.
+7. Run **Build and verify website**.
+8. When the notice expires, turn off **Show announcement**, save, and verify that it disappears everywhere.
+
+Do not include patient names, appointment details, balances, insurance matters, symptoms, diagnoses, treatment information, or other protected health information. See `docs/office-announcement-guide.md` for detailed revision, removal, and emergency rollback steps.
+
 ## What office editors can change
 
 - practice name, phone, address, hours, homepage wording, office image, logo, announcement, and search-preview text;
