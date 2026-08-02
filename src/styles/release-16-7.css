@@ -1,0 +1,63 @@
+/* Release 16.7: align every lime accent with the green used by the active logo. */
+:root {
+  --modern-lime: #72a928;
+  --modern-brand-green: #72a928;
+  --modern-brand-green-hover: #82b83a;
+  --modern-brand-green-border: #4f751b;
+}
+
+.modern-hero {
+  background: radial-gradient(circle at 85% 20%, rgba(114, 169, 40, .2), transparent 30%), linear-gradient(145deg, #fdf9f0, #e7f3f1 68%, #d8ece9);
+}
+
+.concept-ribbon strong,
+.modern-section--deep .modern-eyebrow,
+.modern-placeholder {
+  color: var(--modern-brand-green);
+}
+
+.modern-team-icon,
+.modern-value-icon {
+  color: #062f35;
+  background: var(--modern-brand-green);
+}
+
+.modern-contact-stack .modern-contact-tile--featured,
+.modern-save-contact-card {
+  border-color: var(--modern-brand-green-border);
+  color: #062f35;
+  background: var(--modern-brand-green);
+}
+
+.modern-contact-stack .modern-contact-tile--featured:hover,
+.modern-save-contact-card:hover {
+  border-color: #426516;
+  color: #062f35;
+  background: var(--modern-brand-green-hover);
+}
+
+.modern-contact-stack .modern-contact-tile--featured .modern-contact-tile__copy,
+.modern-contact-stack .modern-contact-tile--featured .modern-contact-tile__copy > strong,
+.modern-contact-stack .modern-contact-tile--featured .modern-contact-tile__copy > span,
+.modern-contact-stack .modern-contact-tile--featured .modern-contact-tile__arrow,
+.modern-save-contact-card__copy,
+.modern-save-contact-card__copy strong,
+.modern-save-contact-card__copy span,
+.modern-save-contact-card__arrow {
+  color: #062f35;
+}
+
+.modern-contact-stack .modern-contact-tile--featured .modern-action-icon,
+.modern-save-contact-card .modern-action-icon {
+  color: #062f35;
+  background: rgba(255, 255, 255, .72);
+}
+
+@media (forced-colors: active) {
+  .modern-contact-stack .modern-contact-tile--featured,
+  .modern-save-contact-card {
+    border-color: ButtonText;
+    color: ButtonText;
+    background: Canvas;
+  }
+}
