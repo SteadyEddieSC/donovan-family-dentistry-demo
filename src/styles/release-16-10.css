@@ -1,0 +1,50 @@
+/* Release 16.10: responsive values heading and perceptually balanced brand-green surfaces. */
+:root {
+  /* Keep the logo's exact #72a928 for compact accents. Large filled areas use
+   * a lighter tint of the same hue so they do not appear darker by area contrast. */
+  --modern-brand-green-surface: #8bb84f;
+  --modern-brand-green-surface-hover: #96c25f;
+}
+
+.modern-values-title {
+  max-inline-size: 100%;
+}
+
+.modern-values-title__phrase {
+  white-space: nowrap;
+}
+
+.modern-contact-stack .modern-contact-tile--featured,
+.modern-save-contact-card {
+  background: var(--modern-brand-green-surface);
+}
+
+.modern-contact-stack .modern-contact-tile--featured:hover,
+.modern-save-contact-card:hover {
+  background: var(--modern-brand-green-surface-hover);
+}
+
+@media (max-width: 430px) {
+  .modern-values-title {
+    font-size: clamp(2rem, 9.25vw, 2.45rem) !important;
+    line-height: 1.02;
+    letter-spacing: -.05em;
+    overflow-wrap: normal;
+    word-break: normal;
+  }
+}
+
+/* At exceptionally narrow or highly zoomed layouts, reflow is more important
+ * than preserving the phrase on one line. The reviewed 384px phone keeps it intact. */
+@media (max-width: 340px) {
+  .modern-values-title__phrase {
+    white-space: normal;
+  }
+}
+
+@media (forced-colors: active) {
+  .modern-contact-stack .modern-contact-tile--featured,
+  .modern-save-contact-card {
+    background: Canvas;
+  }
+}
