@@ -1,0 +1,66 @@
+/* Release 16.2 logo placement. Loaded last so the self-protected oval SVG is not boxed twice. */
+
+.modern-brand,
+.modern-footer__logo-card {
+  overflow: visible !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.modern-brand {
+  flex: 0 1 12rem;
+  max-width: 12rem;
+}
+
+.modern-brand img,
+.modern-footer__logo-card img {
+  width: 100%;
+  height: auto;
+  border-radius: 0 !important;
+  background: transparent !important;
+  filter: none !important;
+  object-fit: contain;
+}
+
+.modern-brand img {
+  max-height: 5.25rem;
+  object-position: left center;
+}
+
+.modern-footer__logo-card {
+  width: min(20rem, 100%);
+}
+
+@media (max-width: 720px) {
+  .modern-header__inner {
+    min-height: 6.25rem;
+    gap: .8rem;
+  }
+
+  .modern-brand {
+    flex-basis: 11rem;
+    max-width: 11rem;
+  }
+
+  .modern-brand img {
+    max-height: 5.1rem;
+  }
+}
+
+@media (max-width: 420px) {
+  .modern-header__inner {
+    gap: .65rem;
+  }
+
+  .modern-brand {
+    flex-basis: 10rem;
+    max-width: 10rem;
+  }
+
+  .modern-brand img {
+    max-height: 4.75rem;
+  }
+}
