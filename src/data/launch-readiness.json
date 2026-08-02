@@ -56,9 +56,9 @@
     {
       "id": "physical-device-review",
       "label": "Physical-device and current-browser matrix",
-      "status": "pending-launch-review",
-      "evidenceRef": null,
-      "clearanceNeeded": "Record device, operating system, browser version, tester, date, and result for the required iPhone, iPad, Android, macOS, and Windows checks."
+      "status": "partial-evidence-recorded",
+      "evidenceRef": "docs/evidence/physical-device-review-galaxy-s24-fe-2026-08-02.json",
+      "clearanceNeeded": "Android physical-device review is recorded as pass-with-notes. Complete and record the remaining required iPhone, iPad, macOS, and Windows checks before clearing this evidence item."
     },
     {
       "id": "human-wcag-review",
@@ -86,7 +86,7 @@
       "label": "Portal, scheduling, payment, and other application records",
       "status": "pending-administrator-evidence",
       "evidenceRef": null,
-      "clearanceNeeded": "Inventory application subdomains and vendor records, document owners, and exclude them from the website-only change."
+      "clearanceNeeded": "Inventory the Open Dental eConnector, Patient Portal, Web Forms, Web Sched, texting, payment, and other application URLs or DNS records; document owners and preserve them during the website-only change."
     },
     {
       "id": "rollback-rehearsal",
