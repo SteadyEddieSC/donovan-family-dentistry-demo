@@ -46,7 +46,7 @@ test('device environment is detected and a report is generated without a network
   const report = page.locator('#review-report');
   await expect(report).toBeVisible();
   await expect(report).toContainText('Galaxy S24 FE, Android 16');
-  await expect(report).toContainText('Pass with notes', { ignoreCase: true });
+  await expect(report).toContainText('pass-with-notes');
   await expect(report).toContainText('generated locally in the browser');
   await expect(page.getByRole('status')).toHaveText('Report generated locally. Nothing was sent.');
   expect(writeRequests).toEqual([]);
