@@ -10,43 +10,60 @@ test('shared logo artwork contains its own rounded white card', async ({ request
   expect(svg).toContain('forced-color-adjust: none');
 });
 
-test('classic and modern logo wrappers use the same explicit light surface without a second card', async ({ page }) => {
-  for (const path of ['/', '/modern/']) {
-    await page.goto(path);
-    const selector = path === '/' ? '.brand' : '.modern-brand';
-    const styles = await page.locator(selector).evaluate((element) => {
-      const computed = getComputedStyle(element);
-      const image = element.querySelector('img');
-      const imageStyles = image ? getComputedStyle(image) : null;
-      const wrapperBox = element.getBoundingClientRect();
-      const imageBox = image?.getBoundingClientRect();
-      return {
-        backgroundColor: computed.backgroundColor,
-        backgroundImage: computed.backgroundImage,
-        padding: Number.parseFloat(computed.paddingTop),
-        border: Number.parseFloat(computed.borderTopWidth),
-        shadow: computed.boxShadow,
-        radius: Number.parseFloat(computed.borderRadius),
-        imageBackground: imageStyles?.backgroundColor ?? '',
-        imageFilter: imageStyles?.filter ?? '',
-        imageSource: image?.getAttribute('src') ?? '',
-        widthDifference: imageBox ? Math.abs(wrapperBox.width - imageBox.width) : 999,
-        heightDifference: imageBox ? Math.abs(wrapperBox.height - imageBox.height) : 999
-      };
-    });
+test('classic keeps its hardened surface while modern exposes only the SVG card', async ({ page }) => {
+  await page.goto('/');
+  const classic = await page.locator('.brand').evaluate((element) => {
+    const computed = getComputedStyle(element);
+    const image = element.querySelector('img');
+    const imageStyles = image ? getComputedStyle(image) : null;
+    return {
+      background: computed.backgroundColor,
+      padding: Number.parseFloat(computed.paddingTop),
+      border: Number.parseFloat(computed.borderTopWidth),
+      shadow: computed.boxShadow,
+      imageBackground: imageStyles?.backgroundColor ?? '',
+      imageFilter: imageStyles?.filter ?? '',
+      imageSource: image?.getAttribute('src') ?? ''
+    };
+  });
+  expect(classic.background).toBe('rgb(255, 255, 255)');
+  expect(classic.padding).toBe(0);
+  expect(classic.border).toBe(0);
+  expect(classic.shadow).toBe('none');
+  expect(classic.imageBackground).toBe('rgb(255, 255, 255)');
+  expect(classic.imageFilter).toBe('none');
+  expect(classic.imageSource).toBe('/images/donovan-logo.svg');
 
-    expect(styles.backgroundColor).toBe('rgb(255, 255, 255)');
-    expect(styles.backgroundImage).toBe('none');
-    expect(styles.padding).toBe(0);
-    expect(styles.border).toBe(0);
-    expect(styles.shadow).toBe('none');
-    expect(styles.radius).toBeGreaterThan(0);
-    expect(styles.imageBackground).toBe('rgb(255, 255, 255)');
-    expect(styles.imageFilter).toBe('none');
-    expect(styles.imageSource).toBe('/images/donovan-logo.svg');
-    expect(styles.widthDifference).toBeLessThanOrEqual(1);
-    expect(styles.heightDifference).toBeLessThanOrEqual(1);
-  }
+  await page.goto('/modern/');
+  const modern = await page.locator('.modern-brand').evaluate((element) => {
+    const computed = getComputedStyle(element);
+    const image = element.querySelector('img');
+    const imageStyles = image ? getComputedStyle(image) : null;
+    const wrapperBox = element.getBoundingClientRect();
+    const imageBox = image?.getBoundingClientRect();
+    return {
+      background: computed.backgroundColor,
+      overflow: computed.overflow,
+      radius: computed.borderRadius,
+      padding: Number.parseFloat(computed.paddingTop),
+      imageBackground: imageStyles?.backgroundColor ?? '',
+      imageRadius: imageStyles?.borderRadius ?? '',
+      imageFilter: imageStyles?.filter ?? '',
+      imageSource: image?.getAttribute('src') ?? '',
+      widthDifference: imageBox ? Math.abs(wrapperBox.width - imageBox.width) : 999,
+      heightDifference: imageBox ? Math.abs(wrapperBox.height - imageBox.height) : 999
+    };
+  });
+  expect(modern.background).toBe('rgba(0, 0, 0, 0)');
+  expect(modern.overflow).toBe('visible');
+  expect(modern.radius).toBe('0px');
+  expect(modern.padding).toBe(0);
+  expect(modern.imageBackground).toBe('rgba(0, 0, 0, 0)');
+  expect(modern.imageRadius).toBe('0px');
+  expect(modern.imageFilter).toBe('none');
+  expect(modern.imageSource).toBe('/images/donovan-logo.svg');
+  expect(modern.widthDifference).toBeLessThanOrEqual(1);
+  expect(modern.heightDifference).toBeLessThanOrEqual(1);
 });
 
 test('modern mobile footer stacks without narrow columns', async ({ page, isMobile }, testInfo) => {
