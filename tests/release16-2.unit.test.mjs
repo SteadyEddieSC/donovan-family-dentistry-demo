@@ -4,14 +4,9 @@ import test from 'node:test';
 
 const read = (path) => readFile(new URL(`../${path}`, import.meta.url), 'utf8');
 
-test('Release 16.2 modern layout uses the self-protected oval sign vector', async () => {
-  const layout = await read('src/layouts/ModernLayout.astro');
+test('Release 16.2 oval sign vector remains preserved as a documented prior asset', async () => {
   const css = await read('src/styles/release-16-2.css');
   const logo = await read('public/images/donovan-sign-logo.svg');
-
-  assert.match(layout, /const modernLogo = '\/images\/donovan-sign-logo\.svg'/);
-  assert.match(layout, /release-16-2\.css/);
-  assert.equal((layout.match(/src=\{modernLogo\}/g) || []).length, 2);
 
   assert.match(logo, /viewBox="0 0 800 400"/);
   assert.match(logo, /<ellipse[^>]*fill="#fffdf8"[^>]*stroke="#006b93"/);
