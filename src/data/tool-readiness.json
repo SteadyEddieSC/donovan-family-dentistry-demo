@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "release": 16,
-  "reviewedOn": "2026-08-01",
+  "reviewedOn": "2026-08-02",
   "actualDomainCutoverRelease": 17,
   "cms": {
     "product": "Pages CMS hosted app",
@@ -134,35 +134,37 @@
     {
       "id": "secure-patient-intake",
       "label": "Secure online patient intake",
-      "provider": "Not selected; Jotform HIPAA or a dental-platform forms product are candidates",
+      "provider": "Open Dental Web Forms (confirmed practice system; exact office setup not yet verified)",
       "status": "not-selected",
-      "cost": "Jotform currently advertises HIPAA-enabled features on Gold at about $99 per month billed annually; dental-platform pricing is generally quote-based",
+      "cost": "Web Forms are included at no additional fee for practices on active Open Dental support; optional form conversion or service work may cost extra",
       "phiAllowed": true,
       "codeReady": false,
       "accountReady": false,
       "ownerDecisionNeeded": true,
       "blockers": [
-        "Confirm the practice-management system and required integrations.",
-        "Select a healthcare-capable vendor and execute an appropriate BAA.",
-        "Approve access roles, consent, retention, deletion, incident response, and staff workflow.",
-        "Keep the current public repository and Basin inquiry path free of PHI."
+        "Confirm the office's active Open Dental support status, current version, and eConnector health.",
+        "Approve the registration, medical-history, consent, and privacy Sheets and enable the mobile layout.",
+        "Obtain and test the exact office-specific Web Forms URL and redirect behavior without placing the form in an iframe.",
+        "Approve patient matching, staff review, import, correction, retention, downtime, and incident procedures before publishing the link.",
+        "Keep completed forms and patient information out of the public repository and the general administrative inquiry path."
       ]
     },
     {
       "id": "scheduling-messaging-payments",
       "label": "Online scheduling, patient messaging, payments, and reviews",
-      "provider": "Not selected; NexHealth or the practice's existing dental platform are candidates",
+      "provider": "Open Dental eServices and Patient Portal (confirmed system of record; specific services not yet selected)",
       "status": "not-selected",
-      "cost": "Quote required",
+      "cost": "Patient Portal, Web Forms, eReminders, and General Messages are included with active support; Web Sched, eConfirmations, texting, eClipboard, and bundle options may add fees",
       "phiAllowed": true,
       "codeReady": false,
       "accountReady": false,
       "ownerDecisionNeeded": true,
       "blockers": [
-        "Identify the current practice-management and patient-communication systems.",
-        "Confirm supported read/write integration and prevent duplicate scheduling or messaging workflows.",
-        "Execute required agreements and approve staff ownership, downtime, reconciliation, and rollback procedures.",
-        "Test in a vendor sandbox or controlled pilot before adding website links or widgets."
+        "Inventory the office's currently enabled Open Dental eServices, eConnector configuration, texting number, portal settings, and payment workflow.",
+        "Decide whether to enable Patient Portal, Web Sched, eConfirmations, Integrated Texting, eClipboard, payments, or review requests.",
+        "Confirm appointment types, providers, operatories, availability rules, staff ownership, message timing, opt-out handling, and downtime procedures.",
+        "Obtain and test exact office-specific URLs before adding any patient-facing website link.",
+        "Use the Open Dental API rather than direct database writes if a custom two-way integration is later approved."
       ]
     }
   ]
