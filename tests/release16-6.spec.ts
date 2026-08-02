@@ -40,7 +40,7 @@ test('New Patients exposes the same downloadable contact card near the top of th
     return { background: style.backgroundColor, color: style.color };
   });
   expect(colors.background).toBe('rgb(114, 169, 40)');
-  expect(colors.color).toBe('rgb(6, 47, 53)');
+  expect(colors.color).toBe('rgb(16, 47, 51)');
 
   const startHeading = page.getByRole('heading', { name: 'From first call to first visit.' });
   await expect(startHeading).toBeVisible();
