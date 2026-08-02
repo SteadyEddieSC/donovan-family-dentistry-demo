@@ -52,3 +52,65 @@ test('modern dark mode keeps cards, buttons, and logo readable', async ({ page }
   expect(colors.buttonBorder).not.toBe('rgba(0, 0, 0, 0)');
   expect(colors.cardBackground).not.toBe(colors.cardColor);
 });
+
+test('mobile homepage does not duplicate or cover its primary action buttons', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/modern/');
+
+  await expect(page.locator('.modern-mobile-dock')).toHaveCount(0);
+  await expect(page.getByRole('link', { name: 'Call the office' })).toBeVisible();
+  await expect(page.getByRole('link', { name: 'Directions' }).first()).toBeVisible();
+  await expect(page.getByRole('link', { name: 'Patient forms' }).first()).toBeVisible();
+});
+
+test('mobile services heading keeps Comprehensive intact and preserves dock clearance', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/modern/services/');
+
+  const heading = page.locator('.modern-page-hero h1');
+  await expect(heading).toBeVisible();
+  await expect(page.locator('.modern-mobile-dock')).toBeVisible();
+
+  const metrics = await heading.evaluate((element) => {
+    const node = element.firstChild;
+    if (!node || node.nodeType !== Node.TEXT_NODE) {
+      return { firstWordRects: 99, overflowWrap: '', wordBreak: '', fontSize: 0 };
+    }
+
+    const firstWordLength = 'Comprehensive'.length;
+    const range = document.createRange();
+    range.setStart(node, 0);
+    range.setEnd(node, firstWordLength);
+    const styles = getComputedStyle(element);
+
+    return {
+      firstWordRects: range.getClientRects().length,
+      overflowWrap: styles.overflowWrap,
+      wordBreak: styles.wordBreak,
+      fontSize: Number.parseFloat(styles.fontSize)
+    };
+  });
+
+  expect(metrics.firstWordRects).toBe(1);
+  expect(metrics.overflowWrap).toBe('normal');
+  expect(metrics.wordBreak).toBe('normal');
+  expect(metrics.fontSize).toBeLessThanOrEqual(48);
+
+  const mainPadding = await page.locator('#modern-main').evaluate((element) =>
+    Number.parseFloat(getComputedStyle(element).paddingBottom)
+  );
+  expect(mainPadding).toBeGreaterThan(80);
+});
+
+test('sign-aligned logo asset uses the stronger approved palette', async ({ page, request }) => {
+  await page.goto('/modern/');
+  await expect(page.locator('.modern-brand img')).toHaveAttribute('src', '/images/donovan-logo.svg');
+
+  const response = await request.get('/images/donovan-logo.svg');
+  expect(response.status()).toBeLessThan(400);
+  const svg = await response.text();
+  expect(svg).toContain('stroke="#006b93"');
+  expect(svg).toContain('fill="#12233f">DONOVAN');
+  expect(svg).toContain('fill="#72a928"');
+  expect(svg).toContain('fill="#00749d"');
+});
