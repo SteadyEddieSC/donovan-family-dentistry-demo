@@ -1,41 +1,37 @@
 import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 
-test('calm communication stays together on the reviewed phone width', async ({ page }) => {
+test('calm communication stays together on the reviewed phone width without widening the page', async ({ page }) => {
   await page.setViewportSize({ width: 384, height: 832 });
   await page.goto('/modern/about/');
 
   const heading = page.getByRole('heading', {
     name: 'Useful information, calm communication, and a clear next step.'
   });
+  const phrase = page.locator('.modern-values-title__phrase');
   await expect(heading).toBeVisible();
+  await expect(phrase).toHaveText('calm communication');
 
-  const phraseLayout = await heading.evaluate((element) => {
-    const target = 'calm\u00a0communication';
-    const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT);
-    let node = walker.nextNode();
-    while (node) {
-      const text = node.textContent ?? '';
-      const index = text.indexOf(target);
-      if (index >= 0) {
-        const range = document.createRange();
-        range.setStart(node, index);
-        range.setEnd(node, index + target.length);
-        const rects = [...range.getClientRects()].filter((rect) => rect.width > 0 && rect.height > 0);
-        return {
-          rectCount: rects.length,
-          lineTops: [...new Set(rects.map((rect) => Math.round(rect.top)))]
-        };
-      }
-      node = walker.nextNode();
-    }
-    return { rectCount: 0, lineTops: [] };
+  const layout = await page.evaluate(() => {
+    const heading = document.querySelector('.modern-values-title')!;
+    const phrase = document.querySelector('.modern-values-title__phrase')!;
+    const headingRect = heading.getBoundingClientRect();
+    const phraseRect = phrase.getBoundingClientRect();
+    const phraseStyle = getComputedStyle(phrase);
+    return {
+      scrollWidth: document.documentElement.scrollWidth,
+      clientWidth: document.documentElement.clientWidth,
+      phraseRight: phraseRect.right,
+      headingRight: headingRect.right,
+      phraseHeight: phraseRect.height,
+      lineHeight: Number.parseFloat(phraseStyle.lineHeight)
+    };
   });
 
-  expect(phraseLayout.rectCount).toBeGreaterThan(0);
-  expect(phraseLayout.lineTops).toHaveLength(1);
-  await expect(page.locator('html')).toHaveJSProperty('scrollWidth', 384);
-  await page.screenshot({ path: 'test-results/release16-9-about-mobile.png', fullPage: true });
+  expect(layout.scrollWidth).toBe(layout.clientWidth);
+  expect(layout.phraseRight).toBeLessThanOrEqual(layout.headingRight + 1);
+  expect(layout.phraseHeight).toBeLessThanOrEqual(layout.lineHeight + 1);
+  await page.screenshot({ path: 'test-results/release16-10-about-mobile.png', fullPage: true });
 });
 
 test('About, Team, and Services use patient-facing language instead of project notes', async ({ page }) => {
