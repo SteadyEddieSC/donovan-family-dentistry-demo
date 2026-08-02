@@ -1,4 +1,5 @@
 ---
+import ActionIcon from '../../../components/ActionIcon.astro';
 import ModernLayout from '../../../layouts/ModernLayout.astro';
 import site from '../../../data/site.json';
 
@@ -15,7 +16,7 @@ const mapHref = `https://www.google.com/maps/search/?api=1&query=${encodeURIComp
         <p class="modern-kicker">New patients</p>
         <h1>A clear first step toward a comfortable visit.</h1>
       </div>
-      <p class="modern-page-hero__aside">Call the office, prepare your forms, and arrive with the information the team needs to keep your first appointment organized.</p>
+      <p class="modern-page-hero__aside">Save the office contact, call the team, prepare your forms, and arrive with the information needed to keep your first appointment organized.</p>
     </div>
   </section>
 
@@ -26,6 +27,11 @@ const mapHref = `https://www.google.com/maps/search/?api=1&query=${encodeURIComp
         <h2 id="new-patient-start">From first call to first visit.</h2>
         <p>The office can answer general scheduling questions, explain what paperwork is needed, and help you understand the next administrative step.</p>
       </div>
+      <a class="modern-save-contact-card" href="/donovan-family-dentistry.vcf" download>
+        <ActionIcon name="contact" />
+        <span class="modern-save-contact-card__copy"><strong>Save the office contact</strong><span>Keep the practice phone number and Lady's Island address ready on this device.</span></span>
+        <span class="modern-save-contact-card__arrow" aria-hidden="true">↓</span>
+      </a>
       <div class="modern-onboarding-grid">
         <article class="modern-onboarding-card">
           <span class="modern-onboarding-card__number" aria-hidden="true">1</span>
