@@ -17,9 +17,10 @@ The provider roster, service wording, insurance/payment language, urgent-care wo
 - Cloudflare Pages Function for the optional protected administrative-request endpoint
 - Pages CMS configuration in `.pages.yml`
 - Sharp-generated responsive WebP images and a 1200×630 social card
-- Node unit tests for serverless, launch, CMS, tool-readiness, owner-recovery, backup, and domain-inventory logic
+- Node unit tests for serverless, launch, CMS, tool-readiness, owner-recovery, backup, review-center, and domain-inventory logic
 - Playwright coverage for Chromium, branded Chrome and Edge, Firefox, WebKit, Android Chrome emulation, and iOS Safari emulation
 - axe-core WCAG 2.2 AA regression checks plus a manual-review checklist
+- Local-only `/review/` helper for repeatable physical-device evidence without server submission or storage
 - Static performance budgets, scheduled deployed-site checks, npm audit, and Dependabot
 - Manual public DNS, TLS, and HTTP inventory workflow that never edits records
 - Guarded **Restore latest office save** workflow for the most recent safe Pages CMS commit
@@ -51,6 +52,22 @@ npm run test:compat
 `npm run build` validates inquiry configuration, editable content, launch readiness, production-candidate safety, the Release 15 launch-evidence register, the Release 16 CMS/tool-readiness register, responsive image generation, the patient PDF, and static performance budgets.
 
 The compatibility suite provides browser-engine and emulation evidence. It does not replace the physical iOS, Android, macOS, and Windows checks or the human WCAG/PDF review recorded in `docs/release-15-launch-readiness.md`.
+
+## Private physical-device review
+
+Open the exact Cloudflare deployment being considered and then open:
+
+`/review/`
+
+The **Review this device** footer link appears only while `site.previewMode` is enabled. The review page is permanently `noindex`, is excluded from the sitemap and patient navigation, and does not show the fixed mobile patient-action dock.
+
+The page detects the current viewport, screen, pixel ratio, touch points, browser user agent, color preference, forced-colors state, contrast preference, and reduced-motion preference. It guides the tester through logo, navigation, readability, action, PDF, zoom/reflow, dark-mode, and assistive-input checks.
+
+The generated report remains in the browser until the tester deliberately copies, downloads, or prints it. The page does not call an API, submit a form, send email, write a cookie, use local storage, or retain the report after reset or reload.
+
+Do not include patient names, appointment details, symptoms, diagnoses, medications, insurance IDs, completed-form information, or other protected health information.
+
+See `docs/physical-device-review-guide.md` for the required iPhone, iPad, Android, Windows, and macOS matrix, result definitions, evidence handling, and the separate human WCAG/PDF review process.
 
 ## Office website editor
 
@@ -132,8 +149,10 @@ See:
 - `docs/owner-editing-guide.md` for editing, verification, and recovery rules;
 - `docs/office-content-backup.md` for the read-only backup workflow;
 - `docs/release-16-cms-cutover-tool-readiness.md` for CMS status, cutover blockers, and tool-enablement choices;
-- `docs/release-16-1-owner-polish.md` for the owner-test findings and mobile recovery release; and
-- `docs/release-16-2-logo-backup.md` for the canonical sign logo and backup action.
+- `docs/release-16-1-owner-polish.md` for the owner-test findings and mobile recovery release;
+- `docs/release-16-2-logo-backup.md` for the preserved sign-vector work and backup action;
+- `docs/release-16-3-shared-logo-dark-mode.md` and `docs/release-16-4-logo-polish-contact-utilities.md` for the active shared-logo corrections; and
+- `docs/release-16-5-private-review-center.md` for the physical-device evidence helper.
 
 Office editors do not manage Turnstile secrets, Basin endpoints, Cloudflare rate limits, production activation flags, indexing controls, DNS, registrar settings, mail records, or patient systems. Those remain administrator-owned settings.
 
@@ -164,13 +183,14 @@ Do not connect `donovanfamilydentistry.com` or `www.donovanfamilydentistry.com`,
 
 ## Monitoring
 
-- CI uses the committed npm lockfile and runs dependency review, npm audit, unit, build, performance, browser, compatibility, metadata, link, PDF, accessibility, CMS, tool-readiness, owner-recovery, backup, and launch checks on pull requests and `main`.
+- CI uses the committed npm lockfile and runs dependency review, npm audit, unit, build, performance, browser, compatibility, metadata, link, PDF, accessibility, CMS, tool-readiness, owner-recovery, backup, review-center, and launch checks on pull requests and `main`.
 - **Production candidate monitor** runs daily and can be dispatched manually for another Pages URL using `SITE_URL`.
 - **Domain readiness inventory** is manually dispatched for a public infrastructure snapshot.
 - **Restore latest office save** is manual, guarded, and limited to the newest safe `office update:` commit on `main`.
 - **Create office content backup** is manual, read-only, and retains a downloadable artifact for 30 days.
+- The `/review/` helper generates evidence only in the tester's browser and has no monitoring or collection endpoint.
 - Dependabot checks npm dependencies weekly.
-- Monitoring and backup workflows never submit the administrative form and must not include visitor messages, completed patient forms, credentials, private mailbox details, or patient information in issues or artifacts.
+- Monitoring, backup, and review workflows must not include visitor messages, completed patient forms, credentials, private mailbox details, or patient information in issues or artifacts.
 
 ## Release documents
 
@@ -178,9 +198,12 @@ Do not connect `donovanfamilydentistry.com` or `www.donovanfamilydentistry.com`,
 - `docs/release-15-launch-readiness.md` — current-site reconciliation, launch evidence, domain inventory, cutover prerequisites, and rollback thresholds.
 - `docs/release-16-cms-cutover-tool-readiness.md` — CMS acceptance, legacy-hosting findings, remaining blockers, and optional tool decisions.
 - `docs/release-16-1-owner-polish.md` — CMS save/recovery clarification and mobile polish.
-- `docs/release-16-2-logo-backup.md` — self-protected oval sign logo and read-only office content backup.
+- `docs/release-16-2-logo-backup.md` — preserved sign-vector work and read-only office content backup.
+- `docs/release-16-3-shared-logo-dark-mode.md` — owner-preferred shared horizontal logo and device dark-mode protection.
+- `docs/release-16-4-logo-polish-contact-utilities.md` — unclipped logo treatment, office vCard, and recovery page.
+- `docs/release-16-5-private-review-center.md` — local-only physical-device evidence helper.
 - `docs/roadmap.md` — Release 17 production-domain cutover and optional later patient-system work.
 
 ## Content provenance
 
-Initial text comes from the existing public website, the supplied website screenshot, and owner-provided corrections. The current public two-dentist roster remains an unresolved replacement-site decision rather than being silently omitted or republished. The modern oval logo is a clean true-SVG reconstruction of the owner-supplied sign reference; the uploaded checkerboard-backed raster was used only as visual direction and was not committed as a transparent source asset. See `docs/content-inventory.md`, `docs/owner-review.md`, and the release documents above.
+Initial text comes from the existing public website, the supplied website screenshot, and owner-provided corrections. The current public two-dentist roster remains an unresolved replacement-site decision rather than being silently omitted or republished. The active classic and modern concepts use the same owner-preferred horizontal SVG logo. The Release 16.2 oval vector remains preserved only as prior visual-development history. See `docs/content-inventory.md`, `docs/owner-review.md`, and the release documents above.
