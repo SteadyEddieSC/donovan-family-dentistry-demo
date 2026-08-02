@@ -42,7 +42,7 @@ test('Office content backup is manual, read-only, fixed-scope, and integrity che
   assert.match(workflow, /actions\/upload-artifact@v4/);
   assert.match(workflow, /retention-days: 30/);
   assert.doesNotMatch(workflow, /git push/);
-  assert.doesNotMatch(workflow, /patient-record backup/i);
+  assert.match(workflow, /not a patient-record backup/i);
 });
 
 test('Release 16.2 documentation explains backup purpose and restoration boundary', async () => {
