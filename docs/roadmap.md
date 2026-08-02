@@ -91,9 +91,26 @@ Release 16.1 incorporates the first real Pages CMS owner test while preserving e
 - Adds exact phone and desktop recovery instructions to the README and owner guides.
 - Removes the redundant fixed quick-action dock from the modern homepage and keeps safe-area clearance on interior pages.
 - Corrects the narrow-screen Services heading so `Comprehensive` does not break mid-word.
-- Revises the vector logo to better match the owner-supplied wordmarks and physical sign: stronger blue outline and underline, darker navy wording, and darker green toothbrush-inspired bars.
+- Adds the first sign-informed logo treatment pending owner visual review.
 
 See `docs/release-16-1-owner-polish.md`.
+
+### Release 16.2 — canonical sign logo and office content backup
+
+Release 16.2 responds to the owner review of the first logo treatment and adds a read-only safety export.
+
+- Rebuilds the supplied oval sign direction as a true self-protected SVG rather than committing the checkerboard-backed raster reference.
+- Uses the oval sign vector in the modern header and footer while leaving the archived classic comparison concept unchanged.
+- Removes the second rectangular backing card and uses the oval's off-white field, blue border, and subtle drop shadow for contrast on light, dark, gradient, and photographic backgrounds.
+- Adds mobile and dark-preference browser coverage for logo visibility, dimensions, background treatment, and vector integrity.
+- Adds the manual **Create office content backup** action.
+- Keeps the backup read-only, fixed to public CMS-managed content, checksum-protected, and retained as a downloadable GitHub artifact for 30 days.
+- Documents that the backup does not deploy or roll back the site and must never include completed forms, messages, credentials, patient records, or protected health information.
+
+See:
+
+- `docs/release-16-2-logo-backup.md`
+- `docs/office-content-backup.md`
 
 ## Release 17 — governed production-domain cutover
 
@@ -130,4 +147,4 @@ Choose only after the practice identifies a real operational need and approves a
 - Approved patient testimonials and review links with consent tracking.
 - Useful service-specific pages for local search without thin or duplicated content.
 - Google Business Profile integration.
-- Quarterly accessibility, link, content-freshness, privacy, security, CMS recovery, and account-ownership reviews.
+- Quarterly accessibility, link, content-freshness, privacy, security, CMS recovery, backup, and account-ownership reviews.
