@@ -70,11 +70,11 @@ These are separate operations:
 3. **Build and verify website** is an optional manual GitHub Actions button. It does not save content, undo content, or deploy a different version. It checks the already-saved branch with the locked dependency, unit, build, browser, compatibility, link, form, mobile, metadata, performance, and automated accessibility tests and stores a temporary build artifact.
 4. Therefore the normal owner sequence is: **edit → Save → wait for deployment → run Build and verify website for the full acceptance check → review the same commit on phone and desktop**.
 
-Pages CMS is only the editing layer. GitHub stores the files and history; Cloudflare Pages builds and hosts the site. Pages CMS does not maintain a separate content database. citeturn745086search1turn745086search0
+Pages CMS is only the editing layer. GitHub stores the files and history; Cloudflare Pages builds and hosts the site. Pages CMS does not maintain a separate content database.
 
 ### Restore or roll back an office save
 
-GitHub mobile and the ordinary commit page do not provide a general **Revert** button for a direct Pages CMS commit. GitHub's web **Revert** button applies to a merged pull request, which is why it is not visible on the direct `office update:` commit. citeturn928203search0
+GitHub mobile and the ordinary commit page do not provide a general **Revert** button for a direct Pages CMS commit. GitHub's web **Revert** button applies to a merged pull request, which is why it is not visible on the direct `office update:` commit.
 
 Use the first method that fits the situation:
 
