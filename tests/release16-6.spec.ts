@@ -19,7 +19,7 @@ test('downloadable contact card is the first and visually distinct contact actio
     const style = getComputedStyle(element);
     return { background: style.backgroundColor, color: style.color };
   });
-  expect(featuredColors.background).toBe('rgb(114, 169, 40)');
+  expect(featuredColors.background).toBe('rgb(139, 184, 79)');
   expect(featuredColors.color).toBe('rgb(6, 47, 53)');
 
   await expect(page.locator('.modern-contact-stack .modern-action-icon')).toHaveCount(4);
@@ -39,7 +39,7 @@ test('New Patients exposes the same downloadable contact card near the top of th
     const style = getComputedStyle(element);
     return { background: style.backgroundColor, color: style.color };
   });
-  expect(colors.background).toBe('rgb(114, 169, 40)');
+  expect(colors.background).toBe('rgb(139, 184, 79)');
   expect(colors.color).toBe('rgb(16, 47, 51)');
 
   const startHeading = page.getByRole('heading', { name: 'From first call to first visit.' });
@@ -47,7 +47,7 @@ test('New Patients exposes the same downloadable contact card near the top of th
   expect(await saveContact.evaluate((element) => Boolean(element.compareDocumentPosition(document.querySelector('.modern-onboarding-grid')) & Node.DOCUMENT_POSITION_FOLLOWING))).toBe(true);
 });
 
-test('brand-green accents replace visible lime surfaces beyond the contact cards', async ({ page }) => {
+test('compact brand-green accents retain the exact logo green', async ({ page }) => {
   await page.goto('/modern/about/');
 
   const valueIcon = page.locator('.modern-value-icon').first();
