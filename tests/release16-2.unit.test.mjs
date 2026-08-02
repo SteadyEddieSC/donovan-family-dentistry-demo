@@ -22,7 +22,8 @@ test('Release 16.2 modern layout uses the self-protected oval sign vector', asyn
   assert.doesNotMatch(logo, /checker/i);
   assert.doesNotMatch(logo, /data:image/i);
 
-  assert.match(css, /background: transparent !important/);
+  assert.match(css, /background-color: transparent !important/);
+  assert.match(css, /background-image: none !important/);
   assert.match(css, /filter: drop-shadow/);
   assert.match(css, /border-radius: 0 !important/);
 });
