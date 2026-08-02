@@ -112,6 +112,20 @@ See:
 - `docs/release-16-2-logo-backup.md`
 - `docs/office-content-backup.md`
 
+### Release 16.3 — shared logo and device dark-mode correction
+
+Release 16.3 adopts the owner-preferred second image direction instead of iterating on the oval sign interpretation.
+
+- Uses the same horizontal `site.logo` asset in both the classic and modern concepts.
+- Preserves the Release 16.2 oval vector as a prior visual-development asset, but removes it from the active modern header and footer.
+- Matches the horizontal logo's intrinsic 510 × 138 geometry in the modern layout.
+- Gives the modern wrapper and image an explicit white rendering surface with no CSS filter or blend mode.
+- Adds light-color-scheme and forced-color-adjust safeguards to both the page CSS and the SVG itself.
+- Reduces the mobile header height to fit the wider logo cleanly.
+- Expands unit and browser coverage for shared asset use, approved color values, dark-preference rendering, mobile geometry, and the absence of color-altering filters.
+
+See `docs/release-16-3-shared-logo-dark-mode.md`.
+
 ## Release 17 — governed production-domain cutover
 
 Release 17 begins only after every required Release 15 and Release 16.x item is verified or explicitly approved for deferral.

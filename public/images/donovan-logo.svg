@@ -1,6 +1,10 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 510 138" role="img" aria-labelledby="title desc">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 510 138" preserveAspectRatio="xMidYMid meet" role="img" aria-labelledby="title desc" style="color-scheme: only light; forced-color-adjust: none;">
   <title id="title">Donovan Family Dentistry</title>
-  <desc id="desc">Donovan Family Dentistry wordmark with a dark navy name, blue underline and outline, and green toothbrush-inspired mark.</desc>
+  <desc id="desc">Donovan Family Dentistry wordmark with a dark navy name, blue underline and outline, and green toothbrush-inspired mark on a white card.</desc>
+  <style>
+    :root { color-scheme: only light; }
+    * { forced-color-adjust: none; }
+  </style>
   <rect x="3" y="3" width="504" height="132" rx="22" ry="22" fill="#ffffff" stroke="#006b93" stroke-width="6"/>
   <g transform="translate(20 10)">
     <text x="10" y="69" font-family="Arial, Helvetica, sans-serif" font-size="67" font-weight="500" letter-spacing="-2" fill="#12233f">DONOVAN</text>

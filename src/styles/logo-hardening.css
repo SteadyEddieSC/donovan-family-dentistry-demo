@@ -6,9 +6,10 @@ body,
 }
 
 /*
- * The white rounded card is now part of the SVG itself. Keep the link wrappers
- * exactly flush with the artwork so mobile forced-dark processing cannot create
- * a second visible card around the logo.
+ * The white rounded card is part of the active SVG itself. Keep every logo
+ * wrapper flush with the artwork and give the replaced-image element the same
+ * explicit light surface so device forced-dark heuristics cannot recolor the
+ * transparent replaced-element canvas or create a second visible card.
  */
 .brand,
 .footer-brand-card,
@@ -37,8 +38,9 @@ body,
   width: 100%;
   height: auto;
   border-radius: 1rem;
-  background: transparent !important;
-  filter: drop-shadow(0 8px 18px rgba(0, 0, 0, .12)) !important;
+  background-color: #fff !important;
+  background-image: none !important;
+  filter: none !important;
   forced-color-adjust: none;
   mix-blend-mode: normal;
 }

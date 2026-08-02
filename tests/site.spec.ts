@@ -42,25 +42,29 @@ test('directions button has visible text contrast', async ({ page }) => {
   expect(styles.color).not.toBe(styles.backgroundColor);
 });
 
-test('classic logo uses its white card and modern logo uses its self-protected oval', async ({ page }) => {
-  await page.goto('/');
-  const classicStyles = await page.locator('.brand').evaluate((element) => {
-    const styles = getComputedStyle(element);
-    return { background: styles.backgroundColor, radius: Number.parseFloat(styles.borderRadius) };
-  });
-  expect(classicStyles.background).toBe('rgb(255, 255, 255)');
-  expect(classicStyles.radius).toBeGreaterThan(0);
-  await expect(page.locator('.footer-brand-card img')).toBeVisible();
+test('classic and modern concepts use the same dark-mode-protected logo asset', async ({ page }) => {
+  for (const path of ['/', '/modern/']) {
+    await page.goto(path);
+    const selector = path === '/' ? '.brand' : '.modern-brand';
+    const logo = page.locator(`${selector} img`);
+    const styles = await page.locator(selector).evaluate((element) => {
+      const computed = getComputedStyle(element);
+      const image = element.querySelector('img');
+      const imageStyles = image ? getComputedStyle(image) : null;
+      return {
+        background: computed.backgroundColor,
+        radius: Number.parseFloat(computed.borderRadius),
+        imageBackground: imageStyles?.backgroundColor ?? '',
+        imageFilter: imageStyles?.filter ?? ''
+      };
+    });
+    expect(styles.background).toBe('rgb(255, 255, 255)');
+    expect(styles.radius).toBeGreaterThan(0);
+    expect(styles.imageBackground).toBe('rgb(255, 255, 255)');
+    expect(styles.imageFilter).toBe('none');
+    await expect(logo).toHaveAttribute('src', '/images/donovan-logo.svg');
+  }
 
-  await page.goto('/modern/');
-  const modernLogo = page.locator('.modern-brand img');
-  const modernStyles = await page.locator('.modern-brand').evaluate((element) => {
-    const styles = getComputedStyle(element);
-    return { background: styles.backgroundColor, radius: Number.parseFloat(styles.borderRadius) };
-  });
-  expect(modernStyles.background).toBe('rgba(0, 0, 0, 0)');
-  expect(modernStyles.radius).toBe(0);
-  await expect(modernLogo).toHaveAttribute('src', '/images/donovan-sign-logo.svg');
   await expect(page.locator('.modern-footer__logo-card img')).toBeVisible();
 });
 

@@ -1,0 +1,84 @@
+/* Release 16.3: use the owner-preferred horizontal logo on both concepts.
+ * Loaded last so device dark-mode heuristics always encounter an explicit
+ * light rendering surface and the artwork's approved colors remain unchanged.
+ */
+
+:root,
+html,
+body,
+.modern-body {
+  color-scheme: only light;
+}
+
+html body .modern-brand,
+html body .modern-footer__logo-card {
+  overflow: hidden !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 1rem !important;
+  background-color: #ffffff !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  forced-color-adjust: none;
+  isolation: isolate;
+}
+
+html body .modern-brand {
+  flex: 0 1 13.5rem;
+  max-width: 13.5rem;
+}
+
+html body .modern-brand img,
+html body .modern-footer__logo-card img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 1rem !important;
+  background-color: #ffffff !important;
+  background-image: none !important;
+  filter: none !important;
+  forced-color-adjust: none;
+  mix-blend-mode: normal;
+  object-fit: contain;
+}
+
+html body .modern-brand img {
+  max-height: 4rem;
+  object-position: left center;
+}
+
+html body .modern-footer__logo-card {
+  width: min(19rem, 100%);
+}
+
+@media (max-width: 720px) {
+  .modern-header__inner {
+    min-height: 5.25rem;
+    gap: .8rem;
+  }
+
+  html body .modern-brand {
+    flex-basis: 11.5rem;
+    max-width: 11.5rem;
+  }
+
+  html body .modern-brand img {
+    max-height: 3.5rem;
+  }
+}
+
+@media (max-width: 420px) {
+  .modern-header__inner {
+    min-height: 4.9rem;
+    gap: .65rem;
+  }
+
+  html body .modern-brand {
+    flex-basis: 10rem;
+    max-width: 10rem;
+  }
+
+  html body .modern-brand img {
+    max-height: 3rem;
+  }
+}
