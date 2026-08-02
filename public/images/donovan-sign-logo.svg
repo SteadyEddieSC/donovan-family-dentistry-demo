@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400" role="img" aria-labelledby="title desc">
+  <title id="title">Donovan Family Dentistry</title>
+  <desc id="desc">Oval Donovan Family Dentistry sign mark with a white field, blue border and underline, dark navy lettering, and green toothbrush-inspired bars.</desc>
+  <defs>
+    <filter id="sign-shadow" x="-12%" y="-16%" width="124%" height="138%" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="12" stdDeviation="12" flood-color="#082c46" flood-opacity="0.2"/>
+    </filter>
+  </defs>
+  <g filter="url(#sign-shadow)">
+    <ellipse cx="400" cy="194" rx="375" ry="174" fill="#fffdf8" stroke="#006b93" stroke-width="18"/>
+    <g fill="#12233f" font-family="Arial, Helvetica, sans-serif" text-anchor="middle">
+      <text x="350" y="145" font-size="76" font-weight="700" letter-spacing="1">DONOVAN</text>
+      <text x="400" y="257" font-size="78" font-weight="800" letter-spacing="7">FAMILY</text>
+      <text x="400" y="342" font-size="72" font-weight="800" letter-spacing="4">DENTISTRY</text>
+    </g>
+    <rect x="150" y="161" width="510" height="13" rx="3" fill="#00749d"/>
+    <g fill="#6f9f2b" aria-hidden="true">
+      <rect x="604" y="85" width="10" height="62" rx="2"/>
+      <rect x="618" y="76" width="10" height="71" rx="2"/>
+      <rect x="632" y="69" width="10" height="78" rx="2"/>
+      <rect x="646" y="81" width="10" height="66" rx="2"/>
+      <rect x="660" y="62" width="10" height="85" rx="2"/>
+      <rect x="674" y="72" width="10" height="75" rx="2"/>
+      <rect x="688" y="65" width="10" height="82" rx="2"/>
+    </g>
+  </g>
+</svg>
