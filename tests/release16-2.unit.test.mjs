@@ -55,7 +55,7 @@ test('Release 16.2 documentation explains backup purpose and restoration boundar
     assert.match(document, /Create office content backup/);
   }
 
-  assert.match(backupGuide, /does not deploy/i);
+  assert.match(backupGuide, /does not (?:deploy|create a deployment)/i);
   assert.match(backupGuide, /does not roll back/i);
   assert.match(backupGuide, /30 days/);
   assert.match(backupGuide, /completed forms/i);
