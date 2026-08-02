@@ -1,0 +1,13 @@
+/* Release 16.9: improve narrow-screen heading rhythm without shrinking the type scale. */
+.modern-section__head h2,
+.modern-visit-card h2 {
+  text-wrap: balance;
+  hyphens: none;
+}
+
+@media (max-width: 430px) {
+  .modern-section__head h2 {
+    overflow-wrap: normal;
+    word-break: normal;
+  }
+}
