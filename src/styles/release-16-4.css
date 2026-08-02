@@ -1,0 +1,59 @@
+/* Release 16.4: let the SVG own the visible logo card.
+ * The prior release protected dark-mode colors with a white CSS wrapper, but
+ * that extra layer could clip the SVG's corners and appear as a dark oversized
+ * box under aggressive device forced-dark processing. Keep every surrounding
+ * element transparent and unclipped; the SVG itself remains light-scheme and
+ * forced-color protected.
+ */
+
+html body .modern-brand,
+html body .modern-footer__logo-card {
+  overflow: visible !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  forced-color-adjust: none;
+  isolation: auto;
+  line-height: 0;
+}
+
+html body .modern-brand img,
+html body .modern-footer__logo-card img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  filter: none !important;
+  forced-color-adjust: none;
+  mix-blend-mode: normal;
+  object-fit: contain;
+}
+
+html body .modern-brand img {
+  max-height: 4rem;
+  object-position: left center;
+}
+
+html body .modern-footer__logo-card {
+  width: min(19rem, 100%);
+}
+
+html body .modern-footer__logo-card + p {
+  margin-top: 1rem;
+}
+
+@media (max-width: 720px) {
+  html body .modern-brand img {
+    max-height: 3.5rem;
+  }
+}
+
+@media (max-width: 420px) {
+  html body .modern-brand img {
+    max-height: 3rem;
+  }
+}
