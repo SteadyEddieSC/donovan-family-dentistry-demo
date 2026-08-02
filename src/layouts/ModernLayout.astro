@@ -1,4 +1,5 @@
 ---
+import AnnouncementBanner from '../components/AnnouncementBanner.astro';
 import CloudflareAnalytics from '../components/CloudflareAnalytics.astro';
 import SiteMetadata from '../components/SiteMetadata.astro';
 import site from '../data/site.json';
@@ -19,6 +20,7 @@ import '../styles/release-16-4.css';
 import '../styles/release-16-5.css';
 import '../styles/release-16-6.css';
 import '../styles/release-16-7.css';
+import '../styles/release-16-8.css';
 
 interface Props {
   title?: string;
@@ -88,6 +90,7 @@ const bodyClass = showMobileDock ? 'modern-body modern-body--with-dock' : 'moder
         <a class="modern-call" href={`tel:${site.phoneHref}`} aria-label={`Call Donovan Family Dentistry at ${site.phoneDisplay}`}>Call</a>
       </div>
     </header>
+    <AnnouncementBanner />
     <main id="modern-main"><slot /></main>
     <footer class="modern-footer">
       <div class="modern-shell modern-footer__grid">
