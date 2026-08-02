@@ -42,7 +42,7 @@ test('directions button has visible text contrast', async ({ page }) => {
   expect(styles.color).not.toBe(styles.backgroundColor);
 });
 
-test('classic and modern logos use intentional white rounded cards', async ({ page }) => {
+test('classic logo uses its white card and modern logo uses its self-protected oval', async ({ page }) => {
   await page.goto('/');
   const classicStyles = await page.locator('.brand').evaluate((element) => {
     const styles = getComputedStyle(element);
@@ -53,12 +53,14 @@ test('classic and modern logos use intentional white rounded cards', async ({ pa
   await expect(page.locator('.footer-brand-card img')).toBeVisible();
 
   await page.goto('/modern/');
+  const modernLogo = page.locator('.modern-brand img');
   const modernStyles = await page.locator('.modern-brand').evaluate((element) => {
     const styles = getComputedStyle(element);
     return { background: styles.backgroundColor, radius: Number.parseFloat(styles.borderRadius) };
   });
-  expect(modernStyles.background).toBe('rgb(255, 255, 255)');
-  expect(modernStyles.radius).toBeGreaterThan(0);
+  expect(modernStyles.background).toBe('rgba(0, 0, 0, 0)');
+  expect(modernStyles.radius).toBe(0);
+  await expect(modernLogo).toHaveAttribute('src', '/images/donovan-sign-logo.svg');
   await expect(page.locator('.modern-footer__logo-card img')).toBeVisible();
 });
 
