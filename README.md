@@ -17,12 +17,13 @@ The provider roster, service wording, insurance/payment language, urgent-care wo
 - Cloudflare Pages Function for the optional protected administrative-request endpoint
 - Pages CMS configuration in `.pages.yml`
 - Sharp-generated responsive WebP images and a 1200×630 social card
-- Node unit tests for serverless, launch, CMS, tool-readiness, owner-recovery, and domain-inventory logic
+- Node unit tests for serverless, launch, CMS, tool-readiness, owner-recovery, backup, and domain-inventory logic
 - Playwright coverage for Chromium, branded Chrome and Edge, Firefox, WebKit, Android Chrome emulation, and iOS Safari emulation
 - axe-core WCAG 2.2 AA regression checks plus a manual-review checklist
 - Static performance budgets, scheduled deployed-site checks, npm audit, and Dependabot
 - Manual public DNS, TLS, and HTTP inventory workflow that never edits records
 - Guarded **Restore latest office save** workflow for the most recent safe Pages CMS commit
+- Read-only **Create office content backup** workflow for downloadable CMS-managed snapshots
 - Fillable, locally completed patient-history PDF; no website submission
 
 ## Local development
@@ -111,12 +112,28 @@ The workflow refuses to change `main` unless the newest commit begins with `offi
 
 For a code release, multiple related commits, merge conflict, or older mistake, the website administrator should create a normal revert or corrective pull request, or redeploy the last green Cloudflare deployment. Do not reset or force-push shared `main` history.
 
+### Create an office content backup
+
+Use the manual **Create office content backup** action before a large Pages CMS edit, image replacement, or form update.
+
+1. Open the repository in GitHub.
+2. On mobile, choose **More → Actions**. On desktop, choose **Actions**.
+3. Select **Create office content backup**.
+4. Select **Run workflow**, confirm `main`, and run it.
+5. Open the completed run and download the `office-content-backup-<run number>` artifact within 30 days.
+
+The action is read-only. It does not save content, does not deploy the website, and does not roll back a change. It packages the current public CMS-managed data, images, blank forms, manifest, and checksums for administrator-assisted comparison or recovery. It must never contain completed forms, messages, credentials, patient records, or protected health information.
+
+See `docs/office-content-backup.md` for detailed phone, desktop, verification, and restoration instructions.
+
 See:
 
 - `docs/office-cms-quickstart.md` for the exact first-time and routine process;
 - `docs/owner-editing-guide.md` for editing, verification, and recovery rules;
+- `docs/office-content-backup.md` for the read-only backup workflow;
 - `docs/release-16-cms-cutover-tool-readiness.md` for CMS status, cutover blockers, and tool-enablement choices;
-- `docs/release-16-1-owner-polish.md` for the owner-test findings and polish release.
+- `docs/release-16-1-owner-polish.md` for the owner-test findings and mobile recovery release; and
+- `docs/release-16-2-logo-backup.md` for the canonical sign logo and backup action.
 
 Office editors do not manage Turnstile secrets, Basin endpoints, Cloudflare rate limits, production activation flags, indexing controls, DNS, registrar settings, mail records, or patient systems. Those remain administrator-owned settings.
 
@@ -147,21 +164,23 @@ Do not connect `donovanfamilydentistry.com` or `www.donovanfamilydentistry.com`,
 
 ## Monitoring
 
-- CI uses the committed npm lockfile and runs dependency review, npm audit, unit, build, performance, browser, compatibility, metadata, link, PDF, accessibility, CMS, tool-readiness, owner-recovery, and launch checks on pull requests and `main`.
+- CI uses the committed npm lockfile and runs dependency review, npm audit, unit, build, performance, browser, compatibility, metadata, link, PDF, accessibility, CMS, tool-readiness, owner-recovery, backup, and launch checks on pull requests and `main`.
 - **Production candidate monitor** runs daily and can be dispatched manually for another Pages URL using `SITE_URL`.
 - **Domain readiness inventory** is manually dispatched for a public infrastructure snapshot.
 - **Restore latest office save** is manual, guarded, and limited to the newest safe `office update:` commit on `main`.
+- **Create office content backup** is manual, read-only, and retains a downloadable artifact for 30 days.
 - Dependabot checks npm dependencies weekly.
-- Monitoring never submits the administrative form and must not include visitor messages, completed patient forms, credentials, private mailbox details, or patient information in issues or artifacts.
+- Monitoring and backup workflows never submit the administrative form and must not include visitor messages, completed patient forms, credentials, private mailbox details, or patient information in issues or artifacts.
 
 ## Release documents
 
 - `docs/release-14-production-candidate.md` — browser, accessibility, performance, metadata, and monitoring controls.
 - `docs/release-15-launch-readiness.md` — current-site reconciliation, launch evidence, domain inventory, cutover prerequisites, and rollback thresholds.
 - `docs/release-16-cms-cutover-tool-readiness.md` — CMS acceptance, legacy-hosting findings, remaining blockers, and optional tool decisions.
-- `docs/release-16-1-owner-polish.md` — CMS save/recovery clarification, sign-informed logo update, and mobile polish.
+- `docs/release-16-1-owner-polish.md` — CMS save/recovery clarification and mobile polish.
+- `docs/release-16-2-logo-backup.md` — self-protected oval sign logo and read-only office content backup.
 - `docs/roadmap.md` — Release 17 production-domain cutover and optional later patient-system work.
 
 ## Content provenance
 
-Initial text comes from the existing public website, the supplied website screenshot, and owner-provided corrections. The current public two-dentist roster remains an unresolved replacement-site decision rather than being silently omitted or republished. The revised modern logo is a clean vector treatment based on the owner-supplied horizontal wordmarks and physical office-sign photographs. See `docs/content-inventory.md`, `docs/owner-review.md`, and the release documents above.
+Initial text comes from the existing public website, the supplied website screenshot, and owner-provided corrections. The current public two-dentist roster remains an unresolved replacement-site decision rather than being silently omitted or republished. The modern oval logo is a clean true-SVG reconstruction of the owner-supplied sign reference; the uploaded checkerboard-backed raster was used only as visual direction and was not committed as a transparent source asset. See `docs/content-inventory.md`, `docs/owner-review.md`, and the release documents above.
