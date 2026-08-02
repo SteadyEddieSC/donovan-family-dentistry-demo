@@ -1,0 +1,83 @@
+name: Restore latest office save
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: restore-latest-office-save
+  cancel-in-progress: false
+
+jobs:
+  restore:
+    if: github.ref_name == 'main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out the current main branch
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 2
+
+      - name: Confirm the latest commit is a safe office save
+        id: validate
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          latest_sha="$(git rev-parse HEAD)"
+          latest_subject="$(git log -1 --pretty=%s)"
+
+          if [[ "$latest_subject" != office\ update:* ]]; then
+            echo "The latest main-branch commit is not a Pages CMS office update. Nothing was changed."
+            echo "Ask the website administrator to restore the intended version manually."
+            exit 1
+          fi
+
+          mapfile -t changed_files < <(git diff-tree --no-commit-id --name-only -r HEAD)
+          if (( ${#changed_files[@]} == 0 )); then
+            echo "The latest office update contains no changed files. Nothing was changed."
+            exit 1
+          fi
+
+          for file in "${changed_files[@]}"; do
+            case "$file" in
+              src/data/site.json|src/data/practice-content.json|src/data/providers.json|src/data/modern-team.json|src/data/services.json|src/data/forms.json|public/images/*|public/forms/*)
+                ;;
+              *)
+                echo "The latest office update changed an unexpected path: $file"
+                echo "Automatic restoration stopped without changing main."
+                exit 1
+                ;;
+            esac
+          done
+
+          echo "target_sha=$latest_sha" >> "$GITHUB_OUTPUT"
+          echo "target_subject=$latest_subject" >> "$GITHUB_OUTPUT"
+
+      - name: Create a new commit that restores the prior version
+        shell: bash
+        env:
+          TARGET_SHA: ${{ steps.validate.outputs.target_sha }}
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git revert --no-edit "$TARGET_SHA"
+          git push origin HEAD:main
+
+      - name: Explain the result
+        env:
+          TARGET_SHA: ${{ steps.validate.outputs.target_sha }}
+          TARGET_SUBJECT: ${{ steps.validate.outputs.target_subject }}
+        run: |
+          {
+            echo '## Latest office save restored'
+            echo ''
+            echo "A new revert commit restored the version before \`$TARGET_SHA\` (\`$TARGET_SUBJECT\`)."
+            echo ''
+            echo 'Cloudflare Pages should automatically deploy the new main-branch commit. Open the changed page on a phone and desktop to confirm the restoration.'
+          } >> "$GITHUB_STEP_SUMMARY"
