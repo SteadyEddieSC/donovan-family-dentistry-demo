@@ -3,6 +3,10 @@ import ModernLayout from '../../layouts/ModernLayout.astro';
 import practiceContent from '../../data/practice-content.json';
 
 const about = practiceContent.about;
+const valuesPhrase = 'calm communication';
+const valuesPhraseIndex = about.valuesTitle.indexOf(valuesPhrase);
+const valuesTitleBefore = valuesPhraseIndex >= 0 ? about.valuesTitle.slice(0, valuesPhraseIndex) : about.valuesTitle;
+const valuesTitleAfter = valuesPhraseIndex >= 0 ? about.valuesTitle.slice(valuesPhraseIndex + valuesPhrase.length) : '';
 ---
 <ModernLayout title="About the Practice | Donovan Family Dentistry" description="Learn about the care approach, patient experience, and Lowcountry setting of Donovan Family Dentistry.">
   <section class="modern-page-hero">
@@ -32,7 +36,9 @@ const about = practiceContent.about;
     <div class="modern-shell">
       <div class="modern-section__head">
         <p class="modern-eyebrow">{about.valuesEyebrow}</p>
-        <h2>{about.valuesTitle}</h2>
+        <h2 class="modern-values-title">
+          {valuesPhraseIndex >= 0 ? <>{valuesTitleBefore}<span class="modern-values-title__phrase">{valuesPhrase}</span>{valuesTitleAfter}</> : about.valuesTitle}
+        </h2>
       </div>
       <div class="modern-value-grid">
         {about.values.map((value) => (

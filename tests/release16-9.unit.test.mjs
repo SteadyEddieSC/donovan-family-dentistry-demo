@@ -5,11 +5,16 @@ import { readFile } from 'node:fs/promises';
 const read = (path) => readFile(new URL(`../${path}`, import.meta.url), 'utf8');
 const readJson = async (path) => JSON.parse(await read(path));
 
-test('Release 16.9 keeps calm communication together and removes visible project language', async () => {
-  const content = await readJson('src/data/practice-content.json');
+test('Release 16.9 preserves the calm communication wording and removes visible project language', async () => {
+  const [content, aboutPage] = await Promise.all([
+    readJson('src/data/practice-content.json'),
+    read('src/pages/modern/about.astro')
+  ]);
   const serialized = JSON.stringify(content);
 
-  assert.match(content.about.valuesTitle, /calm\u00a0communication/);
+  assert.match(content.about.valuesTitle, /calm communication/);
+  assert.doesNotMatch(content.about.valuesTitle, /\u00a0/);
+  assert.match(aboutPage, /modern-values-title__phrase/);
   assert.match(content.about.storyParagraphs[1], /look closely, explain what matters in plain language/);
   assert.match(content.about.storyParagraphs[1], /organize recommendations into steps patients can understand and plan for/);
 
