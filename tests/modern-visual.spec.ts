@@ -19,7 +19,7 @@ test('team privacy card remains readable in the dark section', async ({ page }) 
   expect(colors.paragraph).not.toBe(colors.background);
 });
 
-test('modern dark preference keeps cards, buttons, and the shared logo readable', async ({ page }) => {
+test('modern dark preference keeps cards, buttons, and the self-contained logo readable', async ({ page }) => {
   await page.emulateMedia({ colorScheme: 'dark' });
   await page.goto('/modern/');
 
@@ -38,6 +38,7 @@ test('modern dark preference keeps cards, buttons, and the shared logo readable'
       bodyBackground: body.backgroundColor,
       bodyColor: body.color,
       logoBackground: logo.backgroundColor,
+      logoOverflow: logo.overflow,
       logoImageBackground: logoImage.backgroundColor,
       logoFilter: logoImage.filter,
       buttonColor: button.color,
@@ -53,8 +54,9 @@ test('modern dark preference keeps cards, buttons, and the shared logo readable'
   await expect(requestButton).toBeVisible();
   await expect(pathCard).toBeVisible();
   expect(colors.bodyBackground).not.toBe(colors.bodyColor);
-  expect(colors.logoBackground).toBe('rgb(255, 255, 255)');
-  expect(colors.logoImageBackground).toBe('rgb(255, 255, 255)');
+  expect(colors.logoBackground).toBe('rgba(0, 0, 0, 0)');
+  expect(colors.logoOverflow).toBe('visible');
+  expect(colors.logoImageBackground).toBe('rgba(0, 0, 0, 0)');
   expect(colors.logoFilter).toBe('none');
   expect(colors.buttonColor).not.toBe(colors.bodyBackground);
   expect(colors.buttonBorder).not.toBe('rgba(0, 0, 0, 0)');
@@ -110,7 +112,7 @@ test('mobile services heading keeps Comprehensive intact and preserves dock clea
   expect(mainPadding).toBeGreaterThan(80);
 });
 
-test('modern header uses the shared horizontal logo on an explicit light card', async ({ page, request }) => {
+test('modern header uses the shared horizontal SVG without an extra wrapper card', async ({ page, request }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/modern/');
 
@@ -127,9 +129,11 @@ test('modern header uses the shared horizontal logo on an explicit light card', 
       width: rect.width,
       height: rect.height,
       imageBackground: styles.backgroundColor,
+      imageRadius: styles.borderRadius,
       imageFilter: styles.filter,
       parentBackground: parentStyles.backgroundColor,
-      parentRadius: Number.parseFloat(parentStyles.borderRadius)
+      parentRadius: parentStyles.borderRadius,
+      parentOverflow: parentStyles.overflow
     };
   });
 
@@ -137,10 +141,12 @@ test('modern header uses the shared horizontal logo on an explicit light card', 
   expect(metrics.naturalWidth).toBeGreaterThan(0);
   expect(metrics.width).toBeGreaterThan(140);
   expect(metrics.height).toBeLessThan(80);
-  expect(metrics.imageBackground).toBe('rgb(255, 255, 255)');
+  expect(metrics.imageBackground).toBe('rgba(0, 0, 0, 0)');
+  expect(metrics.imageRadius).toBe('0px');
   expect(metrics.imageFilter).toBe('none');
-  expect(metrics.parentBackground).toBe('rgb(255, 255, 255)');
-  expect(metrics.parentRadius).toBeGreaterThan(0);
+  expect(metrics.parentBackground).toBe('rgba(0, 0, 0, 0)');
+  expect(metrics.parentRadius).toBe('0px');
+  expect(metrics.parentOverflow).toBe('visible');
 
   const response = await request.get('/images/donovan-logo.svg');
   expect(response.status()).toBeLessThan(400);

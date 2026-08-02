@@ -42,7 +42,7 @@ test('directions button has visible text contrast', async ({ page }) => {
   expect(styles.color).not.toBe(styles.backgroundColor);
 });
 
-test('classic and modern concepts use the same dark-mode-protected logo asset', async ({ page }) => {
+test('classic and modern concepts use the same protected logo asset without filters', async ({ page }) => {
   for (const path of ['/', '/modern/']) {
     await page.goto(path);
     const selector = path === '/' ? '.brand' : '.modern-brand';
@@ -53,16 +53,27 @@ test('classic and modern concepts use the same dark-mode-protected logo asset', 
       const imageStyles = image ? getComputedStyle(image) : null;
       return {
         background: computed.backgroundColor,
-        radius: Number.parseFloat(computed.borderRadius),
+        radius: computed.borderRadius,
+        overflow: computed.overflow,
         imageBackground: imageStyles?.backgroundColor ?? '',
+        imageRadius: imageStyles?.borderRadius ?? '',
         imageFilter: imageStyles?.filter ?? ''
       };
     });
-    expect(styles.background).toBe('rgb(255, 255, 255)');
-    expect(styles.radius).toBeGreaterThan(0);
-    expect(styles.imageBackground).toBe('rgb(255, 255, 255)');
     expect(styles.imageFilter).toBe('none');
     await expect(logo).toHaveAttribute('src', '/images/donovan-logo.svg');
+
+    if (path === '/modern/') {
+      expect(styles.background).toBe('rgba(0, 0, 0, 0)');
+      expect(styles.radius).toBe('0px');
+      expect(styles.overflow).toBe('visible');
+      expect(styles.imageBackground).toBe('rgba(0, 0, 0, 0)');
+      expect(styles.imageRadius).toBe('0px');
+    } else {
+      expect(styles.background).toBe('rgb(255, 255, 255)');
+      expect(Number.parseFloat(styles.radius)).toBeGreaterThan(0);
+      expect(styles.imageBackground).toBe('rgb(255, 255, 255)');
+    }
   }
 
   await expect(page.locator('.modern-footer__logo-card img')).toBeVisible();
@@ -224,6 +235,7 @@ test('internal links and downloadable assets resolve', async ({ page, request })
   internalLinks.add('/images/dr-william-donovan-family.webp');
   internalLinks.add('/forms/new-patient-medical-history.pdf');
   internalLinks.add('/forms/privacy-practices.pdf');
+  internalLinks.add('/donovan-family-dentistry.vcf');
   internalLinks.add('/sitemap.xml');
   internalLinks.add('/robots.txt');
   for (const href of internalLinks) {

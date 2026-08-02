@@ -126,6 +126,21 @@ Release 16.3 adopts the owner-preferred second image direction instead of iterat
 
 See `docs/release-16-3-shared-logo-dark-mode.md`.
 
+### Release 16.4 — logo polish and contact utilities
+
+Release 16.4 responds to the first physical-device screenshot of the shared horizontal logo and adds small, verified utilities that do not depend on new practice decisions.
+
+- Removes the modern CSS card surrounding the self-contained SVG so the header corners are no longer clipped.
+- Makes the modern header and footer wrappers transparent, square, and unclipped so no oversized dark box appears behind the footer logo.
+- Preserves the SVG's internal light-scheme and forced-color protections rather than relying on an external white wrapper.
+- Adds geometry and dark-preference regression coverage for the owner-reported device behavior.
+- Adds a static downloadable office vCard using only the published phone number, address, and hours note.
+- Exposes **Save office contact** from both contact concepts and the modern footer.
+- Rebuilds the site-wide 404 page in the selected modern visual direction with reliable home, call, directions, and patient-form recovery actions.
+- Keeps further user-facing expansion selective while provider, service, insurance/payment, urgent-care, after-hours, scheduling, texting, intake, and related operational decisions remain unverified.
+
+See `docs/release-16-4-logo-polish-contact-utilities.md`.
+
 ## Release 17 — governed production-domain cutover
 
 Release 17 begins only after every required Release 15 and Release 16.x item is verified or explicitly approved for deferral.
