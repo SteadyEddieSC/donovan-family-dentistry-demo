@@ -141,6 +141,23 @@ Release 16.4 responds to the first physical-device screenshot of the shared hori
 
 See `docs/release-16-4-logo-polish-contact-utilities.md`.
 
+### Release 16.5 — private launch review center
+
+Release 16.5 turns the remaining physical-device review into a repeatable, evidence-producing process without adding a backend or collecting patient data.
+
+- Adds a private `/review/` page that detects the local viewport, screen, pixel ratio, touch points, browser user agent, color preference, forced colors, contrast preference, and reduced-motion preference.
+- Provides a fixed checklist for logo behavior, navigation, readability, patient actions, PDFs, zoom/reflow, device dark mode, and assistive input.
+- Generates the report only in the browser and supports user-controlled copy, JSON download, and print.
+- Uses no API, account, database, cookie, local storage, session storage, email, analytics event, or paid service.
+- Permanently marks the review route `noindex`, omits it from the sitemap and primary navigation, and exposes it from the modern footer only during preview mode.
+- Adds the iPhone, iPad, Android, Windows, and macOS review matrix, evidence-handling rules, and the separate human WCAG/PDF review boundary.
+- Registers the review helper in the launch-readiness record without marking physical-device or human-accessibility evidence complete.
+
+See:
+
+- `docs/release-16-5-private-review-center.md`
+- `docs/physical-device-review-guide.md`
+
 ## Release 17 — governed production-domain cutover
 
 Release 17 begins only after every required Release 15 and Release 16.x item is verified or explicitly approved for deferral.
