@@ -1,0 +1,29 @@
+---
+import ActionIcon from './ActionIcon.astro';
+import site from '../data/site.json';
+
+const fullAddress = `${site.address.street}, ${site.address.city}, ${site.address.state} ${site.address.postalCode}`;
+const mapHref = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(fullAddress)}`;
+---
+<div class="modern-contact-stack" aria-label="Office contact actions">
+  <a class="modern-contact-tile modern-contact-tile--featured" href="/donovan-family-dentistry.vcf" download>
+    <ActionIcon name="contact" />
+    <span class="modern-contact-tile__copy"><strong>Save office contact</strong><span>Add the practice phone number and address to this device.</span></span>
+    <span class="modern-contact-tile__arrow" aria-hidden="true">↓</span>
+  </a>
+  <a class="modern-contact-tile" href={`tel:${site.phoneHref}`}>
+    <ActionIcon name="phone" />
+    <span class="modern-contact-tile__copy"><strong>Call the office</strong><span>{site.phoneDisplay}</span></span>
+    <span class="modern-contact-tile__arrow" aria-hidden="true">→</span>
+  </a>
+  <a class="modern-contact-tile" href={mapHref} rel="noopener">
+    <ActionIcon name="directions" />
+    <span class="modern-contact-tile__copy"><strong>Open directions</strong><span>{fullAddress}</span></span>
+    <span class="modern-contact-tile__arrow" aria-hidden="true">→</span>
+  </a>
+  <a class="modern-contact-tile" href="/modern/forms/">
+    <ActionIcon name="forms" />
+    <span class="modern-contact-tile__copy"><strong>Patient forms</strong><span>Download the fillable medical-history form and privacy notice.</span></span>
+    <span class="modern-contact-tile__arrow" aria-hidden="true">→</span>
+  </a>
+</div>

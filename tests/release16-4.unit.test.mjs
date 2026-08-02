@@ -21,6 +21,7 @@ test('Release 16.4 publishes a static office vCard without external dependencies
   const card = await read('public/donovan-family-dentistry.vcf');
   const layout = await read('src/layouts/ModernLayout.astro');
   const modernContact = await read('src/pages/modern/contact.astro');
+  const contactActions = await read('src/components/ContactActionStack.astro');
   const classicContact = await read('src/pages/contact.astro');
 
   assert.match(card, /BEGIN:VCARD/);
@@ -31,7 +32,8 @@ test('Release 16.4 publishes a static office vCard without external dependencies
   assert.doesNotMatch(card, /https?:\/\//i);
   assert.doesNotMatch(card, /patient|diagnos|insurance id|social security/i);
 
-  for (const document of [layout, modernContact, classicContact]) {
+  assert.match(modernContact, /ContactActionStack/);
+  for (const document of [layout, contactActions, classicContact]) {
     assert.match(document, /\/donovan-family-dentistry\.vcf/);
     assert.match(document, /Save office contact/);
   }

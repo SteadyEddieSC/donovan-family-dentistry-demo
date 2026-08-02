@@ -1,0 +1,188 @@
+/* Release 16.6: contact-action hierarchy and restrained icon language */
+.modern-contact-tile {
+  justify-content: flex-start;
+  min-height: 7.25rem;
+  padding: 1.15rem;
+}
+
+.modern-action-icon {
+  display: grid;
+  width: 3.1rem;
+  height: 3.1rem;
+  flex: 0 0 3.1rem;
+  place-items: center;
+  border-radius: 1rem;
+  color: #ffffff;
+  background: rgba(255, 255, 255, .12);
+}
+
+.modern-contact-tile .modern-action-icon {
+  color: #ffffff;
+  font-size: inherit;
+}
+
+.modern-action-icon svg {
+  width: 1.55rem;
+  height: 1.55rem;
+}
+
+.modern-contact-tile .modern-contact-tile__copy {
+  display: block;
+  min-width: 0;
+  flex: 1 1 auto;
+  color: inherit;
+  font-size: 1rem;
+}
+
+.modern-contact-tile .modern-contact-tile__copy > strong {
+  font-size: 1.04rem;
+}
+
+.modern-contact-tile .modern-contact-tile__copy > span {
+  display: block;
+  margin-top: .18rem;
+  color: #c6dadc;
+  font-size: .9rem;
+}
+
+.modern-contact-tile .modern-contact-tile__arrow {
+  display: block;
+  flex: 0 0 auto;
+  color: #ffffff;
+  font-size: 1.45rem;
+  line-height: 1;
+}
+
+.modern-contact-stack .modern-contact-tile--featured {
+  border-color: #d8ef7b;
+  color: #062f35;
+  background: #d8ef7b;
+  box-shadow: 0 16px 34px rgba(0, 0, 0, .2);
+}
+
+.modern-contact-stack .modern-contact-tile--featured:hover {
+  border-color: #e7f6ad;
+  color: #062f35;
+  background: #e7f6ad;
+}
+
+.modern-contact-stack .modern-contact-tile--featured .modern-contact-tile__copy,
+.modern-contact-stack .modern-contact-tile--featured .modern-contact-tile__copy > strong {
+  color: #062f35;
+}
+
+.modern-contact-stack .modern-contact-tile--featured .modern-action-icon {
+  color: #062f35;
+  background: rgba(255, 255, 255, .58);
+}
+
+.modern-contact-stack .modern-contact-tile--featured .modern-contact-tile__copy > span,
+.modern-contact-stack .modern-contact-tile--featured .modern-contact-tile__arrow {
+  color: #173c3f;
+}
+
+.modern-save-contact-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 0 0 1.35rem;
+  border: 2px solid #6e921f;
+  border-radius: 1.25rem;
+  padding: 1.1rem 1.2rem;
+  color: #062f35;
+  background: #d8ef7b;
+  box-shadow: 0 14px 34px rgba(6, 47, 53, .12);
+  text-decoration: none;
+}
+
+.modern-save-contact-card:hover {
+  border-color: #527116;
+  color: #062f35;
+  background: #e7f6ad;
+}
+
+.modern-save-contact-card .modern-action-icon {
+  color: #062f35;
+  background: rgba(255, 255, 255, .62);
+}
+
+.modern-save-contact-card__copy {
+  min-width: 0;
+  flex: 1 1 auto;
+  color: #062f35;
+}
+
+.modern-save-contact-card__copy strong,
+.modern-save-contact-card__copy span {
+  display: block;
+}
+
+.modern-save-contact-card__copy strong {
+  color: #062f35;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.35rem;
+  line-height: 1.15;
+}
+
+.modern-save-contact-card__copy span {
+  margin-top: .2rem;
+  color: #294d50;
+}
+
+.modern-save-contact-card__arrow {
+  flex: 0 0 auto;
+  color: #173c3f;
+  font-size: 1.45rem;
+  line-height: 1;
+}
+
+.review-export-hint {
+  margin: -.35rem 0 0;
+  color: #365b5e;
+  font-size: .92rem;
+}
+
+@media (max-width: 560px) {
+  .modern-contact-tile {
+    min-height: 8.2rem;
+    align-items: flex-start;
+  }
+
+  .modern-action-icon {
+    width: 2.85rem;
+    height: 2.85rem;
+    flex-basis: 2.85rem;
+  }
+
+  .modern-save-contact-card {
+    align-items: flex-start;
+  }
+}
+
+@media (forced-colors: active) {
+  .modern-contact-stack .modern-contact-tile--featured,
+  .modern-save-contact-card {
+    border-color: ButtonText;
+    color: ButtonText;
+    background: Canvas;
+  }
+
+  .modern-contact-stack .modern-contact-tile--featured .modern-contact-tile__copy,
+  .modern-contact-stack .modern-contact-tile--featured .modern-contact-tile__copy > strong,
+  .modern-contact-stack .modern-contact-tile--featured .modern-contact-tile__copy > span,
+  .modern-contact-stack .modern-contact-tile--featured .modern-contact-tile__arrow,
+  .modern-save-contact-card__copy,
+  .modern-save-contact-card__copy strong,
+  .modern-save-contact-card__copy span,
+  .modern-save-contact-card__arrow {
+    color: ButtonText;
+  }
+
+  .modern-action-icon,
+  .modern-contact-stack .modern-contact-tile--featured .modern-action-icon,
+  .modern-save-contact-card .modern-action-icon {
+    border: 1px solid ButtonText;
+    color: ButtonText;
+    background: Canvas;
+  }
+}
