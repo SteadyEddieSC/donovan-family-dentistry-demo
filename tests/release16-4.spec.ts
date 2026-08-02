@@ -44,7 +44,7 @@ test('modern logo wrappers do not clip the SVG or create a second card', async (
 
 test('the office vCard is downloadable and contains only public office data', async ({ page, request }) => {
   await page.goto('/modern/contact/');
-  const link = page.getByRole('link', { name: 'Save office contact' }).first();
+  const link = page.getByRole('link', { name: /Downloadable Contact Card/ }).first();
   await expect(link).toHaveAttribute('href', '/donovan-family-dentistry.vcf');
   await expect(link).toHaveAttribute('download', '');
 
