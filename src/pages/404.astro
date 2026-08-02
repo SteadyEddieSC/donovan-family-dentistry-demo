@@ -1,6 +1,32 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
+import ModernLayout from '../layouts/ModernLayout.astro';
+import site from '../data/site.json';
+
+const fullAddress = `${site.address.street}, ${site.address.city}, ${site.address.state} ${site.address.postalCode}`;
+const mapHref = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(fullAddress)}`;
 ---
-<BaseLayout title="Page Not Found | Donovan Family Dentistry" description="The requested page could not be found.">
-  <section class="page-hero"><div class="container"><p class="eyebrow">404</p><h1>We could not find that page.</h1><p class="lead">Return to the homepage or contact the office directly.</p><p><a class="button button--primary" href="/">Return home</a></p></div></section>
-</BaseLayout>
+<ModernLayout title="Page Not Found | Donovan Family Dentistry" description="The requested Donovan Family Dentistry page could not be found.">
+  <section class="modern-page-hero">
+    <div class="modern-shell modern-page-hero__grid">
+      <div>
+        <p class="modern-kicker">404 · Page not found</p>
+        <h1>That page is not here.</h1>
+      </div>
+      <p class="modern-page-hero__aside">The address may be outdated or mistyped. Use one of the reliable office links below instead.</p>
+    </div>
+  </section>
+  <section class="modern-section modern-section--sea">
+    <div class="modern-shell">
+      <div class="modern-section__head">
+        <p class="modern-eyebrow">Choose a next step</p>
+        <h2>Get back on track.</h2>
+      </div>
+      <div class="modern-path-grid">
+        <a class="modern-path-card" href="/modern/"><span>01</span><h3>Return home</h3><p>Start again from the planned modern homepage.</p></a>
+        <a class="modern-path-card" href={`tel:${site.phoneHref}`}><span>02</span><h3>Call the office</h3><p>{site.phoneDisplay}</p></a>
+        <a class="modern-path-card" href={mapHref} rel="noopener"><span>03</span><h3>Open directions</h3><p>{fullAddress}</p></a>
+        <a class="modern-path-card" href="/modern/forms/"><span>04</span><h3>Patient forms</h3><p>Open the reviewed downloads and privacy guidance.</p></a>
+      </div>
+    </div>
+  </section>
+</ModernLayout>
