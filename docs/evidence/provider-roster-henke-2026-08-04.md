@@ -1,21 +1,21 @@
-# Provider roster evidence — Dr. Jordan Henke
+# Provider roster evidence — Dr. Jordan Henke and updated provider photography
 
 **Recorded:** 2026-08-04  
 **Source:** Practice-supplied request forwarded by Dr. William Donovan
 
 ## Approved public update
 
-Dr. Donovan supplied:
+The practice supplied:
 
 - a current Dr. Jordan Henke biography;
 - a Henke family photograph;
 - the requested family caption **Henke Family**;
 - an instruction to remove the outdated Koolkin reference; and
-- an instruction to replace the prior Donovan family photograph with the supplied Henke family photograph, cropped as needed.
+- `IMG_4850` as the updated photograph for Dr. William Donovan.
 
 ## Published roster
 
-The replacement candidate now publishes:
+The replacement candidate publishes:
 
 1. Dr. William Donovan, DMD
 2. Dr. Jordan Henke, DDS
@@ -29,7 +29,10 @@ The current provider data does not publish Dr. Robert Koolkin or an unapproved a
 
 ## Image handling
 
-The supplied family photograph was cropped to a landscape composition that retains Dr. Henke, his wife Mia, and all four children. Responsive WebP files are stored locally in the repository; no third-party image host or paid service is used.
+- `IMG_4850` was decoded from its original HEIC file, cropped to a balanced landscape composition, and used for Dr. Donovan.
+- The supplied Henke family photograph was cropped to a landscape composition retaining Dr. Henke, Mia, and all four children.
+- Both photographs are stored locally as validated WebP assets with locally generated responsive derivatives.
+- No third-party image host or paid image service is used.
 
 ## Remaining boundary
 
