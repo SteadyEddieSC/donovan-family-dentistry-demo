@@ -11,7 +11,7 @@ const visibleProviders = providers.filter((provider) => provider.visible).sort((
 const visibleTeam = teamData.team.filter((member) => member.visible);
 const providerSrcSet = (photo: string) => {
   const base = photo.replace(/\.webp$/i, '');
-  return `${base}-480.webp 480w, ${photo} 900w`;
+  return `${base}-480.webp 480w, ${base}-720.webp 720w, ${photo} 900w`;
 };
 ---
 <ModernLayout title="Meet the Dentists and Team | Donovan Family Dentistry" description="Meet Dr. William Donovan, Dr. Jordan Henke, and the patient-care team at Donovan Family Dentistry.">
