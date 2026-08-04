@@ -10,8 +10,8 @@ test('Release 16.11 publishes the approved Donovan and Henke roster', async () =
   const visible = providers.filter((provider) => provider.visible);
 
   assert.deepEqual(visible.map((provider) => provider.id), ['william-donovan', 'jordan-henke']);
-  assert.equal(visible[0].photo, '/images/dr-william-donovan-photo.webp');
-  assert.equal(visible[1].photo, '/images/dr-jordan-henke-family.webp');
+  assert.equal(visible[0].photo, '/images/dr-william-donovan-photo-r16-12.webp');
+  assert.equal(visible[1].photo, '/images/dr-jordan-henke-family-r16-12.webp');
   assert.equal(visible[1].photoCaption, '');
   assert.doesNotMatch(JSON.stringify(providers), /koolkins?|associate-dentist-template/i);
 });
@@ -44,8 +44,8 @@ test('Release 16.11 keeps the supplied biography and local photographs', async (
   assert.match(henke.biography.join(' '), /wife, Mia, and their four children/);
 
   for (const path of [
-    'public/images/dr-william-donovan-photo.webp',
-    'public/images/dr-jordan-henke-family.webp'
+    'public/images/dr-william-donovan-photo-r16-12.webp',
+    'public/images/dr-jordan-henke-family-r16-12.webp'
   ]) {
     const bytes = await readFile(new URL(`../${path}`, import.meta.url));
     assert.equal(bytes.subarray(0, 4).toString('ascii'), 'RIFF');
