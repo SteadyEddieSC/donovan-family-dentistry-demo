@@ -48,7 +48,7 @@
     "sha256": "88a2fb6f6694a5deef6e1d2d713d3796ad2d64b0f271203115d65e4bb9d6b6ef"
   },
   {
-    "target": "public/images/dr-william-donovan-photo.webp",
+    "target": "public/images/dr-william-donovan-photo-r16-12.webp",
     "chunks": [
       "dr-william-donovan-photo.webp.v4.b64.000",
       "dr-william-donovan-photo.webp.v4.b64.001",
@@ -56,12 +56,11 @@
       "dr-william-donovan-photo.webp.v4.b64.003"
     ],
     "encoding": "gzip+base64",
-    "replace": true,
     "sourceBytes": 35822,
     "sha256": "5332280b31c7f0e909dbc75f3ac2b51599d274cabd1e1101f2cb36d840f5c8de"
   },
   {
-    "target": "public/images/dr-jordan-henke-family.webp",
+    "target": "public/images/dr-jordan-henke-family-r16-12.webp",
     "chunks": [
       "dr-jordan-henke-family.webp.v4.b64.000",
       "dr-jordan-henke-family.webp.v4.b64.001",
@@ -72,7 +71,6 @@
       "dr-jordan-henke-family.webp.v4.b64.004"
     ],
     "encoding": "gzip+base64",
-    "replace": true,
     "sourceBytes": 49098,
     "sha256": "ede295f255493a68f5efd2c0853da9b878a7838e0dce96be88834a1c9252d385"
   }
