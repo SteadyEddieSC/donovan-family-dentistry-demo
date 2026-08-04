@@ -14,8 +14,8 @@ test('Release 16.11 publishes the approved Donovan and Henke roster', async () =
   const donovan = visible[0];
   assert.equal(donovan.photo, '/images/dr-william-donovan-family.webp');
   assert.equal(donovan.imageType, 'photo');
-  assert.equal(donovan.photoWidth, 600);
-  assert.equal(donovan.photoHeight, 450);
+  assert.equal(donovan.photoWidth, 480);
+  assert.equal(donovan.photoHeight, 360);
   assert.match(donovan.photoAlt, /Dr\. William Donovan/);
 
   const henke = visible[1];
@@ -23,8 +23,8 @@ test('Release 16.11 publishes the approved Donovan and Henke roster', async () =
   assert.equal(henke.credentials, 'DDS');
   assert.equal(henke.photo, '/images/dr-jordan-henke-family.webp');
   assert.equal(henke.photoCaption, 'Henke Family');
-  assert.equal(henke.photoWidth, 600);
-  assert.equal(henke.photoHeight, 450);
+  assert.equal(henke.photoWidth, 480);
+  assert.equal(henke.photoHeight, 360);
   assert.match(henke.biography.join('\n'), /University of Mary/);
   assert.match(henke.biography.join('\n'), /University of Colorado School of Dental Medicine/);
   assert.match(henke.biography.join('\n'), /Naval Reserves/);
@@ -45,17 +45,18 @@ test('Release 16.11 renders the shared provider data in both concepts', async ()
   assert.match(classic, /visibleProviders\.map/);
   assert.match(classic, /provider\.photoCaption/);
   assert.match(classic, /providerSrcSet/);
-  assert.match(classic, /600w/);
+  assert.match(classic, /360w[\s\S]*480w/);
   assert.match(modern, /visibleProviders\.map/);
   assert.match(modern, /provider\.photoCaption/);
   assert.match(modern, /providerSrcSet/);
-  assert.match(modern, /600w/);
+  assert.match(modern, /360w[\s\S]*480w/);
   assert.match(classicLayout, /release-16-11\.css/);
   assert.match(modernLayout, /release-16-10\.css[\s\S]*release-16-11\.css/);
   assert.match(css, /modern-provider-list/);
   assert.match(css, /provider-photo-caption/);
   assert.match(imageGenerator, /dr-william-donovan-family\.webp/);
   assert.match(imageGenerator, /dr-jordan-henke-family\.webp/);
+  assert.match(imageGenerator, /widths: \[360\]/);
 });
 
 test('Release 16.11 clears only the provider-roster readiness item', async () => {
