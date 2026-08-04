@@ -11,7 +11,7 @@ const visibleProviders = providers.filter((provider) => provider.visible).sort((
 const visibleTeam = teamData.team.filter((member) => member.visible);
 const providerSrcSet = (photo: string) => {
   const base = photo.replace(/\.webp$/i, '');
-  return `${base}-480.webp 480w, ${photo} 600w`;
+  return `${base}-360.webp 360w, ${photo} 480w`;
 };
 ---
 <ModernLayout title="Meet the Dentists and Team | Donovan Family Dentistry" description="Meet Dr. William Donovan, Dr. Jordan Henke, and the patient-care team at Donovan Family Dentistry.">
@@ -38,8 +38,8 @@ const providerSrcSet = (photo: string) => {
                     src={provider.photo}
                     srcset={providerSrcSet(provider.photo)}
                     sizes="(max-width: 820px) calc(100vw - 2rem), 44vw"
-                    width={provider.photoWidth ?? 600}
-                    height={provider.photoHeight ?? 450}
+                    width={provider.photoWidth ?? 480}
+                    height={provider.photoHeight ?? 360}
                     alt={provider.photoAlt}
                     loading={index === 0 ? 'eager' : 'lazy'}
                     decoding="async"
