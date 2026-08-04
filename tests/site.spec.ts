@@ -23,12 +23,16 @@ test('classic primary actions work', async ({ page }) => {
   await expect(page.getByRole('link', { name: 'Patient forms' }).first()).toHaveAttribute('href', '/forms/');
 });
 
-test('Dr. Donovan profile uses the approved photograph', async ({ page }) => {
+test('approved provider photographs render on the Classic About page', async ({ page }) => {
   await page.goto('/about/');
-  const photo = page.getByRole('img', { name: 'Dr. William Donovan with his family and dog outdoors.' });
-  await expect(photo).toBeVisible();
-  await expect(photo).toHaveAttribute('src', '/images/dr-william-donovan-family.webp');
-  expect(await photo.evaluate((image: HTMLImageElement) => image.naturalWidth)).toBeGreaterThan(0);
+  const donovanPhoto = page.getByRole('img', { name: 'Dr. William Donovan standing with three family members in a historic outdoor courtyard.' });
+  const henkePhoto = page.getByRole('img', { name: 'Dr. Jordan Henke with his wife, Mia, and their four children outdoors.' });
+  await expect(donovanPhoto).toBeVisible();
+  await expect(donovanPhoto).toHaveAttribute('src', '/images/dr-william-donovan-photo.webp');
+  await expect(henkePhoto).toBeVisible();
+  await expect(henkePhoto).toHaveAttribute('src', '/images/dr-jordan-henke-family.webp');
+  expect(await donovanPhoto.evaluate((image: HTMLImageElement) => image.naturalWidth)).toBeGreaterThan(0);
+  expect(await henkePhoto.evaluate((image: HTMLImageElement) => image.naturalWidth)).toBeGreaterThan(0);
 });
 
 test('directions button has visible text contrast', async ({ page }) => {
@@ -117,6 +121,7 @@ test('modern pages have distinct content responsibilities', async ({ page }) => 
 
   await page.goto('/modern/team/');
   await expect(page.getByRole('heading', { name: 'Dr. William Donovan, DMD' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Dr. Jordan Henke, DDS' })).toBeVisible();
   await expect(page.getByRole('heading', { name: 'Associate Dentist, DMD' })).toHaveCount(0);
   await expect(page.getByRole('heading', { name: 'Friendly support at each step.' })).toBeVisible();
   await expect(page.getByRole('heading', { name: 'Front Office Team' })).toBeVisible();
@@ -232,7 +237,8 @@ test('internal links and downloadable assets resolve', async ({ page, request })
     );
     links.forEach((href) => internalLinks.add(href));
   }
-  internalLinks.add('/images/dr-william-donovan-family.webp');
+  internalLinks.add('/images/dr-william-donovan-photo.webp');
+  internalLinks.add('/images/dr-jordan-henke-family.webp');
   internalLinks.add('/forms/new-patient-medical-history.pdf');
   internalLinks.add('/forms/privacy-practices.pdf');
   internalLinks.add('/donovan-family-dentistry.vcf');
