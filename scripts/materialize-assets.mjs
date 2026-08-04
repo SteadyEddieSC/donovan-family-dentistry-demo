@@ -15,7 +15,12 @@ function decodeChunks(names) {
 
 for (const asset of manifest) {
   const target = join(root, asset.target);
-  if (existsSync(target) && !asset.overwrite) continue;
+
+  // Preserve existing office-managed files by default. Only manifest entries
+  // carrying the explicit overwrite flag may refresh an approved asset.
+  if (!asset.overwrite) {
+    if (existsSync(target)) continue;
+  }
 
   const baseBytes = decodeChunks(asset.chunks);
   const patchBytes = asset.appendChunks ? decodeChunks(asset.appendChunks) : Buffer.alloc(0);
