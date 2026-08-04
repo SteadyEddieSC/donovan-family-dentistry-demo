@@ -21,13 +21,12 @@ const providerInitials = (name: string) => name
           <figure class="provider-media">
             {provider.photo ? <img
               src={provider.photo}
-              width={provider.photoWidth ?? 240}
-              height={provider.photoHeight ?? 180}
+              width={provider.photoWidth ?? 600}
+              height={provider.photoHeight ?? 450}
               alt={provider.photoAlt}
               loading={index === 0 ? 'eager' : 'lazy'}
               decoding="async"
             /> : <div class="provider-placeholder" aria-hidden="true">{providerInitials(provider.name)}</div>}
-            {provider.photoCaption && <figcaption class="provider-photo-caption">{provider.photoCaption}</figcaption>}
           </figure>
           <div>
             <p class="eyebrow">Doctor profile</p>
