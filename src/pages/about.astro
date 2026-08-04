@@ -1,24 +1,40 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import providers from '../data/providers.json';
+
 const visibleProviders = providers.filter((provider) => provider.visible).sort((a, b) => a.order - b.order);
+const providerInitials = (name: string) => name
+  .replace(/^Dr\.\s+/i, '')
+  .split(/\s+/)
+  .filter(Boolean)
+  .slice(0, 2)
+  .map((part) => part[0])
+  .join('')
+  .toUpperCase();
+const providerSrcSet = (photo: string) => {
+  const base = photo.replace(/\.webp$/i, '');
+  return `${base}-480.webp 480w, ${photo} 900w`;
+};
 ---
-<BaseLayout title="About | Donovan Family Dentistry" description="Meet Dr. William Donovan and learn about Donovan Family Dentistry in Beaufort, South Carolina.">
-  <header class="page-hero"><div class="container"><p class="eyebrow">About the practice</p><h1>Local care shaped by experience and service</h1><p class="lead">The current provider information published by Donovan Family Dentistry.</p></div></header>
+<BaseLayout title="About Our Dentists | Donovan Family Dentistry" description="Meet Dr. William Donovan and Dr. Jordan Henke at Donovan Family Dentistry in Beaufort, South Carolina.">
+  <header class="page-hero"><div class="container"><p class="eyebrow">About the practice</p><h1>Local care shaped by experience and service</h1><p class="lead">Meet the dentists serving patients at Donovan Family Dentistry.</p></div></header>
   <section class="section">
     <div class="container">
-      {visibleProviders.map((provider) => (
-        <article class="provider">
-          {provider.photo ? <img
-            src={provider.photo}
-            srcset="/images/dr-william-donovan-family-480.webp 480w, /images/dr-william-donovan-family-720.webp 720w, /images/dr-william-donovan-family.webp 900w"
-            sizes="(max-width: 760px) calc(100vw - 2rem), 42vw"
-            width="900"
-            height="720"
-            alt={provider.photoAlt}
-            loading="eager"
-            decoding="async"
-          /> : <div class="provider-placeholder" aria-hidden="true">WD</div>}
+      {visibleProviders.map((provider, index) => (
+        <article class="provider" id={`provider-${provider.id}`}>
+          <div class="provider-media">
+            {provider.photo ? <img
+              src={provider.photo}
+              srcset={providerSrcSet(provider.photo)}
+              sizes="(max-width: 760px) calc(100vw - 2rem), 42vw"
+              width={provider.photoWidth ?? 900}
+              height={provider.photoHeight ?? 675}
+              alt={provider.photoAlt}
+              loading={index === 0 ? 'eager' : 'lazy'}
+              decoding="async"
+            /> : <div class="provider-placeholder" aria-hidden="true">{providerInitials(provider.name)}</div>}
+            {provider.photoCaption && <p class="provider-photo-caption">{provider.photoCaption}</p>}
+          </div>
           <div>
             <p class="eyebrow">Doctor profile</p>
             <h2>{provider.name}, {provider.credentials}</h2>
