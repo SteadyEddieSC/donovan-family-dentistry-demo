@@ -12,11 +12,11 @@ test('Release 16.11 publishes the approved Donovan and Henke roster', async () =
   assert.deepEqual(visible.map((provider) => provider.id), ['william-donovan', 'jordan-henke']);
   assert.equal(visible[0].photo, '/images/dr-william-donovan-photo.webp');
   assert.equal(visible[1].photo, '/images/dr-jordan-henke-family.webp');
-  assert.equal(visible[1].photoCaption, 'Henke Family');
+  assert.equal(visible[1].photoCaption, '');
   assert.doesNotMatch(JSON.stringify(providers), /koolkins?|associate-dentist-template/i);
 });
 
-test('Release 16.11 renders shared provider data in both concepts without hardcoded legacy imagery', async () => {
+test('Current provider pages render shared data without hardcoded legacy imagery or captions', async () => {
   const [classic, modern, classicLayout, modernLayout] = await Promise.all([
     read('src/pages/about.astro'),
     read('src/pages/modern/team.astro'),
@@ -26,12 +26,12 @@ test('Release 16.11 renders shared provider data in both concepts without hardco
 
   assert.match(classic, /visibleProviders\.map/);
   assert.match(modern, /visibleProviders\.map/);
-  assert.match(classic, /provider\.photoCaption/);
-  assert.match(modern, /provider\.photoCaption/);
+  assert.doesNotMatch(classic, /provider\.photoCaption/);
+  assert.doesNotMatch(modern, /provider\.photoCaption/);
   assert.doesNotMatch(classic, /dr-william-donovan-family-480/);
   assert.doesNotMatch(modern, /dr-william-donovan-family-480/);
-  assert.match(classicLayout, /release-16-11\.css/);
-  assert.match(modernLayout, /release-16-10\.css[\s\S]*release-16-11\.css/);
+  assert.match(classicLayout, /release-16-11\.css[\s\S]*release-16-12\.css/);
+  assert.match(modernLayout, /release-16-11\.css[\s\S]*release-16-12\.css/);
 });
 
 test('Release 16.11 keeps the supplied biography and local photographs', async () => {
