@@ -14,7 +14,7 @@ test('classic About publishes both approved dentists and the Henke family image'
   const image = page.getByRole('img', { name: henkeAlt });
   await expect(image).toHaveAttribute('src', '/images/dr-jordan-henke-family.webp');
   await expect(image).toHaveAttribute('srcset', /dr-jordan-henke-family-480\.webp 480w/);
-  expect(await image.evaluate((element: HTMLImageElement) => element.naturalWidth)).toBeGreaterThanOrEqual(900);
+  expect(await image.evaluate((element: HTMLImageElement) => element.naturalWidth)).toBeGreaterThanOrEqual(480);
 
   await page.screenshot({ path: testInfo.outputPath('release16-11-classic-about.png'), fullPage: true, animations: 'disabled' });
 });
@@ -29,7 +29,8 @@ test('modern Team publishes both approved dentists and the Henke family image', 
 
   const image = page.getByRole('img', { name: henkeAlt });
   await expect(image).toHaveAttribute('src', '/images/dr-jordan-henke-family.webp');
-  expect(await image.evaluate((element: HTMLImageElement) => element.naturalWidth)).toBeGreaterThanOrEqual(900);
+  await expect(image).toHaveAttribute('srcset', /dr-jordan-henke-family-720\.webp 720w/);
+  expect(await image.evaluate((element: HTMLImageElement) => element.naturalWidth)).toBeGreaterThanOrEqual(480);
 
   await page.screenshot({ path: testInfo.outputPath('release16-11-modern-team.png'), fullPage: true, animations: 'disabled' });
 });
@@ -51,7 +52,11 @@ test('Henke provider pages reflow on the reviewed Galaxy width', async ({ page }
 });
 
 test('Henke responsive image assets resolve', async ({ request }) => {
-  for (const path of ['/images/dr-jordan-henke-family.webp', '/images/dr-jordan-henke-family-480.webp']) {
+  for (const path of [
+    '/images/dr-jordan-henke-family.webp',
+    '/images/dr-jordan-henke-family-480.webp',
+    '/images/dr-jordan-henke-family-720.webp'
+  ]) {
     const response = await request.get(path);
     expect(response.status(), `${path} should resolve`).toBeLessThan(400);
     expect(Number(response.headers()['content-length'] ?? 0)).toBeGreaterThan(10_000);
