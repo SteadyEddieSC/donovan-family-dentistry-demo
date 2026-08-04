@@ -15,12 +15,12 @@ const responsiveImages = [
   {
     source: 'dr-william-donovan-family.webp',
     outputBase: 'dr-william-donovan-family',
-    widths: [480]
+    widths: [360]
   },
   {
     source: 'dr-jordan-henke-family.webp',
     outputBase: 'dr-jordan-henke-family',
-    widths: [480]
+    widths: [360]
   }
 ];
 
