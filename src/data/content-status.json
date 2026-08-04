@@ -1,6 +1,6 @@
 {
-  "schemaVersion": 3,
-  "lastReviewed": "2026-08-01",
+  "schemaVersion": 4,
+  "lastReviewed": "2026-08-04",
   "verified": [
     {
       "id": "contact-details",
@@ -10,9 +10,21 @@
     },
     {
       "id": "dr-donovan-profile",
-      "label": "Dr. William Donovan profile and supplied family photograph",
+      "label": "Dr. William Donovan profile",
       "status": "verified",
       "source": "Owner-confirmed"
+    },
+    {
+      "id": "dr-henke-profile",
+      "label": "Dr. Jordan Henke profile and Henke family photograph",
+      "status": "verified",
+      "source": "Practice-supplied biography and photograph received from Dr. Donovan on 2026-08-04"
+    },
+    {
+      "id": "provider-roster",
+      "label": "Current public dentist roster: Dr. William Donovan and Dr. Jordan Henke",
+      "status": "verified",
+      "source": "Practice-supplied update from Dr. Donovan on 2026-08-04"
     },
     {
       "id": "patient-form-layout",
@@ -28,15 +40,15 @@
     },
     {
       "id": "public-team-safety",
-      "label": "Public Team page contains one verified dentist and role-based staff descriptions without fictional identities",
+      "label": "Public Team page contains two verified dentists and role-based staff descriptions without fictional identities",
       "status": "verified",
-      "source": "Release 12 content review and regression tests"
+      "source": "Release 16.11 practice-supplied provider update and regression tests"
     },
     {
       "id": "about-copy-safety",
-      "label": "About page uses verified provider background and avoids invented practice-history claims",
+      "label": "About page uses verified provider backgrounds and avoids invented practice-history claims",
       "status": "verified",
-      "source": "Release 12 content review and regression tests"
+      "source": "Release 16.11 practice-supplied provider update and regression tests"
     },
     {
       "id": "administrative-inquiry-handler",
@@ -76,13 +88,6 @@
     }
   ],
   "launchBlockers": [
-    {
-      "id": "provider-roster",
-      "label": "Current dentist roster and provider-publication decision",
-      "status": "owner-review-needed",
-      "paths": ["/about/", "/modern/team/"],
-      "replacementNeeded": "The current public About page publishes Dr. William Donovan and Dr. Robert Koolkin, while the replacement candidate currently publishes only the verified Dr. Donovan profile. Confirm the current roster and either approve a current Dr. Koolkin profile and photograph or explicitly approve omission."
-    },
     {
       "id": "services",
       "label": "Current service list and patient-friendly terminology",
