@@ -7,9 +7,12 @@
     "visible": true,
     "order": 1,
     "status": "verified",
-    "imageType": "photo",
-    "photo": "/images/dr-william-donovan-family.webp",
-    "photoAlt": "Dr. William Donovan with his family and dog outdoors.",
+    "imageType": "illustration",
+    "photo": "",
+    "photoAlt": "",
+    "photoCaption": "",
+    "photoWidth": 900,
+    "photoHeight": 720,
     "portrait": "provider",
     "summary": "A Navy-trained dentist whose career has combined advanced general-dentistry education, service, and long-standing ties to Beaufort.",
     "biography": [
@@ -30,29 +33,35 @@
     ]
   },
   {
-    "id": "associate-dentist-template",
-    "name": "Associate Dentist",
-    "credentials": "DMD",
-    "role": "Associate Dentist",
-    "visible": false,
+    "id": "jordan-henke",
+    "name": "Dr. Jordan Henke",
+    "credentials": "DDS",
+    "role": "General Dentist",
+    "visible": true,
     "order": 2,
-    "status": "sample",
-    "imageType": "illustration",
-    "photo": "",
-    "photoAlt": "",
+    "status": "verified",
+    "imageType": "photo",
+    "photo": "/images/dr-jordan-henke-family.webp",
+    "photoAlt": "Dr. Jordan Henke with his wife, Mia, and their four children outdoors.",
+    "photoCaption": "Henke Family",
+    "photoWidth": 900,
+    "photoHeight": 675,
     "portrait": "provider",
-    "summary": "Hidden template for a future office-approved associate-dentist profile.",
+    "summary": "A Navy-trained general dentist committed to comprehensive care, continuing education, and life in the Lowcountry.",
     "biography": [
-      "Replace this text with the provider's approved public biography before making the profile visible."
+      "A Montana native, Dr. Henke earned his Bachelor of Science in Biology at the University of Mary in North Dakota. He then completed his Doctorate of Dental Surgery at the University of Colorado School of Dental Medicine. After dental school, he was commissioned as a Dental Officer in the U.S. Navy, where he also completed a year-long Advanced Education in General Dentistry program. Following five years of active duty, he transitioned to private practice while continuing to serve in the Naval Reserves.",
+      "With a strong commitment to high-quality patient care, Dr. Henke offers a wide range of comprehensive dental services. His Navy experience gave him the opportunity to work closely with specialists across all fields of dentistry, further broadening his skills. He is passionate about lifelong learning through continuing education and is currently working toward Fellowship with the Academy of General Dentistry and Diplomate status with the American Academy of Dental Sleep Medicine.",
+      "The Navy brought Dr. Henke and his family to Beaufort, where they have fallen in love with the landscape and rich history of the area. Outside the office, Dr. Henke enjoys spending time with his wife, Mia, and their four children. Together, they are making the most of life in the Lowcountry and taking every opportunity to spend time outdoors."
     ],
     "details": [
-      "Replace this text with the provider's approved education, experience, care approach, and community information.",
-      "Keep this profile hidden until the provider's name, credentials, biography, and image are approved for publication."
+      "A Montana native, Dr. Henke earned a Bachelor of Science in Biology from the University of Mary and a Doctorate of Dental Surgery from the University of Colorado School of Dental Medicine.",
+      "He served five years on active duty as a U.S. Navy Dental Officer, completed an Advanced Education in General Dentistry program, and continues to serve in the Naval Reserves.",
+      "Dr. Henke values comprehensive care and continuing education. Outside the office, he enjoys Lowcountry life with his wife, Mia, and their four children."
     ],
     "highlights": [
-      "Add approved focus area",
-      "Add approved background",
-      "Add approved community detail"
+      "U.S. Navy Dental Officer",
+      "Advanced Education in General Dentistry",
+      "Continuing education"
     ]
   }
 ]
