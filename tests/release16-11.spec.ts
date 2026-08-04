@@ -8,7 +8,7 @@ for (const path of ['/about/', '/modern/team/']) {
 
     await expect(page.getByRole('heading', { name: /Dr\. William Donovan, DMD/i })).toBeVisible();
     await expect(page.getByRole('heading', { name: /Dr\. Jordan Henke, DDS/i })).toBeVisible();
-    await expect(page.getByText('Henke Family', { exact: true })).toBeVisible();
+    await expect(page.getByText('Henke Family', { exact: true })).toHaveCount(0);
     await expect(page.getByText(/Koolkin/i)).toHaveCount(0);
 
     const images = page.locator('img[src*="dr-william-donovan-photo"], img[src*="dr-jordan-henke-family"]');
