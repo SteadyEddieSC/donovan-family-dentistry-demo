@@ -21,7 +21,9 @@ The request supplied a Dr. Jordan Henke biography and Henke family photograph, r
 - Dr. Henke's concise modern biography, professional highlights, family image, and **Henke Family** caption are included.
 - The former hidden associate-dentist template is replaced by the verified Dr. Henke record.
 
-## Image treatment and source-fidelity boundary
+## Image treatment and source fidelity boundary
+
+Source fidelity means the supplied photographs remain the factual visual sources. The release changes only crop, size, and file format for presentation.
 
 - `IMG_4850` was decoded from HEIC using libheif rather than the incomplete first-frame conversion, then cropped to a balanced landscape composition.
 - The Henke family photograph was cropped to a landscape composition retaining Dr. Henke, Mia, and all four children.
