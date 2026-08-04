@@ -23,13 +23,19 @@ test('classic primary actions work', async ({ page }) => {
   await expect(page.getByRole('link', { name: 'Patient forms' }).first()).toHaveAttribute('href', '/forms/');
 });
 
-test('Dr. Henke profile uses the approved family photograph', async ({ page }) => {
+test('approved provider profiles use the supplied photographs', async ({ page }) => {
   await page.goto('/about/');
-  const photo = page.getByRole('img', { name: 'Dr. Jordan Henke with his wife, Mia, and their four children outdoors.' });
-  await expect(photo).toBeVisible();
-  await expect(photo).toHaveAttribute('src', '/images/dr-jordan-henke-family.webp');
+
+  const donovan = page.getByRole('img', { name: 'Dr. William Donovan standing with three family members in a historic outdoor courtyard.' });
+  await expect(donovan).toBeVisible();
+  await expect(donovan).toHaveAttribute('src', '/images/dr-william-donovan-family.webp');
+  expect(await donovan.evaluate((image: HTMLImageElement) => image.naturalWidth)).toBeGreaterThan(0);
+
+  const henke = page.getByRole('img', { name: 'Dr. Jordan Henke with his wife, Mia, and their four children outdoors.' });
+  await expect(henke).toBeVisible();
+  await expect(henke).toHaveAttribute('src', '/images/dr-jordan-henke-family.webp');
   await expect(page.getByText('Henke Family', { exact: true })).toBeVisible();
-  expect(await photo.evaluate((image: HTMLImageElement) => image.naturalWidth)).toBeGreaterThan(0);
+  expect(await henke.evaluate((image: HTMLImageElement) => image.naturalWidth)).toBeGreaterThan(0);
 });
 
 test('directions button has visible text contrast', async ({ page }) => {
@@ -236,6 +242,8 @@ test('internal links and downloadable assets resolve', async ({ page, request })
     );
     links.forEach((href) => internalLinks.add(href));
   }
+  internalLinks.add('/images/dr-william-donovan-family.webp');
+  internalLinks.add('/images/dr-william-donovan-family-480.webp');
   internalLinks.add('/images/dr-jordan-henke-family.webp');
   internalLinks.add('/images/dr-jordan-henke-family-480.webp');
   internalLinks.add('/forms/new-patient-medical-history.pdf');
