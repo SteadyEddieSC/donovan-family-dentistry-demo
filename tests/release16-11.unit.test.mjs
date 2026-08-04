@@ -10,14 +10,21 @@ test('Release 16.11 publishes the approved Donovan and Henke roster', async () =
   const visible = providers.filter((provider) => provider.visible).sort((a, b) => a.order - b.order);
 
   assert.deepEqual(visible.map((provider) => provider.id), ['william-donovan', 'jordan-henke']);
-  assert.equal(visible[0].photo, '');
-  assert.equal(visible[0].imageType, 'illustration');
+
+  const donovan = visible[0];
+  assert.equal(donovan.photo, '/images/dr-william-donovan-family.webp');
+  assert.equal(donovan.imageType, 'photo');
+  assert.equal(donovan.photoWidth, 600);
+  assert.equal(donovan.photoHeight, 450);
+  assert.match(donovan.photoAlt, /Dr\. William Donovan/);
 
   const henke = visible[1];
   assert.equal(henke.name, 'Dr. Jordan Henke');
   assert.equal(henke.credentials, 'DDS');
   assert.equal(henke.photo, '/images/dr-jordan-henke-family.webp');
   assert.equal(henke.photoCaption, 'Henke Family');
+  assert.equal(henke.photoWidth, 600);
+  assert.equal(henke.photoHeight, 450);
   assert.match(henke.biography.join('\n'), /University of Mary/);
   assert.match(henke.biography.join('\n'), /University of Colorado School of Dental Medicine/);
   assert.match(henke.biography.join('\n'), /Naval Reserves/);
@@ -26,24 +33,29 @@ test('Release 16.11 publishes the approved Donovan and Henke roster', async () =
 });
 
 test('Release 16.11 renders the shared provider data in both concepts', async () => {
-  const [classic, modern, classicLayout, modernLayout, css] = await Promise.all([
+  const [classic, modern, classicLayout, modernLayout, css, imageGenerator] = await Promise.all([
     read('src/pages/about.astro'),
     read('src/pages/modern/team.astro'),
     read('src/layouts/BaseLayout.astro'),
     read('src/layouts/ModernLayout.astro'),
-    read('src/styles/release-16-11.css')
+    read('src/styles/release-16-11.css'),
+    read('scripts/generate-responsive-images.mjs')
   ]);
 
   assert.match(classic, /visibleProviders\.map/);
   assert.match(classic, /provider\.photoCaption/);
   assert.match(classic, /providerSrcSet/);
+  assert.match(classic, /600w/);
   assert.match(modern, /visibleProviders\.map/);
   assert.match(modern, /provider\.photoCaption/);
   assert.match(modern, /providerSrcSet/);
+  assert.match(modern, /600w/);
   assert.match(classicLayout, /release-16-11\.css/);
   assert.match(modernLayout, /release-16-10\.css[\s\S]*release-16-11\.css/);
   assert.match(css, /modern-provider-list/);
   assert.match(css, /provider-photo-caption/);
+  assert.match(imageGenerator, /dr-william-donovan-family\.webp/);
+  assert.match(imageGenerator, /dr-jordan-henke-family\.webp/);
 });
 
 test('Release 16.11 clears only the provider-roster readiness item', async () => {
@@ -61,6 +73,7 @@ test('Release 16.11 clears only the provider-roster readiness item', async () =>
   assert.equal(rosterEvidence.evidenceRef, 'docs/evidence/provider-roster-henke-2026-08-04.md');
   assert.match(evidence, /Dr\. Jordan Henke/);
   assert.match(evidence, /Henke Family/);
+  assert.match(evidence, /IMG_4850/);
 
   for (const id of ['services', 'insurance-payment', 'urgent-care-wording', 'production-integrations']) {
     assert.notEqual(contentStatus.launchBlockers.find((item) => item.id === id)?.status, 'verified');
