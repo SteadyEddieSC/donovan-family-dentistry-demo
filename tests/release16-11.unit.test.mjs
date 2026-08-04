@@ -56,7 +56,7 @@ test('Release 16.11 renders the shared provider data in both concepts', async ()
   assert.match(css, /provider-photo-caption/);
   assert.match(imageGenerator, /dr-william-donovan-family\.webp/);
   assert.match(imageGenerator, /dr-jordan-henke-family\.webp/);
-  assert.match(imageGenerator, /widths: \[360\]/);
+  assert.match(imageGenerator, /widths: \[360, 480\]/);
 });
 
 test('Release 16.11 clears only the provider-roster readiness item', async () => {
