@@ -27,5 +27,14 @@
 }
 
 .modern-provider-photo-caption {
+  position: relative;
+  z-index: 2;
   color: var(--modern-ink, #14343b);
+}
+
+/* The provider-photo accent intentionally extends beyond the figure.
+   Contain only that decorative overflow at the section boundary so narrow
+   phones retain the accent without gaining horizontal page scrolling. */
+.modern-section--sea {
+  overflow-x: clip;
 }
