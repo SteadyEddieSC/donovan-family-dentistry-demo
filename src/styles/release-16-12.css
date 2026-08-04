@@ -1,0 +1,47 @@
+/* Release 16.12: preserve the approved photographs at their natural ratios. */
+.provider-media,
+.modern-doctor__photo {
+  margin: 0;
+}
+
+.provider-media img,
+.modern-doctor__photo img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+  aspect-ratio: auto;
+  object-fit: contain;
+  object-position: center;
+  image-rendering: auto;
+}
+
+/* Keep the larger Modern photographs inside their source-pixel envelope so
+   desktop browsers do not enlarge a small asset into a soft-looking card. */
+.modern-doctor__photo {
+  width: min(100%, 37.5rem);
+  align-self: start;
+  justify-self: center;
+}
+
+#provider-jordan-henke .modern-doctor__photo {
+  width: min(100%, 31.25rem);
+}
+
+.modern-doctor__photo img {
+  border-radius: 2.2rem;
+  box-shadow: var(--modern-shadow);
+}
+
+/* Captions are intentionally not rendered for provider photographs. */
+.provider-photo-caption,
+.modern-provider-photo-caption {
+  display: none !important;
+}
+
+@media (max-width: 820px) {
+  .modern-doctor__photo,
+  #provider-jordan-henke .modern-doctor__photo {
+    width: 100%;
+  }
+}
