@@ -15,7 +15,7 @@ The practice supplied:
 
 ## Published roster
 
-The replacement candidate publishes:
+The release candidate publishes:
 
 1. Dr. William Donovan, DMD
 2. Dr. Jordan Henke, DDS
@@ -29,9 +29,9 @@ The current provider data does not publish Dr. Robert Koolkin or an unapproved a
 
 ## Image handling
 
-- `IMG_4850` was decoded from its original HEIC file, cropped to a balanced landscape composition, and used for Dr. Donovan.
+- `IMG_4850` was decoded from its original HEIC file using libheif, cropped to a balanced landscape composition, and assigned to Dr. Donovan.
 - The supplied Henke family photograph was cropped to a landscape composition retaining Dr. Henke, Mia, and all four children.
-- Both photographs are stored locally as validated WebP assets with locally generated responsive derivatives.
+- Both photographs are stored locally as validated 600 × 450 WebP assets, with 480-pixel derivatives generated during the build.
 - No third-party image host or paid image service is used.
 
 ## Remaining boundary
