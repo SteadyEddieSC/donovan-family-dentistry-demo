@@ -25,8 +25,9 @@ The request supplied a Dr. Jordan Henke biography and Henke family photograph, r
 
 - `IMG_4850` was decoded from HEIC using libheif rather than the incomplete first-frame conversion, then cropped to a balanced landscape composition.
 - The Henke family photograph was cropped to a landscape composition retaining Dr. Henke, Mia, and all four children.
-- Both approved sources are stored as validated 600 × 450 WebP files.
-- The build generates 480-pixel responsive derivatives without enlarging the approved source files.
+- Both approved sources are stored as validated 480 × 360 WebP files.
+- The build reconstructs each photograph from repository-safe gzip/base64 chunks and verifies its byte length and SHA-256 digest before use.
+- The build generates 360-pixel responsive variants and keeps 480-pixel compatibility paths available.
 - Images remain local to the repository; no image CDN, paid service, or third-party host is used.
 
 ## Readiness effect
@@ -45,7 +46,7 @@ Release coverage verifies:
 - Dr. Donovan's updated photograph and Dr. Henke's supplied biography and family photograph are present;
 - **Henke Family** appears as the Henke family-photo caption;
 - no Koolkin reference appears in current provider data or rendered provider pages;
-- 480- and 600-pixel provider image assets resolve;
+- 360- and 480-pixel provider image assets resolve;
 - mobile layouts do not overflow at the reviewed Galaxy width; and
 - the updated pages have no serious or critical automated accessibility findings.
 
