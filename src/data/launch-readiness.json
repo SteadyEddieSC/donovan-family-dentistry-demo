@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "release": 15,
   "phase": "readiness",
   "selectedDesign": "modern",
@@ -21,9 +21,9 @@
     {
       "id": "provider-roster",
       "label": "Current dentist roster and publication approval",
-      "status": "pending-owner-approval",
-      "evidenceRef": null,
-      "clearanceNeeded": "Confirm whether Dr. Robert Koolkin currently practices with Donovan Family Dentistry and either approve a current profile and photograph or explicitly approve omission from the replacement website."
+      "status": "verified",
+      "evidenceRef": "docs/evidence/provider-roster-henke-2026-08-04.md",
+      "clearanceNeeded": "No further provider-roster clearance is required. Reverify only if the practice roster changes."
     },
     {
       "id": "services",
