@@ -15,7 +15,7 @@ function decodeChunks(names) {
 
 for (const asset of manifest) {
   const target = join(root, asset.target);
-  if (existsSync(target)) continue;
+  if (existsSync(target) && !asset.replace) continue;
 
   const baseBytes = decodeChunks(asset.chunks);
   const patchBytes = asset.appendChunks ? decodeChunks(asset.appendChunks) : Buffer.alloc(0);
