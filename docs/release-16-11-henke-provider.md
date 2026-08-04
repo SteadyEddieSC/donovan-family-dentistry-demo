@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Release 16.11 implements the practice-supplied provider update received from Dr. William Donovan on August 4, 2026.
+Release 16.11 implements the practice-supplied provider update received from Dr. William Donovan on August 4, 2026. It is the governed **provider photography** and biography release for the two published dentists.
 
 The request supplied a Dr. Jordan Henke biography and Henke family photograph, requested the caption **Henke Family**, requested removal of the outdated Koolkin reference, and identified `IMG_4850` as Dr. Donovan's updated photograph.
 
@@ -21,7 +21,7 @@ The request supplied a Dr. Jordan Henke biography and Henke family photograph, r
 - Dr. Henke's concise modern biography, professional highlights, family image, and **Henke Family** caption are included.
 - The former hidden associate-dentist template is replaced by the verified Dr. Henke record.
 
-## Image treatment
+## Image treatment and source-fidelity boundary
 
 - `IMG_4850` was decoded from HEIC using libheif rather than the incomplete first-frame conversion, then cropped to a balanced landscape composition.
 - The Henke family photograph was cropped to a landscape composition retaining Dr. Henke, Mia, and all four children.
@@ -29,6 +29,7 @@ The request supplied a Dr. Jordan Henke biography and Henke family photograph, r
 - The build reconstructs each photograph from repository-safe gzip/base64 chunks and verifies its byte length and SHA-256 digest before use.
 - The build generates 360-pixel responsive variants and keeps 480-pixel compatibility paths available.
 - Images remain local to the repository; no image CDN, paid service, or third-party host is used.
+- Cropping and format optimization are presentation changes only; no people, expressions, clothing, scenery, or substantive visual content were generated or altered.
 
 ## Readiness effect
 
