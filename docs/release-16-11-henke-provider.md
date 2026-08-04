@@ -49,6 +49,10 @@ Release coverage verifies:
 - mobile layouts do not overflow at the reviewed Galaxy width; and
 - the updated pages have no serious or critical automated accessibility findings.
 
+## Deployment visibility
+
+The Cloudflare Pages preview updates only after this release passes CI and is merged into `main`. The public production domain remains unchanged until the separately governed production cutover.
+
 ## Safety boundary
 
 This release does not activate Open Dental, Web Forms, Patient Portal, Web Sched, messaging, payments, APIs, analytics, indexing, live inquiry delivery, production DNS, mail changes, or patient-data handling.
