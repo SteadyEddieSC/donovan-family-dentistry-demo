@@ -17,14 +17,14 @@ async function decodeAsset(asset) {
 test('Release 16.12 materializes hash-verified provider photos at natural dimensions', async () => {
   const manifest = await readJson('.asset-source/manifest.json');
   const expected = new Map([
-    ['public/images/dr-william-donovan-photo.webp', { width: 480, height: 428, bytes: 35822, sha256: '5332280b31c7f0e909dbc75f3ac2b51599d274cabd1e1101f2cb36d840f5c8de' }],
-    ['public/images/dr-jordan-henke-family.webp', { width: 480, height: 714, bytes: 49098, sha256: 'ede295f255493a68f5efd2c0853da9b878a7838e0dce96be88834a1c9252d385' }]
+    ['public/images/dr-william-donovan-photo-r16-12.webp', { width: 480, height: 428, bytes: 35822, sha256: '5332280b31c7f0e909dbc75f3ac2b51599d274cabd1e1101f2cb36d840f5c8de' }],
+    ['public/images/dr-jordan-henke-family-r16-12.webp', { width: 480, height: 714, bytes: 49098, sha256: 'ede295f255493a68f5efd2c0853da9b878a7838e0dce96be88834a1c9252d385' }]
   ]);
 
   for (const [target, details] of expected) {
     const asset = manifest.find((item) => item.target === target);
     assert.ok(asset, `${target} missing from asset manifest`);
-    assert.equal(asset.replace, true);
+    assert.equal('replace' in asset, false);
     const bytes = await decodeAsset(asset);
     assert.equal(bytes.length, details.bytes);
     assert.equal(createHash('sha256').update(bytes).digest('hex'), details.sha256);
@@ -36,22 +36,29 @@ test('Release 16.12 materializes hash-verified provider photos at natural dimens
 });
 
 test('Release 16.12 removes captions and prevents provider photo upscaling or forced crops', async () => {
-  const [providers, classic, modern, css, classicLayout, modernLayout] = await Promise.all([
+  const [providers, classic, modern, css, classicLayout, modernLayout, materializer] = await Promise.all([
     readJson('src/data/providers.json'),
     read('src/pages/about.astro'),
     read('src/pages/modern/team.astro'),
     read('src/styles/release-16-12.css'),
     read('src/layouts/BaseLayout.astro'),
-    read('src/layouts/ModernLayout.astro')
+    read('src/layouts/ModernLayout.astro'),
+    read('scripts/materialize-assets.mjs')
   ]);
 
   assert.deepEqual(providers.map((provider) => provider.photoCaption), ['', '']);
+  assert.deepEqual(providers.map((provider) => provider.photo), [
+    '/images/dr-william-donovan-photo-r16-12.webp',
+    '/images/dr-jordan-henke-family-r16-12.webp'
+  ]);
   assert.deepEqual(providers.map((provider) => [provider.photoWidth, provider.photoHeight]), [[480, 428], [480, 714]]);
   assert.doesNotMatch(classic, /photoCaption|figcaption/);
   assert.doesNotMatch(modern, /photoCaption|figcaption/);
   assert.match(css, /max-width:\s*30rem/);
   assert.match(css, /aspect-ratio:\s*auto/);
   assert.match(css, /object-fit:\s*contain/);
+  assert.match(materializer, /if \(existsSync\(target\)\) continue;/);
+  assert.doesNotMatch(materializer, /asset\.replace/);
   assert.match(classicLayout, /release-16-11\.css[\s\S]*release-16-12\.css/);
   assert.match(modernLayout, /release-16-11\.css[\s\S]*release-16-12\.css/);
 });
