@@ -39,7 +39,6 @@ const visibleTeam = teamData.team.filter((member) => member.visible);
                     decoding="async"
                   />
                 : <ModernPortrait name={provider.name} variant={provider.portrait} />}
-              {provider.photoCaption && <figcaption class="modern-provider-photo-caption">{provider.photoCaption}</figcaption>}
             </figure>
             <div>
               <p class="modern-eyebrow">{provider.role}</p>

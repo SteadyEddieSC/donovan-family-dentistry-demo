@@ -1,0 +1,44 @@
+/* Release 16.12: preserve approved provider photographs at their natural ratios. */
+.provider-media,
+.modern-doctor__photo {
+  margin: 0;
+}
+
+.provider-media img,
+.modern-doctor__photo img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-width: 30rem;
+  aspect-ratio: auto;
+  object-fit: contain;
+  object-position: center;
+  image-rendering: auto;
+}
+
+.provider-media img {
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.modern-doctor__photo {
+  width: min(100%, 30rem);
+  align-self: start;
+  justify-self: center;
+}
+
+.modern-doctor__photo img {
+  border-radius: 2.2rem;
+  box-shadow: var(--modern-shadow);
+}
+
+.provider-photo-caption,
+.modern-provider-photo-caption {
+  display: none !important;
+}
+
+@media (max-width: 820px) {
+  .modern-doctor__photo {
+    width: 100%;
+  }
+}
