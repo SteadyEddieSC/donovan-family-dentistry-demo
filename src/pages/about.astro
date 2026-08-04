@@ -27,7 +27,6 @@ const providerInitials = (name: string) => name
               loading={index === 0 ? 'eager' : 'lazy'}
               decoding="async"
             /> : <div class="provider-placeholder" aria-hidden="true">{providerInitials(provider.name)}</div>}
-            {provider.photoCaption && <figcaption class="provider-photo-caption">{provider.photoCaption}</figcaption>}
           </figure>
           <div>
             <p class="eyebrow">Doctor profile</p>
