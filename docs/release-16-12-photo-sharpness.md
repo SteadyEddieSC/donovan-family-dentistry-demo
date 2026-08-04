@@ -8,8 +8,9 @@ Release 16.12 corrects the desktop blur reported on the Classic About page and M
 
 - Rebuilt the approved Dr. William Donovan and Dr. Jordan Henke family photographs from the supplied original files.
 - Materializes hash-verified WebP assets during development and build:
-  - Dr. Donovan: 480 × 428, 35,822 bytes.
-  - Dr. Henke: 480 × 714, 49,098 bytes.
+  - `/images/dr-william-donovan-photo-r16-12.webp`: 480 × 428, 35,822 bytes.
+  - `/images/dr-jordan-henke-family-r16-12.webp`: 480 × 714, 49,098 bytes.
+- Uses immutable Release 16.12 filenames rather than overwriting an existing image. This preserves the repository safeguard that never replaces a file already committed or uploaded through Pages CMS.
 - Preserves each photograph’s natural aspect ratio instead of forcing a 4:3 or 5:4 crop.
 - Limits rendered provider photographs to 30rem (480px), preventing browser upscaling beyond the encoded width.
 - Removes provider photo captions from both site concepts.
@@ -17,7 +18,7 @@ Release 16.12 corrects the desktop blur reported on the Classic About page and M
 
 ## Asset integrity
 
-The materialization manifest records each replacement asset’s expected byte count and SHA-256 digest. The build stops if reconstructed bytes do not match the recorded values.
+The materialization manifest records each provider asset’s expected byte count and SHA-256 digest. The build stops if reconstructed bytes do not match the recorded values. Existing materialized or CMS-managed files remain untouched.
 
 ## Boundaries
 
