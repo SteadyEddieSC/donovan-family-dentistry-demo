@@ -14,6 +14,13 @@ for (const path of ['/about/', '/modern/team/']) {
     const images = page.locator('img[src*="dr-william-donovan-photo"], img[src*="dr-jordan-henke-family"]');
     await expect(images).toHaveCount(2);
 
+    for (let index = 0; index < 2; index += 1) {
+      const image = images.nth(index);
+      await image.scrollIntoViewIfNeeded();
+      await expect(image).toBeVisible();
+      await expect.poll(() => image.evaluate((element: HTMLImageElement) => element.complete && element.naturalWidth)).toBe(480);
+    }
+
     const details = await images.evaluateAll((elements) => elements.map((element) => {
       const image = element as HTMLImageElement;
       const styles = getComputedStyle(image);
@@ -42,6 +49,7 @@ for (const path of ['/about/', '/modern/team/']) {
     expect(geometry.documentWidth).toBe(geometry.viewportWidth);
     expect(externalFontRequests).toEqual([]);
 
+    await page.evaluate(() => window.scrollTo(0, 0));
     await page.screenshot({
       path: testInfo.outputPath(`release16-12-${path.includes('modern') ? 'modern-team' : 'classic-about'}.png`),
       fullPage: true
