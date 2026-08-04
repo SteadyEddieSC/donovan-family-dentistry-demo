@@ -13,9 +13,14 @@ const responsiveImages = [
     widths: [480, 720]
   },
   {
+    source: 'dr-william-donovan-family.webp',
+    outputBase: 'dr-william-donovan-family',
+    widths: [480]
+  },
+  {
     source: 'dr-jordan-henke-family.webp',
     outputBase: 'dr-jordan-henke-family',
-    widths: [480, 720]
+    widths: [480]
   }
 ];
 
@@ -34,7 +39,7 @@ for (const definition of responsiveImages) {
     const outputPath = path.join(imageRoot, `${definition.outputBase}-${width}.webp`);
     await sharp(sourcePath)
       .rotate()
-      .resize({ width, withoutEnlargement: false })
+      .resize({ width, withoutEnlargement: true })
       .webp({ quality: 82, effort: 6, smartSubsample: true })
       .toFile(outputPath);
     console.log(`Generated ${path.relative(repositoryRoot, outputPath)} (${width}w)`);
