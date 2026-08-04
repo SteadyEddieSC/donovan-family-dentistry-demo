@@ -44,6 +44,7 @@ test('Pages CMS exposes a grouped office editor and one-click website check', as
 test('public team page contains no fictional person identities', async ({ page }) => {
   await page.goto('/modern/team/');
   await expect(page.getByRole('heading', { name: 'Dr. William Donovan, DMD' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Dr. Jordan Henke, DDS' })).toBeVisible();
   await expect(page.getByRole('heading', { name: 'Front Office Team' })).toBeVisible();
   await expect(page.getByRole('heading', { name: 'Dental Hygiene Team' })).toBeVisible();
   await expect(page.getByRole('heading', { name: 'Dental Assisting Team' })).toBeVisible();
@@ -52,17 +53,20 @@ test('public team page contains no fictional person identities', async ({ page }
     await expect(page.getByText(fictionalName, { exact: false })).toHaveCount(0);
   }
   await expect(page.getByText('Associate Dentist', { exact: true })).toHaveCount(0);
+  await expect(page.getByText(/Koolkin/i)).toHaveCount(0);
 });
 
-test('classic and modern concepts share one provider source', async ({ page }) => {
+test('classic and modern concepts share the approved provider source', async ({ page }) => {
   const providers = readJson('src/data/providers.json');
-  expect(providers.filter((provider: { visible: boolean }) => provider.visible)).toHaveLength(1);
-  expect(providers.find((provider: { id: string }) => provider.id === 'associate-dentist-template').visible).toBe(false);
+  const visibleProviders = providers.filter((provider: { visible: boolean }) => provider.visible);
+  expect(visibleProviders.map((provider: { id: string }) => provider.id)).toEqual(['william-donovan', 'jordan-henke']);
+  expect(providers.find((provider: { id: string }) => provider.id === 'associate-dentist-template')).toBeUndefined();
 
-  await page.goto('/about/');
-  await expect(page.getByRole('heading', { name: 'Dr. William Donovan, DMD' })).toBeVisible();
-  await page.goto('/modern/team/');
-  await expect(page.getByRole('heading', { name: 'Dr. William Donovan, DMD' })).toBeVisible();
+  for (const route of ['/about/', '/modern/team/']) {
+    await page.goto(route);
+    await expect(page.getByRole('heading', { name: 'Dr. William Donovan, DMD' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Dr. Jordan Henke, DDS' })).toBeVisible();
+  }
 });
 
 test('about and services pages render office-managed content', async ({ page }) => {

@@ -60,7 +60,7 @@ test('sitemap contains each public route exactly once', async ({ request }) => {
   for (const route of publicRoutes) expect(locations).toContain(`${configuredSite}${route}`);
 });
 
-test('responsive photography and the social card are generated and addressable', async ({ page, request }) => {
+test('responsive office photography, approved provider photography, and the social card are addressable', async ({ page, request }) => {
   await page.goto('/modern/');
   const hero = page.locator('.modern-hero__visual img');
   await expect(hero).toHaveAttribute('srcset', /office-exterior-480\.webp 480w.*office-exterior-720\.webp 720w.*office-exterior\.webp 900w/);
@@ -69,16 +69,21 @@ test('responsive photography and the social card are generated and addressable',
   await expect(hero).toHaveAttribute('height', '675');
 
   await page.goto('/modern/team/');
-  const providerPhoto = page.getByRole('img', { name: 'Dr. William Donovan with his family and dog outdoors.' });
-  await expect(providerPhoto).toHaveAttribute('srcset', /dr-william-donovan-family-480\.webp 480w.*720\.webp 720w/);
-  await expect(providerPhoto).toHaveAttribute('width', '900');
-  await expect(providerPhoto).toHaveAttribute('height', '720');
+  const donovanPhoto = page.getByRole('img', { name: 'Dr. William Donovan standing with three family members in a historic outdoor courtyard.' });
+  const henkePhoto = page.getByRole('img', { name: 'Dr. Jordan Henke with his wife, Mia, and their four children outdoors.' });
+  await expect(donovanPhoto).toHaveAttribute('src', '/images/dr-william-donovan-photo.webp');
+  await expect(henkePhoto).toHaveAttribute('src', '/images/dr-jordan-henke-family.webp');
+  for (const photo of [donovanPhoto, henkePhoto]) {
+    await expect(photo).toHaveAttribute('width', '240');
+    await expect(photo).toHaveAttribute('height', '180');
+    expect(await photo.evaluate((image: HTMLImageElement) => image.naturalWidth)).toBeGreaterThan(0);
+  }
 
   for (const asset of [
     '/images/office-exterior-480.webp',
     '/images/office-exterior-720.webp',
-    '/images/dr-william-donovan-family-480.webp',
-    '/images/dr-william-donovan-family-720.webp',
+    '/images/dr-william-donovan-photo.webp',
+    '/images/dr-jordan-henke-family.webp',
     '/images/donovan-social-card.webp'
   ]) {
     const response = await request.get(asset);
