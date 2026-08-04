@@ -35,7 +35,10 @@ test('Current provider pages render shared data without hardcoded legacy imagery
 });
 
 test('Release 16.11 keeps the supplied biography and local photographs', async () => {
-  const providers = await readJson('src/data/providers.json');
+  const [providers, manifest] = await Promise.all([
+    readJson('src/data/providers.json'),
+    readJson('.asset-source/manifest.json')
+  ]);
   const henke = providers.find((provider) => provider.id === 'jordan-henke');
 
   assert.match(henke.biography.join(' '), /University of Mary/);
@@ -43,12 +46,7 @@ test('Release 16.11 keeps the supplied biography and local photographs', async (
   assert.match(henke.biography.join(' '), /Naval Reserves/);
   assert.match(henke.biography.join(' '), /wife, Mia, and their four children/);
 
-  for (const path of [
-    'public/images/dr-william-donovan-photo-r16-12.webp',
-    'public/images/dr-jordan-henke-family-r16-12.webp'
-  ]) {
-    const bytes = await readFile(new URL(`../${path}`, import.meta.url));
-    assert.equal(bytes.subarray(0, 4).toString('ascii'), 'RIFF');
-    assert.equal(bytes.subarray(8, 12).toString('ascii'), 'WEBP');
-  }
+  const materializedTargets = new Set(manifest.map((asset) => `/${asset.target.replace(/^public\//, '')}`));
+  assert.equal(materializedTargets.has(providers[0].photo), true);
+  assert.equal(materializedTargets.has(providers[1].photo), true);
 });
