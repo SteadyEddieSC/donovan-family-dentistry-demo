@@ -21,12 +21,6 @@
       "source": "Practice-supplied biography and photograph received from Dr. Donovan on 2026-08-04"
     },
     {
-      "id": "provider-roster",
-      "label": "Current public dentist roster: Dr. William Donovan and Dr. Jordan Henke",
-      "status": "verified",
-      "source": "Practice-supplied update from Dr. Donovan on 2026-08-04"
-    },
-    {
       "id": "patient-form-layout",
       "label": "Fillable new-patient form layout and field integrity",
       "status": "verified",
@@ -88,6 +82,13 @@
     }
   ],
   "launchBlockers": [
+    {
+      "id": "provider-roster",
+      "label": "Current dentist roster and provider-publication decision",
+      "status": "verified",
+      "paths": ["/about/", "/modern/team/"],
+      "replacementNeeded": "Resolved on 2026-08-04: Dr. Donovan supplied and approved Dr. Jordan Henke's biography and Henke family photograph, requested removal of the outdated Koolkin reference, and approved publication in both concepts."
+    },
     {
       "id": "services",
       "label": "Current service list and patient-friendly terminology",
