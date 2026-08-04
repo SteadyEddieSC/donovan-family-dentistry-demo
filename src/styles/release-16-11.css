@@ -1,0 +1,49 @@
+/* Release 16.11: verified Dr. Henke profile and family photography. */
+
+.provider + .provider {
+  margin-top: clamp(3rem, 7vw, 5rem);
+  padding-top: clamp(3rem, 7vw, 5rem);
+  border-top: 1px solid var(--line);
+}
+
+.provider-media {
+  min-width: 0;
+}
+
+.provider-media img {
+  width: 100%;
+  aspect-ratio: 5 / 4;
+  border-radius: 1rem;
+  object-fit: cover;
+  box-shadow: var(--shadow);
+}
+
+.provider-photo-caption,
+.modern-provider-photo-caption {
+  margin: .7rem 0 0;
+  font-size: .82rem;
+  font-weight: 850;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.provider-photo-caption {
+  color: var(--green-dark);
+}
+
+.modern-provider-list {
+  display: grid;
+  gap: clamp(4rem, 9vw, 8rem);
+}
+
+.modern-provider-photo-caption {
+  position: relative;
+  z-index: 2;
+  color: var(--modern-teal);
+}
+
+@media (max-width: 620px) {
+  .provider-media {
+    width: min(100%, 32rem);
+  }
+}
