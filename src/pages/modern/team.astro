@@ -9,6 +9,10 @@ import teamData from '../../data/modern-team.json';
 const pageContent = practiceContent.teamPage;
 const visibleProviders = providers.filter((provider) => provider.visible).sort((a, b) => a.order - b.order);
 const visibleTeam = teamData.team.filter((member) => member.visible);
+const legacyPhotoFallbacks: Record<string, string> = {
+  'william-donovan': '/images/dr-william-donovan-photo.webp',
+  'jordan-henke': '/images/dr-jordan-henke-family.webp'
+};
 ---
 <ModernLayout title="Meet the Dentists and Team | Donovan Family Dentistry" description="Meet Dr. William Donovan, Dr. Jordan Henke, and the patient-care team at Donovan Family Dentistry.">
   <section class="modern-page-hero">
@@ -31,9 +35,11 @@ const visibleTeam = teamData.team.filter((member) => member.visible);
             <figure class="modern-doctor__photo">
               {provider.imageType === 'photo' && provider.photo
                 ? <img
-                    src={provider.photo}
-                    width={provider.photoWidth ?? 240}
-                    height={provider.photoHeight ?? 180}
+                    src={legacyPhotoFallbacks[provider.id] ?? provider.photo}
+                    srcset={`${provider.photo} 480w`}
+                    sizes="(max-width: 520px) calc(100vw - 2rem), 480px"
+                    width="240"
+                    height="180"
                     alt={provider.photoAlt}
                     loading={index === 0 ? 'eager' : 'lazy'}
                     decoding="async"
