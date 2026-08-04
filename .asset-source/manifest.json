@@ -11,16 +11,33 @@
   {
     "target": "public/images/dr-william-donovan-family.webp",
     "chunks": [
-      "dr-william-donovan-family.webp.v2.b64.000",
-      "dr-william-donovan-family.webp.v2.b64.001",
-      "dr-william-donovan-family.webp.v2.b64.002a",
-      "dr-william-donovan-family.webp.v2.b64.002b",
-      "dr-william-donovan-family.webp.v2.b64.002c",
-      "dr-william-donovan-family.webp.v2.b64.002d"
+      "dr-william-donovan-family.webp.v3.b64.000",
+      "dr-william-donovan-family.webp.v3.b64.001",
+      "dr-william-donovan-family.webp.v3.b64.002",
+      "dr-william-donovan-family.webp.v3.b64.003",
+      "dr-william-donovan-family.webp.v3.b64.004",
+      "dr-william-donovan-family.webp.v3.b64.005",
+      "dr-william-donovan-family.webp.v3.b64.006"
     ],
     "encoding": "gzip+base64",
-    "sourceBytes": 27036,
-    "sha256": "cc9bb047d6f8cd52b5edae0ebf69cb4df2d53ed6bf23f751dc24c498e04dd2c7"
+    "sourceBytes": 19334,
+    "sha256": "244e61e9ef1665fbb45b67016a640373528f1f4b5d9e3dee3a320b3a90e7f15c",
+    "overwrite": true
+  },
+  {
+    "target": "public/images/dr-jordan-henke-family.webp",
+    "chunks": [
+      "dr-jordan-henke-family.webp.v3.b64.000",
+      "dr-jordan-henke-family.webp.v3.b64.001",
+      "dr-jordan-henke-family.webp.v3.b64.002",
+      "dr-jordan-henke-family.webp.v3.b64.003",
+      "dr-jordan-henke-family.webp.v3.b64.004",
+      "dr-jordan-henke-family.webp.v3.b64.005"
+    ],
+    "encoding": "gzip+base64",
+    "sourceBytes": 15740,
+    "sha256": "ad183e9d3cf07a562944e32d8ccbcc74216acbdd71135cf060b09333fc8a1fa9",
+    "overwrite": true
   },
   {
     "target": "public/forms/new-patient-medical-history.pdf",
