@@ -1,36 +1,37 @@
-# Release 16.11 — Dr. Henke profile and provider-roster update
+# Release 16.11 — Dr. Henke profile and provider-photography update
 
 ## Purpose
 
 Release 16.11 implements the practice-supplied provider update received from Dr. William Donovan on August 4, 2026.
 
-The request supplied a Dr. Jordan Henke biography and Henke family photograph, requested the caption **Henke Family**, requested removal of the outdated Koolkin reference, and asked that the supplied photograph replace the previous Donovan family photograph with an appropriate crop.
+The request supplied a Dr. Jordan Henke biography and Henke family photograph, requested the caption **Henke Family**, requested removal of the outdated Koolkin reference, and identified `IMG_4850` as Dr. Donovan's updated photograph.
 
 ## Public changes
 
 ### Classic concept
 
-- `/about/` now publishes Dr. William Donovan and Dr. Jordan Henke from the shared provider data.
-- Dr. Donovan remains represented without the retired family photograph.
+- `/about/` publishes Dr. William Donovan and Dr. Jordan Henke from shared provider data.
+- Dr. Donovan is shown with the updated `IMG_4850` photograph.
 - Dr. Henke's full supplied biography is published with the approved family image and caption.
 
 ### Modern concept
 
-- `/modern/team/` now publishes both dentists.
+- `/modern/team/` publishes both dentists.
+- Dr. Donovan is shown with the same updated photograph used by Classic.
 - Dr. Henke's concise modern biography, professional highlights, family image, and **Henke Family** caption are included.
 - The former hidden associate-dentist template is replaced by the verified Dr. Henke record.
 
 ## Image treatment
 
-- The supplied portrait-oriented family photograph was cropped to a landscape composition suitable for both concepts.
-- The crop retains Dr. Henke, his wife Mia, and all four children.
-- The source is stored as a 900 × 675 WebP.
-- The build generates 480-pixel and 720-pixel responsive derivatives.
+- `IMG_4850` was decoded from HEIC using libheif rather than the incomplete first-frame conversion, then cropped to a balanced landscape composition.
+- The Henke family photograph was cropped to a landscape composition retaining Dr. Henke, Mia, and all four children.
+- Both approved sources are stored as validated 600 × 450 WebP files.
+- The build generates 480-pixel responsive derivatives without enlarging the approved source files.
 - Images remain local to the repository; no image CDN, paid service, or third-party host is used.
 
 ## Readiness effect
 
-The historical `provider-roster` launch item remains in the audit register but is now marked **verified**. Evidence is recorded at:
+The historical `provider-roster` launch item remains in the audit register but is marked **verified**. Evidence is recorded at:
 
 `docs/evidence/provider-roster-henke-2026-08-04.md`
 
@@ -41,10 +42,10 @@ This release does not clear or modify the remaining service, insurance/payment, 
 Release coverage verifies:
 
 - both approved dentists appear in the Classic and Modern concepts;
-- Dr. Henke's supplied biography and photograph are present;
-- **Henke Family** appears as the family-photo caption;
+- Dr. Donovan's updated photograph and Dr. Henke's supplied biography and family photograph are present;
+- **Henke Family** appears as the Henke family-photo caption;
 - no Koolkin reference appears in current provider data or rendered provider pages;
-- 480-, 720-, and 900-pixel image assets resolve;
+- 480- and 600-pixel provider image assets resolve;
 - mobile layouts do not overflow at the reviewed Galaxy width; and
 - the updated pages have no serious or critical automated accessibility findings.
 
