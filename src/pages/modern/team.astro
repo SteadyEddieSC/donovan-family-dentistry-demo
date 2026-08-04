@@ -9,8 +9,12 @@ import teamData from '../../data/modern-team.json';
 const pageContent = practiceContent.teamPage;
 const visibleProviders = providers.filter((provider) => provider.visible).sort((a, b) => a.order - b.order);
 const visibleTeam = teamData.team.filter((member) => member.visible);
+const providerSrcSet = (photo: string) => {
+  const base = photo.replace(/\.webp$/i, '');
+  return `${base}-480.webp 480w, ${photo} 900w`;
+};
 ---
-<ModernLayout title="Meet the Team | Donovan Family Dentistry" description="Meet the dentist and learn how the front-office, hygiene, and dental-assisting teams support patients at Donovan Family Dentistry.">
+<ModernLayout title="Meet the Dentists and Team | Donovan Family Dentistry" description="Meet Dr. William Donovan, Dr. Jordan Henke, and the patient-care team at Donovan Family Dentistry.">
   <section class="modern-page-hero">
     <div class="modern-shell modern-page-hero__grid">
       <div><p class="modern-kicker">{pageContent.kicker}</p><h1>{pageContent.headline}</h1></div>
@@ -32,15 +36,16 @@ const visibleTeam = teamData.team.filter((member) => member.visible);
               {provider.imageType === 'photo' && provider.photo
                 ? <img
                     src={provider.photo}
-                    srcset="/images/dr-william-donovan-family-480.webp 480w, /images/dr-william-donovan-family-720.webp 720w, /images/dr-william-donovan-family.webp 900w"
+                    srcset={providerSrcSet(provider.photo)}
                     sizes="(max-width: 820px) calc(100vw - 2rem), 44vw"
-                    width="900"
-                    height="720"
+                    width={provider.photoWidth ?? 900}
+                    height={provider.photoHeight ?? 675}
                     alt={provider.photoAlt}
                     loading={index === 0 ? 'eager' : 'lazy'}
                     decoding="async"
                   />
                 : <ModernPortrait name={provider.name} variant={provider.portrait} />}
+              {provider.photoCaption && <p class="modern-provider-photo-caption">{provider.photoCaption}</p>}
             </div>
             <div>
               <p class="modern-eyebrow">{provider.role}</p>
