@@ -13,7 +13,7 @@ const providerInitials = (name: string) => name
   .toUpperCase();
 const providerSrcSet = (photo: string) => {
   const base = photo.replace(/\.webp$/i, '');
-  return `${base}-480.webp 480w, ${photo} 900w`;
+  return `${base}-480.webp 480w, ${base}-720.webp 720w, ${photo} 900w`;
 };
 ---
 <BaseLayout title="About Our Dentists | Donovan Family Dentistry" description="Meet Dr. William Donovan and Dr. Jordan Henke at Donovan Family Dentistry in Beaufort, South Carolina.">
