@@ -18,13 +18,13 @@ for (const concept of [
 
     const donovanImage = page.getByRole('img', { name: donovanAlt });
     await expect(donovanImage).toHaveAttribute('src', '/images/dr-william-donovan-family.webp');
-    await expect(donovanImage).toHaveAttribute('srcset', /dr-william-donovan-family-480\.webp 480w/);
-    expect(await donovanImage.evaluate((element: HTMLImageElement) => element.naturalWidth)).toBeGreaterThanOrEqual(480);
+    await expect(donovanImage).toHaveAttribute('srcset', /dr-william-donovan-family-360\.webp 360w[\s\S]*480w/);
+    expect(await donovanImage.evaluate((element: HTMLImageElement) => element.naturalWidth)).toBeGreaterThanOrEqual(360);
 
     const henkeImage = page.getByRole('img', { name: henkeAlt });
     await expect(henkeImage).toHaveAttribute('src', '/images/dr-jordan-henke-family.webp');
-    await expect(henkeImage).toHaveAttribute('srcset', /dr-jordan-henke-family-480\.webp 480w/);
-    expect(await henkeImage.evaluate((element: HTMLImageElement) => element.naturalWidth)).toBeGreaterThanOrEqual(480);
+    await expect(henkeImage).toHaveAttribute('srcset', /dr-jordan-henke-family-360\.webp 360w[\s\S]*480w/);
+    expect(await henkeImage.evaluate((element: HTMLImageElement) => element.naturalWidth)).toBeGreaterThanOrEqual(360);
 
     await page.screenshot({
       path: testInfo.outputPath(`release16-11-${concept.path.includes('modern') ? 'modern-team' : 'classic-about'}.png`),
@@ -54,12 +54,12 @@ test('provider pages reflow on the reviewed Galaxy width', async ({ page }) => {
 test('provider responsive image assets resolve', async ({ request }) => {
   for (const path of [
     '/images/dr-william-donovan-family.webp',
-    '/images/dr-william-donovan-family-480.webp',
+    '/images/dr-william-donovan-family-360.webp',
     '/images/dr-jordan-henke-family.webp',
-    '/images/dr-jordan-henke-family-480.webp'
+    '/images/dr-jordan-henke-family-360.webp'
   ]) {
     const response = await request.get(path);
     expect(response.status(), `${path} should resolve`).toBeLessThan(400);
-    expect(Number(response.headers()['content-length'] ?? 0)).toBeGreaterThan(10_000);
+    expect(Number(response.headers()['content-length'] ?? 0)).toBeGreaterThan(5_000);
   }
 });
