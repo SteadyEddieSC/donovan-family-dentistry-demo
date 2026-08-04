@@ -6,9 +6,10 @@ const repositoryRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url))
 const readText = (relative) => readFile(path.join(repositoryRoot, relative), 'utf8');
 const readJson = async (relative) => JSON.parse(await readText(relative));
 
-const [site, status, robots, headers, envExample] = await Promise.all([
+const [site, status, launchReadiness, robots, headers, envExample] = await Promise.all([
   readJson('src/data/site.json'),
   readJson('src/data/content-status.json'),
+  readJson('src/data/launch-readiness.json'),
   readText('public/robots.txt'),
   readText('public/_headers'),
   readText('.env.example')
@@ -23,6 +24,7 @@ const requiredBlockers = [
   'production-integrations'
 ];
 const blockerIds = status.launchBlockers.map((item) => item.id);
+const evidenceById = new Map(launchReadiness.requiredEvidence.map((item) => [item.id, item]));
 
 if (site.previewMode !== true) failures.push('site.previewMode must remain true until all launch blockers are genuinely verified.');
 if (site.socialImage !== '/images/donovan-social-card.webp') failures.push('site.socialImage must use the generated 1200x630 production-candidate social card.');
@@ -34,8 +36,21 @@ for (const blocker of requiredBlockers) {
   if (!blockerIds.includes(blocker)) failures.push(`Launch blocker ${blocker} is missing from the readiness register.`);
 }
 for (const item of status.launchBlockers) {
-  if (item.status === 'verified') failures.push(`Launch blocker ${item.id} cannot be marked verified without owner/configuration evidence.`);
   if (!item.replacementNeeded) failures.push(`Launch blocker ${item.id} must explain the evidence needed to clear it.`);
+
+  if (item.status === 'verified') {
+    const evidence = evidenceById.get(item.id);
+    if (evidence?.status !== 'verified' || !evidence.evidenceRef) {
+      failures.push(`Verified launch blocker ${item.id} requires matching verified launch evidence with a non-empty evidenceRef.`);
+      continue;
+    }
+
+    try {
+      await access(path.join(repositoryRoot, evidence.evidenceRef));
+    } catch {
+      failures.push(`Verified launch blocker ${item.id} references missing evidence: ${evidence.evidenceRef}.`);
+    }
+  }
 }
 
 for (const requiredDocument of [
@@ -55,4 +70,7 @@ if (failures.length > 0) {
   process.exit(1);
 }
 
-console.log(`Production-candidate safety gate passed with ${status.launchBlockers.length} enforced launch blocker(s) and preview indexing disabled.`);
+const verifiedBlockers = status.launchBlockers.filter((item) => item.status === 'verified').length;
+console.log(
+  `Production-candidate safety gate passed with ${status.launchBlockers.length - verifiedBlockers} open launch blocker(s), ${verifiedBlockers} evidence-cleared historical blocker(s), and preview indexing disabled.`
+);
