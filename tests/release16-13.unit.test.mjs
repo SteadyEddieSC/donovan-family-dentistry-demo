@@ -12,8 +12,10 @@ test('Release 16.13 records the owner-confirmed two-daughter profile detail', as
 
   assert.ok(donovan, 'Dr. Donovan provider record is missing');
   const biography = donovan.biography.join(' ');
+  const details = donovan.details.join(' ');
   assert.match(biography, /The couple has two daughters\./);
-  assert.doesNotMatch(biography, /The couple has one daughter\./);
+  assert.match(details, /two daughters/);
+  assert.doesNotMatch(`${biography} ${details}`, /one daughter/);
 });
 
 test('Release 16.13 adds Classic-only separation between provider profiles', async () => {
