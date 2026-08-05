@@ -80,7 +80,7 @@ const logoObject = {
   caption: site.logoAlt
 };
 
-const structuredData = includeBusinessSchema ? {
+const publicStructuredData = {
   '@context': 'https://schema.org',
   '@graph': [
     {
@@ -123,7 +123,21 @@ const structuredData = includeBusinessSchema ? {
       primaryImageOfPage: imageObject
     }
   ]
-} : null;
+};
+
+const noindexStructuredData = {
+  '@context': 'https://schema.org',
+  '@graph': [{
+    '@type': 'WebPage',
+    '@id': webpageId,
+    url: canonical,
+    name: title,
+    description,
+    inLanguage: 'en-US',
+    primaryImageOfPage: imageObject
+  }]
+};
+const structuredData = includeBusinessSchema ? publicStructuredData : noindexStructuredData;
 ---
 <title>{title}</title>
 <meta name="description" content={description} />
@@ -151,4 +165,4 @@ const structuredData = includeBusinessSchema ? {
 <meta name="twitter:description" content={description} />
 <meta name="twitter:image" content={socialImage} />
 <meta name="twitter:image:alt" content={imageAlt} />
-{structuredData && <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />}
+<script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
