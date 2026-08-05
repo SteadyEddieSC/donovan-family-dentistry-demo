@@ -73,8 +73,8 @@ const openHours = openDays[0]?.hours ?? '';
         <p>For a dental concern that may need prompt attention, call <a href={`tel:${site.phoneHref}`}>{site.phoneDisplay}</a>. Website messages are intended only for general administrative questions and may not be reviewed immediately.</p>
         <p><strong>Call 911 or seek emergency care immediately</strong> for difficulty breathing or swallowing, severe uncontrolled bleeding, or a serious injury involving the face or head.</p>
       </div>
-      <aside class="info-panel">
-        <h2>Office information</h2>
+      <aside class="info-panel" aria-labelledby="office-information-heading">
+        <h2 id="office-information-heading">Office information</h2>
         <p>{site.address.street}<br />{site.address.city}, {site.address.state} {site.address.postalCode}</p>
         <p>{openDayRange}<br />{openHours}</p>
         <p><a href="/contact/">Contact and directions</a></p>
