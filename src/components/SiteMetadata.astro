@@ -38,6 +38,29 @@ const websiteId = new URL('/#website', siteUrl).toString();
 const webpageId = `${canonical}#webpage`;
 const robots = site.previewMode || forceNoIndex ? 'noindex, nofollow, noarchive' : 'index, follow';
 
+const parseClockTime = (value: string) => {
+  const match = value.trim().match(/^(\d{1,2}):(\d{2})\s*(AM|PM)$/i);
+  if (!match) return null;
+  const [, rawHour, minutes, meridiem] = match;
+  let hour = Number(rawHour) % 12;
+  if (meridiem.toUpperCase() === 'PM') hour += 12;
+  return `${String(hour).padStart(2, '0')}:${minutes}`;
+};
+
+const openingHoursSpecification = site.hours.flatMap((item) => {
+  if (item.hours.trim().toLowerCase() === 'closed') return [];
+  const [openText, closeText] = item.hours.split('-').map((part) => part.trim());
+  const opens = parseClockTime(openText);
+  const closes = parseClockTime(closeText);
+  if (!opens || !closes) return [];
+  return [{
+    '@type': 'OpeningHoursSpecification',
+    dayOfWeek: `https://schema.org/${item.day}`,
+    opens,
+    closes
+  }];
+});
+
 const imageObject = {
   '@type': 'ImageObject',
   url: socialImage,
@@ -67,19 +90,7 @@ const structuredData = {
         addressCountry: 'US'
       },
       areaServed: site.serviceArea.map((name) => ({ '@type': 'Place', name })),
-      openingHoursSpecification: [
-        {
-          '@type': 'OpeningHoursSpecification',
-          dayOfWeek: [
-            'https://schema.org/Monday',
-            'https://schema.org/Tuesday',
-            'https://schema.org/Wednesday',
-            'https://schema.org/Thursday'
-          ],
-          opens: '07:30',
-          closes: '17:00'
-        }
-      ]
+      openingHoursSpecification
     },
     {
       '@type': 'WebSite',

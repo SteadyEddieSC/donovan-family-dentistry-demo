@@ -9,14 +9,7 @@ export const publicRoutes = [
   '/forms/',
   '/contact/',
   '/accessibility/',
-  '/website-use/',
-  '/modern/',
-  '/modern/about/',
-  '/modern/services/',
-  '/modern/team/',
-  '/modern/new-patients/',
-  '/modern/forms/',
-  '/modern/contact/'
+  '/website-use/'
 ] as const;
 
 export const GET: APIRoute = ({ site }) => {

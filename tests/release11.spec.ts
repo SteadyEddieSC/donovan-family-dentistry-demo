@@ -34,7 +34,7 @@ for (const route of ['/', '/modern/', '/modern/new-patients/']) {
     expect(dentist.name).toBe('Donovan Family Dentistry');
     expect(dentist.telephone).toBe('+18435256866');
     expect(dentist.address.streetAddress).toBe('91 Sams Point Road');
-    expect(dentist.openingHoursSpecification[0].opens).toBe('07:30');
+    expect(dentist.openingHoursSpecification[0].opens).toBe('08:00');
     expect(dentist.openingHoursSpecification[0].closes).toBe('17:00');
 
     const webPage = graph.find((item) => item['@type'] === 'WebPage');
@@ -44,12 +44,13 @@ for (const route of ['/', '/modern/', '/modern/new-patients/']) {
   });
 }
 
-test('web manifest is valid and points to the modern patient experience', async ({ request }) => {
+test('web manifest is valid and points to the approved Classic patient experience', async ({ request }) => {
   const response = await request.get('/site.webmanifest');
   expect(response.status()).toBe(200);
   const manifest = JSON.parse(await response.text());
   expect(manifest.name).toBe('Donovan Family Dentistry');
-  expect(manifest.start_url).toBe('/modern/');
+  expect(manifest.start_url).toBe('/');
+  expect(manifest.scope).toBe('/');
   expect(manifest.display).toBe('standalone');
   expect(manifest.icons[0].src).toBe('/favicon.svg');
 });

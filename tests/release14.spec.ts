@@ -9,6 +9,8 @@ const publicRoutes = [
   '/', '/about/', '/services/', '/forms/', '/contact/', '/accessibility/', '/website-use/',
   '/modern/', '/modern/about/', '/modern/services/', '/modern/team/', '/modern/new-patients/', '/modern/forms/', '/modern/contact/'
 ];
+const sitemapRoutes = publicRoutes.slice(0, 7);
+const retainedDemoRoutes = publicRoutes.slice(7);
 
 test('production-candidate safety gate preserves preview controls and launch blockers', async ({ isMobile }) => {
   test.skip(isMobile, 'Repository-level validation only needs to run once.');
@@ -49,15 +51,16 @@ for (const route of publicRoutes) {
   });
 }
 
-test('sitemap contains each public route exactly once', async ({ request }) => {
+test('sitemap contains each Classic public route exactly once and excludes the retained Modern demo', async ({ request }) => {
   const response = await request.get('/sitemap.xml');
   expect(response.status()).toBe(200);
   expect(response.headers()['content-type']).toMatch(/^(application|text)\/xml\b/i);
   const body = await response.text();
   const locations = [...body.matchAll(/<loc>(.*?)<\/loc>/g)].map((match) => match[1]);
-  expect(locations).toHaveLength(publicRoutes.length);
+  expect(locations).toHaveLength(sitemapRoutes.length);
   expect(new Set(locations).size).toBe(locations.length);
-  for (const route of publicRoutes) expect(locations).toContain(`${configuredSite}${route}`);
+  for (const route of sitemapRoutes) expect(locations).toContain(`${configuredSite}${route}`);
+  for (const route of retainedDemoRoutes) expect(locations).not.toContain(`${configuredSite}${route}`);
 });
 
 test('responsive office photography, approved provider photography, and the social card are addressable', async ({ page, request }) => {

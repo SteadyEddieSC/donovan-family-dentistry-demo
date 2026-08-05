@@ -13,19 +13,19 @@
   "hours": [
     {
       "day": "Monday",
-      "hours": "7:30 AM-5:00 PM"
+      "hours": "8:00 AM-5:00 PM"
     },
     {
       "day": "Tuesday",
-      "hours": "7:30 AM-5:00 PM"
+      "hours": "8:00 AM-5:00 PM"
     },
     {
       "day": "Wednesday",
-      "hours": "7:30 AM-5:00 PM"
+      "hours": "8:00 AM-5:00 PM"
     },
     {
       "day": "Thursday",
-      "hours": "7:30 AM-5:00 PM"
+      "hours": "8:00 AM-5:00 PM"
     },
     {
       "day": "Friday",
@@ -55,7 +55,13 @@
     "Beaufort",
     "South Carolina Lowcountry"
   ],
+  "productionUrl": "https://www.donovanfamilydentistry.com",
   "previewMode": true,
+  "modernDemo": {
+    "enabled": true,
+    "path": "/modern/",
+    "indexable": false
+  },
   "announcement": {
     "enabled": false,
     "text": ""

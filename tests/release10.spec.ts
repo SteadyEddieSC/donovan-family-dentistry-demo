@@ -51,13 +51,13 @@ test('new-patient guide is public-facing and accessible', async ({ page }) => {
   expect(results.violations.filter((item) => ['serious', 'critical'].includes(item.impact ?? ''))).toEqual([]);
 });
 
-test('new-patient route is linked and indexed in the demo sitemap', async ({ page, request }) => {
+test('new-patient route remains linked inside the retained demo but is excluded from the public sitemap', async ({ page, request }) => {
   await page.goto('/modern/');
   await expect(page.getByRole('link', { name: 'Read the new-patient guide' })).toHaveAttribute('href', '/modern/new-patients/');
 
   const sitemap = await request.get('/sitemap.xml');
   expect(sitemap.status()).toBe(200);
-  expect(await sitemap.text()).toContain('/modern/new-patients/');
+  expect(await sitemap.text()).not.toContain('/modern/new-patients/');
 });
 
 test('new-patient mobile review screenshot', async ({ page, isMobile }, testInfo) => {
