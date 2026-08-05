@@ -1,0 +1,3 @@
+.provider + .provider {
+  margin-top: clamp(2.5rem, 5vw, 4rem);
+}
