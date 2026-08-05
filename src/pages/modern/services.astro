@@ -32,7 +32,7 @@ const groups = pageContent.groups
       <div class="modern-service-grid">
         {groups.map((group, index) => (
           <article class="modern-service-card" data-number={`0${index + 1}`} id={group.id}>
-            <h3>{group.title}</h3>
+            <h2>{group.title}</h2>
             <p>{group.summary}</p>
             <ul>{group.services.map((service) => <li>{service.name}</li>)}</ul>
             <p><strong>Planning note:</strong> {group.planning}</p>
