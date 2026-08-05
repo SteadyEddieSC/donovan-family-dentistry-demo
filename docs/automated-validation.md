@@ -91,15 +91,20 @@ It also blocks missing titles, descriptions, canonicals, crawlability, image alt
 
 ### Links and HTML
 
-The repository-controlled internal-link validator blocks missing pages, images, downloads, `srcset` assets, fragments, malformed URLs, and redirect loops. Lychee independently checks generated internal links in offline mode. External hosts are checked on a scheduled advisory workflow with retries and caching because CI traffic is often rate-limited or blocked.
+The repository-controlled internal-link validator blocks missing pages, images, downloads, `srcset` assets, fragments, malformed URLs, and redirect loops. It also verifies that the administrative form action maps to the checked-in Cloudflare Function and that the private 404-review probe maps to the generated 404 document. Lychee independently checks generated internal links in offline mode. External hosts are checked on a scheduled advisory workflow with retries and caching because CI traffic is often rate-limited or blocked.
 
-`html-validate` checks generated HTML for invalid nesting, duplicate IDs, heading and landmark issues, malformed metadata, missing required attributes, and semantic problems. Current exceptions are limited to:
+`html-validate` checks generated HTML for invalid nesting, duplicate IDs, heading and landmark issues, malformed metadata, missing required attributes, and semantic problems. The configuration keeps semantic failures blocking and makes only these exact exceptions:
 
-- existing authored inline styles;
-- equivalent standards-valid void-element and boolean-attribute serialization differences;
-- Subresource Integrity not being required for same-origin assets and scripts already governed by the repository CSP.
+- `no-inline-style`: disabled because a small amount of approved, existing layout styling is authored inline; CSP still governs allowed style execution and visual regression tests cover it.
+- `void-style` and `attribute-boolean-style`: disabled because Astro's generated serialization can use equivalent standards-valid forms.
+- `doctype-style`: enforced as uppercase because Astro emits the standards-valid `<!DOCTYPE html>` form.
+- `tel-non-breaking`: disabled because it is a typography preference rather than HTML validity; phone links, accessible names, responsive layout, and target sizing remain independently tested.
+- `no-raw-characters`: disabled because generated inline JavaScript and JSON-LD can legitimately contain raw ampersands and related characters outside ambiguous entity contexts; JSON parsing, CSP, CodeQL, and browser execution remain blocking.
+- `form-dup-name`: disabled because the private local review checklist intentionally uses a repeated checkbox name so `FormData.getAll()` can collect a standards-valid checkbox group; the form is local-only and covered by Playwright.
+- `no-implicit-input-type`: disabled because HTML defines a missing input type as `text`; all production-capable administrative form inputs now declare explicit types, while the remaining implicit text fields are confined to the private local review utility and are browser-tested.
+- `require-sri`: disabled because checked resources are same-origin or explicitly permitted by the existing restrictive CSP; no new third-party script service is introduced by this release.
 
-Any new exception must name the rule, affected markup, standards basis, risk, and review condition.
+`heading-level`, `unique-landmark`, `no-dup-id`, `no-redundant-role`, recommended form rules other than the exact exceptions above, invalid nesting, required attributes, and the rest of the recommended validator profile remain blocking. Any new exception must name the rule, affected markup, standards basis, risk, owner, and review condition.
 
 ### Dependency and application security
 
@@ -109,7 +114,7 @@ CodeQL covers JavaScript and TypeScript only, using the official GitHub action, 
 
 Gitleaks scans pull-request commits, repository content, and history with default rules and no broad allowlist. Exact false-positive allowances must identify the rule and exact fingerprint or path; credentials, tokens, private keys, mailbox secrets, Cloudflare tokens, Open Dental secrets, analytics credentials, or patient-system credentials must never be allowed merely to make CI pass.
 
-Zizmor and the repository policy script check workflow permissions, immutable action pins, checkout credential persistence, event-expression injection, `pull_request_target`, secrets inheritance, and unsafe workflow patterns.
+Zizmor and the repository policy script check workflow permissions, immutable action pins, checkout credential persistence, event-expression injection, `pull_request_target`, secrets inheritance, dependency-update cooldowns, and unsafe workflow patterns.
 
 ## Advisory checks
 
