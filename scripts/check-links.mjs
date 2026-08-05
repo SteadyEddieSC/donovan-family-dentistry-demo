@@ -1,6 +1,6 @@
 import { access, readFile, readdir } from 'node:fs/promises';
 import path from 'node:path';
-import { previewOrigin } from './validation-routes.mjs';
+import { previewOrigin, utilityRoutes } from './validation-routes.mjs';
 
 const failures = [];
 const htmlFiles = [];
@@ -23,6 +23,7 @@ const idsFor = (html) => new Set([
   ...[...html.matchAll(/\sid=["']([^"']+)["']/gi)].map((match) => match[1]),
   ...[...html.matchAll(/\sname=["']([^"']+)["']/gi)].map((match) => match[1])
 ]);
+const attributeOf = (tag, name) => tag.match(new RegExp(`\\s${name}=["']([^"']+)["']`, 'i'))?.[1] ?? null;
 const htmlByRoute = new Map();
 for (const file of htmlFiles) {
   const html = await readFile(file, 'utf8');
@@ -32,26 +33,39 @@ for (const file of htmlFiles) {
 const internalTarget = async (pathname) => {
   const decoded = decodeURIComponent(pathname);
   if (decoded === '/') return { file: path.join('dist', 'index.html'), route: '/' };
+  if (utilityRoutes.includes(decoded.endsWith('/') ? decoded : `${decoded}/`)) {
+    return { file: path.join('dist', '404.html'), route: '/404.html' };
+  }
+  if (decoded.startsWith('/api/')) {
+    const relative = decoded.replace(/^\/api\//, '');
+    return { file: path.join('functions', 'api', `${relative}.js`), route: decoded, functionRoute: true };
+  }
   const relative = decoded.replace(/^\//, '');
   if (decoded.endsWith('/')) return { file: path.join('dist', relative, 'index.html'), route: decoded };
   if (path.extname(decoded)) return { file: path.join('dist', relative), route: decoded };
   return { file: path.join('dist', relative, 'index.html'), route: `${decoded}/` };
 };
 
-for (const [sourceRoute, page] of htmlByRoute) {
+const collectCandidates = (html) => {
   const candidates = [];
-  for (const regex of [
-    /\s(?:href|src|action)=["']([^"']+)["']/gi,
-    /\ssrcset=["']([^"']+)["']/gi
-  ]) {
-    for (const match of page.html.matchAll(regex)) {
-      if (regex.source.includes('srcset')) {
-        for (const part of match[1].split(',')) candidates.push(part.trim().split(/\s+/)[0]);
-      } else candidates.push(match[1].trim());
-    }
+  for (const match of html.matchAll(/<a\b[^>]*\shref=["']([^"']+)["'][^>]*>/gi)) candidates.push(match[1].trim());
+  for (const match of html.matchAll(/<(?:img|script|source|video|audio)\b[^>]*\ssrc=["']([^"']+)["'][^>]*>/gi)) candidates.push(match[1].trim());
+  for (const match of html.matchAll(/<form\b[^>]*\saction=["']([^"']+)["'][^>]*>/gi)) candidates.push(match[1].trim());
+  for (const match of html.matchAll(/<link\b[^>]*>/gi)) {
+    const tag = match[0];
+    const rel = (attributeOf(tag, 'rel') ?? '').toLowerCase().split(/\s+/);
+    if (rel.includes('canonical')) continue;
+    const href = attributeOf(tag, 'href');
+    if (href) candidates.push(href.trim());
   }
+  for (const match of html.matchAll(/\ssrcset=["']([^"']+)["']/gi)) {
+    for (const part of match[1].split(',')) candidates.push(part.trim().split(/\s+/)[0]);
+  }
+  return candidates;
+};
 
-  for (const candidate of candidates) {
+for (const [sourceRoute, page] of htmlByRoute) {
+  for (const candidate of collectCandidates(page.html)) {
     if (!candidate || /^(?:data:|mailto:|tel:|javascript:|blob:)/i.test(candidate)) continue;
     let targetUrl;
     try {
@@ -72,6 +86,10 @@ for (const [sourceRoute, page] of htmlByRoute) {
     } catch {
       failures.push(`${sourceRoute}: internal target ${candidate} is missing (${target.file})`);
       continue;
+    }
+    if (target.functionRoute) {
+      const functionSource = await readFile(target.file, 'utf8');
+      if (!/export\s+const\s+onRequest\b/.test(functionSource)) failures.push(`${sourceRoute}: function target ${candidate} does not export onRequest`);
     }
     if (targetUrl.hash && target.file.endsWith('.html')) {
       const fragment = decodeURIComponent(targetUrl.hash.slice(1));
@@ -108,4 +126,4 @@ if (failures.length) {
   failures.forEach((failure) => console.error(`- ${failure}`));
   process.exit(1);
 }
-console.log(`Internal link validation passed across ${htmlFiles.length} generated HTML files, including assets, downloads, fragments, and redirect-loop checks.`);
+console.log(`Internal link validation passed across ${htmlFiles.length} generated HTML files, including assets, downloads, fragments, Cloudflare Functions, intentional 404 review probes, and redirect-loop checks.`);
