@@ -9,7 +9,6 @@ export const GET: APIRoute = ({ site: configuredSite }) => {
     : [
         'User-agent: *',
         'Allow: /',
-        'Disallow: /modern/',
         'Disallow: /review/',
         'Disallow: /404-review-example',
         `Sitemap: ${new URL('/sitemap.xml', configuredSite ?? new URL(site.productionUrl)).toString()}`,
