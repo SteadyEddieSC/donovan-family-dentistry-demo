@@ -49,7 +49,7 @@ test('Modern remains available as a future demo but is permanently noindex', asy
   assert.doesNotMatch(sitemap, /'\/modern\//);
   assert.doesNotMatch(sitemap, /'\/review\//);
   assert.doesNotMatch(robots, /Disallow: \/modern\//);
-  assert.match(robots, /Disallow: \/review\//);
+  assert.doesNotMatch(robots, /Disallow: \/review\//);
 });
 
 test('robots policy stays closed before launch and switches through the explicit preview flag', async () => {
