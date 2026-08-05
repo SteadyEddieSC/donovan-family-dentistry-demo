@@ -7,8 +7,8 @@ import { test, expect } from '@playwright/test';
 const repositoryRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const configuredSite = 'https://donovan-family-dentistry-demo.pages.dev';
 
-for (const route of ['/', '/modern/', '/modern/new-patients/']) {
-  test(`${route} exposes complete preview-safe metadata`, async ({ page }) => {
+for (const route of ['/', '/new-patients/']) {
+  test(`${route} exposes complete preview-safe metadata and public business schema`, async ({ page }) => {
     await page.goto(route);
 
     const title = await page.title();
@@ -36,11 +36,23 @@ for (const route of ['/', '/modern/', '/modern/new-patients/']) {
     expect(dentist.address.streetAddress).toBe('91 Sams Point Road');
     expect(dentist.openingHoursSpecification[0].opens).toBe('08:00');
     expect(dentist.openingHoursSpecification[0].closes).toBe('17:00');
+    expect(dentist.logo.url).toBe(`${configuredSite}/images/donovan-logo.svg`);
 
     const webPage = graph.find((item) => item['@type'] === 'WebPage');
     expect(webPage).toBeTruthy();
     expect(webPage.url).toBe(canonical);
     expect(webPage.name).toBe(title);
+  });
+}
+
+for (const route of ['/modern/', '/modern/new-patients/']) {
+  test(`${route} keeps complete preview metadata without public business schema`, async ({ page }) => {
+    await page.goto(route);
+    await expect(page.locator('meta[name="description"]')).toHaveAttribute('content', /Donovan Family Dentistry|dental|patient/i);
+    await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'noindex, nofollow, noarchive');
+    await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', `${configuredSite}${route}`);
+    await expect(page.locator('meta[property="og:image"]')).toHaveAttribute('content', /^https:\/\//);
+    await expect(page.locator('script[type="application/ld+json"]')).toHaveCount(0);
   });
 }
 
@@ -57,9 +69,7 @@ test('web manifest is valid and points to the approved Classic patient experienc
 
 test('content verification register tracks launch blockers and nonblocking follow-ups separately', async ({ isMobile }) => {
   test.skip(isMobile, 'Repository-level validation only needs to run once.');
-  const register = JSON.parse(
-    readFileSync(path.join(repositoryRoot, 'src/data/content-status.json'), 'utf8')
-  );
+  const register = JSON.parse(readFileSync(path.join(repositoryRoot, 'src/data/content-status.json'), 'utf8'));
   const blockerIds = register.launchBlockers.map((item: { id: string }) => item.id);
   const followUpIds = register.editorialFollowUps.map((item: { id: string }) => item.id);
   expect(new Set(blockerIds).size).toBe(blockerIds.length);
@@ -74,11 +84,7 @@ test('content verification register tracks launch blockers and nonblocking follo
 
 test('launch gate allows preview builds and blocks premature public promotion', async ({ isMobile }) => {
   test.skip(isMobile, 'Repository-level validation only needs to run once.');
-
-  const preview = spawnSync(process.execPath, ['scripts/check-launch-readiness.mjs'], {
-    cwd: repositoryRoot,
-    encoding: 'utf8'
-  });
+  const preview = spawnSync(process.execPath, ['scripts/check-launch-readiness.mjs'], { cwd: repositoryRoot, encoding: 'utf8' });
   expect(preview.status).toBe(0);
   expect(preview.stdout).toContain('preview mode is active');
 
