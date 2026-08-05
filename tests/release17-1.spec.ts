@@ -71,7 +71,12 @@ test.describe('Release 17.1 Classic SEO contracts', () => {
     for (const route of ['/modern/', '/modern/contact/', '/review/']) {
       await page.goto(route);
       await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', /noindex/);
-      await expect(page.locator('script[type="application/ld+json"]')).toHaveCount(0);
+      const noindexScripts = page.locator('script[type="application/ld+json"]');
+      await expect(noindexScripts).toHaveCount(1);
+      const noindexData = JSON.parse(await noindexScripts.textContent() ?? '{}');
+      const noindexGraph: any[] = noindexData['@graph'];
+      expect(noindexGraph.some((node) => ['Dentist', 'LocalBusiness'].includes(node['@type']))).toBeFalsy();
+      expect(noindexGraph.filter((node) => node['@type'] === 'WebPage')).toHaveLength(1);
     }
   });
 
