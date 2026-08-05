@@ -43,7 +43,8 @@ test('Modern remains available as a future demo but is permanently noindex', asy
     path: '/modern/',
     indexable: false
   });
-  assert.match(modernLayout, /forceNoIndex=\{true\}/);
+  assert.match(modernLayout, /const forceNoIndex = true;/);
+  assert.match(modernLayout, /forceNoIndex=\{forceNoIndex\}/);
   assert.match(modernLayout, /Future design demo\. Not the current public website\./);
   assert.doesNotMatch(sitemap, /'\/modern\//);
   assert.doesNotMatch(sitemap, /'\/review\//);
