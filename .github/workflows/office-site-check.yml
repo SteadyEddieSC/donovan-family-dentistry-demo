@@ -15,13 +15,16 @@ permissions:
 jobs:
   verify-website:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 40
     steps:
-      - name: Check out selected website version
-        uses: actions/checkout@v4
+      - name: Check out selected website version without retaining credentials
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          fetch-depth: 1
+          persist-credentials: false
 
       - name: Set up Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
           node-version: 22
           cache: npm
@@ -29,14 +32,21 @@ jobs:
       - name: Install locked website dependencies
         run: npm ci --no-audit --no-fund
 
-      - name: Review dependency vulnerabilities
-        run: npm audit --audit-level=high
+      - name: Enforce dependency vulnerability policy
+        run: npm run check:audit
 
-      - name: Check the protected administrative request handler
+      - name: Check the protected administrative request handler and launch boundaries
         run: npm run test:unit
 
       - name: Validate office-managed content, images, launch controls, and performance budgets
         run: npm run build
+
+      - name: Validate SEO, structured data, internal links, and generated HTML
+        run: |
+          npm run check:seo
+          npm run check:structured-data
+          npm run check:links
+          npm run check:html
 
       - name: Install Chromium, Firefox, and WebKit
         run: npx playwright install --with-deps chromium firefox webkit
@@ -44,28 +54,38 @@ jobs:
       - name: Install branded Chrome and Edge
         run: npx playwright install chrome msedge
 
-      - name: Run layout, link, form, mobile, metadata, and accessibility checks
+      - name: Run Lighthouse CI
+        run: npm run check:lighthouse
+
+      - name: Run layout, link, form, mobile, metadata, screenshot, and accessibility checks
         run: npm run test:e2e
 
       - name: Run the production-candidate browser compatibility matrix
         run: npm run test:compat
 
-      - name: Save a copy of the successfully built website
-        uses: actions/upload-artifact@v4
+      - name: Save a copy of the successfully built website and reports
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: office-website-build
-          path: dist/
+          path: |
+            dist/
+            validation-reports/
+            .lighthouseci/
+            playwright-report/
+            playwright-report-compatibility/
+            test-results/
+            test-results-compatibility/
           retention-days: 7
-          if-no-files-found: error
+          if-no-files-found: warn
 
       - name: Write a plain-language result
         run: |
           {
             echo '## Website check passed'
             echo ''
-            echo 'The already-saved branch is valid; locked-dependency, administrative-request, launch-safety, responsive-image, performance-budget, browser, link, form, mobile, metadata, and automated accessibility checks passed.'
+            echo 'The already-saved branch is valid; locked-dependency, administrative-request, launch-safety, responsive-image, performance-budget, SEO, structured-data, HTML, Lighthouse, browser, link, form, mobile, screenshot, compatibility, and automated accessibility checks passed.'
             echo ''
             echo 'This manual check does not save content and does not start a separate deployment. Saving to main creates the GitHub commit that triggers the normal Cloudflare Pages deployment; compare the workflow commit with the Cloudflare deployment commit.'
             echo ''
-            echo 'Automated browser emulation does not replace the real-device and office-approval items listed in docs/release-14-production-candidate.md.'
+            echo 'Automation does not replace physical-device, keyboard, screen-reader, Search Console, Rich Results, production-domain, and office-approval checks.'
           } >> "$GITHUB_STEP_SUMMARY"
