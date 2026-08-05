@@ -2,41 +2,196 @@ name: CI
 
 on:
   pull_request:
-  push:
     branches: [main]
+  push:
+    branches: [main, "agent/**"]
+  workflow_dispatch:
 
 permissions:
   contents: read
 
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
-  build-and-test:
+  build-unit-quality:
+    name: Build, unit, SEO, structured data, HTML, and internal links
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 20
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - name: Check out repository without retaining credentials
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          fetch-depth: 1
+          persist-credentials: false
+
+      - name: Set up Node.js
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
           node-version: 22
           cache: npm
+
       - name: Install locked dependencies
         run: npm ci --no-audit --no-fund
-      - name: Review dependency vulnerabilities
-        run: npm audit --audit-level=high
-      - name: Run serverless inquiry unit tests
+
+      - name: Run unit and launch-boundary tests
         run: npm run test:unit
+
       - name: Build static site and enforce performance budgets
         run: npm run build
+
+      - name: Validate deterministic Classic SEO
+        run: npm run check:seo
+
+      - name: Validate structured data
+        run: npm run check:structured-data
+
+      - name: Validate internal links, assets, downloads, fragments, and redirects
+        run: npm run check:links
+
+      - name: Validate generated HTML
+        run: npm run check:html
+
+      - name: Upload generated site and deterministic validation reports
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: generated-site-and-quality-reports
+          path: |
+            dist/
+            validation-reports/
+          retention-days: 14
+          if-no-files-found: warn
+
+  lighthouse:
+    name: Lighthouse CI for Classic public pages
+    needs: build-unit-quality
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Check out repository without retaining credentials
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          fetch-depth: 1
+          persist-credentials: false
+
+      - name: Set up Node.js
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install locked dependencies
+        run: npm ci --no-audit --no-fund
+
+      - name: Download the validated generated site
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: generated-site-and-quality-reports
+          path: downloaded-quality-artifact
+
+      - name: Restore generated site at the expected path
+        run: |
+          rm -rf dist
+          cp -a downloaded-quality-artifact/dist dist
+
+      - name: Install Chromium for Lighthouse
+        run: npx playwright install --with-deps chromium
+
+      - name: Run Lighthouse CI against isolated production-readiness fixtures
+        run: npm run check:lighthouse
+
+      - name: Upload Lighthouse reports
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: lighthouse-reports
+          path: |
+            .lighthouseci/
+            validation-reports/lighthouse-ci.txt
+          retention-days: 14
+          if-no-files-found: warn
+
+  lychee-internal:
+    name: Lychee generated-site internal link validation
+    needs: build-unit-quality
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out repository without retaining credentials
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          fetch-depth: 1
+          persist-credentials: false
+
+      - name: Download the validated generated site
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: generated-site-and-quality-reports
+          path: downloaded-quality-artifact
+
+      - name: Restore generated site at the expected path
+        run: |
+          rm -rf dist
+          cp -a downloaded-quality-artifact/dist dist
+
+      - name: Check generated internal links with Lychee
+        id: lychee
+        uses: lycheeverse/lychee-action@649b0e4890508ea3e11ea6b3ee35ce899a25afd5 # pinned action commit
+        with:
+          args: --offline --no-progress --include-fragments --root-dir "${{ github.workspace }}/dist" "dist/**/*.html"
+          fail: true
+          failIfEmpty: true
+          format: markdown
+          output: validation-reports/lychee-internal.md
+          jobSummary: true
+
+      - name: Upload Lychee report
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: lychee-internal-report
+          path: validation-reports/lychee-internal.md
+          retention-days: 14
+          if-no-files-found: warn
+
+  browser-visual-accessibility:
+    name: Browser, screenshots, axe-core, and compatibility
+    needs: build-unit-quality
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - name: Check out repository without retaining credentials
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          fetch-depth: 1
+          persist-credentials: false
+
+      - name: Set up Node.js
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install locked dependencies
+        run: npm ci --no-audit --no-fund
+
       - name: Install Chromium, Firefox, and WebKit
         run: npx playwright install --with-deps chromium firefox webkit
+
       - name: Install branded Chrome and Edge
         run: npx playwright install chrome msedge
-      - name: Run primary browser and accessibility tests
+
+      - name: Run primary browser, screenshot, and accessibility tests
         run: npm run test:e2e
+
       - name: Run production-candidate compatibility matrix
         run: npm run test:compat
+
       - name: Upload browser-test reports and screenshots
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: browser-test-results
           path: |
