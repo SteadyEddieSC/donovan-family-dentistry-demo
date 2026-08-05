@@ -3,6 +3,16 @@ import site from '../data/site.json';
 interface Props { fullAddress: string; }
 const { fullAddress } = Astro.props;
 const mapHref = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(fullAddress)}`;
+const openDays = site.hours.filter((item) => item.hours !== 'Closed');
+const closedDays = site.hours.filter((item) => item.hours === 'Closed');
+const formatDayRange = (items: typeof site.hours) => {
+  if (items.length === 0) return '';
+  if (items.length === 1) return items[0].day;
+  return `${items[0].day}–${items[items.length - 1].day}`;
+};
+const openDayRange = formatDayRange(openDays);
+const closedDayRange = formatDayRange(closedDays);
+const openHours = openDays[0]?.hours ?? '';
 ---
 <footer class="site-footer">
   <div class="container">
@@ -26,10 +36,10 @@ const mapHref = `https://www.google.com/maps/search/?api=1&query=${encodeURIComp
       </section>
       <section>
         <h3>Office hours</h3>
-        <p>Monday-Thursday<br />7:30 AM-5:00 PM</p>
-        <p>Friday-Sunday<br />Closed</p>
+        <p>{openDayRange}<br />{openHours}</p>
+        <p>{closedDayRange}<br />Closed</p>
       </section>
     </div>
-    <div class="footer-bottom">© {new Date().getFullYear()} {site.practiceName}. Private production-candidate demonstration.</div>
+    <div class="footer-bottom">© {new Date().getFullYear()} {site.practiceName}. {site.previewMode ? 'Private production-candidate demonstration.' : 'All rights reserved.'}</div>
   </div>
 </footer>
