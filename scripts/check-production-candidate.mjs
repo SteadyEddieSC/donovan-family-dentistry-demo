@@ -28,7 +28,7 @@ if (site.previewMode !== true) failures.push('site.previewMode must remain true 
 if (site.socialImage !== '/images/donovan-social-card.webp') failures.push('site.socialImage must use the generated 1200x630 production-candidate social card.');
 if (!robotsRoute.includes('site.previewMode')) failures.push('robots.txt route must remain governed by the explicit preview-mode launch switch.');
 if (!robotsRoute.includes("'User-agent: *\\nDisallow: /\\n'")) failures.push('robots.txt route must block all crawling during private preview.');
-if (!robotsRoute.includes("'Disallow: /modern/'")) failures.push('robots.txt route must exclude the retained Modern demo after launch.');
+if (robotsRoute.includes("'Disallow: /modern/'")) failures.push('The retained Modern demo must remain crawlable after launch so search engines can observe its noindex rule.');
 if (!robotsRoute.includes("'Disallow: /review/'")) failures.push('robots.txt route must exclude private review utilities after launch.');
 if (!robotsRoute.includes('Sitemap:')) failures.push('robots.txt route must advertise the sitemap after launch.');
 if (!headers.includes('X-Robots-Tag: noindex, nofollow, noarchive')) failures.push('Cloudflare headers must keep the preview noindex policy.');
@@ -59,4 +59,4 @@ if (failures.length > 0) {
   process.exit(1);
 }
 
-console.log(`Production-candidate safety gate passed with ${status.launchBlockers.length} enforced launch blocker(s), preview indexing disabled, and the future Modern demo excluded from indexing.`);
+console.log(`Production-candidate safety gate passed with ${status.launchBlockers.length} enforced launch blocker(s), preview indexing disabled, and the future Modern demo excluded from indexing while remaining crawlable for noindex enforcement.`);
