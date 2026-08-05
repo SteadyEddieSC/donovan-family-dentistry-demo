@@ -1,5 +1,4 @@
-import { readFile, access } from 'node:fs/promises';
-import path from 'node:path';
+import { readFile } from 'node:fs/promises';
 import site from '../src/data/site.json' with { type: 'json' };
 import { previewOrigin, publicRoutes, noindexPrefixes, utilityRoutes, routeToHtmlPath, normalizeRoute } from './validation-routes.mjs';
 
@@ -15,13 +14,16 @@ const placeholderPatterns = [
   /\breplace this\b/i,
   /\bTODO\b/
 ];
+const namedEntities = Object.freeze({
+  amp: '&',
+  quot: '"',
+  '#39': "'",
+  lt: '<',
+  gt: '>'
+});
 
 const decode = (value = '') => value
-  .replaceAll('&amp;', '&')
-  .replaceAll('&quot;', '"')
-  .replaceAll('&#39;', "'")
-  .replaceAll('&lt;', '<')
-  .replaceAll('&gt;', '>')
+  .replace(/&(amp|quot|#39|lt|gt);/g, (_, entity) => namedEntities[entity])
   .trim();
 
 const matchAll = (html, regex) => [...html.matchAll(regex)];
@@ -37,13 +39,16 @@ const textOf = (html, tagName) => matchAll(html, new RegExp(`<${tagName}\\b[^>]*
 
 for (const route of publicRoutes) {
   const file = routeToHtmlPath(route);
+  let html;
   try {
-    await access(file);
-  } catch {
-    failures.push(`${route}: generated HTML is missing at ${file}`);
-    continue;
+    html = await readFile(file, 'utf8');
+  } catch (error) {
+    if (error?.code === 'ENOENT') {
+      failures.push(`${route}: generated HTML is missing at ${file}`);
+      continue;
+    }
+    throw error;
   }
-  const html = await readFile(file, 'utf8');
   const titles = textOf(html, 'title');
   const descriptions = metaBy(html, 'name', 'description');
   const canonicals = linkByRel(html, 'canonical');
