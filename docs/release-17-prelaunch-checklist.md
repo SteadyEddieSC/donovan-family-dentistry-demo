@@ -5,6 +5,7 @@
 - The Classic concept at `/` is the approved initial public website.
 - The Modern concept remains available at `/modern/` as a future-design demo.
 - Modern and private review routes must remain excluded from search indexing and the public sitemap.
+- Modern must remain crawlable after launch so search engines can observe its permanent `noindex` rule; it must not be advertised in the sitemap or linked from the Classic public experience.
 - Owner-confirmed office hours are Monday through Thursday, 8:00 AM–5:00 PM; Friday through Sunday closed.
 - The office email address remains unverified and must not be published or activated for delivery until an office-controlled send-and-reply test succeeds.
 
@@ -15,9 +16,10 @@
 - Renders Classic and Modern footer hours from the shared record.
 - Forces every Modern and review page to emit `noindex, nofollow, noarchive` independently of the future Classic launch flag.
 - Limits the sitemap to Classic public routes.
+- Makes the approved Classic website the installable site's start page while retaining Modern by direct URL.
 - Replaces the static robots file with a launch-aware route:
   - prelaunch: block all crawling;
-  - after the explicit launch switch: allow Classic, disallow Modern and review utilities, and advertise the sitemap.
+  - after the explicit launch switch: allow crawling of Classic and Modern, disallow private review utilities, and advertise the Classic-only sitemap.
 - Records `https://www.donovanfamilydentistry.com` as the intended production URL without changing the current Astro canonical base or enabling indexing.
 
 ## Required evidence before any DNS change
@@ -49,6 +51,7 @@
 - Record the current hosting product, renewal date, document root, PHP version, WordPress version, active theme, and active plugins.
 - Record the current root website target and the rollback values for both `@` and `www`.
 - Keep Web Hosting Deluxe active through the launch acceptance and rollback window.
+- Avoid major WordPress, theme, plugin, or PHP upgrades immediately before cutover unless a confirmed security issue requires them; inventory and back up first so the legacy site remains a dependable rollback target.
 
 ### Email
 
@@ -89,13 +92,15 @@ Only after the custom domain is ready and all evidence above is retained:
 
 1. Change the Astro canonical site from the Pages preview URL to `https://www.donovanfamilydentistry.com`.
 2. Change `previewMode` from `true` to `false`.
-3. Confirm Classic pages emit `index, follow` and production canonicals.
-4. Confirm Modern and review pages still emit `noindex, nofollow, noarchive`.
-5. Confirm `robots.txt` allows Classic, blocks Modern/review routes, and points to the production sitemap.
-6. Confirm the sitemap contains only Classic public routes and only production-domain URLs.
-7. Remove preview/demo wording from the Classic footer while keeping clear demo wording on Modern.
-8. Run the full unit, build, performance, accessibility, primary browser, and compatibility suites.
-9. Verify the exact Cloudflare branch preview, merge commit, and `main` deployment.
+3. Replace the current global Cloudflare `X-Robots-Tag: noindex, nofollow, noarchive` preview header with production rules that make Classic indexable while retaining noindex protection on Modern, review utilities, and any nonpublic resources that require it.
+4. Confirm Classic pages emit `index, follow` and production canonicals.
+5. Confirm Modern and review pages still emit `noindex, nofollow, noarchive`.
+6. Confirm `robots.txt` allows crawlers to reach Modern so its noindex rule can be observed, blocks private review routes, and points to the production sitemap.
+7. Confirm the sitemap contains only Classic public routes and only production-domain URLs.
+8. Confirm the site manifest opens `/`, not `/modern/`.
+9. Remove preview/demo wording from the Classic footer while keeping clear future-demo wording on Modern.
+10. Run the full unit, build, performance, accessibility, primary browser, and compatibility suites.
+11. Verify the exact Cloudflare branch preview, merge commit, and `main` deployment.
 
 ## DNS cutover and rollback
 
@@ -125,7 +130,8 @@ Test from phone and desktop, Wi-Fi and cellular:
 - phone, directions, contact card, and PDFs;
 - office inbound and outbound email;
 - no horizontal overflow or visual regression;
-- production canonical, robots, sitemap, and structured data.
+- production canonical, robots, sitemap, manifest, response headers, and structured data;
+- Modern remains reachable by direct URL but noindexed and absent from the sitemap and Classic navigation.
 
 Then update Google Business Profile, submit the sitemap in Search Console, inspect the principal URLs, and monitor crawl, indexing, certificate, DNS, and email behavior during the rollback window.
 
