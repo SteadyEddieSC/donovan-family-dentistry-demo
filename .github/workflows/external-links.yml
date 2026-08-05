@@ -1,0 +1,73 @@
+name: External link advisory
+
+on:
+  schedule:
+    - cron: "17 8 * * 4"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: external-links-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  external-links:
+    name: Check external links without blocking releases
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out repository without retaining credentials
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          fetch-depth: 1
+          persist-credentials: false
+
+      - name: Set up Node.js
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install locked dependencies
+        run: npm ci --no-audit --no-fund
+
+      - name: Build the preview-safe static site
+        run: npm run build
+
+      - name: Check external links with retries and cache
+        id: lychee
+        continue-on-error: true
+        uses: lycheeverse/lychee-action@649b0e4890508ea3e11ea6b3ee35ce899a25afd5 # pinned action commit
+        with:
+          args: --no-progress --cache --max-cache-age 7d --max-retries 3 --retry-wait-time 2 --timeout 20 --exclude-all-private --exclude "^mailto:" --exclude "^tel:" "dist/**/*.html"
+          fail: true
+          failIfEmpty: false
+          format: markdown
+          output: validation-reports/lychee-external.md
+          jobSummary: true
+
+      - name: Upload advisory external-link report
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: external-link-advisory-report
+          path: |
+            validation-reports/lychee-external.md
+            .lycheecache
+          retention-days: 14
+          if-no-files-found: warn
+
+      - name: Record advisory outcome
+        if: always()
+        env:
+          LYCHEE_OUTCOME: ${{ steps.lychee.outcome }}
+        run: |
+          {
+            echo '## External link advisory'
+            echo
+            echo "Lychee step outcome: $LYCHEE_OUTCOME"
+            echo
+            echo 'External hosts may rate-limit or block CI traffic. This scheduled result is advisory; deterministic internal links remain blocking in the main CI workflow.'
+          } >> "$GITHUB_STEP_SUMMARY"
