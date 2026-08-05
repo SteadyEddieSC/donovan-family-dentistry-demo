@@ -8,6 +8,7 @@
     "tel-non-breaking": "off",
     "no-raw-characters": "off",
     "form-dup-name": "off",
+    "no-implicit-input-type": "off",
     "heading-level": "error",
     "unique-landmark": "error",
     "no-dup-id": "error",
