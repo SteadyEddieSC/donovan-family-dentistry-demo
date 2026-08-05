@@ -1,0 +1,81 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import site from '../../data/site.json';
+const fullAddress = `${site.address.street}, ${site.address.city}, ${site.address.state} ${site.address.postalCode}`;
+const mapHref = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(fullAddress)}`;
+---
+<BaseLayout
+  title="New Patients | Donovan Family Dentistry"
+  description="Prepare for a first visit to Donovan Family Dentistry with current forms, office contact information, directions, and administrative guidance."
+>
+  <section class="page-hero">
+    <div class="container">
+      <p class="eyebrow">New patients</p>
+      <h1>Prepare for your first visit</h1>
+      <p class="lead">Call the office, complete the current paperwork, and bring the information the team has requested for your appointment.</p>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="steps-heading">
+    <div class="container">
+      <p class="eyebrow">Getting started</p>
+      <h2 id="steps-heading">Three practical steps before you arrive</h2>
+      <div class="card-grid">
+        <article class="card">
+          <h3>1. Call the office</h3>
+          <p>Ask about appointment availability and let the front desk know whether you are a new or returning patient.</p>
+          <a href={`tel:${site.phoneHref}`}>Call {site.phoneDisplay}</a>
+        </article>
+        <article class="card">
+          <h3>2. Complete the forms</h3>
+          <p>Download the current medical-history form and review the Notice of Privacy Practices before your appointment.</p>
+          <a href="/forms/">Open patient forms</a>
+        </article>
+        <article class="card">
+          <h3>3. Plan your arrival</h3>
+          <p>Bring completed paperwork and the identity, benefit, medication, and dental-record information requested by the office.</p>
+          <a href={mapHref} rel="noopener">Get directions</a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--soft" aria-labelledby="bring-heading">
+    <div class="container split">
+      <div>
+        <p class="eyebrow">What to bring</p>
+        <h2 id="bring-heading">A little preparation helps the visit stay organized</h2>
+        <ul>
+          <li>A photo ID and current dental-insurance card, when applicable</li>
+          <li>Your completed new-patient and medical-history form</li>
+          <li>A current medication list and relevant allergy information</li>
+          <li>Recent dental records or X-rays when the office has asked you to bring them</li>
+          <li>Questions you would like to discuss with the dentist or care team</li>
+        </ul>
+        <p><a class="button" href="/forms/new-patient-medical-history.pdf">Download the patient form</a></p>
+      </div>
+      <aside class="info-panel" aria-labelledby="coverage-heading">
+        <h2 id="coverage-heading">Insurance and payment</h2>
+        <p>Dental benefits vary by plan. Call before the visit so the office can explain what information is needed to review benefits and prepare an estimate.</p>
+        <p>Coverage estimates are not guarantees of payment. Patients remain responsible for charges not paid by their plan.</p>
+      </aside>
+    </div>
+  </section>
+
+  <section class="section section--cream" aria-labelledby="urgent-heading">
+    <div class="container split">
+      <div>
+        <p class="eyebrow">Urgent concerns</p>
+        <h2 id="urgent-heading">Call instead of sending a website message</h2>
+        <p>For a dental concern that may need prompt attention, call <a href={`tel:${site.phoneHref}`}>{site.phoneDisplay}</a>. Website messages are intended only for general administrative questions and may not be reviewed immediately.</p>
+        <p><strong>Call 911 or seek emergency care immediately</strong> for difficulty breathing or swallowing, severe uncontrolled bleeding, or a serious injury involving the face or head.</p>
+      </div>
+      <aside class="info-panel">
+        <h2>Office information</h2>
+        <p>{site.address.street}<br />{site.address.city}, {site.address.state} {site.address.postalCode}</p>
+        <p>Monday–Thursday<br />8:00 AM–5:00 PM</p>
+        <p><a href="/contact/">Contact and directions</a></p>
+      </aside>
+    </div>
+  </section>
+</BaseLayout>
