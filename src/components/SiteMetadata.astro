@@ -13,6 +13,7 @@ interface Props {
   canonicalPath?: string;
   pageType?: 'website' | 'article';
   forceNoIndex?: boolean;
+  includeBusinessSchema?: boolean;
 }
 
 const {
@@ -26,12 +27,14 @@ const {
   themeColor = '#004b66',
   canonicalPath = Astro.url.pathname,
   pageType = 'website',
-  forceNoIndex = false
+  forceNoIndex = false,
+  includeBusinessSchema = true
 } = Astro.props;
 
 const siteUrl = Astro.site ?? new URL('https://donovan-family-dentistry-demo.pages.dev');
 const canonical = new URL(canonicalPath, siteUrl).toString();
 const socialImage = new URL(image, siteUrl).toString();
+const logoUrl = new URL(site.logo, siteUrl).toString();
 const rootUrl = new URL('/', siteUrl).toString();
 const dentistId = new URL('/#dentist', siteUrl).toString();
 const websiteId = new URL('/#website', siteUrl).toString();
@@ -70,7 +73,14 @@ const imageObject = {
   caption: imageAlt
 };
 
-const structuredData = {
+const logoObject = {
+  '@type': 'ImageObject',
+  url: logoUrl,
+  contentUrl: logoUrl,
+  caption: site.logoAlt
+};
+
+const structuredData = includeBusinessSchema ? {
   '@context': 'https://schema.org',
   '@graph': [
     {
@@ -80,6 +90,7 @@ const structuredData = {
       url: rootUrl,
       telephone: site.phoneHref,
       image: imageObject,
+      logo: logoObject,
       description: site.seo.description,
       address: {
         '@type': 'PostalAddress',
@@ -112,7 +123,7 @@ const structuredData = {
       primaryImageOfPage: imageObject
     }
   ]
-};
+} : null;
 ---
 <title>{title}</title>
 <meta name="description" content={description} />
@@ -140,4 +151,4 @@ const structuredData = {
 <meta name="twitter:description" content={description} />
 <meta name="twitter:image" content={socialImage} />
 <meta name="twitter:image:alt" content={imageAlt} />
-<script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+{structuredData && <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />}
