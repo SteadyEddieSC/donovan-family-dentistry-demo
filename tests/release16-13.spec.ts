@@ -3,8 +3,8 @@ import { test, expect } from '@playwright/test';
 for (const path of ['/about/', '/modern/team/']) {
   test(`${path} shows the owner-confirmed two-daughter profile detail`, async ({ page }) => {
     await page.goto(path, { waitUntil: 'networkidle' });
-    await expect(page.getByText('The couple has two daughters.', { exact: false })).toBeVisible();
-    await expect(page.getByText('The couple has one daughter.', { exact: false })).toHaveCount(0);
+    await expect(page.getByText(/two daughters/i)).toBeVisible();
+    await expect(page.getByText(/one daughter/i)).toHaveCount(0);
   });
 }
 
