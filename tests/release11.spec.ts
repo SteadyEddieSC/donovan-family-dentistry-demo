@@ -52,7 +52,12 @@ for (const route of ['/modern/', '/modern/new-patients/']) {
     await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'noindex, nofollow, noarchive');
     await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', `${configuredSite}${route}`);
     await expect(page.locator('meta[property="og:image"]')).toHaveAttribute('content', /^https:\/\//);
-    await expect(page.locator('script[type="application/ld+json"]')).toHaveCount(0);
+    const jsonLd = page.locator('script[type="application/ld+json"]');
+    await expect(jsonLd).toHaveCount(1);
+    const parsed = JSON.parse(await jsonLd.textContent() ?? '{}');
+    const graph: any[] = parsed['@graph'];
+    expect(graph.filter((item) => item['@type'] === 'WebPage')).toHaveLength(1);
+    expect(graph.some((item) => ['Dentist', 'LocalBusiness'].includes(item['@type']))).toBeFalsy();
   });
 }
 
