@@ -48,7 +48,7 @@ test('Modern remains available as a future demo but is permanently noindex', asy
   assert.match(modernLayout, /Future design demo\. Not the current public website\./);
   assert.doesNotMatch(sitemap, /'\/modern\//);
   assert.doesNotMatch(sitemap, /'\/review\//);
-  assert.match(robots, /Disallow: \/modern\//);
+  assert.doesNotMatch(robots, /Disallow: \/modern\//);
   assert.match(robots, /Disallow: \/review\//);
 });
 
@@ -71,4 +71,11 @@ test('Classic and Modern footer hours are rendered from the shared data file', a
   assert.match(classicFooter, /site\.hours\.filter/);
   assert.match(modernLayout, /site\.hours\.filter/);
   assert.doesNotMatch(`${classicFooter}\n${modernLayout}`, /7:30 AM/);
+});
+
+test('installable website metadata opens the approved Classic website rather than the retained demo', async () => {
+  const manifest = await readJson('public/site.webmanifest');
+
+  assert.equal(manifest.start_url, '/');
+  assert.equal(manifest.scope, '/');
 });
