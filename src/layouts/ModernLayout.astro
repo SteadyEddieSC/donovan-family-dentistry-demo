@@ -35,11 +35,10 @@ interface Props {
 }
 
 const {
-  title = "Donovan Family Dentistry | Lady's Island, Beaufort, SC",
-  description = 'A modern design concept for Donovan Family Dentistry on Lady’s Island in Beaufort, South Carolina.',
+  title = "Future Design Demo | Donovan Family Dentistry",
+  description = 'A retained future-design demonstration for Donovan Family Dentistry on Lady’s Island in Beaufort, South Carolina.',
   image = site.socialImage,
-  imageAlt = site.heroAlt,
-  forceNoIndex = false
+  imageAlt = site.heroAlt
 } = Astro.props;
 const path = Astro.url.pathname;
 const fullAddress = `${site.address.street}, ${site.address.city}, ${site.address.state} ${site.address.postalCode}`;
@@ -58,6 +57,12 @@ const isActive = (href: string) => href === '/modern/' ? path === href : path.st
 const isReview = path.startsWith('/review/');
 const showMobileDock = !isReview && path !== '/modern/' && !path.startsWith('/modern/contact/');
 const bodyClass = showMobileDock ? 'modern-body modern-body--with-dock' : 'modern-body';
+const openDays = site.hours.filter((item) => item.hours !== 'Closed');
+const openHours = openDays[0]?.hours ?? '';
+const openDayRange = openDays.length > 1 ? `${openDays[0].day}–${openDays[openDays.length - 1].day}` : openDays[0]?.day ?? '';
+const contextLabel = isReview
+  ? 'Private review utility. Not part of the public website.'
+  : 'Future design demo. Not the current public website.';
 ---
 <!doctype html>
 <html lang="en">
@@ -71,7 +76,7 @@ const bodyClass = showMobileDock ? 'modern-body modern-body--with-dock' : 'moder
       image={image}
       imageAlt={imageAlt}
       themeColor="#fffdf9"
-      forceNoIndex={forceNoIndex}
+      forceNoIndex={true}
     />
     <CloudflareAnalytics />
   </head>
@@ -79,15 +84,15 @@ const bodyClass = showMobileDock ? 'modern-body modern-body--with-dock' : 'moder
     <a class="modern-skip" href="#modern-main">Skip to main content</a>
     <header class="modern-header">
       <div class="modern-shell modern-header__inner">
-        <a class="modern-brand" href="/modern/" aria-label="Donovan Family Dentistry modern concept home">
+        <a class="modern-brand" href="/modern/" aria-label="Donovan Family Dentistry future design demo home">
           <img src={modernLogo} width="510" height="138" alt={site.logoAlt} decoding="async" />
         </a>
-        <nav class="modern-nav" aria-label="Modern concept navigation">
+        <nav class="modern-nav" aria-label="Future design demo navigation">
           {nav.map((item) => <a href={item.href} aria-current={isActive(item.href) ? 'page' : undefined}>{item.label}</a>)}
         </nav>
         <details class="modern-menu">
           <summary>Menu</summary>
-          <nav aria-label="Modern mobile navigation">
+          <nav aria-label="Future design demo mobile navigation">
             {nav.map((item) => <a href={item.href} aria-current={isActive(item.href) ? 'page' : undefined}>{item.label}</a>)}
           </nav>
         </details>
@@ -103,7 +108,7 @@ const bodyClass = showMobileDock ? 'modern-body modern-body--with-dock' : 'moder
           <p>A welcoming Lady's Island dental practice rooted in Beaufort and the Lowcountry.</p>
         </div>
         <div>
-          <h2>Explore</h2>
+          <h2>Explore demo</h2>
           <ul class="modern-footer__links">
             {nav.slice(1).map((item) => <li><a href={item.href}>{item.label}</a></li>)}
           </ul>
@@ -112,13 +117,13 @@ const bodyClass = showMobileDock ? 'modern-body modern-body--with-dock' : 'moder
           <h2>Visit</h2>
           <p><a href={mapHref} rel="noopener">{fullAddress}</a></p>
           <p><a href={`tel:${site.phoneHref}`}>{site.phoneDisplay}</a></p>
-          <p>Monday-Thursday<br />7:30 AM-5:00 PM</p>
+          <p>{openDayRange}<br />{openHours}</p>
           <p><a href="/donovan-family-dentistry.vcf" download>Download contact card</a></p>
         </div>
       </div>
       <div class="modern-shell modern-footer__bottom">
-        <span>© 2026 Donovan Family Dentistry. Private production-candidate demonstration.</span>
-        <span>{site.previewMode && <><a class="review-preview-link" href="/review/">Review this device</a> · <a class="review-preview-link" href="/review/open-dental/">Open Dental readiness</a> · </>}<a href="/accessibility/">Accessibility</a> · <a href="/website-use/">Website use & privacy</a> · <a href="/forms/privacy-practices.pdf">Privacy practices</a> · <a href="/">View the classic concept</a></span>
+        <span>© {new Date().getFullYear()} Donovan Family Dentistry. {contextLabel}</span>
+        <span>{site.previewMode && <><a class="review-preview-link" href="/review/">Review this device</a> · <a class="review-preview-link" href="/review/open-dental/">Open Dental readiness</a> · </>}<a href="/accessibility/">Accessibility</a> · <a href="/website-use/">Website use & privacy</a> · <a href="/forms/privacy-practices.pdf">Privacy practices</a> · <a href="/">View the current Classic website</a></span>
       </div>
     </footer>
     {showMobileDock && <nav class="modern-mobile-dock" aria-label="Quick actions">
