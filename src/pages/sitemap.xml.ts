@@ -6,6 +6,7 @@ export const publicRoutes = [
   '/',
   '/about/',
   '/services/',
+  '/new-patients/',
   '/forms/',
   '/contact/',
   '/accessibility/',
