@@ -44,12 +44,13 @@ for (const route of ['/', '/modern/', '/modern/new-patients/']) {
   });
 }
 
-test('web manifest is valid and points to the modern patient experience', async ({ request }) => {
+test('web manifest is valid and points to the approved Classic patient experience', async ({ request }) => {
   const response = await request.get('/site.webmanifest');
   expect(response.status()).toBe(200);
   const manifest = JSON.parse(await response.text());
   expect(manifest.name).toBe('Donovan Family Dentistry');
-  expect(manifest.start_url).toBe('/modern/');
+  expect(manifest.start_url).toBe('/');
+  expect(manifest.scope).toBe('/');
   expect(manifest.display).toBe('standalone');
   expect(manifest.icons[0].src).toBe('/favicon.svg');
 });
