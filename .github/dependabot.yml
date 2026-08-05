@@ -7,6 +7,8 @@ updates:
       day: monday
       time: "06:00"
       timezone: America/New_York
+    cooldown:
+      default-days: 7
     open-pull-requests-limit: 5
     versioning-strategy: increase-if-necessary
     groups:
@@ -27,6 +29,8 @@ updates:
       day: monday
       time: "06:30"
       timezone: America/New_York
+    cooldown:
+      default-days: 7
     open-pull-requests-limit: 5
     groups:
       actions-minor-patch:
