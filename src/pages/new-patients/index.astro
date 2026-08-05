@@ -3,6 +3,9 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import site from '../../data/site.json';
 const fullAddress = `${site.address.street}, ${site.address.city}, ${site.address.state} ${site.address.postalCode}`;
 const mapHref = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(fullAddress)}`;
+const openDays = site.hours.filter((item) => item.hours !== 'Closed');
+const openDayRange = openDays.length > 1 ? `${openDays[0].day}–${openDays[openDays.length - 1].day}` : openDays[0]?.day ?? '';
+const openHours = openDays[0]?.hours ?? '';
 ---
 <BaseLayout
   title="New Patients | Donovan Family Dentistry"
@@ -73,7 +76,7 @@ const mapHref = `https://www.google.com/maps/search/?api=1&query=${encodeURIComp
       <aside class="info-panel">
         <h2>Office information</h2>
         <p>{site.address.street}<br />{site.address.city}, {site.address.state} {site.address.postalCode}</p>
-        <p>Monday–Thursday<br />8:00 AM–5:00 PM</p>
+        <p>{openDayRange}<br />{openHours}</p>
         <p><a href="/contact/">Contact and directions</a></p>
       </aside>
     </div>
