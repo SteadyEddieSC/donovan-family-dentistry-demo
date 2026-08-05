@@ -23,7 +23,7 @@ test('Release 16.2 oval sign vector remains preserved as a documented prior asse
   assert.match(css, /border-radius: 0 !important/);
 });
 
-test('Office content backup is manual, read-only, fixed-scope, and integrity checked', async () => {
+test('Office content backup is manual, read-only, fixed-scope, integrity checked, and action-pinned', async () => {
   const workflow = await read('.github/workflows/office-content-backup.yml');
 
   assert.match(workflow, /name: Create office content backup/);
@@ -31,11 +31,12 @@ test('Office content backup is manual, read-only, fixed-scope, and integrity che
   assert.match(workflow, /contents: read/);
   assert.doesNotMatch(workflow, /contents: write/);
   assert.match(workflow, /ref: main/);
+  assert.match(workflow, /persist-credentials: false/);
   assert.match(workflow, /src\/data\/site\.json/);
   assert.match(workflow, /public\/images/);
   assert.match(workflow, /public\/forms/);
   assert.match(workflow, /sha256sum/);
-  assert.match(workflow, /actions\/upload-artifact@v4/);
+  assert.match(workflow, /actions\/upload-artifact@[0-9a-f]{40}/i);
   assert.match(workflow, /retention-days: 30/);
   assert.doesNotMatch(workflow, /git push/);
   assert.match(workflow, /not a patient-record backup/i);
