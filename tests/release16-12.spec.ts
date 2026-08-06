@@ -14,11 +14,16 @@ for (const path of ['/about/', '/modern/team/']) {
     const images = page.locator('img[src*="dr-william-donovan-photo"], img[src*="dr-jordan-henke-family"]');
     await expect(images).toHaveCount(2);
 
+    const expectedNaturalWidth = path === '/about/' ? 240 : 480;
     for (let index = 0; index < 2; index += 1) {
       const image = images.nth(index);
       await image.scrollIntoViewIfNeeded();
       await expect(image).toBeVisible();
-      await expect.poll(() => image.evaluate((element: HTMLImageElement) => element.complete && element.naturalWidth)).toBe(480);
+      await expect.poll(() => image.evaluate((element: HTMLImageElement) => element.complete && element.naturalWidth)).toBe(expectedNaturalWidth);
+      if (path === '/about/') {
+        await expect(image).toHaveAttribute('srcset', /-240\.webp 240w, .*r16-12\.webp 480w/);
+        await expect(image).toHaveAttribute('sizes', /192px/);
+      }
     }
 
     const details = await images.evaluateAll((elements) => elements.map((element) => {
@@ -34,7 +39,7 @@ for (const path of ['/about/', '/modern/team/']) {
       };
     }));
 
-    expect(details.map((item) => item.naturalWidth)).toEqual([480, 480]);
+    expect(details.map((item) => item.naturalWidth)).toEqual([expectedNaturalWidth, expectedNaturalWidth]);
     for (const item of details) {
       expect(item.complete).toBe(true);
       expect(item.displayedWidth).toBeLessThanOrEqual(481);
