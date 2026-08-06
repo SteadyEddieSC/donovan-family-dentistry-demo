@@ -81,15 +81,16 @@ for (const [sourceRoute, page] of htmlByRoute) {
     if (targetUrl.origin !== previewOrigin) continue;
 
     const target = await internalTarget(targetUrl.pathname);
+    let functionSource = null;
     try {
-      await access(target.file);
+      if (target.functionRoute) functionSource = await readFile(target.file, 'utf8');
+      else await access(target.file);
     } catch {
       failures.push(`${sourceRoute}: internal target ${candidate} is missing (${target.file})`);
       continue;
     }
-    if (target.functionRoute) {
-      const functionSource = await readFile(target.file, 'utf8');
-      if (!/export\s+const\s+onRequest\b/.test(functionSource)) failures.push(`${sourceRoute}: function target ${candidate} does not export onRequest`);
+    if (functionSource !== null && !/export\s+const\s+onRequest\b/.test(functionSource)) {
+      failures.push(`${sourceRoute}: function target ${candidate} does not export onRequest`);
     }
     if (targetUrl.hash && target.file.endsWith('.html')) {
       const fragment = decodeURIComponent(targetUrl.hash.slice(1));
