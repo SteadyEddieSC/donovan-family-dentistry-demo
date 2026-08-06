@@ -15,6 +15,7 @@ const legacyPhotoFallbacks: Record<string, string> = {
   'william-donovan': '/images/dr-william-donovan-photo.webp',
   'jordan-henke': '/images/dr-jordan-henke-family.webp'
 };
+const responsivePhoto = (photo: string) => photo.replace(/\.webp$/i, '-360.webp');
 ---
 <BaseLayout title="About Our Dentists | Donovan Family Dentistry" description="Meet Dr. William Donovan and Dr. Jordan Henke at Donovan Family Dentistry in Beaufort, South Carolina.">
   <header class="page-hero"><div class="container"><p class="eyebrow">About the practice</p><h1>Local care shaped by experience and service</h1><p class="lead">Meet the dentists serving patients at Donovan Family Dentistry.</p></div></header>
@@ -24,11 +25,11 @@ const legacyPhotoFallbacks: Record<string, string> = {
         <article class="provider" id={`provider-${provider.id}`}>
           <figure class="provider-media">
             {provider.photo ? <img
-              src={legacyPhotoFallbacks[provider.id] ?? provider.photo}
-              srcset={`${provider.photo} 480w`}
-              sizes="(max-width: 520px) calc(100vw - 2rem), 480px"
-              width="240"
-              height="180"
+              src={legacyPhotoFallbacks[provider.id] ?? responsivePhoto(provider.photo)}
+              srcset={`${responsivePhoto(provider.photo)} 360w, ${provider.photo} 480w`}
+              sizes="(max-width: 700px) calc(100vw - 1.25rem), 352px"
+              width={provider.photoWidth}
+              height={provider.photoHeight}
               alt={provider.photoAlt}
               loading={index === 0 ? 'eager' : 'lazy'}
               decoding="async"

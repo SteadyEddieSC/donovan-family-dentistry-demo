@@ -36,15 +36,18 @@ test('Release 16.1 removes the duplicate homepage dock and protects interior pag
   assert.match(css, /hyphens: none/);
 });
 
-test('Restore latest office save is fail-closed and preserves history', async () => {
+test('Restore latest office save is fail-closed, credential-safe, and preserves history', async () => {
   const workflow = await read('.github/workflows/office-rollback.yml');
 
   assert.match(workflow, /if: github\.ref_name == 'main'/);
   assert.match(workflow, /latest_subject.*office\\ update:/s);
   assert.match(workflow, /src\/data\/site\.json/);
   assert.match(workflow, /public\/images\/\*/);
+  assert.match(workflow, /persist-credentials: false/);
+  assert.match(workflow, /GH_TOKEN: \$\{\{ github\.token \}\}/);
+  assert.match(workflow, /GIT_ASKPASS=/);
   assert.match(workflow, /git revert --no-edit/);
-  assert.match(workflow, /git push origin HEAD:main/);
+  assert.match(workflow, /git push .*HEAD:main/);
   assert.doesNotMatch(workflow, /git reset --hard/);
   assert.doesNotMatch(workflow, /--force/);
 });

@@ -5,7 +5,7 @@ import site from '../data/site.json';
 const fullAddress = `${site.address.street}, ${site.address.city}, ${site.address.state} ${site.address.postalCode}`;
 const mapHref = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(fullAddress)}`;
 ---
-<div class="modern-contact-stack" aria-label="Office contact actions">
+<nav class="modern-contact-stack" aria-label="Office contact actions">
   <a class="modern-contact-tile modern-contact-tile--featured" href="/donovan-family-dentistry.vcf" download>
     <ActionIcon name="contact" />
     <span class="modern-contact-tile__copy"><strong>Downloadable Contact Card</strong><span>Download the office phone number and Lady's Island address, then open the file to import it.</span></span>
@@ -26,4 +26,4 @@ const mapHref = `https://www.google.com/maps/search/?api=1&query=${encodeURIComp
     <span class="modern-contact-tile__copy"><strong>Patient forms</strong><span>Download the fillable medical-history form and privacy notice.</span></span>
     <span class="modern-contact-tile__arrow" aria-hidden="true">→</span>
   </a>
-</div>
+</nav>

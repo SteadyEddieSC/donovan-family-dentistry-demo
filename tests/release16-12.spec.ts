@@ -18,7 +18,14 @@ for (const path of ['/about/', '/modern/team/']) {
       const image = images.nth(index);
       await image.scrollIntoViewIfNeeded();
       await expect(image).toBeVisible();
-      await expect.poll(() => image.evaluate((element: HTMLImageElement) => element.complete && element.naturalWidth)).toBe(480);
+      await expect.poll(() => image.evaluate((element: HTMLImageElement) => Boolean(element.complete && element.currentSrc))).toBe(true);
+      if (path === '/about/') {
+        await expect(image).toHaveAttribute('srcset', /-360\.webp 360w, .*r16-12\.webp 480w/);
+        await expect(image).toHaveAttribute('sizes', /352px/);
+        await expect.poll(() => image.evaluate((element: HTMLImageElement) => element.currentSrc)).toMatch(/(?:-360|r16-12)\.webp$/);
+      } else {
+        await expect.poll(() => image.evaluate((element: HTMLImageElement) => element.currentSrc)).toMatch(/r16-12\.webp$/);
+      }
     }
 
     const details = await images.evaluateAll((elements) => elements.map((element) => {
@@ -26,6 +33,7 @@ for (const path of ['/about/', '/modern/team/']) {
       const styles = getComputedStyle(image);
       return {
         complete: image.complete,
+        currentSrc: image.currentSrc,
         naturalWidth: image.naturalWidth,
         displayedWidth: image.getBoundingClientRect().width,
         objectFit: styles.objectFit,
@@ -34,12 +42,20 @@ for (const path of ['/about/', '/modern/team/']) {
       };
     }));
 
-    expect(details.map((item) => item.naturalWidth)).toEqual([480, 480]);
     for (const item of details) {
       expect(item.complete).toBe(true);
+      expect(item.currentSrc).not.toBe('');
+      expect(item.naturalWidth).toBeGreaterThanOrEqual(Math.floor(item.displayedWidth));
       expect(item.displayedWidth).toBeLessThanOrEqual(481);
       expect(item.objectFit).toBe('contain');
       expect(item.height).not.toBe('180px');
+      if (path === '/about/') {
+        expect(item.currentSrc).toMatch(/(?:-360|r16-12)\.webp$/);
+        expect(item.naturalWidth).toBeLessThanOrEqual(480);
+      } else {
+        expect(item.currentSrc).toMatch(/r16-12\.webp$/);
+        expect(item.naturalWidth).toBe(480);
+      }
     }
 
     const geometry = await page.evaluate(() => ({

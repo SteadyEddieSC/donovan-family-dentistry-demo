@@ -6,11 +6,11 @@ import { test, expect } from '@playwright/test';
 const repositoryRoot = process.cwd();
 const configuredSite = 'https://donovan-family-dentistry-demo.pages.dev';
 const publicRoutes = [
-  '/', '/about/', '/services/', '/forms/', '/contact/', '/accessibility/', '/website-use/',
+  '/', '/about/', '/services/', '/new-patients/', '/forms/', '/contact/', '/accessibility/', '/website-use/',
   '/modern/', '/modern/about/', '/modern/services/', '/modern/team/', '/modern/new-patients/', '/modern/forms/', '/modern/contact/'
 ];
-const sitemapRoutes = publicRoutes.slice(0, 7);
-const retainedDemoRoutes = publicRoutes.slice(7);
+const sitemapRoutes = publicRoutes.slice(0, 8);
+const retainedDemoRoutes = publicRoutes.slice(8);
 
 test('production-candidate safety gate preserves preview controls and launch blockers', async ({ isMobile }) => {
   test.skip(isMobile, 'Repository-level validation only needs to run once.');
@@ -164,7 +164,7 @@ test('keyboard-focused controls are not hidden by authored content', async ({ pa
 test('pages reflow at a 320 CSS-pixel viewport without horizontal page scrolling', async ({ page, isMobile }) => {
   test.skip(isMobile, 'The desktop project performs the explicit 320px reflow check.');
   await page.setViewportSize({ width: 320, height: 900 });
-  for (const route of ['/modern/', '/modern/new-patients/', '/modern/contact/', '/accessibility/', '/website-use/']) {
+  for (const route of ['/modern/', '/modern/new-patients/', '/modern/contact/', '/new-patients/', '/accessibility/', '/website-use/']) {
     await page.goto(route);
     const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
     expect(overflow, `${route} should reflow at 320px`).toBeLessThanOrEqual(1);

@@ -4,6 +4,9 @@ import site from '../../data/site.json';
 
 const fullAddress = `${site.address.street}, ${site.address.city}, ${site.address.state} ${site.address.postalCode}`;
 const mapHref = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(fullAddress)}`;
+const openDays = site.hours.filter((item) => item.hours !== 'Closed');
+const openDayRange = openDays.length > 1 ? `${openDays[0].day}–${openDays[openDays.length - 1].day}` : openDays[0]?.day ?? '';
+const openHours = openDays[0]?.hours ?? '';
 const carePaths = [
   {
     title: 'Repair and restore',
@@ -59,9 +62,9 @@ const carePaths = [
 
   <div class="modern-quickfacts">
     <div class="modern-shell modern-quickfacts__grid">
-      <div class="modern-fact"><small>Office hours</small><strong>Monday-Thursday, 7:30-5</strong></div>
+      <div class="modern-fact"><small>Office hours</small><strong>{openDayRange}, {openHours}</strong></div>
       <div class="modern-fact"><small>Call</small><strong>{site.phoneDisplay}</strong></div>
-      <div class="modern-fact"><small>Visit</small><strong>91 Sams Point Road</strong></div>
+      <div class="modern-fact"><small>Visit</small><strong>{site.address.street}</strong></div>
     </div>
   </div>
 
@@ -93,8 +96,8 @@ const carePaths = [
         <p class="modern-lead">Get to know the providers, hygienists, assistants, and patient-care staff who help make appointments feel organized and comfortable.</p>
         <div class="modern-actions"><a class="modern-button modern-button--primary" href="/modern/team/">Meet the whole team</a></div>
       </article>
-      <aside>
-        <h3>What matters to us</h3>
+      <aside aria-labelledby="home-values-heading">
+        <h3 id="home-values-heading">What matters to us</h3>
         <ul>
           <li>Clear explanations without unnecessary jargon</li>
           <li>Practical care plans built around each patient</li>
@@ -120,8 +123,8 @@ const carePaths = [
           <a class="modern-button modern-button--secondary" href={mapHref} rel="noopener">Get directions</a>
         </div>
       </article>
-      <aside class="modern-visit-card">
-        <h3>Office hours</h3>
+      <aside class="modern-visit-card" aria-labelledby="home-hours-heading">
+        <h3 id="home-hours-heading">Office hours</h3>
         <table class="modern-hours"><tbody>{site.hours.map((item) => <tr><th scope="row">{item.day}</th><td>{item.hours}</td></tr>)}</tbody></table>
       </aside>
     </div>

@@ -16,11 +16,12 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - name: Check out the current main branch
-        uses: actions/checkout@v4
+      - name: Check out the current main branch without retaining credentials
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           ref: main
           fetch-depth: 2
+          persist-credentials: false
 
       - name: Confirm the latest commit is a safe office save
         id: validate
@@ -62,12 +63,23 @@ jobs:
         shell: bash
         env:
           TARGET_SHA: ${{ steps.validate.outputs.target_sha }}
+          GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
+          askpass="$RUNNER_TEMP/git-askpass.sh"
+          cat > "$askpass" <<'EOF'
+          #!/bin/sh
+          case "$1" in
+            *Username*) echo "x-access-token" ;;
+            *Password*) echo "$GH_TOKEN" ;;
+          esac
+          EOF
+          chmod 700 "$askpass"
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git revert --no-edit "$TARGET_SHA"
-          git push origin HEAD:main
+          GIT_ASKPASS="$askpass" GIT_TERMINAL_PROMPT=0 git push "https://github.com/$GITHUB_REPOSITORY.git" HEAD:main
+          rm -f "$askpass"
 
       - name: Explain the result
         env:

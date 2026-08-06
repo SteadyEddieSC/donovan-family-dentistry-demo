@@ -21,15 +21,18 @@ concurrency:
 jobs:
   health-and-dependency-check:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 25
     env:
       SITE_URL: ${{ inputs.site_url || 'https://donovan-family-dentistry-demo.pages.dev' }}
     steps:
-      - name: Check out the current production candidate
-        uses: actions/checkout@v4
+      - name: Check out the current production candidate without retaining credentials
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          fetch-depth: 1
+          persist-credentials: false
 
       - name: Set up Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
         with:
           node-version: 22
           cache: npm
@@ -37,14 +40,21 @@ jobs:
       - name: Install locked dependencies
         run: npm ci --no-audit --no-fund
 
-      - name: Review high-severity dependency findings
-        run: npm audit --audit-level=high
+      - name: Enforce production-aware dependency policy
+        run: npm run check:audit
 
-      - name: Run serverless safety tests
+      - name: Run serverless and launch-boundary safety tests
         run: npm run test:unit
 
       - name: Build and enforce launch and performance budgets
         run: npm run build
+
+      - name: Validate generated SEO, structured data, internal links, and HTML
+        run: |
+          npm run check:seo
+          npm run check:structured-data
+          npm run check:links
+          npm run check:html
 
       - name: Check deployed pages, links, forms, robots, and preview controls
         run: npm run check:deployed
@@ -57,7 +67,7 @@ jobs:
             echo ''
             echo "Checked: ${SITE_URL}"
             echo ''
-            echo 'Locked-dependency, unit, build, performance-budget, sitemap, internal-link, PDF, social-image, robots, noindex, and preview-form checks passed.'
+            echo 'Locked-dependency, unit, launch-boundary, build, performance-budget, deterministic SEO, structured-data, generated-HTML, sitemap, internal-link, PDF, social-image, robots, noindex, and preview-form checks passed.'
             echo ''
             echo 'This monitor does not submit the administrative form and does not collect or store visitor message content.'
           } >> "$GITHUB_STEP_SUMMARY"
