@@ -23,6 +23,14 @@ const collectKeys = (value, keys = []) => {
   }
   return keys;
 };
+const parseClockTime = (value) => {
+  const match = value.trim().match(/^(\d{1,2}):(\d{2})\s*(AM|PM)$/i);
+  if (!match) return null;
+  const [, rawHour, minutes, meridiem] = match;
+  let hour = Number(rawHour) % 12;
+  if (meridiem.toUpperCase() === 'PM') hour += 12;
+  return `${String(hour).padStart(2, '0')}:${minutes}`;
+};
 const findGeneratedHtml = async (root = 'dist', current = root, output = []) => {
   for (const entry of await readdir(current, { withFileTypes: true })) {
     const full = path.join(current, entry.name);
@@ -35,6 +43,18 @@ const routeForFile = (file) => {
   const relative = path.relative('dist', file).split(path.sep).join('/');
   return relative === 'index.html' ? '/' : `/${relative.replace(/index\.html$/, '')}`;
 };
+
+const expectedHours = site.hours.flatMap((item) => {
+  if (item.hours.trim().toLowerCase() === 'closed') return [];
+  const [openText, closeText] = item.hours.split('-').map((part) => part.trim());
+  const opens = parseClockTime(openText);
+  const closes = parseClockTime(closeText);
+  if (!opens || !closes) {
+    failures.push(`Shared office hours for ${item.day} cannot be parsed: ${item.hours}`);
+    return [];
+  }
+  return [{ day: `https://schema.org/${item.day}`, opens, closes }];
+});
 
 for (const route of publicRoutes) {
   const html = await readFile(routeToHtmlPath(route), 'utf8');
@@ -70,9 +90,6 @@ for (const route of publicRoutes) {
     postalCode: site.address.postalCode,
     addressCountry: 'US'
   };
-  const expectedHours = site.hours
-    .filter((item) => item.hours !== 'Closed')
-    .map((item) => ({ day: `https://schema.org/${item.day}`, opens: '08:00', closes: '17:00' }));
 
   if (dentist['@id'] !== expectedDentistId) failures.push(`${route}: Dentist @id must be ${expectedDentistId}`);
   if (dentist['@type'] !== 'Dentist') failures.push(`${route}: business type must remain Dentist`);
