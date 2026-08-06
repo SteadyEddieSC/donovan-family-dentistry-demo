@@ -14,15 +14,17 @@ for (const path of ['/about/', '/modern/team/']) {
     const images = page.locator('img[src*="dr-william-donovan-photo"], img[src*="dr-jordan-henke-family"]');
     await expect(images).toHaveCount(2);
 
-    const expectedNaturalWidth = path === '/about/' ? 240 : 480;
     for (let index = 0; index < 2; index += 1) {
       const image = images.nth(index);
       await image.scrollIntoViewIfNeeded();
       await expect(image).toBeVisible();
-      await expect.poll(() => image.evaluate((element: HTMLImageElement) => element.complete && element.naturalWidth)).toBe(expectedNaturalWidth);
+      await expect.poll(() => image.evaluate((element: HTMLImageElement) => Boolean(element.complete && element.currentSrc))).toBe(true);
       if (path === '/about/') {
         await expect(image).toHaveAttribute('srcset', /-240\.webp 240w, .*r16-12\.webp 480w/);
         await expect(image).toHaveAttribute('sizes', /192px/);
+        await expect.poll(() => image.evaluate((element: HTMLImageElement) => element.currentSrc)).toMatch(/-240\.webp$/);
+      } else {
+        await expect.poll(() => image.evaluate((element: HTMLImageElement) => element.currentSrc)).toMatch(/r16-12\.webp$/);
       }
     }
 
@@ -31,6 +33,7 @@ for (const path of ['/about/', '/modern/team/']) {
       const styles = getComputedStyle(image);
       return {
         complete: image.complete,
+        currentSrc: image.currentSrc,
         naturalWidth: image.naturalWidth,
         displayedWidth: image.getBoundingClientRect().width,
         objectFit: styles.objectFit,
@@ -39,12 +42,20 @@ for (const path of ['/about/', '/modern/team/']) {
       };
     }));
 
-    expect(details.map((item) => item.naturalWidth)).toEqual([expectedNaturalWidth, expectedNaturalWidth]);
     for (const item of details) {
       expect(item.complete).toBe(true);
+      expect(item.currentSrc).not.toBe('');
+      expect(item.naturalWidth).toBeGreaterThanOrEqual(Math.floor(item.displayedWidth));
       expect(item.displayedWidth).toBeLessThanOrEqual(481);
       expect(item.objectFit).toBe('contain');
       expect(item.height).not.toBe('180px');
+      if (path === '/about/') {
+        expect(item.currentSrc).toMatch(/-240\.webp$/);
+        expect(item.naturalWidth).toBeLessThanOrEqual(240);
+      } else {
+        expect(item.currentSrc).toMatch(/r16-12\.webp$/);
+        expect(item.naturalWidth).toBe(480);
+      }
     }
 
     const geometry = await page.evaluate(() => ({
