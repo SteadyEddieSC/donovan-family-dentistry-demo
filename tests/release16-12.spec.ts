@@ -20,9 +20,9 @@ for (const path of ['/about/', '/modern/team/']) {
       await expect(image).toBeVisible();
       await expect.poll(() => image.evaluate((element: HTMLImageElement) => Boolean(element.complete && element.currentSrc))).toBe(true);
       if (path === '/about/') {
-        await expect(image).toHaveAttribute('srcset', /-240\.webp 240w, .*r16-12\.webp 480w/);
-        await expect(image).toHaveAttribute('sizes', /192px/);
-        await expect.poll(() => image.evaluate((element: HTMLImageElement) => element.currentSrc)).toMatch(/-240\.webp$/);
+        await expect(image).toHaveAttribute('srcset', /-360\.webp 360w, .*r16-12\.webp 480w/);
+        await expect(image).toHaveAttribute('sizes', /352px/);
+        await expect.poll(() => image.evaluate((element: HTMLImageElement) => element.currentSrc)).toMatch(/(?:-360|r16-12)\.webp$/);
       } else {
         await expect.poll(() => image.evaluate((element: HTMLImageElement) => element.currentSrc)).toMatch(/r16-12\.webp$/);
       }
@@ -50,8 +50,8 @@ for (const path of ['/about/', '/modern/team/']) {
       expect(item.objectFit).toBe('contain');
       expect(item.height).not.toBe('180px');
       if (path === '/about/') {
-        expect(item.currentSrc).toMatch(/-240\.webp$/);
-        expect(item.naturalWidth).toBeLessThanOrEqual(240);
+        expect(item.currentSrc).toMatch(/(?:-360|r16-12)\.webp$/);
+        expect(item.naturalWidth).toBeLessThanOrEqual(480);
       } else {
         expect(item.currentSrc).toMatch(/r16-12\.webp$/);
         expect(item.naturalWidth).toBe(480);
