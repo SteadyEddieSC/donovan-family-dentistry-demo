@@ -9,6 +9,7 @@
 - Owner-confirmed office hours are Monday through Thursday, 7:30 AM–5:00 PM; Friday through Sunday closed.
 - The office controls `dfdbeaufort@gmail.com`, has confirmed access to it, and has approved it for publication on the Contact page and as the notification mailbox when the protected administrative inquiry is activated.
 - The owner-approved current provider roster is Dr. William Donovan and Dr. Jordan Henke. Dr. Henke replaces Dr. Robert Koolkin on the replacement site. The current Classic About page, Dr. Donovan's updated photograph, and the biography wording that he and Mary Beth have two daughters are approved.
+- The Classic Contact page places a prominent **Download Office Contact Card** action above the phone/email/address blocks and explains how to open the downloaded vCard and add it to device contacts.
 
 ## What this preparation release changes
 
@@ -17,8 +18,10 @@
 - Renders Classic and Modern footer hours from the shared record.
 - Publishes the verified office email on the Contact experience and downloadable office contact card.
 - Includes the verified office email in Dentist structured data.
+- Makes the public office email editable through the protected Pages CMS quick-update form.
 - Records `dfdbeaufort@gmail.com` as the intended notification mailbox for the protected administrative inquiry; live inquiry delivery remains disabled until its other production controls are configured and tested.
 - Records the Donovan/Henke provider roster and current Classic About page as owner-approved launch evidence rather than an unresolved provider blocker.
+- Improves the Classic contact-card download action without changing the vCard's local/static safety boundary.
 - Forces every Modern and review page to emit `noindex, nofollow, noarchive` independently of the future Classic launch flag.
 - Limits the sitemap to Classic public routes.
 - Makes the approved Classic website the installable site's start page while retaining Modern by direct URL.
