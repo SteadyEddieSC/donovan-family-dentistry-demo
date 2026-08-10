@@ -1,6 +1,6 @@
 # Donovan Family Dentistry launch candidate
 
-Private launch-readiness website for Donovan Family Dentistry in Beaufort, South Carolina. The modern concept is the selected production design. The repository remains in private preview until the governed launch evidence and owner acceptance work are complete.
+Private launch-readiness website for Donovan Family Dentistry in Beaufort, South Carolina. The Classic concept at `/` is the approved initial production design. The Modern concept remains available at `/modern/` as a future-design demo and must remain permanently noindex and absent from the public sitemap. The repository remains in private preview until the governed launch evidence and owner acceptance work are complete.
 
 ## Safety boundary
 
@@ -8,7 +8,9 @@ This repository does not modify the production domain, nameservers, DNS records,
 
 The Contact page contains a non-PHI administrative-request experience. It remains preview-only by default. A same-origin Cloudflare Pages Function is included for eventual activation, but it fails closed unless the office-owned Basin endpoint, Turnstile secret, allowed origins, notification recipient, retention procedure, response owner, backup owner, and rate-limiting control are configured. Medical and dental history is not submitted through the website.
 
-The provider roster, service wording, insurance/payment language, urgent-care workflow, inquiry launch decision, physical-device review, human accessibility review, Pages CMS acceptance, authoritative DNS backup, exact legacy-hosting details, mail/application preservation, rollback rehearsal, and change window remain documented launch evidence.
+The verified office contact record includes Monday-through-Thursday hours of 7:30 AM–5:00 PM and the office-controlled mailbox `dfdbeaufort@gmail.com`. The approved current dentist roster is Dr. William Donovan and Dr. Jordan Henke; the current Classic About page includes Dr. Donovan's updated photograph and the approved two-daughters biography wording.
+
+The service wording, insurance/payment language, urgent-care workflow, inquiry launch decision, physical-device review, human accessibility review, authoritative DNS backup, exact legacy-hosting details, mail/application preservation, rollback rehearsal, and change window remain documented launch evidence.
 
 ## Stack
 
@@ -195,7 +197,7 @@ Use these project settings:
 
 The `functions/` directory deploys the same-origin `/api/administrative-inquiry` route. `public/_routes.json` limits Function invocation to `/api/*`, so ordinary static page requests remain static.
 
-Do not connect `donovanfamilydentistry.com` or `www.donovanfamilydentistry.com`, remove `noindex`, enable analytics, or enable live inquiry delivery during Release 16.x.
+Do not connect `donovanfamilydentistry.com` or `www.donovanfamilydentistry.com`, remove `noindex`, enable analytics, or enable live inquiry delivery until the final Release 17 production-cutover release has been verified.
 
 ## Monitoring
 
@@ -224,4 +226,4 @@ Do not connect `donovanfamilydentistry.com` or `www.donovanfamilydentistry.com`,
 
 ## Content provenance
 
-Initial text comes from the existing public website, the supplied website screenshot, and owner-provided corrections. The current public two-dentist roster remains an unresolved replacement-site decision rather than being silently omitted or republished. The active classic and modern concepts use the same owner-preferred horizontal SVG logo. The Release 16.2 oval vector remains preserved only as prior visual-development history. See `docs/content-inventory.md`, `docs/owner-review.md`, and the release documents above.
+Initial text comes from the existing public website, the supplied website screenshot, and owner-provided corrections. The approved current provider roster is Dr. William Donovan and Dr. Jordan Henke. The active Classic production candidate and retained Modern demo use the same owner-preferred horizontal SVG logo. The Release 16.2 oval vector remains preserved only as prior visual-development history. See `docs/content-inventory.md`, `docs/owner-review.md`, and the release documents above.
