@@ -21,6 +21,21 @@ test('/ keeps the final Classic desktop actions compact and presents both dentis
     expect(boxes.every(Boolean)).toBeTruthy();
     const yValues = boxes.map((box) => box!.y);
     expect(Math.max(...yValues) - Math.min(...yValues)).toBeLessThan(4);
+
+    const desktopNav = page.locator('.site-nav > a');
+    const navMetrics = await desktopNav.evaluateAll((links) => links.map((link) => {
+      const style = window.getComputedStyle(link);
+      const range = document.createRange();
+      range.selectNodeContents(link);
+      return {
+        whiteSpace: style.whiteSpace,
+        textLineBoxes: [...range.getClientRects()].filter((rect) => rect.width > 0 && rect.height > 0).length,
+        height: link.getBoundingClientRect().height
+      };
+    }));
+    expect(navMetrics.every((metric) => metric.whiteSpace === 'nowrap')).toBeTruthy();
+    expect(navMetrics.every((metric) => metric.textLineBoxes === 1)).toBeTruthy();
+    expect(Math.max(...navMetrics.map((metric) => metric.height)) - Math.min(...navMetrics.map((metric) => metric.height))).toBeLessThan(2);
   }
 });
 
