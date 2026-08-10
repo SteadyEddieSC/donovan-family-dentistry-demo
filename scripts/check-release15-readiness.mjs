@@ -21,7 +21,6 @@ const REQUIRED_EVIDENCE_IDS = [
 ];
 
 const REQUIRED_CONTENT_BLOCKERS = [
-  'provider-roster',
   'services',
   'insurance-payment',
   'urgent-care-wording',
@@ -52,7 +51,7 @@ export function evaluateRelease15Readiness({ site, contentStatus, launchReadines
 
   if (!ALLOWED_PHASES.has(phase)) failures.push('launch-readiness phase must be readiness or production.');
   if (!ALLOWED_DESIGNS.has(launchReadiness.selectedDesign)) failures.push('selectedDesign must be modern or classic.');
-  if (launchReadiness.selectedDesign !== 'modern') failures.push('Release 15 records the modern concept as the selected launch candidate.');
+  if (launchReadiness.selectedDesign !== 'classic') failures.push('Current launch readiness records the Classic concept as the selected launch candidate.');
   if (!ALLOWED_INQUIRY_MODES.has(launchReadiness.inquiryLaunchMode)) failures.push('inquiryLaunchMode must be preview-only or live.');
 
   const targetDomain = normalizeDomain(launchReadiness.targetDomain);
