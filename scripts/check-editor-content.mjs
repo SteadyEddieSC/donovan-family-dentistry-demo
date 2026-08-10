@@ -28,6 +28,10 @@ const requireUnique = (values, label) => {
 requireText(site.practiceName, 'Practice name');
 requireText(site.phoneDisplay, 'Display phone number');
 requireText(site.phoneHref, 'Click-to-call phone number');
+requireText(site.contactEmail, 'Office contact email');
+if (typeof site.contactEmail === 'string' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(site.contactEmail.trim())) {
+  errors.push('Office contact email must be a valid email address.');
+}
 requireText(site.address?.street, 'Street address');
 requireText(site.address?.city, 'City');
 requireText(site.address?.state, 'State');
