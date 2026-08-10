@@ -6,14 +6,17 @@
 - The Modern concept remains available at `/modern/` as a future-design demo.
 - Modern and private review routes must remain excluded from search indexing, the public sitemap, and the Classic navigation.
 - Modern and review HTML must remain crawlable after launch so search engines can observe their permanent `noindex` rules; `robots.txt` is not an indexing control.
-- Owner-confirmed office hours are Monday through Thursday, 8:00 AM–5:00 PM; Friday through Sunday closed.
-- The office email address remains unverified and must not be published or activated for delivery until an office-controlled send-and-reply test succeeds.
+- Owner-confirmed office hours are Monday through Thursday, 7:30 AM–5:00 PM; Friday through Sunday closed.
+- The office controls `dfdbeaufort@gmail.com`, has confirmed access to it, and has approved it for publication on the Contact page and as the notification mailbox when the protected administrative inquiry is activated.
 
 ## What this preparation release changes
 
 - Updates the shared office-hours record.
 - Derives Dentist structured-data hours from the same shared record.
 - Renders Classic and Modern footer hours from the shared record.
+- Publishes the verified office email on the Contact experience and downloadable office contact card.
+- Includes the verified office email in Dentist structured data.
+- Records `dfdbeaufort@gmail.com` as the intended notification mailbox for the protected administrative inquiry; live inquiry delivery remains disabled until its other production controls are configured and tested.
 - Forces every Modern and review page to emit `noindex, nofollow, noarchive` independently of the future Classic launch flag.
 - Limits the sitemap to Classic public routes.
 - Makes the approved Classic website the installable site's start page while retaining Modern by direct URL.
@@ -55,9 +58,14 @@
 
 ### Email
 
-- Verify the office-controlled mailbox by sending from an unrelated account and receiving a reply from office staff.
-- Confirm who monitors it, expected response hours, and whether it is administrative-only.
-- Do not publish or route a website form to an unverified mailbox.
+Verified before this cutover:
+
+- `dfdbeaufort@gmail.com` is controlled by the practice and is approved for public Contact-page use and future administrative-inquiry notifications.
+
+Still required for launch operations:
+
+- Confirm who monitors the mailbox, expected response hours, and that the public website form is limited to general administrative questions rather than protected health information.
+- When the administrative inquiry is activated, configure the office-owned Basin form to notify `dfdbeaufort@gmail.com` and complete a real synthetic delivery test before enabling the production flag.
 - Test inbound and outbound office email immediately before and after the DNS change.
 
 ### Google and search
@@ -66,6 +74,7 @@
 - Verify the practice name, address, phone, hours, map pin, providers, and website field.
 - Confirm access to Google Search Console for the existing domain or create a domain-property verification plan that does not require removing current DNS records.
 - Record currently indexed legacy URLs and direct each useful URL to the most relevant replacement route.
+- Lack of Google Business Profile access is not a reason to change unrelated DNS or delay the safe website code preparation; update the profile when an authorized manager is available.
 
 ### Roles and timing
 
@@ -127,7 +136,7 @@ Test from phone and desktop, Wi-Fi and cellular:
 - all HTTP/HTTPS and root/www combinations;
 - homepage, About, Services, Forms, Contact, accessibility, and privacy pages;
 - legacy redirects;
-- phone, directions, contact card, and PDFs;
+- phone, email, directions, contact card, and PDFs;
 - office inbound and outbound email;
 - no horizontal overflow or visual regression;
 - production canonical, robots, sitemap, manifest, response headers, and structured data;
