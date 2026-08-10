@@ -5,10 +5,14 @@ const fullAddress = `${site.address.street}, ${site.address.city}, ${site.addres
 const mapHref = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(fullAddress)}`;
 ---
 <BaseLayout title="Contact and Directions | Donovan Family Dentistry" description="Call or email Donovan Family Dentistry, or get directions to 91 Sams Point Road in Beaufort, South Carolina.">
-  <header class="page-hero"><div class="container"><p class="eyebrow">Contact and directions</p><h1>Visit Donovan Family Dentistry in Beaufort</h1><p class="lead">Call or email the office, open turn-by-turn directions to 91 Sams Point Road, or save the office contact card to your device.</p></div></header>
+  <header class="page-hero"><div class="container"><p class="eyebrow">Contact and directions</p><h1>Visit Donovan Family Dentistry in Beaufort</h1><p class="lead">Call or email the office, open turn-by-turn directions to 91 Sams Point Road, or download the office contact card to save the practice to your contacts.</p></div></header>
   <section class="section">
     <div class="container split">
       <div>
+        <div class="contact-download-card">
+          <a class="button button--primary" href="/donovan-family-dentistry.vcf" download>Download Office Contact Card</a>
+          <p>Downloads the office phone number, email address, and Lady's Island address. After it downloads, open the file and choose <strong>Add</strong> or <strong>Save to Contacts</strong> on your device.</p>
+        </div>
         <div class="contact-grid">
           <article class="contact-card"><strong>Phone</strong><a href={`tel:${site.phoneHref}`}>{site.phoneDisplay}</a></article>
           <article class="contact-card"><strong>Email</strong><a href={`mailto:${site.contactEmail}`}>{site.contactEmail}</a></article>
@@ -20,7 +24,6 @@ const mapHref = `https://www.google.com/maps/search/?api=1&query=${encodeURIComp
         <h2>Office hours</h2>
         <table class="hours"><tbody>{site.hours.map((item) => <tr><th scope="row">{item.day}</th><td>{item.hours}</td></tr>)}</tbody></table>
         <p style="margin-top: 1.5rem"><a class="button button--quiet" href={mapHref} rel="noopener">Open directions</a></p>
-        <p><a class="button button--quiet" href="/donovan-family-dentistry.vcf" download>Save office contact</a></p>
       </aside>
     </div>
   </section>
