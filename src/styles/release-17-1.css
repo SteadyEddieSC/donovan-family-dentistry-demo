@@ -1,0 +1,32 @@
+/* Release 17.1 desktop header refinement.
+   Keep the Classic navigation visually aligned without changing the mobile menu. */
+
+@media (min-width: 851px) {
+  .site-nav > a {
+    display: inline-flex;
+    min-height: 3rem;
+    align-items: center;
+    justify-content: center;
+    line-height: 1.2;
+    white-space: nowrap;
+  }
+}
+
+@media (min-width: 851px) and (max-width: 1120px) {
+  .header-inner {
+    gap: .8rem;
+  }
+
+  .brand {
+    flex-basis: 15rem;
+  }
+
+  .site-nav a {
+    padding-inline: .55rem;
+    font-size: .9rem;
+  }
+
+  .nav-call {
+    margin-left: .2rem;
+  }
+}
