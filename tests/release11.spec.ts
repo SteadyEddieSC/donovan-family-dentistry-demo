@@ -56,16 +56,20 @@ test('web manifest is valid and points to the approved Classic patient experienc
   expect(manifest.icons[0].src).toBe('/favicon.svg');
 });
 
-test('content verification register tracks launch blockers and nonblocking follow-ups separately', async ({ isMobile }) => {
+test('content verification register tracks approved providers, launch blockers, and follow-ups separately', async ({ isMobile }) => {
   test.skip(isMobile, 'Repository-level validation only needs to run once.');
   const register = JSON.parse(
     readFileSync(path.join(repositoryRoot, 'src/data/content-status.json'), 'utf8')
   );
+  const verifiedIds = register.verified.map((item: { id: string }) => item.id);
   const blockerIds = register.launchBlockers.map((item: { id: string }) => item.id);
   const followUpIds = register.editorialFollowUps.map((item: { id: string }) => item.id);
   expect(new Set(blockerIds).size).toBe(blockerIds.length);
   expect(new Set(followUpIds).size).toBe(followUpIds.length);
-  expect(blockerIds).toContain('provider-roster');
+  expect(verifiedIds).toContain('provider-roster');
+  expect(verifiedIds).toContain('dr-donovan-profile');
+  expect(verifiedIds).toContain('dr-henke-profile');
+  expect(blockerIds).not.toContain('provider-roster');
   expect(blockerIds).toContain('services');
   expect(blockerIds).toContain('production-integrations');
   expect(followUpIds).not.toContain('associate-dentist');
