@@ -17,7 +17,7 @@ const nav = [
     <button class="menu-button" type="button" aria-expanded="false" aria-controls="primary-navigation">Menu</button>
     <nav id="primary-navigation" class="site-nav" aria-label="Primary navigation" data-open="false">
       {nav.map((item) => <a href={item.href} aria-current={path === item.href ? 'page' : undefined}>{item.label}</a>)}
-      <a class="nav-call" href={`tel:${site.phoneHref}`}>Call {site.phoneDisplay}</a>
+      <a class="nav-call" href={`tel:${site.phoneHref}`} aria-label={`Call ${site.practiceName} at ${site.phoneDisplay}`}>{site.phoneDisplay}</a>
     </nav>
   </div>
 </header>
