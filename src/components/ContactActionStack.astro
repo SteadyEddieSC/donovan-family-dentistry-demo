@@ -8,12 +8,17 @@ const mapHref = `https://www.google.com/maps/search/?api=1&query=${encodeURIComp
 <div class="modern-contact-stack" aria-label="Office contact actions">
   <a class="modern-contact-tile modern-contact-tile--featured" href="/donovan-family-dentistry.vcf" download>
     <ActionIcon name="contact" />
-    <span class="modern-contact-tile__copy"><strong>Downloadable Contact Card</strong><span>Download the office phone number and Lady's Island address, then open the file to import it.</span></span>
+    <span class="modern-contact-tile__copy"><strong>Downloadable Contact Card</strong><span>Download the office phone number, email, and Lady's Island address, then open the file to import it.</span></span>
     <span class="modern-contact-tile__arrow" aria-hidden="true">↓</span>
   </a>
   <a class="modern-contact-tile" href={`tel:${site.phoneHref}`}>
     <ActionIcon name="phone" />
     <span class="modern-contact-tile__copy"><strong>Call the office</strong><span>{site.phoneDisplay}</span></span>
+    <span class="modern-contact-tile__arrow" aria-hidden="true">→</span>
+  </a>
+  <a class="modern-contact-tile" href={`mailto:${site.contactEmail}`}>
+    <ActionIcon name="contact" />
+    <span class="modern-contact-tile__copy"><strong>Email the office</strong><span>{site.contactEmail}</span></span>
     <span class="modern-contact-tile__arrow" aria-hidden="true">→</span>
   </a>
   <a class="modern-contact-tile" href={mapHref} rel="noopener">
