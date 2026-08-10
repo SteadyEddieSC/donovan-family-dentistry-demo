@@ -114,6 +114,9 @@ p { margin: 0 0 1rem; }
 .form-list { display: grid; gap: 1rem; }
 .form-card { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 1.5rem; align-items: center; border: 1px solid var(--line); border-radius: 1rem; padding: 1.4rem; background: var(--white); }
 .notice { border-left: .35rem solid var(--green); border-radius: .5rem; padding: 1rem 1.15rem; background: #f5faeb; }
+.contact-download-card { margin-bottom: 1rem; border: 1px solid var(--line); border-radius: 1rem; padding: 1.15rem; background: var(--mist); }
+.contact-download-card .button { min-width: min(100%, 18rem); }
+.contact-download-card p { margin: .8rem 0 0; color: var(--muted); }
 .contact-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
 .contact-card { border: 1px solid var(--line); border-radius: 1rem; padding: 1.4rem; background: var(--white); }
 .contact-card strong { display: block; margin-bottom: .4rem; }
