@@ -1,5 +1,29 @@
 import { test, expect } from '@playwright/test';
 
+test('/ keeps the final Classic desktop actions compact and presents both dentists', async ({ page, isMobile }) => {
+  await page.goto('/', { waitUntil: 'networkidle' });
+
+  const headerPhone = page.locator('.nav-call');
+  await expect(headerPhone).toHaveText('(843) 525-6866');
+  await expect(headerPhone).toHaveAttribute('href', 'tel:+18435256866');
+
+  await expect(page.getByRole('heading', { name: 'Experienced dentists, comprehensive family care' })).toBeVisible();
+  await expect(page.getByText(/Dr\. William Donovan and Dr\. Jordan Henke provide care for patients of all ages/i)).toBeVisible();
+  await expect(page.getByRole('link', { name: 'Meet the dentists' })).toHaveAttribute('href', '/about/');
+
+  if (!isMobile) {
+    const actions = [
+      page.getByRole('link', { name: 'Call the office' }),
+      page.getByRole('link', { name: 'Get directions' }),
+      page.getByRole('link', { name: 'Patient forms' })
+    ];
+    const boxes = await Promise.all(actions.map((action) => action.boundingBox()));
+    expect(boxes.every(Boolean)).toBeTruthy();
+    const yValues = boxes.map((box) => box!.y);
+    expect(Math.max(...yValues) - Math.min(...yValues)).toBeLessThan(4);
+  }
+});
+
 test('/contact/ shows the verified office hours, email, and prominent contact-card download', async ({ page }, testInfo) => {
   await page.goto('/contact/', { waitUntil: 'networkidle' });
 
