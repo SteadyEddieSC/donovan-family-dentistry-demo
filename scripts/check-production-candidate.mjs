@@ -16,7 +16,6 @@ const [site, status, robotsRoute, headers, envExample] = await Promise.all([
 
 const failures = [];
 const requiredBlockers = [
-  'provider-roster',
   'services',
   'insurance-payment',
   'urgent-care-wording',
