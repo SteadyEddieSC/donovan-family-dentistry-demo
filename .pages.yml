@@ -51,6 +51,7 @@ content:
           - { name: introduction, label: Homepage introduction, type: text, required: true, options: { maxlength: 350 } }
           - { name: phoneDisplay, label: Display phone number, type: string, required: true }
           - { name: phoneHref, label: Click-to-call number, type: string, required: true, description: "Use +1 followed by the ten-digit number." }
+          - { name: contactEmail, label: Office email address, type: string, required: true, description: "Public office contact email used on the Contact page and contact card." }
           - name: address
             label: Address
             type: object
@@ -151,7 +152,7 @@ content:
               - { name: providersTitle, label: Dentist section heading, type: text, required: true }
               - { name: providersIntroduction, label: Dentist section introduction, type: text, required: true }
               - { name: teamEyebrow, label: Staff section small heading, type: string, required: true }
-              - { name: teamTitle, label: Staff section heading, type: text, required: true }
+              - { name: teamTitle, label: Staff section heading, type: string, required: true }
               - { name: teamIntroduction, label: Staff section introduction, type: text, required: true }
           - name: servicesPage
             label: Services page headings and groups
