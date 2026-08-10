@@ -8,6 +8,7 @@
 - Modern and review HTML must remain crawlable after launch so search engines can observe their permanent `noindex` rules; `robots.txt` is not an indexing control.
 - Owner-confirmed office hours are Monday through Thursday, 7:30 AM–5:00 PM; Friday through Sunday closed.
 - The office controls `dfdbeaufort@gmail.com`, has confirmed access to it, and has approved it for publication on the Contact page and as the notification mailbox when the protected administrative inquiry is activated.
+- The owner-approved current provider roster is Dr. William Donovan and Dr. Jordan Henke. Dr. Henke replaces Dr. Robert Koolkin on the replacement site. The current Classic About page, Dr. Donovan's updated photograph, and the biography wording that he and Mary Beth have two daughters are approved.
 
 ## What this preparation release changes
 
@@ -17,6 +18,7 @@
 - Publishes the verified office email on the Contact experience and downloadable office contact card.
 - Includes the verified office email in Dentist structured data.
 - Records `dfdbeaufort@gmail.com` as the intended notification mailbox for the protected administrative inquiry; live inquiry delivery remains disabled until its other production controls are configured and tested.
+- Records the Donovan/Henke provider roster and current Classic About page as owner-approved launch evidence rather than an unresolved provider blocker.
 - Forces every Modern and review page to emit `noindex, nofollow, noarchive` independently of the future Classic launch flag.
 - Limits the sitemap to Classic public routes.
 - Makes the approved Classic website the installable site's start page while retaining Modern by direct URL.
