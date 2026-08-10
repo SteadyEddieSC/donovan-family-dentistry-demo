@@ -10,7 +10,7 @@
     },
     {
       "id": "office-email",
-      "label": "Office-controlled public contact and administrative inquiry notification mailbox",
+      "label": "Office-controlled public contact mailbox",
       "status": "verified",
       "source": "Owner-confirmed access and send/receive capability; dfdbeaufort@gmail.com"
     },
@@ -33,16 +33,34 @@
       "source": "Owner-confirmed 2026-08-09"
     },
     {
-      "id": "patient-form-layout",
-      "label": "Fillable new-patient form layout and field integrity",
+      "id": "classic-content-approval",
+      "label": "Current Classic About, Services, Forms, Contact, and general patient-facing wording",
       "status": "verified",
-      "source": "Owner-reviewed and regression-tested"
+      "source": "Owner-confirmed 2026-08-09; Classic pages approved as currently presented except replacement of the downloadable PDFs with exact-layout fillable versions"
+    },
+    {
+      "id": "insurance-network-status",
+      "label": "Dental insurance network status",
+      "status": "verified",
+      "source": "Owner-confirmed 2026-08-09: practice is not in-network with any dental insurance provider; insured patients are treated as out-of-network. Classic launch does not publish an in-network participation claim."
+    },
+    {
+      "id": "administrative-inquiry-deferred",
+      "label": "Public administrative inquiry is intentionally deferred for the Classic launch",
+      "status": "verified",
+      "source": "Owner decision 2026-08-09: Classic launches with phone, email, address/directions, contact card, and downloadable PDFs; Basin and Turnstile remain disabled until a later Modern/Secure Exchange decision."
+    },
+    {
+      "id": "patient-form-layout",
+      "label": "Current-production patient PDF artwork and page structure",
+      "status": "verified",
+      "source": "Owner-supplied original production PDFs 2026-08-09; replacement requirement is exact visual preservation with fillable fields added over existing blank lines"
     },
     {
       "id": "office-editor-system",
       "label": "Structured office editor, content validation, and one-click website check",
       "status": "verified",
-      "source": "Release 12 automated validation"
+      "source": "Release 12 automated validation; office editor later narrowed to current/shared Classic content to avoid Modern-only confusion"
     },
     {
       "id": "public-team-safety",
@@ -58,9 +76,9 @@
     },
     {
       "id": "administrative-inquiry-handler",
-      "label": "Same-origin administrative inquiry handler, server-side validation, Turnstile verification, allowlisted forwarding, and fail-closed preview defaults",
+      "label": "Same-origin administrative inquiry handler remains fail-closed and disabled until a later activation decision",
       "status": "verified",
-      "source": "Release 13 unit, browser, accessibility, and deployment validation"
+      "source": "Release 13 unit, browser, accessibility, and deployment validation; owner deferred activation 2026-08-09"
     },
     {
       "id": "browser-compatibility-automation",
@@ -93,64 +111,42 @@
       "source": "Release 14 metadata, route-inventory, generated social-image, and browser regression tests"
     }
   ],
-  "launchBlockers": [
-    {
-      "id": "services",
-      "label": "Current service list and patient-friendly terminology",
-      "status": "owner-review-needed",
-      "paths": ["/services/", "/modern/services/"],
-      "replacementNeeded": "The candidate mirrors the twelve procedures on the current public website. Confirm that every procedure remains offered and approve the replacement-site wording."
-    },
-    {
-      "id": "insurance-payment",
-      "label": "Insurance participation, payment methods, and financial policies",
-      "status": "unverified",
-      "paths": ["/modern/new-patients/", "/website-use/"],
-      "replacementNeeded": "Approve the final general wording and add only office-approved plan, payment, financing, estimate, and financial-policy details."
-    },
-    {
-      "id": "urgent-care-wording",
-      "label": "Urgent dental and emergency guidance",
-      "status": "owner-review-needed",
-      "paths": ["/modern/new-patients/", "/website-use/"],
-      "replacementNeeded": "Have the practice approve the urgent wording, telephone instructions, emergency escalation language, and after-hours workflow."
-    },
-    {
-      "id": "production-integrations",
-      "label": "Administrative inquiry launch decision and operating controls",
-      "status": "office-configuration-needed",
-      "paths": ["/modern/contact/", "/api/administrative-inquiry"],
-      "replacementNeeded": "The verified notification mailbox is dfdbeaufort@gmail.com. Approve either a preview-only launch or configure the office-owned Basin form to notify that mailbox, plus encrypted Turnstile values, allowed origins, rate limiting, retention period, daily response owner, backup owner, and a real delivery test before enabling PUBLIC_ADMIN_INQUIRY_ENABLED."
-    }
-  ],
+  "launchBlockers": [],
   "editorialFollowUps": [
+    {
+      "id": "modern-page-wording",
+      "label": "Future Modern-only patient wording and workflow decisions",
+      "status": "deferred-future-design",
+      "paths": ["/modern/about/", "/modern/new-patients/", "/modern/services/"],
+      "nextStep": "Continue Modern development behind noindex. Any Modern-only insurance/payment, urgent/after-hours, financial-policy, or workflow wording can be reviewed when the practice considers moving from Classic to Modern."
+    },
+    {
+      "id": "modern-administrative-inquiry",
+      "label": "Basin/Turnstile administrative inquiry activation",
+      "status": "deferred-future-design",
+      "paths": ["/modern/contact/", "/api/administrative-inquiry"],
+      "nextStep": "Keep disabled for the Classic launch. Reassess with the Modern/Secure Exchange roadmap and the then-current office mailbox before creating Basin or Turnstile production resources."
+    },
     {
       "id": "staff-roster",
       "label": "Optional individual staff names, biographies, and photographs",
       "status": "role-based-public-copy",
       "paths": ["/modern/team/"],
-      "nextStep": "The role-based profiles are safe to keep. Add individual staff only when names, wording, and images are approved."
-    },
-    {
-      "id": "practice-history",
-      "label": "Optional practice history and milestones",
-      "status": "not-published",
-      "paths": ["/modern/about/"],
-      "nextStep": "The current public About page contains practice-history text. Decide whether to approve and migrate it or retain the replacement page's safer omission."
+      "nextStep": "The hidden Modern demo can continue using safe role-based content. Add individual staff only when names, wording, and images are approved."
     },
     {
       "id": "physical-device-review",
       "label": "Current physical iPhone, iPad, Android, macOS, and Windows browser verification",
       "status": "pending-launch-review",
-      "paths": ["all public routes"],
-      "nextStep": "Record the device, operating system, browser version, tester, date, and result for the real-device matrix in the Release 15 evidence package."
+      "paths": ["all public Classic routes"],
+      "nextStep": "Record the device, operating system, browser version, tester, date, and result for the real-device matrix before public launch."
     },
     {
       "id": "human-wcag-review",
       "label": "Human WCAG 2.2 AA review and supported PDF-application check",
       "status": "pending-launch-review",
-      "paths": ["all public routes", "/forms/new-patient-medical-history.pdf", "/forms/privacy-practices.pdf"],
-      "nextStep": "Complete and record every applicable item in the human accessibility checklist before public launch."
+      "paths": ["all public Classic routes", "/forms/new-patient-medical-history.pdf", "/forms/privacy-practices.pdf"],
+      "nextStep": "Complete the human accessibility checklist and verify the final exact-layout fillable PDFs in supported desktop/mobile PDF viewers before public launch."
     }
   ]
 }
