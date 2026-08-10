@@ -33,8 +33,9 @@ for (const route of ['/', '/modern/', '/modern/new-patients/']) {
     expect(dentist).toBeTruthy();
     expect(dentist.name).toBe('Donovan Family Dentistry');
     expect(dentist.telephone).toBe('+18435256866');
+    expect(dentist.email).toBe('dfdbeaufort@gmail.com');
     expect(dentist.address.streetAddress).toBe('91 Sams Point Road');
-    expect(dentist.openingHoursSpecification[0].opens).toBe('08:00');
+    expect(dentist.openingHoursSpecification[0].opens).toBe('07:30');
     expect(dentist.openingHoursSpecification[0].closes).toBe('17:00');
 
     const webPage = graph.find((item) => item['@type'] === 'WebPage');
