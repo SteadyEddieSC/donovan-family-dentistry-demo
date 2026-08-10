@@ -31,6 +31,11 @@ test('structured data derives opening hours from shared data and includes the ve
   assert.match(metadata, /openingHoursSpecification\n\s*}/);
 });
 
+test('the public office email remains editable through the protected Pages CMS quick-update form', async () => {
+  const pagesConfig = await read('.pages.yml');
+  assert.match(pagesConfig, /name: contactEmail, label: Office email address/);
+});
+
 test('Modern remains available as a future demo but is permanently noindex', async () => {
   const [site, modernLayout, sitemap, robots] = await Promise.all([
     readJson('src/data/site.json'),
