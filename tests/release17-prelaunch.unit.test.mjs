@@ -28,7 +28,7 @@ test('structured data derives opening hours from shared data and includes the ve
   assert.match(metadata, /const openingHoursSpecification = site\.hours\.flatMap/);
   assert.match(metadata, /parseClockTime/);
   assert.match(metadata, /email:\s*site\.contactEmail/);
-  assert.match(metadata, /openingHoursSpecification\n\s*}/);
+  assert.match(metadata, /openingHoursSpecification\r?\n\s*}/);
 });
 
 test('the public office email remains editable through the protected Pages CMS quick-update form', async () => {

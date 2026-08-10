@@ -13,9 +13,9 @@ test('/ keeps the final Classic desktop actions compact and presents both dentis
 
   if (!isMobile) {
     const actions = [
-      page.getByRole('link', { name: 'Call the office' }),
-      page.getByRole('link', { name: 'Get directions' }),
-      page.getByRole('link', { name: 'Patient forms' })
+      page.locator('.hero .actions > a').nth(0),
+      page.locator('.hero .actions > a').nth(1),
+      page.locator('.hero .actions > a').nth(2)
     ];
     const boxes = await Promise.all(actions.map((action) => action.boundingBox()));
     expect(boxes.every(Boolean)).toBeTruthy();

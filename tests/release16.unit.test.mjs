@@ -13,8 +13,8 @@ const requiredPaths = new Set([
 ]);
 
 const assetManifest = [
-  { target: 'public/forms/new-patient-medical-history.pdf' },
-  { target: 'public/forms/privacy-practices.pdf' }
+  { target: 'public/forms/Donovan-Medical-History-3-17.pdf' },
+  { target: 'public/forms/donovan-family-dentistry-privacy-policy.pdf' }
 ];
 
 const materializer = `
@@ -171,10 +171,10 @@ test('missing CMS-managed files fail the readiness gate', () => {
 
 test('patient PDFs remain represented and office uploads cannot be overwritten', () => {
   const missingTarget = evaluate(fixture(), requiredPaths, {
-    assetManifest: [{ target: 'public/forms/new-patient-medical-history.pdf' }]
+    assetManifest: [{ target: 'public/forms/Donovan-Medical-History-3-17.pdf' }]
   });
   assert.equal(missingTarget.ok, false);
-  assert.match(missingTarget.failures.join('\n'), /privacy-practices\.pdf/);
+  assert.match(missingTarget.failures.join('\n'), /donovan-family-dentistry-privacy-policy\.pdf/);
 
   const overwritingMaterializer = evaluate(fixture(), requiredPaths, {
     materializer: 'writeFileSync(target, bytes);'

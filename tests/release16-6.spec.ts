@@ -5,15 +5,16 @@ test('downloadable contact card is the first and visually distinct contact actio
   await page.goto('/modern/contact/');
 
   const actions = page.locator('.modern-contact-stack > a');
-  await expect(actions).toHaveCount(4);
+  await expect(actions).toHaveCount(5);
   await expect(actions.nth(0)).toContainText('Downloadable Contact Card');
   await expect(actions.nth(0)).toContainText('open the file to import it');
   await expect(actions.nth(0)).toHaveClass(/modern-contact-tile--featured/);
   await expect(actions.nth(0)).toHaveAttribute('href', '/donovan-family-dentistry.vcf');
   await expect(actions.nth(0)).toHaveAttribute('download', '');
   await expect(actions.nth(1)).toContainText('Call the office');
-  await expect(actions.nth(2)).toContainText('Open directions');
-  await expect(actions.nth(3)).toContainText('Patient forms');
+  await expect(actions.nth(2)).toContainText('Email the office');
+  await expect(actions.nth(3)).toContainText('Open directions');
+  await expect(actions.nth(4)).toContainText('Patient forms');
 
   const featuredColors = await actions.nth(0).evaluate((element) => {
     const style = getComputedStyle(element);
@@ -22,7 +23,7 @@ test('downloadable contact card is the first and visually distinct contact actio
   expect(featuredColors.background).toBe('rgb(139, 184, 79)');
   expect(featuredColors.color).toBe('rgb(6, 47, 53)');
 
-  await expect(page.locator('.modern-contact-stack .modern-action-icon')).toHaveCount(4);
+  await expect(page.locator('.modern-contact-stack .modern-action-icon')).toHaveCount(5);
   await expect(page.locator('.modern-contact-stack .modern-action-icon').first()).toHaveAttribute('aria-hidden', 'true');
   await expect(page.locator('.modern-page-hero__aside')).toContainText('After it downloads, open the file once to import the office into your contacts.');
 });

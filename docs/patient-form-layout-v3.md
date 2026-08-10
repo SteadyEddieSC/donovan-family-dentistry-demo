@@ -5,6 +5,6 @@ The fillable new-patient form was visually verified after two owner-review corre
 - The Date of birth and Marital status controls are fully contained inside the Patient information panel.
 - The Patient information title bar retains clean rounded upper corners.
 - The first-row Full legal name, Nickname, and Email labels remain clear of their fillable fields.
-- The PDF remains a three-page AcroForm document.
+- The PDF remains a two-page AcroForm document.
 
 Verification performed with PDFium and Poppler renderers, plus a sample-filled render of the corrected fields.

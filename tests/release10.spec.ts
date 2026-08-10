@@ -43,7 +43,7 @@ test('new-patient guide is public-facing and accessible', async ({ page }) => {
   await expect(page.getByRole('heading', { name: 'From first call to first visit.' })).toBeVisible();
   await expect(page.getByText('Coverage estimates are not guarantees of payment.')).toBeVisible();
   await expect(page.getByText('Call 911 or seek emergency care immediately', { exact: false })).toBeVisible();
-  await expect(page.getByRole('link', { name: 'Download the patient form' })).toHaveAttribute('href', '/forms/new-patient-medical-history.pdf');
+  await expect(page.getByRole('link', { name: 'Download the patient form' })).toHaveAttribute('href', '/forms/Donovan-Medical-History-3-17.pdf');
 
   const results = await new AxeBuilder({ page })
     .withTags(['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa'])

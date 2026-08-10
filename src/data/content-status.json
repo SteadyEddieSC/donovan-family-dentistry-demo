@@ -145,7 +145,7 @@
       "id": "human-wcag-review",
       "label": "Human WCAG 2.2 AA review and supported PDF-application check",
       "status": "pending-launch-review",
-      "paths": ["all public Classic routes", "/forms/new-patient-medical-history.pdf", "/forms/privacy-practices.pdf"],
+      "paths": ["all public Classic routes", "/forms/Donovan-Medical-History-3-17.pdf", "/forms/donovan-family-dentistry-privacy-policy.pdf"],
       "nextStep": "Complete the human accessibility checklist and verify the final exact-layout fillable PDFs in supported desktop/mobile PDF viewers before public launch."
     }
   ]

@@ -12,7 +12,7 @@ const publicRoutes = [
 const sitemapRoutes = publicRoutes.slice(0, 7);
 const retainedDemoRoutes = publicRoutes.slice(7);
 
-test('production-candidate safety gate preserves preview controls and launch blockers', async ({ isMobile }) => {
+test('production-candidate safety gate preserves preview controls and the deferred inquiry decision', async ({ isMobile }) => {
   test.skip(isMobile, 'Repository-level validation only needs to run once.');
   const result = spawnSync(process.execPath, ['scripts/check-production-candidate.mjs'], {
     cwd: repositoryRoot,
@@ -20,7 +20,8 @@ test('production-candidate safety gate preserves preview controls and launch blo
   });
   expect(result.status, result.stderr).toBe(0);
   expect(result.stdout).toContain('preview indexing disabled');
-  expect(result.stdout).toContain('5 enforced launch blocker');
+  expect(result.stdout).toContain('0 unresolved launch blocker');
+  expect(result.stdout).toContain('administrative inquiry intentionally deferred');
 });
 
 test('release 14 evidence distinguishes automated coverage from pending real-device review', async ({ isMobile }) => {

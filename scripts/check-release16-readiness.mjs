@@ -33,8 +33,8 @@ const REQUIRED_EDITABLE_CMS_PATHS = [
 ];
 
 const REQUIRED_GENERATED_FORM_TARGETS = [
-  'public/forms/new-patient-medical-history.pdf',
-  'public/forms/privacy-practices.pdf'
+  'public/forms/Donovan-Medical-History-3-17.pdf',
+  'public/forms/donovan-family-dentistry-privacy-policy.pdf'
 ];
 
 const ALLOWED_TOOL_STATUSES = new Set([
