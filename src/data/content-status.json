@@ -1,12 +1,18 @@
 {
   "schemaVersion": 3,
-  "lastReviewed": "2026-08-01",
+  "lastReviewed": "2026-08-09",
   "verified": [
     {
       "id": "contact-details",
       "label": "Address, telephone number, and office hours",
       "status": "verified",
       "source": "Owner-confirmed"
+    },
+    {
+      "id": "office-email",
+      "label": "Office-controlled public contact and administrative inquiry notification mailbox",
+      "status": "verified",
+      "source": "Owner-confirmed access and send/receive capability; dfdbeaufort@gmail.com"
     },
     {
       "id": "dr-donovan-profile",
@@ -109,7 +115,7 @@
       "label": "Administrative inquiry launch decision and operating controls",
       "status": "office-configuration-needed",
       "paths": ["/modern/contact/", "/api/administrative-inquiry"],
-      "replacementNeeded": "Approve either a preview-only launch or configure the office-owned Basin form and notification recipient, encrypted Turnstile values, allowed origins, rate limiting, retention period, daily response owner, backup owner, and a real delivery test before enabling PUBLIC_ADMIN_INQUIRY_ENABLED."
+      "replacementNeeded": "The verified notification mailbox is dfdbeaufort@gmail.com. Approve either a preview-only launch or configure the office-owned Basin form to notify that mailbox, plus encrypted Turnstile values, allowed origins, rate limiting, retention period, daily response owner, backup owner, and a real delivery test before enabling PUBLIC_ADMIN_INQUIRY_ENABLED."
     }
   ],
   "editorialFollowUps": [
