@@ -5,9 +5,7 @@ import { evaluateRelease16Readiness } from '../scripts/check-release16-readiness
 
 const requiredPaths = new Set([
   'src/data/site.json',
-  'src/data/practice-content.json',
   'src/data/providers.json',
-  'src/data/modern-team.json',
   'src/data/services.json',
   'src/data/forms.json',
   'public/images',
@@ -37,9 +35,7 @@ actions:
   - workflow: office-site-check.yml
 content:
   - path: src/data/site.json
-  - path: src/data/practice-content.json
   - path: src/data/providers.json
-  - path: src/data/modern-team.json
   - path: src/data/services.json
   - path: src/data/forms.json
 `;
@@ -126,6 +122,20 @@ test('configured CMS and tool register pass while owner acceptance stays open', 
   assert.match(result.warnings.join('\n'), /operational acceptance/i);
 });
 
+test('office CMS intentionally excludes Modern-only wording and staff profiles', () => {
+  const modernWording = evaluate(fixture(), requiredPaths, {
+    pagesConfig: `${pagesConfig}\n  - path: src/data/practice-content.json\n`
+  });
+  assert.equal(modernWording.ok, false);
+  assert.match(modernWording.failures.join('\n'), /Modern-only page wording/i);
+
+  const modernTeam = evaluate(fixture(), requiredPaths, {
+    pagesConfig: `${pagesConfig}\n  - path: src/data/modern-team.json\n`
+  });
+  assert.equal(modernTeam.ok, false);
+  assert.match(modernTeam.failures.join('\n'), /Modern-only page wording/i);
+});
+
 test('CMS cannot be marked accepted without changing the governed evidence model', () => {
   const data = fixture();
   data.cms.operationalAcceptance = 'accepted';
@@ -159,7 +169,7 @@ test('missing CMS-managed files fail the readiness gate', () => {
   assert.match(result.failures.join('\n'), /providers\.json/);
 });
 
-test('generated blank PDFs remain represented and office uploads cannot be overwritten', () => {
+test('patient PDFs remain represented and office uploads cannot be overwritten', () => {
   const missingTarget = evaluate(fixture(), requiredPaths, {
     assetManifest: [{ target: 'public/forms/new-patient-medical-history.pdf' }]
   });
