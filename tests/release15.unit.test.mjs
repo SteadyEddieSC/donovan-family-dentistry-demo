@@ -28,7 +28,6 @@ function makeFixture() {
     site: { previewMode: true },
     contentStatus: {
       launchBlockers: [
-        { id: 'provider-roster' },
         { id: 'services' },
         { id: 'insurance-payment' },
         { id: 'urgent-care-wording' },
@@ -37,7 +36,7 @@ function makeFixture() {
     },
     launchReadiness: {
       phase: 'readiness',
-      selectedDesign: 'modern',
+      selectedDesign: 'classic',
       targetDomain: 'donovanfamilydentistry.com',
       canonicalOrigin: 'https://donovanfamilydentistry.com',
       productionCutoverApproved: false,
