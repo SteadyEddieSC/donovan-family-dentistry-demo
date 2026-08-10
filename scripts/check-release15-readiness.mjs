@@ -20,13 +20,6 @@ const REQUIRED_EVIDENCE_IDS = [
   'change-window'
 ];
 
-const REQUIRED_CONTENT_BLOCKERS = [
-  'services',
-  'insurance-payment',
-  'urgent-care-wording',
-  'production-integrations'
-];
-
 const CLEAR_STATUSES = new Set(['verified', 'approved-deferred']);
 const ALLOWED_PHASES = new Set(['readiness', 'production']);
 const ALLOWED_DESIGNS = new Set(['modern', 'classic']);
@@ -106,11 +99,8 @@ export function evaluateRelease15Readiness({ site, contentStatus, launchReadines
     }
   }
 
-  const blockerIds = Array.isArray(contentStatus.launchBlockers)
-    ? contentStatus.launchBlockers.map((item) => item.id)
-    : [];
-  for (const id of REQUIRED_CONTENT_BLOCKERS) {
-    if (!blockerIds.includes(id)) failures.push(`content-status launchBlockers is missing ${id}.`);
+  if (!Array.isArray(contentStatus.launchBlockers)) {
+    failures.push('content-status launchBlockers must remain an array, even when owner-approved Classic content leaves it empty.');
   }
 
   if (previewOverride !== undefined && !['true', 'false'].includes(previewOverride)) {
