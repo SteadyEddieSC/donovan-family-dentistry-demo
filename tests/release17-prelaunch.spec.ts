@@ -1,7 +1,20 @@
 import { test, expect } from '@playwright/test';
 
-test('/contact/ shows the verified office hours and email from the shared site record', async ({ page }, testInfo) => {
+test('/contact/ shows the verified office hours, email, and prominent contact-card download', async ({ page }, testInfo) => {
   await page.goto('/contact/', { waitUntil: 'networkidle' });
+
+  const download = page.getByRole('link', { name: 'Download Office Contact Card' });
+  await expect(download).toBeVisible();
+  await expect(download).toHaveAttribute('href', '/donovan-family-dentistry.vcf');
+  await expect(download).toHaveClass(/button--primary/);
+  await expect(page.getByText(/open the file and choose Add or Save to Contacts/i)).toBeVisible();
+
+  const phoneCard = page.locator('.contact-card').filter({ hasText: 'Phone' });
+  const downloadBox = await download.boundingBox();
+  const phoneBox = await phoneCard.boundingBox();
+  expect(downloadBox).not.toBeNull();
+  expect(phoneBox).not.toBeNull();
+  expect(downloadBox!.y).toBeLessThan(phoneBox!.y);
 
   for (const day of ['Monday', 'Tuesday', 'Wednesday', 'Thursday']) {
     const row = page.getByRole('row', { name: new RegExp(`${day}\\s+7:30 AM-5:00 PM`, 'i') });
