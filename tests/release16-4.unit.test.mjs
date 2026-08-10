@@ -28,6 +28,7 @@ test('Release 16.4 publishes a static office vCard without external dependencies
   assert.match(card, /VERSION:3\.0/);
   assert.match(card, /FN:Donovan Family Dentistry/);
   assert.match(card, /TEL;TYPE=WORK,VOICE:\+18435256866/);
+  assert.match(card, /EMAIL;TYPE=WORK:dfdbeaufort@gmail\.com/);
   assert.match(card, /ADR;TYPE=WORK:;;91 Sams Point Road;Beaufort;SC;29907;USA/);
   assert.doesNotMatch(card, /https?:\/\//i);
   assert.doesNotMatch(card, /patient|diagnos|insurance id|social security/i);
@@ -38,7 +39,8 @@ test('Release 16.4 publishes a static office vCard without external dependencies
   }
   assert.match(layout, /Download contact card/);
   assert.match(contactActions, /Downloadable Contact Card/);
-  assert.match(classicContact, /Save office contact/);
+  assert.match(classicContact, /Download Office Contact Card/);
+  assert.match(classicContact, /Save to Contacts/);
 });
 
 test('Release 16.4 modernizes the recovery page without adding unverified claims', async () => {
