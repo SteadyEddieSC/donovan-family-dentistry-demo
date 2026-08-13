@@ -27,7 +27,7 @@
     "prebuild": "node scripts/check-inquiry-configuration.mjs && node scripts/check-editor-content.mjs && node scripts/check-launch-readiness.mjs && node scripts/check-production-candidate.mjs && node scripts/check-release15-readiness.mjs && node scripts/check-release16-readiness.mjs && node scripts/materialize-assets.mjs && node scripts/generate-responsive-images.mjs"
   },
   "dependencies": {
-    "astro": "7.1.6"
+    "astro": "7.2.0"
   },
   "devDependencies": {
     "@axe-core/playwright": "4.12.1",
