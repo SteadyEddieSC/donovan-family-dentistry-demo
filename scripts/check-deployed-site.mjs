@@ -46,8 +46,8 @@ const pageUrls = canonicalPageUrls.map((canonicalUrl) => {
 
 const links = new Set([
   absolute('/robots.txt').toString(),
-  absolute('/forms/new-patient-medical-history.pdf').toString(),
-  absolute('/forms/privacy-practices.pdf').toString(),
+  absolute('/forms/Donovan-Medical-History-3-17.pdf').toString(),
+  absolute('/forms/donovan-family-dentistry-privacy-policy.pdf').toString(),
   absolute('/images/donovan-social-card.webp').toString()
 ]);
 

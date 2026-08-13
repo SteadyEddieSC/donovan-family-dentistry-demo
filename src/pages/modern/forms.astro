@@ -1,11 +1,14 @@
 ---
 import ModernLayout from '../../layouts/ModernLayout.astro';
+import forms from '../../data/forms.json';
+
+const [medicalHistoryForm, privacyPracticesForm] = forms;
 ---
 <ModernLayout title="Patient Forms | Donovan Family Dentistry" description="Download fillable patient forms and the Notice of Privacy Practices for Donovan Family Dentistry.">
   <section class="modern-page-hero"><div class="modern-shell modern-page-hero__grid"><div><p class="modern-kicker">Patient forms</p><h1>Prepare before your appointment.</h1></div><p class="modern-page-hero__aside">Download the forms, complete them locally on your device, and print them for the office. The website does not accept medical-history uploads.</p></div></section>
   <section class="modern-section"><div class="modern-shell modern-visit-grid"><article class="modern-visit-card"><h2>Downloadable forms</h2><div class="modern-form-list">
-    <a class="modern-form-download" href="/forms/new-patient-medical-history.pdf" download><span class="modern-form-download__icon">PDF</span><span><strong>New Patient & Medical History Form</strong><span>Fillable, three-page PDF. Complete locally, save a copy, and print it.</span></span><span class="modern-button modern-button--primary">Download</span></a>
-    <a class="modern-form-download" href="/forms/privacy-practices.pdf" download><span class="modern-form-download__icon">PDF</span><span><strong>Notice of Privacy Practices</strong><span>Review the supplied notice and acknowledgement page.</span></span><span class="modern-button modern-button--primary">Download</span></a>
+    <a class="modern-form-download" href={medicalHistoryForm.file} download><span class="modern-form-download__icon">PDF</span><span><strong>{medicalHistoryForm.title}</strong><span>{medicalHistoryForm.description}</span></span><span class="modern-button modern-button--primary">Download</span></a>
+    <a class="modern-form-download" href={privacyPracticesForm.file} download><span class="modern-form-download__icon">PDF</span><span><strong>{privacyPracticesForm.title}</strong><span>{privacyPracticesForm.description}</span></span><span class="modern-button modern-button--primary">Download</span></a>
   </div></article><aside class="modern-visit-card"><h3>How to use the forms</h3><ol class="modern-checklist"><li>Download the PDF to your device.</li><li>Open it in a PDF application that supports fillable fields.</li><li>Save and print the completed form.</li><li>Bring the printed copy to the office.</li></ol></aside></div></section>
   <section class="modern-section modern-section--deep"><div class="modern-shell modern-visit-grid"><article><p class="modern-eyebrow">Protect your information</p><h2>Do not email or upload completed medical forms through a general website form.</h2><p class="modern-lead">Medical history, medications, Social Security numbers, insurance identifiers, and treatment details require an office-approved secure workflow.</p></article><aside class="modern-visit-card"><h3>Need help?</h3><p>Call the office for general questions about downloading, printing, or bringing the forms.</p><a class="modern-button modern-button--coral" href="tel:+18435256866">Call (843) 525-6866</a></aside></div></section>
 </ModernLayout>

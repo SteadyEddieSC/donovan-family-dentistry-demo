@@ -1,9 +1,10 @@
 import { createHash } from 'node:crypto';
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { gunzipSync } from 'node:zlib';
 
-const root = new URL('..', import.meta.url).pathname;
+const root = fileURLToPath(new URL('..', import.meta.url));
 const manifest = JSON.parse(readFileSync(join(root, '.asset-source', 'manifest.json'), 'utf8'));
 
 function decodeChunks(names) {

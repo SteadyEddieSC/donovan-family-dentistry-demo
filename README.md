@@ -1,6 +1,6 @@
 # Donovan Family Dentistry launch candidate
 
-Private launch-readiness website for Donovan Family Dentistry in Beaufort, South Carolina. The modern concept is the selected production design. The repository remains in private preview until the governed launch evidence and owner acceptance work are complete.
+Private launch-readiness website for Donovan Family Dentistry in Beaufort, South Carolina. The Classic concept at `/` is the approved initial production design. The Modern concept remains available at `/modern/` as a future-design demo and must remain permanently noindex and absent from the public sitemap. The repository remains in private preview until the governed launch evidence and owner acceptance work are complete.
 
 ## Safety boundary
 
@@ -8,7 +8,11 @@ This repository does not modify the production domain, nameservers, DNS records,
 
 The Contact page contains a non-PHI administrative-request experience. It remains preview-only by default. A same-origin Cloudflare Pages Function is included for eventual activation, but it fails closed unless the office-owned Basin endpoint, Turnstile secret, allowed origins, notification recipient, retention procedure, response owner, backup owner, and rate-limiting control are configured. Medical and dental history is not submitted through the website.
 
-The provider roster, service wording, insurance/payment language, urgent-care workflow, inquiry launch decision, physical-device review, human accessibility review, Pages CMS acceptance, authoritative DNS backup, exact legacy-hosting details, mail/application preservation, rollback rehearsal, and change window remain documented launch evidence.
+The verified office contact record includes Monday-through-Thursday hours of 7:30 AM–5:00 PM and the office-controlled mailbox `dfdbeaufort@gmail.com`. The office email remains editable through the Pages CMS quick-update form. The Classic Contact page provides a prominent **Download Office Contact Card** action above the telephone/email/address blocks and explains how to open the downloaded vCard and save it to contacts.
+
+The approved current dentist roster is Dr. William Donovan and Dr. Jordan Henke; the current Classic About page includes Dr. Donovan's updated photograph and the approved two-daughters biography wording.
+
+The service wording, insurance/payment language, urgent-care workflow, inquiry launch decision, physical-device review, human accessibility review, authoritative DNS backup, exact legacy-hosting details, mail/application preservation, rollback rehearsal, and change window remain documented launch evidence.
 
 ## Stack
 
@@ -75,7 +79,7 @@ Open the hosted Pages CMS editor at:
 
 https://app.pagescms.org/
 
-Pages CMS reads `.pages.yml` and provides protected editors for practice details, hours, announcements, page wording, services, profiles, images, and blank PDF forms.
+Pages CMS reads `.pages.yml` and provides protected editors for practice details, phone/email/address, hours, announcements, page wording, services, profiles, images, and blank PDF forms.
 
 Repository-side configuration is ready. The owner acceptance test proved that an authorized owner can open the private repository, edit `src/data/site.json`, save a real commit to `main`, and trigger a Cloudflare Pages deployment. The remaining acceptance evidence is the full website-check result and a demonstrated restoration.
 
@@ -195,7 +199,7 @@ Use these project settings:
 
 The `functions/` directory deploys the same-origin `/api/administrative-inquiry` route. `public/_routes.json` limits Function invocation to `/api/*`, so ordinary static page requests remain static.
 
-Do not connect `donovanfamilydentistry.com` or `www.donovanfamilydentistry.com`, remove `noindex`, enable analytics, or enable live inquiry delivery during Release 16.x.
+Use the current branch or exact-commit Cloudflare preview to proof hours, email, provider content, contact-card behavior, mobile layout, and other release changes before merge. Do not connect `donovanfamilydentistry.com` or `www.donovanfamilydentistry.com`, remove `noindex`, enable analytics, or enable live inquiry delivery until the final Release 17 production-cutover release has been verified.
 
 ## Monitoring
 
@@ -224,4 +228,4 @@ Do not connect `donovanfamilydentistry.com` or `www.donovanfamilydentistry.com`,
 
 ## Content provenance
 
-Initial text comes from the existing public website, the supplied website screenshot, and owner-provided corrections. The current public two-dentist roster remains an unresolved replacement-site decision rather than being silently omitted or republished. The active classic and modern concepts use the same owner-preferred horizontal SVG logo. The Release 16.2 oval vector remains preserved only as prior visual-development history. See `docs/content-inventory.md`, `docs/owner-review.md`, and the release documents above.
+Initial text comes from the existing public website, the supplied website screenshot, and owner-provided corrections. The approved current provider roster is Dr. William Donovan and Dr. Jordan Henke. The active Classic production candidate and retained Modern demo use the same owner-preferred horizontal SVG logo. The Release 16.2 oval vector remains preserved only as prior visual-development history. See `docs/content-inventory.md`, `docs/owner-review.md`, and the release documents above.

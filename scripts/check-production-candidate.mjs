@@ -15,16 +15,8 @@ const [site, status, robotsRoute, headers, envExample] = await Promise.all([
 ]);
 
 const failures = [];
-const requiredBlockers = [
-  'provider-roster',
-  'services',
-  'insurance-payment',
-  'urgent-care-wording',
-  'production-integrations'
-];
-const blockerIds = status.launchBlockers.map((item) => item.id);
 
-if (site.previewMode !== true) failures.push('site.previewMode must remain true until all launch blockers are genuinely verified.');
+if (site.previewMode !== true) failures.push('site.previewMode must remain true until the final production-cutover release is approved.');
 if (site.socialImage !== '/images/donovan-social-card.webp') failures.push('site.socialImage must use the generated 1200x630 production-candidate social card.');
 if (!robotsRoute.includes('site.previewMode')) failures.push('robots.txt route must remain governed by the explicit preview-mode launch switch.');
 if (!robotsRoute.includes("'User-agent: *\\nDisallow: /\\n'")) failures.push('robots.txt route must block all crawling during private preview.');
@@ -34,12 +26,22 @@ if (!robotsRoute.includes('Sitemap:')) failures.push('robots.txt route must adve
 if (!headers.includes('X-Robots-Tag: noindex, nofollow, noarchive')) failures.push('Cloudflare headers must keep the preview noindex policy.');
 if (!envExample.includes('PUBLIC_ADMIN_INQUIRY_ENABLED=false')) failures.push('The administrative inquiry must remain disabled by default.');
 
-for (const blocker of requiredBlockers) {
-  if (!blockerIds.includes(blocker)) failures.push(`Launch blocker ${blocker} is missing from the readiness register.`);
-}
 for (const item of status.launchBlockers) {
-  if (item.status === 'verified') failures.push(`Launch blocker ${item.id} cannot be marked verified without owner/configuration evidence.`);
-  if (!item.replacementNeeded) failures.push(`Launch blocker ${item.id} must explain the evidence needed to clear it.`);
+  if (!item?.id || !item?.label || !item?.status || !item?.replacementNeeded) {
+    failures.push('Every remaining launch blocker must retain id, label, status, and replacementNeeded evidence guidance.');
+  }
+}
+
+for (const requiredVerifiedId of [
+  'provider-roster',
+  'classic-content-approval',
+  'insurance-network-status',
+  'administrative-inquiry-deferred',
+  'patient-form-layout'
+]) {
+  if (!status.verified.some((item) => item.id === requiredVerifiedId && item.status === 'verified')) {
+    failures.push(`Verified readiness evidence ${requiredVerifiedId} is missing.`);
+  }
 }
 
 for (const requiredDocument of [
@@ -59,4 +61,4 @@ if (failures.length > 0) {
   process.exit(1);
 }
 
-console.log(`Production-candidate safety gate passed with ${status.launchBlockers.length} enforced launch blocker(s), preview indexing disabled, and retained noindex pages crawlable for indexing-rule enforcement after launch.`);
+console.log(`Production-candidate safety gate passed with ${status.launchBlockers.length} unresolved launch blocker(s), preview indexing disabled, Classic content owner-approved, the administrative inquiry intentionally deferred, and retained noindex pages crawlable for indexing-rule enforcement after launch.`);

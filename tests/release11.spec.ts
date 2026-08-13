@@ -33,8 +33,9 @@ for (const route of ['/', '/modern/', '/modern/new-patients/']) {
     expect(dentist).toBeTruthy();
     expect(dentist.name).toBe('Donovan Family Dentistry');
     expect(dentist.telephone).toBe('+18435256866');
+    expect(dentist.email).toBe('dfdbeaufort@gmail.com');
     expect(dentist.address.streetAddress).toBe('91 Sams Point Road');
-    expect(dentist.openingHoursSpecification[0].opens).toBe('08:00');
+    expect(dentist.openingHoursSpecification[0].opens).toBe('07:30');
     expect(dentist.openingHoursSpecification[0].closes).toBe('17:00');
 
     const webPage = graph.find((item) => item['@type'] === 'WebPage');
@@ -55,41 +56,53 @@ test('web manifest is valid and points to the approved Classic patient experienc
   expect(manifest.icons[0].src).toBe('/favicon.svg');
 });
 
-test('content verification register tracks launch blockers and nonblocking follow-ups separately', async ({ isMobile }) => {
+test('content verification register separates approved Classic evidence from deferred Modern follow-ups', async ({ isMobile }) => {
   test.skip(isMobile, 'Repository-level validation only needs to run once.');
   const register = JSON.parse(
     readFileSync(path.join(repositoryRoot, 'src/data/content-status.json'), 'utf8')
   );
+  const verifiedIds = register.verified.map((item: { id: string }) => item.id);
   const blockerIds = register.launchBlockers.map((item: { id: string }) => item.id);
   const followUpIds = register.editorialFollowUps.map((item: { id: string }) => item.id);
+
+  expect(new Set(verifiedIds).size).toBe(verifiedIds.length);
   expect(new Set(blockerIds).size).toBe(blockerIds.length);
   expect(new Set(followUpIds).size).toBe(followUpIds.length);
-  expect(blockerIds).toContain('provider-roster');
-  expect(blockerIds).toContain('services');
-  expect(blockerIds).toContain('production-integrations');
-  expect(followUpIds).not.toContain('associate-dentist');
+
+  expect(verifiedIds).toContain('provider-roster');
+  expect(verifiedIds).toContain('dr-donovan-profile');
+  expect(verifiedIds).toContain('dr-henke-profile');
+  expect(verifiedIds).toContain('classic-content-approval');
+  expect(verifiedIds).toContain('insurance-network-status');
+  expect(verifiedIds).toContain('administrative-inquiry-deferred');
+  expect(blockerIds).toHaveLength(0);
+  expect(followUpIds).toContain('modern-page-wording');
+  expect(followUpIds).toContain('modern-administrative-inquiry');
   expect(followUpIds).toContain('staff-roster');
-  expect(register.launchBlockers.every((item: { replacementNeeded?: string }) => Boolean(item.replacementNeeded))).toBeTruthy();
 });
 
-test('launch gate allows preview builds and blocks premature public promotion', async ({ isMobile }) => {
+test('Release 15 gate keeps infrastructure evidence fail-closed even after Classic content approval', async ({ isMobile }) => {
   test.skip(isMobile, 'Repository-level validation only needs to run once.');
 
-  const preview = spawnSync(process.execPath, ['scripts/check-launch-readiness.mjs'], {
+  const readiness = spawnSync(process.execPath, ['scripts/check-release15-readiness.mjs'], {
     cwd: repositoryRoot,
     encoding: 'utf8'
   });
-  expect(preview.status).toBe(0);
-  expect(preview.stdout).toContain('preview mode is active');
+  expect(readiness.status).toBe(0);
+  expect(readiness.stdout).toContain('readiness phase');
 
-  const productionAttempt = spawnSync(process.execPath, ['scripts/check-launch-readiness.mjs'], {
+  const productionAttempt = spawnSync(process.execPath, ['scripts/check-release15-readiness.mjs'], {
     cwd: repositoryRoot,
     encoding: 'utf8',
-    env: { ...process.env, LAUNCH_PREVIEW_MODE: 'false' }
+    env: {
+      ...process.env,
+      LAUNCH_PHASE: 'production',
+      LAUNCH_PREVIEW_MODE: 'false'
+    }
   });
   expect(productionAttempt.status).toBe(1);
-  expect(productionAttempt.stderr).toContain('Public launch is blocked');
-  expect(productionAttempt.stderr).toContain('Current service list');
+  expect(productionAttempt.stderr).toContain('Production launch is blocked');
+  expect(productionAttempt.stderr).toMatch(/physical-device-review|human-wcag-review|dns-zone-backup/);
 });
 
 test('modern logo images include explicit loading behavior', async ({ page }) => {

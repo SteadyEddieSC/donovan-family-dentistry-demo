@@ -220,12 +220,18 @@ test('modern inquiry preview validates locally and sends nothing', async ({ page
   await expect(result).toContainText('(843) 555-0100');
 });
 
-test('corrected patient form materializes with the reviewed hash', async ({ request }) => {
-  const response = await request.get('/forms/new-patient-medical-history.pdf');
+test('approved patient forms materialize with the reviewed hashes', async ({ request }) => {
+  const response = await request.get('/forms/Donovan-Medical-History-3-17.pdf');
   expect(response.status()).toBeLessThan(400);
   const bytes = Buffer.from(await response.body());
-  expect(bytes.length).toBe(105458);
-  expect(createHash('sha256').update(bytes).digest('hex')).toBe('b71e76aac8aa37db4b1910c2e87984e223c14d9310d1bda8496a045963dbc1c5');
+  expect(bytes.length).toBe(1111573);
+  expect(createHash('sha256').update(bytes).digest('hex')).toBe('d3713d5fd6052206f8b2b68c692f95233063f2ff01583ec021eee5f0d0f0b27e');
+
+  const privacyResponse = await request.get('/forms/donovan-family-dentistry-privacy-policy.pdf');
+  expect(privacyResponse.status()).toBeLessThan(400);
+  const privacyBytes = Buffer.from(await privacyResponse.body());
+  expect(privacyBytes.length).toBe(197299);
+  expect(createHash('sha256').update(privacyBytes).digest('hex')).toBe('8a72eec19622706fd922d6c4ba14adbaf55ec7df8648d8ca257923e96c934ded');
 });
 
 test('internal links and downloadable assets resolve', async ({ page, request }) => {
@@ -239,8 +245,8 @@ test('internal links and downloadable assets resolve', async ({ page, request })
   }
   internalLinks.add('/images/dr-william-donovan-photo.webp');
   internalLinks.add('/images/dr-jordan-henke-family.webp');
-  internalLinks.add('/forms/new-patient-medical-history.pdf');
-  internalLinks.add('/forms/privacy-practices.pdf');
+  internalLinks.add('/forms/Donovan-Medical-History-3-17.pdf');
+  internalLinks.add('/forms/donovan-family-dentistry-privacy-policy.pdf');
   internalLinks.add('/donovan-family-dentistry.vcf');
   internalLinks.add('/sitemap.xml');
   internalLinks.add('/robots.txt');

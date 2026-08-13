@@ -23,7 +23,6 @@ settings:
       update: "office update: revise {filename}"
       delete: "office update: remove {filename}"
 
-
 actions:
   - name: verify-website
     label: Build and verify website
@@ -33,7 +32,7 @@ actions:
 
 content:
   - name: quick-updates
-    label: Quick updates
+    label: Current website quick updates
     type: group
     items:
       - name: site
@@ -51,6 +50,7 @@ content:
           - { name: introduction, label: Homepage introduction, type: text, required: true, options: { maxlength: 350 } }
           - { name: phoneDisplay, label: Display phone number, type: string, required: true }
           - { name: phoneHref, label: Click-to-call number, type: string, required: true, description: "Use +1 followed by the ten-digit number." }
+          - { name: contactEmail, label: Office email address, type: string, required: true, description: "Public office contact email used on the Contact page and contact card." }
           - name: address
             label: Address
             type: object
@@ -94,92 +94,12 @@ content:
               - { name: title, label: Homepage page title, type: string, required: true, options: { maxlength: 65 } }
               - { name: description, label: Homepage description, type: text, required: true, options: { maxlength: 165 } }
 
-  - name: page-wording
-    label: Modern page wording
-    type: group
-    items:
-      - name: practice-content
-        label: About, Team, and Services page wording
-        type: file
-        path: src/data/practice-content.json
-        format: json
-        operations:
-          create: false
-          rename: false
-          delete: false
-        fields:
-          - name: about
-            label: About page
-            type: object
-            fields:
-              - { name: kicker, label: Small heading, type: string, required: true }
-              - { name: headline, label: Main heading, type: text, required: true }
-              - { name: introduction, label: Introduction, type: text, required: true }
-              - { name: storyEyebrow, label: Story small heading, type: string, required: true }
-              - { name: storyTitle, label: Story heading, type: text, required: true }
-              - { name: storyParagraphs, label: Story paragraphs, type: text, list: true, required: true }
-              - { name: locationEyebrow, label: Location small heading, type: string, required: true }
-              - { name: locationTitle, label: Location heading, type: string, required: true }
-              - { name: locationText, label: Location text, type: text, required: true }
-              - { name: valuesEyebrow, label: Values small heading, type: string, required: true }
-              - { name: valuesTitle, label: Values heading, type: text, required: true }
-              - name: values
-                label: Values
-                type: object
-                list: true
-                fields:
-                  - { name: number, label: Number, type: string, required: true }
-                  - { name: title, label: Title, type: string, required: true }
-                  - { name: text, label: Text, type: text, required: true }
-              - { name: journeyEyebrow, label: Patient journey small heading, type: string, required: true }
-              - { name: journeyTitle, label: Patient journey heading, type: text, required: true }
-              - name: journey
-                label: Patient journey cards
-                type: object
-                list: true
-                fields:
-                  - { name: title, label: Title, type: string, required: true }
-                  - { name: text, label: Text, type: text, required: true }
-          - name: teamPage
-            label: Team page headings
-            type: object
-            fields:
-              - { name: kicker, label: Small heading, type: string, required: true }
-              - { name: headline, label: Main heading, type: text, required: true }
-              - { name: introduction, label: Introduction, type: text, required: true }
-              - { name: providersEyebrow, label: Dentist section small heading, type: string, required: true }
-              - { name: providersTitle, label: Dentist section heading, type: text, required: true }
-              - { name: providersIntroduction, label: Dentist section introduction, type: text, required: true }
-              - { name: teamEyebrow, label: Staff section small heading, type: string, required: true }
-              - { name: teamTitle, label: Staff section heading, type: text, required: true }
-              - { name: teamIntroduction, label: Staff section introduction, type: text, required: true }
-          - name: servicesPage
-            label: Services page headings and groups
-            type: object
-            fields:
-              - { name: kicker, label: Small heading, type: string, required: true }
-              - { name: headline, label: Main heading, type: text, required: true }
-              - { name: introduction, label: Introduction, type: text, required: true }
-              - name: groups
-                label: Service groups
-                type: object
-                list: true
-                fields:
-                  - { name: id, label: Internal group ID, type: string, required: true, description: "Do not change unless the matching services are also updated." }
-                  - { name: title, label: Group title, type: string, required: true }
-                  - { name: summary, label: Group summary, type: text, required: true }
-                  - { name: planning, label: Planning note, type: text, required: true }
-                  - { name: order, label: Display order, type: number, required: true }
-              - { name: planningEyebrow, label: Planning small heading, type: string, required: true }
-              - { name: planningTitle, label: Planning heading, type: string, required: true }
-              - { name: planningText, label: Planning text, type: text, required: true }
-
-  - name: people
-    label: Dentists and team
+  - name: dentists
+    label: Dentist profiles
     type: group
     items:
       - name: providers
-        label: Dentist profiles
+        label: Current dentists
         type: file
         path: src/data/providers.json
         format: json
@@ -199,33 +119,11 @@ content:
           - { name: imageType, label: Image type, type: string, required: true, description: "Use photo or illustration." }
           - { name: photo, label: Photograph, type: image, options: { media: images } }
           - { name: photoAlt, label: Photograph description, type: text }
-          - { name: portrait, label: Illustration style, type: string }
+          - { name: portrait, label: Illustration style, type: string, readonly: true }
           - { name: summary, label: Short summary, type: text, required: true }
-          - { name: biography, label: Classic-site biography paragraphs, type: text, list: true, required: true }
-          - { name: details, label: Modern-site biography paragraphs, type: text, list: true, required: true }
-          - { name: highlights, label: Profile highlights, type: string, list: true, required: true }
-      - name: team
-        label: Front office, hygiene, and assisting profiles
-        type: file
-        path: src/data/modern-team.json
-        format: json
-        operations:
-          create: false
-          rename: false
-          delete: false
-        fields:
-          - name: team
-            label: Team profiles
-            type: object
-            list: true
-            fields:
-              - { name: id, label: Internal ID, type: string, required: true }
-              - { name: name, label: Public name or team name, type: string, required: true }
-              - { name: role, label: Role, type: string, required: true }
-              - { name: portrait, label: Illustration style, type: string, required: true }
-              - { name: visible, label: Show profile, type: boolean }
-              - { name: status, label: Approval status, type: string, required: true }
-              - { name: bio, label: Public description, type: text, required: true }
+          - { name: biography, label: Current Classic biography paragraphs, type: text, list: true, required: true }
+          - { name: details, label: Future-design biography paragraphs, type: text, list: true, required: true, readonly: true }
+          - { name: highlights, label: Future-design profile highlights, type: string, list: true, required: true, readonly: true }
 
   - name: patient-information
     label: Services and patient forms
@@ -245,7 +143,7 @@ content:
           - { name: name, label: Service name, type: string, required: true, options: { maxlength: 100 } }
           - { name: visible, label: Show service, type: boolean }
           - { name: order, label: Display order, type: number, required: true }
-          - { name: groupId, label: Service group ID, type: string, required: true, description: "Use restore, smile, or advanced unless the service groups are changed." }
+          - { name: groupId, label: Internal service group, type: string, required: true, readonly: true }
       - name: forms
         label: Downloadable patient forms
         type: file

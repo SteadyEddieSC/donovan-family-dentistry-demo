@@ -27,17 +27,11 @@ function makeFixture() {
   return {
     site: { previewMode: true },
     contentStatus: {
-      launchBlockers: [
-        { id: 'provider-roster' },
-        { id: 'services' },
-        { id: 'insurance-payment' },
-        { id: 'urgent-care-wording' },
-        { id: 'production-integrations' }
-      ]
+      launchBlockers: []
     },
     launchReadiness: {
       phase: 'readiness',
-      selectedDesign: 'modern',
+      selectedDesign: 'classic',
       targetDomain: 'donovanfamilydentistry.com',
       canonicalOrigin: 'https://donovanfamilydentistry.com',
       productionCutoverApproved: false,
@@ -131,7 +125,7 @@ test('live inquiry mode requires verified integration evidence', () => {
   assert.match(result.failures.join('\n'), /live inquiry launch requires verified/i);
 });
 
-test('cleared evidence requires a reference and blocker/source IDs remain unique', () => {
+test('cleared evidence requires a reference and evidence/source IDs remain unique', () => {
   const fixture = makeFixture();
   fixture.launchReadiness.requiredEvidence[0].status = 'verified';
   fixture.launchReadiness.requiredEvidence.push({ ...fixture.launchReadiness.requiredEvidence[1] });

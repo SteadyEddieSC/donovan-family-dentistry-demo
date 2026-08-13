@@ -23,29 +23,47 @@
     "sha256": "cc9bb047d6f8cd52b5edae0ebf69cb4df2d53ed6bf23f751dc24c498e04dd2c7"
   },
   {
-    "target": "public/forms/new-patient-medical-history.pdf",
+    "target": "public/forms/Donovan-Medical-History-3-17.pdf",
     "chunks": [
-      "new-patient-medical-history.pdf.v6.b64.000",
-      "new-patient-medical-history.pdf.v6.b64.001",
-      "new-patient-medical-history.pdf.v6.b64.002",
-      "new-patient-medical-history.pdf.v6.b64.003",
-      "new-patient-medical-history.pdf.v6.b64.004",
-      "new-patient-medical-history.pdf.v6.b64.005",
-      "new-patient-medical-history.pdf.v6.b64.006",
-      "new-patient-medical-history.pdf.v6.b64.007"
+      "Donovan-Medical-History-3-17.pdf.fillable.v2.b64.000",
+      "Donovan-Medical-History-3-17.pdf.fillable.v2.b64.001",
+      "Donovan-Medical-History-3-17.pdf.fillable.v2.b64.002",
+      "Donovan-Medical-History-3-17.pdf.fillable.v2.b64.003",
+      "Donovan-Medical-History-3-17.pdf.fillable.v2.b64.004",
+      "Donovan-Medical-History-3-17.pdf.fillable.v2.b64.005",
+      "Donovan-Medical-History-3-17.pdf.fillable.v2.b64.006",
+      "Donovan-Medical-History-3-17.pdf.fillable.v2.b64.007",
+      "Donovan-Medical-History-3-17.pdf.fillable.v2.b64.008",
+      "Donovan-Medical-History-3-17.pdf.fillable.v2.b64.009",
+      "Donovan-Medical-History-3-17.pdf.fillable.v2.b64.010",
+      "Donovan-Medical-History-3-17.pdf.fillable.v2.b64.011",
+      "Donovan-Medical-History-3-17.pdf.fillable.v2.b64.012",
+      "Donovan-Medical-History-3-17.pdf.fillable.v2.b64.013",
+      "Donovan-Medical-History-3-17.pdf.fillable.v2.b64.014",
+      "Donovan-Medical-History-3-17.pdf.fillable.v2.b64.015",
+      "Donovan-Medical-History-3-17.pdf.fillable.v2.b64.016",
+      "Donovan-Medical-History-3-17.pdf.fillable.v2.b64.017",
+      "Donovan-Medical-History-3-17.pdf.fillable.v2.b64.018",
+      "Donovan-Medical-History-3-17.pdf.fillable.v2.b64.019",
+      "Donovan-Medical-History-3-17.pdf.fillable.v2.b64.020",
+      "Donovan-Medical-History-3-17.pdf.fillable.v2.b64.021",
+      "Donovan-Medical-History-3-17.pdf.fillable.v2.b64.022"
     ],
     "encoding": "gzip+base64",
-    "sourceBytes": 91107,
-    "sha256": "697bf74180dd1e4319756d5f37defd4a5b8cbd37a414073939d4b6899967dafd"
+    "sourceBytes": 1111573,
+    "sha256": "d3713d5fd6052206f8b2b68c692f95233063f2ff01583ec021eee5f0d0f0b27e"
   },
   {
-    "target": "public/forms/privacy-practices.pdf",
+    "target": "public/forms/donovan-family-dentistry-privacy-policy.pdf",
     "chunks": [
-      "privacy-practices.pdf.b64.000"
+      "donovan-family-dentistry-privacy-policy.pdf.fillable.v2.b64.000",
+      "donovan-family-dentistry-privacy-policy.pdf.fillable.v2.b64.001",
+      "donovan-family-dentistry-privacy-policy.pdf.fillable.v2.b64.002",
+      "donovan-family-dentistry-privacy-policy.pdf.fillable.v2.b64.003"
     ],
     "encoding": "gzip+base64",
-    "sourceBytes": 18664,
-    "sha256": "88a2fb6f6694a5deef6e1d2d713d3796ad2d64b0f271203115d65e4bb9d6b6ef"
+    "sourceBytes": 197299,
+    "sha256": "8a72eec19622706fd922d6c4ba14adbaf55ec7df8648d8ca257923e96c934ded"
   },
   {
     "target": "public/images/dr-william-donovan-photo-r16-12.webp",

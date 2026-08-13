@@ -10,24 +10,30 @@ const assertMissing = async (path) => {
   await assert.rejects(access(new URL(path, root)));
 };
 
-test('Release 17 preparation records the owner-confirmed Monday through Thursday hours', async () => {
+test('Release 17 preparation records the owner-confirmed Monday through Thursday hours and office email', async () => {
   const site = await readJson('src/data/site.json');
   const openDays = site.hours.slice(0, 4);
 
   assert.deepEqual(openDays.map((item) => item.day), ['Monday', 'Tuesday', 'Wednesday', 'Thursday']);
-  assert.ok(openDays.every((item) => item.hours === '8:00 AM-5:00 PM'));
+  assert.ok(openDays.every((item) => item.hours === '7:30 AM-5:00 PM'));
   assert.ok(site.hours.slice(4).every((item) => item.hours === 'Closed'));
+  assert.equal(site.contactEmail, 'dfdbeaufort@gmail.com');
   assert.equal(site.productionUrl, 'https://www.donovanfamilydentistry.com');
   assert.equal(site.previewMode, true, 'prelaunch preparation must not enable indexing');
 });
 
-test('structured data derives opening hours from the shared office-hours source', async () => {
+test('structured data derives opening hours from shared data and includes the verified office email', async () => {
   const metadata = await read('src/components/SiteMetadata.astro');
 
   assert.match(metadata, /const openingHoursSpecification = site\.hours\.flatMap/);
   assert.match(metadata, /parseClockTime/);
-  assert.doesNotMatch(metadata, /opens:\s*'07:30'/);
-  assert.match(metadata, /openingHoursSpecification\n\s*}/);
+  assert.match(metadata, /email:\s*site\.contactEmail/);
+  assert.match(metadata, /openingHoursSpecification\r?\n\s*}/);
+});
+
+test('the public office email remains editable through the protected Pages CMS quick-update form', async () => {
+  const pagesConfig = await read('.pages.yml');
+  assert.match(pagesConfig, /name: contactEmail, label: Office email address/);
 });
 
 test('Modern remains available as a future demo but is permanently noindex', async () => {
@@ -70,7 +76,6 @@ test('Classic and Modern footer hours are rendered from the shared data file', a
 
   assert.match(classicFooter, /site\.hours\.filter/);
   assert.match(modernLayout, /site\.hours\.filter/);
-  assert.doesNotMatch(`${classicFooter}\n${modernLayout}`, /7:30 AM/);
 });
 
 test('installable website metadata opens the approved Classic website rather than the retained demo', async () => {

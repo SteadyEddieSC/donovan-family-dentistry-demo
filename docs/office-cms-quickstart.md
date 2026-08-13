@@ -10,28 +10,23 @@ The hosted Pages CMS service is free. It edits approved website files in GitHub 
 
 ## Current status
 
-The repository-side editor configuration is ready, and the owner acceptance test has now proved that:
+The repository-side editor configuration is ready, and the owner acceptance test has proved that an authorized owner can open the repository, save a safe office-content change, create an `office update:` GitHub commit, and trigger Cloudflare Pages.
 
-- the authorized owner can open the private repository in Pages CMS;
-- the office editing screens render;
-- a harmless edit to `src/data/site.json` can be saved to `main`;
-- the save creates an `office update:` GitHub commit;
-- Cloudflare Pages deploys the saved main-branch commit.
+The editor is intentionally limited to content that staff may reasonably need on the **current public Classic website**. Modern-only page wording and Modern-only role-based staff profiles are deliberately not exposed in the office editor so staff do not have to distinguish between the live Classic site and the hidden future-design demo.
 
-The remaining acceptance proof is a successful **Build and verify website** run and a demonstrated restoration.
+Shared records such as office contact information, hours, dentist data, services, and patient PDFs may also appear in the hidden Modern demo because both designs read the same approved source data. Modern-specific design and wording changes remain a developer/administrator task in GitHub.
 
 ## First-time access
 
 1. Sign in at Pages CMS with the GitHub account that owns or is authorized to administer `SteadyEddieSC/donovan-family-dentistry-demo`.
-2. Install or authorize the Pages CMS GitHub App for this private repository. A user who can edit files but cannot administer GitHub App installations may need the `SteadyEddieSC` account owner to approve this step.
+2. Install or authorize the Pages CMS GitHub App for this private repository. A user who can edit files but cannot administer GitHub App installations may need the repository owner to approve this step.
 3. Open **donovan-family-dentistry-demo**.
 4. Select the **main** branch for normal office changes.
-5. Confirm that these four areas appear:
-   - Quick updates
-   - Modern page wording
-   - Dentists and team
+5. Confirm that these three areas appear:
+   - Current website quick updates
+   - Dentist profiles
    - Services and patient forms
-6. Do not enter patient information, completed forms, insurance cards, identification, clinical details, or credentials into Pages CMS or GitHub.
+6. Do not enter patient information, completed forms, insurance cards, identification, clinical details, passwords, API keys, or other credentials into Pages CMS or GitHub.
 
 ## Save versus Build and verify website
 
@@ -55,7 +50,7 @@ The normal sequence is:
 
 Complete this once before relying on the editor:
 
-1. Open **Quick updates** and find the homepage introduction or hidden announcement.
+1. Open **Current website quick updates** and find the homepage introduction or hidden announcement.
 2. Make a harmless temporary wording change while keeping any announcement hidden.
 3. Save.
 4. Confirm that a GitHub `office update:` commit appears on `main`.
@@ -91,13 +86,13 @@ Use this only when the mistaken Pages CMS save is still the newest commit on `ma
 7. Confirm the new revert commit and Cloudflare deployment.
 8. Review the restored page on phone and desktop.
 
-The workflow stops without changing anything if the latest commit is not an `office update:` commit or if it changed an unexpected file. There is no ordinary direct-commit Revert button in the GitHub mobile commit view; the web Revert button is generally associated with merged pull requests.
+The workflow stops without changing anything if the latest commit is not an `office update:` commit or if it changed an unexpected file.
 
 ## Normal editing process
 
-1. Open the relevant section.
+1. Open the relevant current-site section.
 2. Change only the fields that need updating.
-3. Use the visibility switches to hide outdated providers, services, forms, or announcements before replacing them.
+3. Use visibility switches to hide an outdated dentist, service, or form before replacing it when appropriate.
 4. Save the change.
 5. Confirm the GitHub commit and Cloudflare deployment.
 6. Run **Build and verify website**.
@@ -106,34 +101,42 @@ The workflow stops without changing anything if the latest commit is not an `off
 
 ## Publish or remove the site-wide announcement
 
-1. Open **Quick updates → Contact, hours, homepage, and announcement**.
+1. Open **Current website quick updates → Contact, hours, homepage, and announcement**.
 2. Enter one short practice-wide notice under **Homepage announcement**.
-3. Use the banner for closures, storms, holiday hours, phone outages, or temporary arrival instructions—not individual patient information.
+3. Use the banner for closures, storms, holiday hours, phone outages, or temporary arrival instructions - not individual patient information.
 4. Turn on **Show announcement** and save.
 5. Confirm the commit and Cloudflare deployment.
-6. Review the banner on a phone and desktop across a modern page, a classic page, and an interior page.
+6. Review the banner on a phone and desktop.
 7. Run **Build and verify website**.
-8. When the notice expires, turn off **Show announcement**, save, and verify that it disappears everywhere.
+8. When the notice expires, turn off **Show announcement**, save, and verify that it disappears.
 
-Do not include patient names, appointment details, balances, insurance matters, symptoms, diagnoses, treatment information, or other protected health information. See `docs/office-announcement-guide.md` for detailed revision, removal, and emergency rollback steps.
+Do not include patient names, appointment details, balances, insurance matters, symptoms, diagnoses, treatment information, or other protected health information.
 
 ## What office editors can change
 
-- practice name, phone, address, hours, homepage wording, office image, logo, announcement, and search-preview text;
-- About, Team, and Services page wording;
-- dentist biographies, photographs, credentials, order, and visibility after approval;
-- role-based staff descriptions;
-- service names, groups, order, and visibility;
+- practice name, phone, public email, address, hours, homepage wording, office image, logo, announcement, and search-preview text;
+- approved dentist names, credentials, photographs, Classic biographies, order, and visibility;
+- published service names, order, and visibility;
 - downloadable blank patient PDFs.
+
+Some shared data also feeds the hidden Modern demo. Staff do not need to manage that distinction; the office-facing editor hides Modern-only page wording and Modern-only staff-profile content.
 
 ## What office editors must not change
 
 Pages CMS is not the control plane for:
 
+- Modern-only page layouts, Modern-only wording, or Modern-only staff profiles;
 - DNS, registrar, nameservers, MX, SPF, DKIM, DMARC, or autodiscover;
 - Cloudflare production-mode, indexing, analytics, rate-limit, Turnstile-secret, or Basin-secret settings;
-- Microsoft 365, patient portals, scheduling, payment, texting, or practice-management systems;
+- Google Business Profile or Search Console permissions;
+- patient portals, scheduling, payment, texting, or practice-management systems;
 - completed patient paperwork or any protected health information.
+
+## Patient PDF rule
+
+The downloadable forms are **blank templates only**. They may be replaced with an office-approved blank PDF, but completed patient forms must never be uploaded to Pages CMS or GitHub.
+
+For the current launch, the approved PDFs preserve the existing Donovan form artwork, wording, page count, and layout while adding invisible fillable text fields over the existing blank lines. The website should use one canonical copy of each PDF for both Classic and the hidden Modern demo.
 
 ## Recovery boundary
 

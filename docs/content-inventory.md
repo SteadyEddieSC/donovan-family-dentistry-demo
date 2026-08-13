@@ -28,8 +28,8 @@ Captured July 31, 2026 for the private demonstration rebuild.
 | --- | --- | --- |
 | Practice logo | `/public/images/donovan-logo.svg` | Recreated from the branding shown in the supplied current-site screenshot |
 | Office exterior | `/public/images/office-exterior.webp` | Cropped from supplied current-site screenshot |
-| New-patient and medical-history form | `/public/forms/new-patient-medical-history.pdf` | Owner-supplied form recreated as an accessible, locally fillable demo PDF |
-| Notice of Privacy Practices | `/public/forms/privacy-practices.pdf` | Owner-supplied notice recreated as a cleaner PDF with a fillable acknowledgement page |
+| New-patient and medical-history form | `/public/forms/Donovan-Medical-History-3-17.pdf` | Owner-approved original artwork with locally fillable fields |
+| Notice of Privacy Practices | `/public/forms/donovan-family-dentistry-privacy-policy.pdf` | Owner-approved original artwork with locally fillable fields |
 
 ## Service wording
 

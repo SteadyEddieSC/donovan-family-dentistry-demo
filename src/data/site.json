@@ -4,6 +4,7 @@
   "introduction": "We utilize up-to-date techniques and dental procedures in a comfortable and caring environment.",
   "phoneDisplay": "(843) 525-6866",
   "phoneHref": "+18435256866",
+  "contactEmail": "dfdbeaufort@gmail.com",
   "address": {
     "street": "91 Sams Point Road",
     "city": "Beaufort",
@@ -13,19 +14,19 @@
   "hours": [
     {
       "day": "Monday",
-      "hours": "8:00 AM-5:00 PM"
+      "hours": "7:30 AM-5:00 PM"
     },
     {
       "day": "Tuesday",
-      "hours": "8:00 AM-5:00 PM"
+      "hours": "7:30 AM-5:00 PM"
     },
     {
       "day": "Wednesday",
-      "hours": "8:00 AM-5:00 PM"
+      "hours": "7:30 AM-5:00 PM"
     },
     {
       "day": "Thursday",
-      "hours": "8:00 AM-5:00 PM"
+      "hours": "7:30 AM-5:00 PM"
     },
     {
       "day": "Friday",

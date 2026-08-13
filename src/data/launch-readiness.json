@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "release": 15,
   "phase": "readiness",
-  "selectedDesign": "modern",
+  "selectedDesign": "classic",
   "targetDomain": "donovanfamilydentistry.com",
   "canonicalOrigin": "https://donovanfamilydentistry.com",
   "productionCutoverApproved": false,
@@ -21,37 +21,37 @@
     {
       "id": "provider-roster",
       "label": "Current dentist roster and publication approval",
-      "status": "pending-owner-approval",
-      "evidenceRef": null,
-      "clearanceNeeded": "Confirm whether Dr. Robert Koolkin currently practices with Donovan Family Dentistry and either approve a current profile and photograph or explicitly approve omission from the replacement website."
+      "status": "verified",
+      "evidenceRef": "src/data/providers.json",
+      "clearanceNeeded": "Owner confirmed on 2026-08-09 that the approved current roster is Dr. William Donovan and Dr. Jordan Henke, including Dr. Donovan's updated photograph and two-daughters biography wording. Reopen only if the provider roster changes."
     },
     {
       "id": "services",
-      "label": "Current services and patient-friendly terminology",
-      "status": "pending-owner-approval",
-      "evidenceRef": null,
-      "clearanceNeeded": "Confirm that the twelve procedures mirrored from the current public website remain offered and approve the replacement-site wording."
+      "label": "Current Classic services and patient-friendly terminology",
+      "status": "verified",
+      "evidenceRef": "src/data/content-status.json#classic-content-approval",
+      "clearanceNeeded": "Owner approved the current Classic Services page as presented on 2026-08-09. Reopen only if the Classic service list or wording changes materially."
     },
     {
       "id": "insurance-payment",
-      "label": "Insurance, payment, estimates, and financial-policy wording",
-      "status": "pending-owner-approval",
-      "evidenceRef": null,
-      "clearanceNeeded": "Approve the general wording and any specific plan, payment, financing, estimate, or financial-policy details that will be published."
+      "label": "Classic insurance/payment publication decision",
+      "status": "verified",
+      "evidenceRef": "src/data/content-status.json#insurance-network-status",
+      "clearanceNeeded": "Owner confirmed on 2026-08-09 that the practice is in-network with no dental insurance provider and insured patients are treated as out-of-network. The approved Classic launch does not publish an in-network participation claim. Modern-only financial-policy wording remains a future-design follow-up."
     },
     {
       "id": "urgent-care-wording",
-      "label": "Urgent dental and after-hours workflow",
-      "status": "pending-owner-approval",
-      "evidenceRef": null,
-      "clearanceNeeded": "Approve the telephone instructions, urgent-dental wording, emergency escalation language, and after-hours workflow."
+      "label": "Classic urgent/after-hours publication decision",
+      "status": "verified",
+      "evidenceRef": "src/data/content-status.json#classic-content-approval",
+      "clearanceNeeded": "Owner approved the current Classic site as presented on 2026-08-09. No additional Modern-only urgent/after-hours copy is required for the Classic cutover; revisit it only as part of future Modern development."
     },
     {
       "id": "production-integrations",
       "label": "Administrative inquiry launch decision and operating controls",
-      "status": "pending-operational-decision",
-      "evidenceRef": null,
-      "clearanceNeeded": "Approve either preview-only launch or a fully configured live workflow with the office-owned recipient, Basin account, Turnstile keys, allowed origins, rate limiting, retention, response owner, backup owner, and a real delivery test."
+      "status": "approved-deferred",
+      "evidenceRef": "src/data/content-status.json#administrative-inquiry-deferred",
+      "clearanceNeeded": "Owner decided on 2026-08-09 that the Classic launch will use telephone, public office email, address/directions, contact card, and downloadable PDFs. Keep the administrative inquiry disabled; do not create Basin or Turnstile production resources until the future Modern/Secure Exchange decision and then-current office mailbox are known."
     },
     {
       "id": "physical-device-review",
@@ -65,7 +65,7 @@
       "label": "Human WCAG 2.2 AA and supported-PDF review",
       "status": "pending-launch-review",
       "evidenceRef": null,
-      "clearanceNeeded": "Complete the human accessibility checklist and test the patient PDFs in the office-approved desktop and mobile applications."
+      "clearanceNeeded": "Complete the human accessibility checklist and test the final exact-layout fillable patient PDFs in the office-approved desktop and mobile applications."
     },
     {
       "id": "dns-zone-backup",
@@ -133,8 +133,8 @@
     {
       "id": "current-forms",
       "url": "https://donovanfamilydentistry.com/patient-forms/",
-      "reviewedOn": "2026-08-01",
-      "purpose": "Current public patient-form and privacy-practices download journey."
+      "reviewedOn": "2026-08-09",
+      "purpose": "Authoritative current-production patient-form and privacy-practices documents; owner supplied the exact original PDFs for exact-layout fillable conversion."
     },
     {
       "id": "current-contact",

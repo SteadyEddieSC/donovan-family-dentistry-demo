@@ -56,7 +56,8 @@ test('Release 16.9 documents safe announcement publication and removal', async (
   }
 
   assert.match(readme, /docs\/office-announcement-guide\.md/);
-  assert.match(quickstart, /modern page, a classic page, and an interior page/i);
+  assert.match(quickstart, /Current website quick updates/);
+  assert.match(quickstart, /office-facing editor hides Modern-only/i);
   assert.match(ownerGuide, /weather closure, holiday hours, an office-wide phone outage/i);
   assert.match(announcementGuide, /Remove an announcement/);
   assert.match(announcementGuide, /Restore latest office save/);

@@ -28,10 +28,11 @@ test('Pages CMS exposes a grouped office editor and one-click website check', as
 
   expect(config).toContain('label: Build and verify website');
   expect(config).toContain('workflow: office-site-check.yml');
-  expect(config).toContain('label: Quick updates');
-  expect(config).toContain('label: Modern page wording');
-  expect(config).toContain('label: Dentists and team');
-  expect(config).toContain('path: src/data/practice-content.json');
+  expect(config).toContain('label: Current website quick updates');
+  expect(config).toContain('label: Dentist profiles');
+  expect(config).toContain('label: Services and patient forms');
+  expect(config).not.toContain('path: src/data/practice-content.json');
+  expect(config).not.toContain('path: src/data/modern-team.json');
   expect(config).toContain('path: src/data/providers.json');
   expect(config).toContain('merge: true');
 

@@ -18,18 +18,23 @@ const REQUIRED_TOOL_IDS = [
 
 const REQUIRED_CMS_PATHS = [
   'src/data/site.json',
-  'src/data/practice-content.json',
   'src/data/providers.json',
-  'src/data/modern-team.json',
   'src/data/services.json',
   'src/data/forms.json',
   'public/images',
   '.github/workflows/office-site-check.yml'
 ];
 
+const REQUIRED_EDITABLE_CMS_PATHS = [
+  'src/data/site.json',
+  'src/data/providers.json',
+  'src/data/services.json',
+  'src/data/forms.json'
+];
+
 const REQUIRED_GENERATED_FORM_TARGETS = [
-  'public/forms/new-patient-medical-history.pdf',
-  'public/forms/privacy-practices.pdf'
+  'public/forms/Donovan-Medical-History-3-17.pdf',
+  'public/forms/donovan-family-dentistry-privacy-policy.pdf'
 ];
 
 const ALLOWED_TOOL_STATUSES = new Set([
@@ -123,11 +128,14 @@ export function evaluateRelease16Readiness({
   if (!pagesConfig.includes('actions:') || !pagesConfig.includes('workflow: office-site-check.yml')) {
     failures.push('.pages.yml must preserve the Build and verify website action.');
   }
-  for (const cmsPath of REQUIRED_CMS_PATHS.slice(0, 6)) {
+  for (const cmsPath of REQUIRED_EDITABLE_CMS_PATHS) {
     if (!pagesConfig.includes(`path: ${cmsPath}`)) failures.push(`.pages.yml is missing editable path ${cmsPath}.`);
   }
+  if (pagesConfig.includes('path: src/data/practice-content.json') || pagesConfig.includes('path: src/data/modern-team.json')) {
+    failures.push('.pages.yml must keep Modern-only page wording and Modern-only staff profiles out of the office-facing editor.');
+  }
   if (!pagesConfig.includes('input: public/images') || !pagesConfig.includes('input: public/forms')) {
-    failures.push('.pages.yml must preserve the approved image and blank-PDF media libraries.');
+    failures.push('.pages.yml must preserve the approved image and patient-PDF media libraries.');
   }
 
   for (const cmsPath of REQUIRED_CMS_PATHS) {
@@ -138,7 +146,7 @@ export function evaluateRelease16Readiness({
     Array.isArray(assetManifest) ? assetManifest.map((asset) => asset?.target).filter(Boolean) : []
   );
   for (const target of REQUIRED_GENERATED_FORM_TARGETS) {
-    if (!generatedTargets.has(target)) failures.push(`Asset manifest is missing generated CMS form target ${target}.`);
+    if (!generatedTargets.has(target)) failures.push(`Asset manifest is missing patient PDF target ${target}.`);
   }
   if (!materializer.includes('if (existsSync(target)) continue;')) {
     failures.push('Asset materialization must preserve a PDF committed through Pages CMS instead of overwriting it.');

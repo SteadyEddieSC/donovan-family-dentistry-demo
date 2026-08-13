@@ -2,9 +2,11 @@
 import ActionIcon from '../../../components/ActionIcon.astro';
 import ModernLayout from '../../../layouts/ModernLayout.astro';
 import site from '../../../data/site.json';
+import forms from '../../../data/forms.json';
 
 const fullAddress = `${site.address.street}, ${site.address.city}, ${site.address.state} ${site.address.postalCode}`;
 const mapHref = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(fullAddress)}`;
+const [medicalHistoryForm, privacyPracticesForm] = forms;
 ---
 <ModernLayout
   title="New Patients | Donovan Family Dentistry"
@@ -68,8 +70,8 @@ const mapHref = `https://www.google.com/maps/search/?api=1&query=${encodeURIComp
           <li>Questions you would like the dentist or care team to address during the visit</li>
         </ul>
         <div class="modern-new-patient-actions">
-          <a class="modern-button modern-button--primary" href="/forms/new-patient-medical-history.pdf">Download the patient form</a>
-          <a class="modern-button modern-button--secondary" href="/forms/privacy-practices.pdf">Review privacy practices</a>
+          <a class="modern-button modern-button--primary" href={medicalHistoryForm.file}>Download the patient form</a>
+          <a class="modern-button modern-button--secondary" href={privacyPracticesForm.file}>Review privacy practices</a>
         </div>
       </article>
 

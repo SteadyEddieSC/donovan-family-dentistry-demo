@@ -20,14 +20,6 @@ const REQUIRED_EVIDENCE_IDS = [
   'change-window'
 ];
 
-const REQUIRED_CONTENT_BLOCKERS = [
-  'provider-roster',
-  'services',
-  'insurance-payment',
-  'urgent-care-wording',
-  'production-integrations'
-];
-
 const CLEAR_STATUSES = new Set(['verified', 'approved-deferred']);
 const ALLOWED_PHASES = new Set(['readiness', 'production']);
 const ALLOWED_DESIGNS = new Set(['modern', 'classic']);
@@ -52,7 +44,7 @@ export function evaluateRelease15Readiness({ site, contentStatus, launchReadines
 
   if (!ALLOWED_PHASES.has(phase)) failures.push('launch-readiness phase must be readiness or production.');
   if (!ALLOWED_DESIGNS.has(launchReadiness.selectedDesign)) failures.push('selectedDesign must be modern or classic.');
-  if (launchReadiness.selectedDesign !== 'modern') failures.push('Release 15 records the modern concept as the selected launch candidate.');
+  if (launchReadiness.selectedDesign !== 'classic') failures.push('Current launch readiness records the Classic concept as the selected launch candidate.');
   if (!ALLOWED_INQUIRY_MODES.has(launchReadiness.inquiryLaunchMode)) failures.push('inquiryLaunchMode must be preview-only or live.');
 
   const targetDomain = normalizeDomain(launchReadiness.targetDomain);
@@ -107,11 +99,8 @@ export function evaluateRelease15Readiness({ site, contentStatus, launchReadines
     }
   }
 
-  const blockerIds = Array.isArray(contentStatus.launchBlockers)
-    ? contentStatus.launchBlockers.map((item) => item.id)
-    : [];
-  for (const id of REQUIRED_CONTENT_BLOCKERS) {
-    if (!blockerIds.includes(id)) failures.push(`content-status launchBlockers is missing ${id}.`);
+  if (!Array.isArray(contentStatus.launchBlockers)) {
+    failures.push('content-status launchBlockers must remain an array, even when owner-approved Classic content leaves it empty.');
   }
 
   if (previewOverride !== undefined && !['true', 'false'].includes(previewOverride)) {
