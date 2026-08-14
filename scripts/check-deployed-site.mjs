@@ -26,7 +26,13 @@ function internalLinks(html, pageUrl) {
   for (const value of values) {
     if (!value || value.startsWith('#') || /^(tel:|mailto:|javascript:|data:)/i.test(value)) continue;
     const resolved = new URL(value, pageUrl);
-    if (resolved.origin !== base.origin || resolved.pathname.startsWith('/api/')) continue;
+    if (
+      resolved.origin !== base.origin ||
+      resolved.pathname.startsWith('/api/') ||
+      resolved.pathname.startsWith('/cdn-cgi/')
+    ) {
+      continue;
+    }
     resolved.hash = '';
     links.add(resolved.toString());
   }
