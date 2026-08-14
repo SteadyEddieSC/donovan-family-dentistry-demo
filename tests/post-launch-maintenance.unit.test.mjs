@@ -34,3 +34,9 @@ test('office documentation matches the three-area public-repository editor bound
   assert.match(docs, /Services and patient forms/);
   assert.match(docs, /protected health information/i);
 });
+
+test('office content backup artifact includes the hidden Pages CMS configuration', async () => {
+  const workflow = await read('.github/workflows/office-content-backup.yml');
+  assert.match(workflow, /managed_files=\([\s\S]*\.pages\.yml/);
+  assert.match(workflow, /include-hidden-files:\s*true/);
+});
