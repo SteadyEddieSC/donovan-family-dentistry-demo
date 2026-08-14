@@ -4,7 +4,7 @@ import path from 'node:path';
 import { test, expect } from '@playwright/test';
 
 const repositoryRoot = process.cwd();
-const configuredSite = 'https://donovan-family-dentistry-demo.pages.dev';
+const configuredSite = 'https://donovanfamilydentistry.com';
 const publicRoutes = [
   '/', '/about/', '/services/', '/forms/', '/contact/', '/accessibility/', '/website-use/',
   '/modern/', '/modern/about/', '/modern/services/', '/modern/team/', '/modern/new-patients/', '/modern/forms/', '/modern/contact/'
@@ -12,14 +12,14 @@ const publicRoutes = [
 const sitemapRoutes = publicRoutes.slice(0, 7);
 const retainedDemoRoutes = publicRoutes.slice(7);
 
-test('production-candidate safety gate preserves preview controls and the deferred inquiry decision', async ({ isMobile }) => {
+test('production safety gate preserves permanent noindex controls and the deferred inquiry decision', async ({ isMobile }) => {
   test.skip(isMobile, 'Repository-level validation only needs to run once.');
   const result = spawnSync(process.execPath, ['scripts/check-production-candidate.mjs'], {
     cwd: repositoryRoot,
     encoding: 'utf8'
   });
   expect(result.status, result.stderr).toBe(0);
-  expect(result.stdout).toContain('preview indexing disabled');
+  expect(result.stdout).toContain('production phase');
   expect(result.stdout).toContain('0 unresolved launch blocker');
   expect(result.stdout).toContain('administrative inquiry intentionally deferred');
 });
@@ -33,9 +33,12 @@ test('release 14 evidence distinguishes automated coverage from pending real-dev
 });
 
 for (const route of publicRoutes) {
-  test(`${route} exposes production-candidate metadata and preview-safe discovery controls`, async ({ page }) => {
+  test(`${route} exposes governed production metadata and discovery controls`, async ({ page }) => {
     await page.goto(route);
-    await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'noindex, nofollow, noarchive');
+    await expect(page.locator('meta[name="robots"]')).toHaveAttribute(
+      'content',
+      route.startsWith('/modern/') ? 'noindex, nofollow, noarchive' : 'index, follow'
+    );
     await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', `${configuredSite}${route}`);
     await expect(page.locator('meta[property="og:image"]')).toHaveAttribute('content', `${configuredSite}/images/donovan-social-card.webp`);
     await expect(page.locator('meta[property="og:image:type"]')).toHaveAttribute('content', 'image/webp');
@@ -223,13 +226,13 @@ test('local laboratory metrics stay within production-candidate guardrails', asy
 test('public safety and accessibility language is present', async ({ page }) => {
   await page.goto('/accessibility/');
   await expect(page.getByRole('heading', { name: 'Report an accessibility barrier' })).toBeVisible();
-  await expect(page.getByText('Final verification on current physical iOS', { exact: false })).toBeVisible();
+  await expect(page.getByText('Broader physical-device, assistive-technology', { exact: false })).toBeVisible();
 
   await page.goto('/website-use/');
   await expect(page.getByRole('heading', { name: 'General information only' })).toBeVisible();
   await expect(page.getByRole('heading', { name: 'Urgent concerns' })).toBeVisible();
   await expect(page.getByRole('heading', { name: 'Insurance and payment' })).toBeVisible();
-  await expect(page.getByText('sends nothing unless an administrator', { exact: false })).toBeVisible();
+  await expect(page.getByText('public Classic website does not submit or store', { exact: false })).toBeVisible();
 });
 
 test('release 14 production-candidate screenshots', async ({ page }, testInfo) => {

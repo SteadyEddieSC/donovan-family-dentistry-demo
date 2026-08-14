@@ -4,6 +4,12 @@
   X-Frame-Options: SAMEORIGIN
   Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=()
   Content-Security-Policy: default-src 'self'; base-uri 'self'; connect-src 'self' https://challenges.cloudflare.com https://cloudflareinsights.com https://static.cloudflareinsights.com; font-src 'self' data:; form-action 'self'; frame-ancestors 'self'; frame-src 'self' https://challenges.cloudflare.com; img-src 'self' data:; object-src 'self'; script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com https://challenges.cloudflare.com; style-src 'self' 'unsafe-inline'; upgrade-insecure-requests
+
+/modern/*
+  X-Robots-Tag: noindex, nofollow, noarchive
+
+/review/*
+  Cache-Control: no-store
   X-Robots-Tag: noindex, nofollow, noarchive
 
 /api/*

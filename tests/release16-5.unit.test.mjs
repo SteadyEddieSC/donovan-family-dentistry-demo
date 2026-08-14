@@ -55,11 +55,10 @@ test('Release 16.5 keeps the review page permanently noindex and out of patient 
   assert.doesNotMatch(sitemap, /['"]\/review\/['"]/);
 });
 
-test('Release 16.5 review support does not clear the physical-device or human review gates', async () => {
+test('production evidence records explicit device and human-review deferrals without claiming completion', async () => {
   const readiness = JSON.parse(await read('src/data/launch-readiness.json'));
   const physical = readiness.requiredEvidence.find((item) => item.id === 'physical-device-review');
   const human = readiness.requiredEvidence.find((item) => item.id === 'human-wcag-review');
-  const clearedStatuses = new Set(['verified', 'approved-deferred']);
 
   assert.deepEqual(readiness.reviewSupport, {
     path: '/review/',
@@ -67,13 +66,10 @@ test('Release 16.5 review support does not clear the physical-device or human re
     storesOrSendsData: false,
     guide: 'docs/physical-device-review-guide.md'
   });
-  assert.equal(clearedStatuses.has(physical.status), false);
-  assert.ok(['pending-launch-review', 'partial-evidence-recorded'].includes(physical.status));
-  if (physical.status === 'pending-launch-review') {
-    assert.equal(physical.evidenceRef, null);
-  } else {
-    assert.equal(physical.evidenceRef, 'docs/evidence/physical-device-review-galaxy-s24-fe-2026-08-02.json');
-  }
-  assert.equal(human.status, 'pending-launch-review');
-  assert.equal(human.evidenceRef, null);
+  assert.equal(physical.status, 'approved-deferred');
+  assert.equal(physical.evidenceRef, 'docs/evidence/production-cutover-2026-08-13.md#required-evidence-dispositions');
+  assert.match(physical.clearanceNeeded, /not represented as completed/);
+  assert.equal(human.status, 'approved-deferred');
+  assert.equal(human.evidenceRef, 'docs/evidence/production-cutover-2026-08-13.md#required-evidence-dispositions');
+  assert.match(human.clearanceNeeded, /do not claim complete conformance/i);
 });

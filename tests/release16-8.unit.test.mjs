@@ -52,16 +52,17 @@ test('Release 16.8 records Open Dental without activating an unverified patient 
   assert.doesNotMatch(sitemap, /\/review\/open-dental\//);
 });
 
-test('Release 16.8 preserves the Android review as partial—not complete—launch evidence', async () => {
+test('production evidence preserves the Android review and records the remaining matrix as an explicit deferral', async () => {
   const [readiness, evidence] = await Promise.all([
     readJson('src/data/launch-readiness.json'),
     readJson('docs/evidence/physical-device-review-galaxy-s24-fe-2026-08-02.json')
   ]);
 
   const deviceReview = readiness.requiredEvidence.find((item) => item.id === 'physical-device-review');
-  assert.equal(deviceReview.status, 'partial-evidence-recorded');
-  assert.equal(deviceReview.evidenceRef, 'docs/evidence/physical-device-review-galaxy-s24-fe-2026-08-02.json');
-  assert.match(deviceReview.clearanceNeeded, /remaining required iPhone, iPad, macOS, and Windows/);
+  assert.equal(deviceReview.status, 'approved-deferred');
+  assert.equal(deviceReview.evidenceRef, 'docs/evidence/production-cutover-2026-08-13.md#required-evidence-dispositions');
+  assert.match(deviceReview.clearanceNeeded, /Remaining physical iPhone, iPad, macOS, and Windows/);
+  assert.match(deviceReview.clearanceNeeded, /not represented as completed/);
   assert.equal(evidence.reportType, 'physical-device-review');
   assert.equal(evidence.device, 'Galaxy S24 FE, Android 16');
   assert.equal(evidence.result, 'pass-with-notes');

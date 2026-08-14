@@ -5,16 +5,19 @@ import { fileURLToPath } from 'node:url';
 import { test, expect } from '@playwright/test';
 
 const repositoryRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const configuredSite = 'https://donovan-family-dentistry-demo.pages.dev';
+const configuredSite = 'https://donovanfamilydentistry.com';
 
 for (const route of ['/', '/modern/', '/modern/new-patients/']) {
-  test(`${route} exposes complete preview-safe metadata`, async ({ page }) => {
+  test(`${route} exposes complete production metadata`, async ({ page }) => {
     await page.goto(route);
 
     const title = await page.title();
     expect(title.length).toBeGreaterThan(20);
     await expect(page.locator('meta[name="description"]')).toHaveAttribute('content', /Donovan Family Dentistry|dental|patient/i);
-    await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'noindex, nofollow, noarchive');
+    await expect(page.locator('meta[name="robots"]')).toHaveAttribute(
+      'content',
+      route.startsWith('/modern/') ? 'noindex, nofollow, noarchive' : 'index, follow'
+    );
     await expect(page.locator('link[rel="manifest"]')).toHaveAttribute('href', '/site.webmanifest');
     await expect(page.locator('meta[property="og:site_name"]')).toHaveAttribute('content', 'Donovan Family Dentistry');
     await expect(page.locator('meta[property="og:image"]')).toHaveAttribute('content', /^https:\/\//);
@@ -81,7 +84,7 @@ test('content verification register separates approved Classic evidence from def
   expect(followUpIds).toContain('staff-roster');
 });
 
-test('Release 15 gate keeps infrastructure evidence fail-closed even after Classic content approval', async ({ isMobile }) => {
+test('Release 15 gate records the authorized production evidence and approvals', async ({ isMobile }) => {
   test.skip(isMobile, 'Repository-level validation only needs to run once.');
 
   const readiness = spawnSync(process.execPath, ['scripts/check-release15-readiness.mjs'], {
@@ -89,7 +92,7 @@ test('Release 15 gate keeps infrastructure evidence fail-closed even after Class
     encoding: 'utf8'
   });
   expect(readiness.status).toBe(0);
-  expect(readiness.stdout).toContain('readiness phase');
+  expect(readiness.stdout).toContain('production phase');
 
   const productionAttempt = spawnSync(process.execPath, ['scripts/check-release15-readiness.mjs'], {
     cwd: repositoryRoot,
@@ -100,9 +103,8 @@ test('Release 15 gate keeps infrastructure evidence fail-closed even after Class
       LAUNCH_PREVIEW_MODE: 'false'
     }
   });
-  expect(productionAttempt.status).toBe(1);
-  expect(productionAttempt.stderr).toContain('Production launch is blocked');
-  expect(productionAttempt.stderr).toMatch(/physical-device-review|human-wcag-review|dns-zone-backup/);
+  expect(productionAttempt.status, productionAttempt.stderr).toBe(0);
+  expect(productionAttempt.stdout).toContain('0 of 12 launch-evidence items remain open');
 });
 
 test('modern logo images include explicit loading behavior', async ({ page }) => {

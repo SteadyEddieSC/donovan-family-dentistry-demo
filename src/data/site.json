@@ -56,8 +56,8 @@
     "Beaufort",
     "South Carolina Lowcountry"
   ],
-  "productionUrl": "https://www.donovanfamilydentistry.com",
-  "previewMode": true,
+  "productionUrl": "https://donovanfamilydentistry.com",
+  "previewMode": false,
   "modernDemo": {
     "enabled": true,
     "path": "/modern/",

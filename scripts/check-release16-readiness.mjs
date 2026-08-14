@@ -176,7 +176,7 @@ export function evaluateRelease16Readiness({
   const accountReadyTools = tools.filter((tool) => tool.accountReady).length;
   warnings.push(`${readyTools} of ${tools.length} tool categories have repository-side code ready.`);
   warnings.push(`${accountReadyTools} of ${tools.length} tool categories have an account or deployed service ready.`);
-  warnings.push('Pages CMS operational acceptance and every Release 15 launch-evidence item remain required before cutover.');
+  warnings.push('Pages CMS operational acceptance remains separate from the public Classic launch; the Release 15 evidence gate remains authoritative for cutover status.');
 
   return {
     ok: failures.length === 0,

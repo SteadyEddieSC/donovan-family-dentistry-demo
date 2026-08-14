@@ -14,9 +14,9 @@ test('private review center is noindex, local-only, and absent from the sitemap'
   expect(sitemap).not.toContain('/review/');
 });
 
-test('preview footer exposes the device review helper without adding it to primary navigation', async ({ page }) => {
+test('production footer keeps the private review helper out of public navigation', async ({ page }) => {
   await page.goto('/modern/');
-  await expect(page.locator('.modern-footer').getByRole('link', { name: 'Review this device' })).toHaveAttribute('href', '/review/');
+  await expect(page.locator('.modern-footer').getByRole('link', { name: 'Review this device' })).toHaveCount(0);
   await expect(page.locator('.modern-nav').getByRole('link', { name: 'Review this device' })).toHaveCount(0);
 });
 

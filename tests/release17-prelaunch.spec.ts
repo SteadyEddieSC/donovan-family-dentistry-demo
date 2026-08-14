@@ -76,10 +76,10 @@ test('/modern/contact/ remains a noindex future-design demo with matching contac
   await expect(page.getByRole('link', { name: /dfdbeaufort@gmail.com/i })).toHaveAttribute('href', 'mailto:dfdbeaufort@gmail.com');
 });
 
-test('prelaunch robots policy blocks indexing until the final launch switch', async ({ request }) => {
+test('production robots policy allows Classic crawling and advertises the sitemap', async ({ request }) => {
   const response = await request.get('/robots.txt');
   expect(response.ok()).toBeTruthy();
-  expect(await response.text()).toBe('User-agent: *\nDisallow: /\n');
+  expect(await response.text()).toBe('User-agent: *\nAllow: /\nSitemap: https://donovanfamilydentistry.com/sitemap.xml\n');
 });
 
 test('the public sitemap contains Classic routes only', async ({ request }) => {
@@ -87,7 +87,7 @@ test('the public sitemap contains Classic routes only', async ({ request }) => {
   expect(response.ok()).toBeTruthy();
   const body = await response.text();
 
-  expect(body).toContain('<loc>https://donovan-family-dentistry-demo.pages.dev/</loc>');
+  expect(body).toContain('<loc>https://donovanfamilydentistry.com/</loc>');
   expect(body).toContain('/about/');
   expect(body).toContain('/services/');
   expect(body).toContain('/forms/');
