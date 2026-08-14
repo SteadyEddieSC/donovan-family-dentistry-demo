@@ -6,24 +6,38 @@ const repositoryRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url))
 const readText = (relative) => readFile(path.join(repositoryRoot, relative), 'utf8');
 const readJson = async (relative) => JSON.parse(await readText(relative));
 
-const [site, status, robotsRoute, headers, envExample] = await Promise.all([
+const [site, status, launchReadiness, robotsRoute, headers, envExample] = await Promise.all([
   readJson('src/data/site.json'),
   readJson('src/data/content-status.json'),
+  readJson('src/data/launch-readiness.json'),
   readText('src/pages/robots.txt.ts'),
   readText('public/_headers'),
   readText('.env.example')
 ]);
 
 const failures = [];
+const productionPhase = launchReadiness.phase === 'production';
+const headerBlocks = headers.split(/\r?\n\r?\n/);
+const globalHeaderBlock = headerBlocks.find((block) => block.startsWith('/*')) ?? '';
+const headerBlockFor = (route) => headerBlocks.find((block) => block.startsWith(route)) ?? '';
 
-if (site.previewMode !== true) failures.push('site.previewMode must remain true until the final production-cutover release is approved.');
+if (productionPhase && site.previewMode !== false) failures.push('Production phase requires site.previewMode to be false.');
+if (!productionPhase && site.previewMode !== true) failures.push('Readiness phase requires site.previewMode to remain true.');
 if (site.socialImage !== '/images/donovan-social-card.webp') failures.push('site.socialImage must use the generated 1200x630 production-candidate social card.');
 if (!robotsRoute.includes('site.previewMode')) failures.push('robots.txt route must remain governed by the explicit preview-mode launch switch.');
 if (!robotsRoute.includes("'User-agent: *\\nDisallow: /\\n'")) failures.push('robots.txt route must block all crawling during private preview.');
 if (robotsRoute.includes("'Disallow: /modern/'") || robotsRoute.includes("'Disallow: /review/'")) failures.push('Noindex HTML must remain crawlable after launch so search engines can observe its page-level indexing rule.');
 if (!robotsRoute.includes("'Allow: /'")) failures.push('robots.txt route must allow crawling after launch.');
 if (!robotsRoute.includes('Sitemap:')) failures.push('robots.txt route must advertise the sitemap after launch.');
-if (!headers.includes('X-Robots-Tag: noindex, nofollow, noarchive')) failures.push('Cloudflare headers must keep the preview noindex policy.');
+if (productionPhase) {
+  if (globalHeaderBlock.includes('X-Robots-Tag: noindex, nofollow, noarchive')) failures.push('Production Classic routes must not inherit the global preview noindex header.');
+  for (const route of ['/modern/*', '/review/*', '/api/*']) {
+    if (!headerBlockFor(route).includes('X-Robots-Tag: noindex, nofollow, noarchive')) failures.push(`${route} must retain response-level noindex protection in production.`);
+  }
+  if (site.productionUrl !== launchReadiness.canonicalOrigin) failures.push('site.productionUrl must match the approved canonicalOrigin in production.');
+} else if (!globalHeaderBlock.includes('X-Robots-Tag: noindex, nofollow, noarchive')) {
+  failures.push('Readiness builds must keep the global preview noindex policy.');
+}
 if (!envExample.includes('PUBLIC_ADMIN_INQUIRY_ENABLED=false')) failures.push('The administrative inquiry must remain disabled by default.');
 
 for (const item of status.launchBlockers) {
@@ -61,4 +75,4 @@ if (failures.length > 0) {
   process.exit(1);
 }
 
-console.log(`Production-candidate safety gate passed with ${status.launchBlockers.length} unresolved launch blocker(s), preview indexing disabled, Classic content owner-approved, the administrative inquiry intentionally deferred, and retained noindex pages crawlable for indexing-rule enforcement after launch.`);
+console.log(`Production safety gate passed in ${productionPhase ? 'production' : 'readiness'} phase with ${status.launchBlockers.length} unresolved launch blocker(s), Classic content owner-approved, the administrative inquiry intentionally deferred, and Modern/review utilities protected by permanent noindex controls.`);

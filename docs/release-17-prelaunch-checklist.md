@@ -1,4 +1,4 @@
-# Release 17 — Prelaunch preparation and cutover checklist
+# Release 17 — Production cutover record and checklist
 
 ## Decisions now recorded
 
@@ -11,7 +11,7 @@
 - The owner-approved current provider roster is Dr. William Donovan and Dr. Jordan Henke. Dr. Henke replaces Dr. Robert Koolkin on the replacement site. The current Classic About page, Dr. Donovan's updated photograph, and the biography wording that he and Mary Beth have two daughters are approved.
 - The Classic Contact page places a prominent **Download Office Contact Card** action above the phone/email/address blocks and explains how to open the downloaded vCard and add it to device contacts.
 
-## What this preparation release changes
+## What the release changes
 
 - Updates the shared office-hours record.
 - Derives Dentist structured-data hours from the same shared record.
@@ -28,9 +28,11 @@
 - Replaces the static robots file with a launch-aware route:
   - prelaunch: block all crawling;
   - after the explicit launch switch: allow crawling so page-level noindex rules can be observed, and advertise the Classic-only sitemap.
-- Records `https://www.donovanfamilydentistry.com` as the intended production URL without changing the current Astro canonical base or enabling indexing.
+- Sets `https://donovanfamilydentistry.com` as the production canonical origin and enables indexing for the approved Classic routes only.
 
 ## Required evidence before any DNS change
+
+The infrastructure, authorization, routing, validation, and rollback evidence completed during the approved 2026-08-13 change window is recorded in `docs/evidence/production-cutover-2026-08-13.md`. Deferred physical-device and human accessibility work remains identified there without being represented as complete.
 
 ### GoDaddy and DNS
 
@@ -96,15 +98,15 @@ Select a monitored change window when the office can verify phone, website, emai
 ## Cloudflare preparation
 
 - Confirm the latest `main` deployment and its exact commit.
-- In Cloudflare Pages, add `www.donovanfamilydentistry.com` to the existing project before editing GoDaddy `www`.
+- In Cloudflare Pages, attach both `donovanfamilydentistry.com` and `www.donovanfamilydentistry.com` to the existing project.
 - Record the Cloudflare-required CNAME target and domain status.
 - Do not activate analytics, inquiry delivery, Turnstile, Open Dental, payments, scheduling writeback, or any paid service as part of the domain cutover.
 
-## Final code launch switch — do not perform early
+## Governed production release
 
 Only after the custom domain is ready and all evidence above is retained:
 
-1. Change the Astro canonical site from the Pages preview URL to `https://www.donovanfamilydentistry.com`.
+1. Change the Astro canonical site from the Pages preview URL to `https://donovanfamilydentistry.com`.
 2. Change `previewMode` from `true` to `false`.
 3. Replace the current global Cloudflare `X-Robots-Tag: noindex, nofollow, noarchive` preview header with production rules that make Classic indexable while retaining noindex response protection on Modern, review utilities, and any nonpublic resources that require it.
 4. Confirm Classic pages emit `index, follow` and production canonicals.
@@ -118,21 +120,15 @@ Only after the custom domain is ready and all evidence above is retained:
 
 ## DNS cutover and rollback
 
-After the final code release is verified:
+The authorized architecture uses Cloudflare as the authoritative DNS provider and Cloudflare Pages for both web hostnames:
 
-1. Point only `www` to the Cloudflare Pages target supplied by Cloudflare.
-2. Wait for `https://www.donovanfamilydentistry.com` and its certificate to become active.
-3. Test the full Classic site before changing the root domain.
-4. Add a GoDaddy permanent HTTPS forward-only redirect from the root domain to `https://www.donovanfamilydentistry.com`.
-5. Do not use masking.
+1. Delegate to `nick.ns.cloudflare.com` and `tina.ns.cloudflare.com` only after the accepted 24-record Cloudflare zone matches the GoDaddy baseline.
+2. Attach both apex and `www` to the same Pages project with SSL enabled.
+3. Proxy only the apex and `www` website records; keep every non-web record DNS-only.
+4. Apply a one-hop, path- and query-preserving permanent redirect from `www` to the apex.
+5. Do not use GoDaddy forwarding or masking.
 
-Rollback:
-
-- remove root forwarding;
-- restore the prior root `@` value;
-- restore the prior `www` record;
-- verify legacy WordPress and office email;
-- retain the backup and hosting plan until written launch acceptance.
+Rollback first restores only the apex and `www` web records to the reachable legacy origin inside Cloudflare and disables the canonical redirect. Revert nameservers to `ns69.domaincontrol.com` and `ns70.domaincontrol.com` only for a broader authoritative-DNS failure. Always verify the legacy site and office email, and retain the hosting plan through written launch acceptance.
 
 ## Post-launch verification
 
@@ -152,4 +148,4 @@ Then update Google Business Profile, submit the sitemap in Search Console, inspe
 
 ## Boundaries
 
-This document and preparation release do not change DNS, nameservers, registrar settings, GoDaddy hosting, mail records, indexing, analytics, live inquiry delivery, Open Dental, scheduling, payments, PHI processing, or paid services.
+This production release changes authoritative nameservers, the two web records, Pages routing, the canonical host, and Classic indexing under the separately recorded owner authorization. It does not cancel or alter GoDaddy hosting, change mail or non-web service records, enable analytics or live inquiry delivery, configure Open Dental/scheduling/payments, process PHI, migrate a secondary domain, or add paid services.

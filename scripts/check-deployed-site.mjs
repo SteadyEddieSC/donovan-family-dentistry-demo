@@ -1,4 +1,5 @@
-const base = new URL(process.env.SITE_URL || 'https://donovan-family-dentistry-demo.pages.dev');
+const base = new URL(process.env.SITE_URL || 'https://donovanfamilydentistry.com');
+const canonicalOrigin = new URL('https://donovanfamilydentistry.com');
 const timeoutMs = Number(process.env.SITE_CHECK_TIMEOUT_MS || 15_000);
 
 async function get(url) {
@@ -37,7 +38,11 @@ const sitemapResponse = await get(absolute('/sitemap.xml'));
 if (!sitemapResponse.ok) failures.push(`Sitemap returned ${sitemapResponse.status}.`);
 const sitemap = await sitemapResponse.text();
 const canonicalPageUrls = [...sitemap.matchAll(/<loc>(.*?)<\/loc>/g)].map((match) => match[1]);
-if (canonicalPageUrls.length < 14) failures.push(`Sitemap contains only ${canonicalPageUrls.length} page URL(s).`);
+if (canonicalPageUrls.length !== 7) failures.push(`Sitemap must contain exactly 7 Classic page URLs; found ${canonicalPageUrls.length}.`);
+for (const canonicalUrl of canonicalPageUrls) {
+  if (new URL(canonicalUrl).origin !== canonicalOrigin.origin) failures.push(`Sitemap URL ${canonicalUrl} does not use the production canonical origin.`);
+  if (new URL(canonicalUrl).pathname.startsWith('/modern/') || new URL(canonicalUrl).pathname.startsWith('/review/')) failures.push(`Sitemap URL ${canonicalUrl} exposes a retained noindex route.`);
+}
 
 const pageUrls = canonicalPageUrls.map((canonicalUrl) => {
   const canonical = new URL(canonicalUrl);
@@ -59,15 +64,25 @@ for (const pageUrl of pageUrls) {
   }
   const html = await response.text();
   if (!/<main\b/i.test(html)) failures.push(`${pageUrl} has no main landmark.`);
-  if (!/name=["']robots["'][^>]*content=["']noindex, nofollow, noarchive["']/i.test(html)) {
-    failures.push(`${pageUrl} is missing the preview noindex metadata.`);
+  if (!/name=["']robots["'][^>]*content=["']index, follow["']/i.test(html)) {
+    failures.push(`${pageUrl} is missing production index/follow metadata.`);
   }
+  const expectedCanonical = new URL(new URL(pageUrl).pathname, canonicalOrigin).toString();
+  if (!html.includes(`rel="canonical" href="${expectedCanonical}"`)) failures.push(`${pageUrl} is missing canonical ${expectedCanonical}.`);
   for (const link of internalLinks(html, pageUrl)) links.add(link);
 
-  if (new URL(pageUrl).pathname === '/modern/contact/') {
-    if (!/data-mode=["']preview["']/i.test(html)) failures.push('The deployed contact page is not in preview mode.');
-    if (!/>Preview request</i.test(html)) failures.push('The deployed contact page is missing the preview submit label.');
+}
+
+for (const retainedPath of ['/modern/', '/review/']) {
+  const retainedUrl = absolute(retainedPath);
+  const response = await get(retainedUrl);
+  if (!response.ok) {
+    failures.push(`${retainedUrl} returned ${response.status}.`);
+    continue;
   }
+  const html = await response.text();
+  if (!/name=["']robots["'][^>]*content=["']noindex, nofollow, noarchive["']/i.test(html)) failures.push(`${retainedUrl} is missing permanent noindex metadata.`);
+  if (!/noindex/i.test(response.headers.get('x-robots-tag') ?? '')) failures.push(`${retainedUrl} is missing response-level noindex protection.`);
 }
 
 for (const link of links) {
@@ -77,7 +92,8 @@ for (const link of links) {
 
 const robotsResponse = await get(absolute('/robots.txt'));
 const robots = await robotsResponse.text();
-if (!robots.includes('Disallow: /')) failures.push('Deployed robots.txt does not block crawling.');
+if (!robots.includes('User-agent: *\nAllow: /')) failures.push('Deployed robots.txt does not allow Classic crawling.');
+if (!robots.includes(`Sitemap: ${canonicalOrigin.origin}/sitemap.xml`)) failures.push('Deployed robots.txt does not advertise the production sitemap.');
 
 if (failures.length > 0) {
   console.error(`Deployed production-candidate check failed for ${base.origin}:`);

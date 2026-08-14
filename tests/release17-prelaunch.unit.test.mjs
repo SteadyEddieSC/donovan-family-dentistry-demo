@@ -10,7 +10,7 @@ const assertMissing = async (path) => {
   await assert.rejects(access(new URL(path, root)));
 };
 
-test('Release 17 preparation records the owner-confirmed Monday through Thursday hours and office email', async () => {
+test('Release 17 production switch records the approved canonical host, hours, and office email', async () => {
   const site = await readJson('src/data/site.json');
   const openDays = site.hours.slice(0, 4);
 
@@ -18,8 +18,8 @@ test('Release 17 preparation records the owner-confirmed Monday through Thursday
   assert.ok(openDays.every((item) => item.hours === '7:30 AM-5:00 PM'));
   assert.ok(site.hours.slice(4).every((item) => item.hours === 'Closed'));
   assert.equal(site.contactEmail, 'dfdbeaufort@gmail.com');
-  assert.equal(site.productionUrl, 'https://www.donovanfamilydentistry.com');
-  assert.equal(site.previewMode, true, 'prelaunch preparation must not enable indexing');
+  assert.equal(site.productionUrl, 'https://donovanfamilydentistry.com');
+  assert.equal(site.previewMode, false, 'the authorized production release must enable Classic indexing');
 });
 
 test('structured data derives opening hours from shared data and includes the verified office email', async () => {
