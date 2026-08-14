@@ -38,11 +38,13 @@ test('Release 16.1 removes the duplicate homepage dock and protects interior pag
 
 test('Restore latest office save is fail-closed and preserves history', async () => {
   const workflow = await read('.github/workflows/office-rollback.yml');
+  const validator = await read('scripts/validate-office-rollback.mjs');
 
   assert.match(workflow, /if: github\.ref_name == 'main'/);
-  assert.match(workflow, /latest_subject.*office\\ update:/s);
-  assert.match(workflow, /src\/data\/site\.json/);
-  assert.match(workflow, /public\/images\/\*/);
+  assert.match(workflow, /node scripts\/validate-office-rollback\.mjs/);
+  assert.match(validator, /subject\.startsWith\('office update:'\)/);
+  assert.ok(validator.includes('^src\\/data\\/'));
+  assert.ok(validator.includes('^public\\/images\\/'));
   assert.match(workflow, /git revert --no-edit/);
   assert.match(workflow, /git push origin HEAD:main/);
   assert.doesNotMatch(workflow, /git reset --hard/);
