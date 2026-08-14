@@ -19,7 +19,7 @@ Shared records such as office contact information, hours, dentist data, services
 ## First-time access
 
 1. Sign in at Pages CMS with the GitHub account that owns or is authorized to administer `SteadyEddieSC/donovan-family-dentistry-demo`.
-2. Install or authorize the Pages CMS GitHub App for this private repository. A user who can edit files but cannot administer GitHub App installations may need the repository owner to approve this step.
+2. Install or authorize the Pages CMS GitHub App for this public repository. A user who can edit files but cannot administer GitHub App installations may need the repository owner to approve this step.
 3. Open **donovan-family-dentistry-demo**.
 4. Select the **main** branch for normal office changes.
 5. Confirm that these three areas appear:
@@ -61,7 +61,7 @@ Complete this once before relying on the editor:
 9. Restore the prior wording using one of the recovery methods below.
 10. Confirm the restoration commit, Cloudflare deployment, and phone/desktop result.
 
-Record the tester, date, GitHub commit links, workflow run, Cloudflare deployment, recovery method, and result in the launch evidence.
+Record the tester, date, GitHub commit links, workflow run, Cloudflare deployment, recovery method, and result in the maintenance record.
 
 ## Restore an office edit
 
@@ -143,3 +143,7 @@ For the current launch, the approved PDFs preserve the existing Donovan form art
 Every save is a GitHub commit. A failed build does not replace the last successful Cloudflare deployment.
 
 For a wording error, restore the prior field value and save. For the immediately preceding safe office save, use **Restore latest office save**. For an older, multi-commit, code, configuration, or conflicted problem, the website administrator must create a corrective/revert pull request or redeploy the last green deployment. Domain rollback is a separate administrator procedure and is not performed through Pages CMS.
+
+## If something looks wrong
+
+Stop editing and contact the website administrator if a check fails, the deployed page does not match the saved commit, the wrong branch is selected, or the intended prior value is unclear. Send the page URL and GitHub commit or workflow-run link; do not send patient information, passwords, credentials, or secrets.
