@@ -35,6 +35,7 @@ test('production monitor defaults to the canonical site and retains explicit pre
   assert.match(monitor, /max-age=31536000/);
   assert.match(monitor, /max-age=3600/);
   assert.match(monitor, /\/api\/administrative-inquiry/);
+  assert.match(monitor, /preview response is missing noindex protection/);
   assert.match(headers, /script-src[^\n]*'sha256-__BUILD_TIME_SCRIPT_HASHES__'/);
   assert.doesNotMatch(headers, /script-src[^;\n]*'unsafe-inline'/);
   assert.match(headers, /\/_astro\/\*\r?\n\s+Cache-Control: public, max-age=31536000, immutable/);

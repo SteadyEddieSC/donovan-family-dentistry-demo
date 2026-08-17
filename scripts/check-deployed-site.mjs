@@ -172,6 +172,7 @@ for (const pageUrl of pageUrls) {
   const html = await response.text();
   if (!/<main\b/i.test(html)) failures.push(`${pageUrl} has no main landmark.`);
   if (!/name=["']robots["'][^>]*content=["']index, follow["']/i.test(html)) failures.push(`${pageUrl} is missing production index/follow metadata.`);
+  if (!isProduction && !/noindex/i.test(response.headers.get('x-robots-tag') ?? '')) failures.push(`${pageUrl} preview response is missing noindex protection.`);
   const expectedCanonical = new URL(new URL(pageUrl).pathname, canonicalOrigin).toString();
   if (!html.includes(`rel="canonical" href="${expectedCanonical}"`)) failures.push(`${pageUrl} is missing canonical ${expectedCanonical}.`);
   const insecure = insecureResourceReferences(html);
