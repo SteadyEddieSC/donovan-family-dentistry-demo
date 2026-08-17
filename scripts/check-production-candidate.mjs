@@ -20,6 +20,8 @@ const productionPhase = launchReadiness.phase === 'production';
 const headerBlocks = headers.split(/\r?\n\r?\n/);
 const globalHeaderBlock = headerBlocks.find((block) => block.startsWith('/*')) ?? '';
 const headerBlockFor = (route) => headerBlocks.find((block) => block.startsWith(route)) ?? '';
+const csp = globalHeaderBlock.match(/Content-Security-Policy:\s*(.+)/)?.[1] ?? '';
+const cspDirective = (name) => csp.match(new RegExp(`(?:^|;\\s*)${name}\\s+([^;]+)`))?.[1].trim() ?? '';
 
 if (productionPhase && site.previewMode !== false) failures.push('Production phase requires site.previewMode to be false.');
 if (!productionPhase && site.previewMode !== true) failures.push('Readiness phase requires site.previewMode to remain true.');
@@ -39,6 +41,18 @@ if (productionPhase) {
   failures.push('Readiness builds must keep the global preview noindex policy.');
 }
 if (!envExample.includes('PUBLIC_ADMIN_INQUIRY_ENABLED=false')) failures.push('The administrative inquiry must remain disabled by default.');
+if (!csp) failures.push('The global Content-Security-Policy header is missing.');
+if (/\bunsafe-eval\b/i.test(csp)) failures.push('Content-Security-Policy must not permit unsafe-eval.');
+if (/\bscript-src\b[^;]*'unsafe-inline'/i.test(csp)) failures.push('script-src must not permit unsafe-inline.');
+if (!cspDirective('script-src').includes("'sha256-__BUILD_TIME_SCRIPT_HASHES__'")) failures.push('script-src must retain the deterministic build-time hash placeholder.');
+if (cspDirective('script-src') !== "'self' 'sha256-__BUILD_TIME_SCRIPT_HASHES__' https://static.cloudflareinsights.com https://challenges.cloudflare.com") failures.push('script-src Cloudflare coverage must remain limited to the analytics and challenge origins.');
+if (cspDirective('connect-src') !== "'self' https://challenges.cloudflare.com https://cloudflareinsights.com") failures.push('connect-src Cloudflare coverage must remain limited to the challenge and analytics endpoints.');
+if (cspDirective('frame-src') !== "'self' https://challenges.cloudflare.com") failures.push('frame-src Cloudflare coverage must remain limited to the challenge origin.');
+if (cspDirective('style-src') !== "'self' 'unsafe-inline'") failures.push('style-src must retain the separately reviewed inline-style compatibility policy.');
+if (!headerBlockFor('/_astro/*').includes('Cache-Control: public, max-age=31536000, immutable')) failures.push('/_astro/* must use immutable one-year caching.');
+if (!headerBlockFor('/review/*').includes('Cache-Control: no-store')) failures.push('/review/* must retain no-store caching.');
+if (!headerBlockFor('/api/*').includes('Cache-Control: no-store')) failures.push('/api/* must retain no-store caching.');
+if (!headerBlockFor('/forms/*.pdf').includes('Cache-Control: public, max-age=3600')) failures.push('PDF caching must remain at the approved one-hour policy.');
 
 for (const item of status.launchBlockers) {
   if (!item?.id || !item?.label || !item?.status || !item?.replacementNeeded) {

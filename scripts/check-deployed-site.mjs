@@ -50,6 +50,14 @@ function insecureResourceReferences(html) {
   ].map((match) => match[1]);
 }
 
+function directive(policy, name) {
+  return policy.match(new RegExp(`(?:^|;\\s*)${name}\\s+([^;]+)`, 'i'))?.[1].trim() ?? '';
+}
+
+function cacheDirectives(response) {
+  return new Set((response.headers.get('cache-control') ?? '').split(',').map((value) => value.trim().toLowerCase()).filter(Boolean));
+}
+
 async function expectPermanentRedirect(source, expected, label, failures) {
   const response = await request(source, 'manual');
   const location = response.headers.get('location');
@@ -84,17 +92,31 @@ async function checkProductionDns(failures) {
 }
 
 const failures = [];
+const rootResponse = await request(base);
+const rootHtml = await rootResponse.text();
+const csp = rootResponse.headers.get('content-security-policy') ?? '';
+
+if (!rootResponse.ok || !/<main\b/i.test(rootHtml) || !/Donovan Family Dentistry/i.test(rootHtml)) {
+  failures.push(`Site root did not return the intended website (status ${rootResponse.status}).`);
+}
+if (!csp) failures.push('Content-Security-Policy header is missing.');
+if (/['"]?unsafe-eval['"]?/i.test(csp)) failures.push('CSP permits unsafe-eval.');
+if (/\bscript-src\b[^;]*'unsafe-inline'/i.test(csp)) failures.push('CSP script-src permits unsafe-inline.');
+const scriptSources = directive(csp, 'script-src').split(/\s+/).filter(Boolean);
+const approvedScriptSources = new Set(["'self'", 'https://static.cloudflareinsights.com', 'https://challenges.cloudflare.com']);
+for (const source of scriptSources) {
+  if (!approvedScriptSources.has(source) && !/^'sha256-[A-Za-z0-9+/]+={0,2}'$/.test(source)) failures.push(`CSP script-src contains unexpected source ${source}.`);
+}
+for (const requiredSource of approvedScriptSources) {
+  if (!scriptSources.includes(requiredSource)) failures.push(`CSP script-src is missing ${requiredSource}.`);
+}
 
 if (isProduction) {
-  const apexResponse = await request(canonicalOrigin);
-  const apexHtml = await apexResponse.text();
-  if (!apexResponse.ok || !/<main\b/i.test(apexHtml) || !/Donovan Family Dentistry/i.test(apexHtml)) {
-    failures.push(`Production apex did not return the intended website (status ${apexResponse.status}).`);
-  }
-
-  const csp = apexResponse.headers.get('content-security-policy') ?? '';
-  if (!csp) failures.push('Production Content-Security-Policy header is missing.');
-  if (/['"]?unsafe-eval['"]?/i.test(csp)) failures.push('Production CSP permits unsafe-eval.');
+  const hsts = rootResponse.headers.get('strict-transport-security') ?? '';
+  const maxAge = Number(hsts.match(/(?:^|;)\s*max-age=(\d+)/i)?.[1] ?? NaN);
+  if (!Number.isFinite(maxAge) || maxAge < 2_592_000) failures.push(`Production HSTS max-age must be at least 2592000; received ${hsts || '(missing)'}.`);
+  if (/\bincludesubdomains\b/i.test(hsts)) failures.push('Production HSTS unexpectedly enables includeSubDomains.');
+  if (/\bpreload\b/i.test(hsts)) failures.push('Production HSTS unexpectedly enables preload.');
 
   await expectPermanentRedirect(
     new URL('http://donovanfamilydentistry.com/monitor-path/?source=http'),
@@ -133,6 +155,7 @@ if (JSON.stringify(canonicalPageUrls) !== JSON.stringify(expectedCanonicalUrls))
 }
 
 const pageUrls = classicPaths.map((path) => absolute(path).toString());
+const astroAssets = new Set();
 const links = new Set([
   absolute('/robots.txt').toString(),
   absolute('/forms/Donovan-Medical-History-3-17.pdf').toString(),
@@ -153,6 +176,7 @@ for (const pageUrl of pageUrls) {
   if (!html.includes(`rel="canonical" href="${expectedCanonical}"`)) failures.push(`${pageUrl} is missing canonical ${expectedCanonical}.`);
   const insecure = insecureResourceReferences(html);
   if (insecure.length > 0) failures.push(`${pageUrl} contains insecure first-party resource reference(s): ${insecure.join(', ')}.`);
+  for (const match of html.matchAll(/(?:src|href)=["'](\/_astro\/[^"']+)["']/gi)) astroAssets.add(match[1]);
   for (const link of internalLinks(html, pageUrl)) {
     if (new URL(link).pathname.startsWith('/modern/')) failures.push(`${pageUrl} exposes Modern in Classic navigation/content: ${link}.`);
     links.add(link);
@@ -169,6 +193,28 @@ for (const retainedPath of ['/modern/', '/review/']) {
   const html = await response.text();
   if (!/name=["']robots["'][^>]*content=["']noindex, nofollow, noarchive["']/i.test(html)) failures.push(`${retainedUrl} is missing permanent noindex metadata.`);
   if (!/noindex/i.test(response.headers.get('x-robots-tag') ?? '')) failures.push(`${retainedUrl} is missing response-level noindex protection.`);
+  if (retainedPath === '/review/' && !cacheDirectives(response).has('no-store')) failures.push(`${retainedUrl} is missing no-store caching.`);
+}
+
+const apiResponse = await request(absolute('/api/administrative-inquiry'), 'manual');
+if (!cacheDirectives(apiResponse).has('no-store')) failures.push('/api/administrative-inquiry is missing no-store caching.');
+
+for (const pdfPath of ['/forms/Donovan-Medical-History-3-17.pdf', '/forms/donovan-family-dentistry-privacy-policy.pdf']) {
+  const response = await request(absolute(pdfPath));
+  const cache = cacheDirectives(response);
+  const expectedPdfMaxAge = isProduction ? 'max-age=14400' : 'max-age=3600';
+  if (!response.ok) failures.push(`${absolute(pdfPath)} returned ${response.status}.`);
+  if (!cache.has('public') || !cache.has(expectedPdfMaxAge) || cache.has('immutable')) failures.push(`${absolute(pdfPath)} does not retain the established ${expectedPdfMaxAge} PDF behavior for this environment.`);
+}
+
+const currentAstroAsset = [...astroAssets][0];
+if (!currentAstroAsset) {
+  failures.push('No current /_astro/* asset could be discovered dynamically from Classic HTML.');
+} else {
+  const assetResponse = await request(absolute(currentAstroAsset));
+  const cache = cacheDirectives(assetResponse);
+  if (!assetResponse.ok) failures.push(`${absolute(currentAstroAsset)} returned ${assetResponse.status}.`);
+  if (!cache.has('public') || !cache.has('max-age=31536000') || !cache.has('immutable')) failures.push(`${absolute(currentAstroAsset)} is missing immutable one-year caching.`);
 }
 
 for (const link of links) {

@@ -15,15 +15,32 @@ test('rollback validator accepts only an office update with office-managed paths
 });
 
 test('production monitor defaults to the canonical site and retains explicit preview targeting', async () => {
-  const [workflow, monitor] = await Promise.all([
+  const [workflow, monitor, headers, finalizer, packageJson] = await Promise.all([
     read('.github/workflows/production-candidate-monitor.yml'),
-    read('scripts/check-deployed-site.mjs')
+    read('scripts/check-deployed-site.mjs'),
+    read('public/_headers'),
+    read('scripts/finalize-security-headers.mjs'),
+    read('package.json')
   ]);
   assert.match(workflow, /default: https:\/\/donovanfamilydentistry\.com/);
   assert.match(workflow, /inputs\.site_url \|\| 'https:\/\/donovanfamilydentistry\.com'/);
   assert.match(monitor, /process\.env\.SITE_URL \|\| 'https:\/\/donovanfamilydentistry\.com'/);
   assert.match(monitor, /SKIP_PRODUCTION_DNS_CHECKS/);
   assert.match(monitor, /unsafe-eval/);
+  assert.match(monitor, /strict-transport-security/);
+  assert.match(monitor, /2_592_000/);
+  assert.match(monitor, /includesubdomains/i);
+  assert.match(monitor, /preload/i);
+  assert.match(monitor, /\/_astro\//);
+  assert.match(monitor, /max-age=31536000/);
+  assert.match(monitor, /max-age=3600/);
+  assert.match(monitor, /\/api\/administrative-inquiry/);
+  assert.match(headers, /script-src[^\n]*'sha256-__BUILD_TIME_SCRIPT_HASHES__'/);
+  assert.doesNotMatch(headers, /script-src[^;\n]*'unsafe-inline'/);
+  assert.match(headers, /\/_astro\/\*\r?\n\s+Cache-Control: public, max-age=31536000, immutable/);
+  assert.match(finalizer, /createHash\('sha256'\)/);
+  assert.match(finalizer, /cspLine\.length > 2_000/);
+  assert.match(packageJson, /finalize-security-headers\.mjs/);
 });
 
 test('office documentation matches the three-area public-repository editor boundary', async () => {

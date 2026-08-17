@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
-    "postbuild": "node scripts/check-performance-budgets.mjs",
+    "postbuild": "node scripts/finalize-security-headers.mjs && node scripts/check-performance-budgets.mjs",
     "preview": "astro preview",
     "test": "npm run test:unit && npm run test:e2e && npm run test:compat",
     "test:unit": "node --test tests/*.unit.test.mjs",
