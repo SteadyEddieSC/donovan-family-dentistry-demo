@@ -89,7 +89,22 @@ The monitor does not hardcode a generated asset filename and does not submit adm
 
 ## Validation record
 
-Final local, CI, Pages preview, and production validation results are recorded on the maintenance pull request. The release must remain unmerged for independent review. Validation includes locked dependency installation/audit in CI, unit tests, complete Astro build, performance budgets, primary Playwright desktop/mobile/accessibility coverage, compatibility browsers, preview headers/caching/noindex, and live production transport/security/routing checks.
+Maintenance PR #47 remains unmerged for independent review. Validation of the functional candidate completed as follows:
+
+| Validation | Result |
+| --- | --- |
+| Production/readiness gates | Passed |
+| Astro production build | 17 HTML pages; 20 unique script hashes for 26 inline blocks; final CSP header 1,539 characters |
+| Performance budgets | Passed: 55,693 CSS bytes, 0 external JavaScript bytes, and all existing asset/document budgets |
+| Unit tests | 80 passed |
+| Primary Playwright desktop/mobile/accessibility suite | 256 passed; 14 intentionally skipped |
+| Compatibility suite | 24 passed across Chrome, Edge, Firefox, WebKit, Android Chrome, and iOS WebKit |
+| Cloudflare Pages build | Passed locked install/build; dependency installation reported 0 vulnerabilities |
+| Pages preview deployed monitor | Passed all seven Classic pages, 16 internal targets, hash-only script CSP, immutable current asset, PDF/review/API cache rules, and preview-wide noindex |
+| Clean preview browser | Classic, Modern, and review loaded with no console or CSP errors; Modern/review retained noindex metadata |
+| Live production after Cloudflare change | HSTS, direct apex HTTP and `www` redirects, TLS 1.2/1.3, Classic routes, Modern/review noindex, API safe behavior, both PDFs, and clean-browser console passed |
+
+Because the pull request is intentionally unmerged, production continues to serve the prior repository CSP (`script-src 'unsafe-inline'`) and its prior 14,400-second `/_astro/*` cache behavior. The hash-only CSP and immutable asset cache are verified on the Pages preview and become production behavior only after a separately authorized merge/deployment. Production checks found no first-party mixed-content or CSP console violation under the currently deployed policy.
 
 ## Rollback
 
