@@ -57,7 +57,7 @@ jobs:
             echo ''
             echo "Checked: ${SITE_URL}"
             echo ''
-            echo 'Locked-dependency, unit, build, performance-budget, production routing, sitemap, internal-link, PDF, social-image, robots, CSP, noindex, and applicable DNS checks passed.'
+            echo 'Locked-dependency, unit, build, performance-budget, CSP, immutable-asset/PDF/API/review caching, sitemap, internal-link, social-image, robots, and noindex checks passed. Production-only HSTS, redirects, and DNS checks ran when the canonical production origin was targeted.'
             echo ''
             echo 'This monitor does not submit the administrative form and does not collect or store visitor message content.'
           } >> "$GITHUB_STEP_SUMMARY"
