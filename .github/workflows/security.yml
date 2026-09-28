@@ -1,0 +1,26 @@
+name: Security baseline
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+  schedule:
+    - cron: '53 10 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  dependency-scan:
+    uses: LowcountryDigitalWorks/.github/.github/workflows/security-dependencies-npm.yml@ede43e90914534c160b92eb316dd4362d047a96d
+    with:
+      online_queries: false
+      verify_canary: false
+
+  secret-scan:
+    if: ${{ github.event_name != 'schedule' }}
+    uses: LowcountryDigitalWorks/.github/.github/workflows/security-secrets.yml@ede43e90914534c160b92eb316dd4362d047a96d
+    with:
+      verify_canary: false
