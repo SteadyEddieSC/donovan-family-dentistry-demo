@@ -25,7 +25,7 @@ let inlineScriptCount = 0;
 
 for (const htmlFile of htmlFiles) {
   const html = await readFile(htmlFile, 'utf8');
-  for (const match of html.matchAll(/<script(?<attributes>[^>]*)>(?<body>[\s\S]*?)<\/script>/gi)) {
+  for (const match of html.matchAll(/<script\b(?<attributes>[^>]*)>(?<body>[\s\S]*?)<\/script\s*>/gi)) {
     const attributes = match.groups?.attributes ?? '';
     const body = match.groups?.body ?? '';
     if (/\bsrc\s*=/i.test(attributes) || body.length === 0) continue;
