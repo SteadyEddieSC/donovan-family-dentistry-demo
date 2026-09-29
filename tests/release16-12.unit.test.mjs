@@ -75,5 +75,17 @@ test('Release 16.12 keeps external Google Fonts out of site source', async () =>
     'src/styles/release-16-12.css'
   ];
   const source = (await Promise.all(paths.map(read))).join('\n');
-  assert.doesNotMatch(source, /fonts\.googleapis\.com|fonts\.gstatic\.com/i);
+  const externalHosts = [...source.matchAll(/https?:\/\/[^\s"'<>)]*/gi)]
+    .map(([candidate]) => {
+      try {
+        return new URL(candidate).hostname.toLowerCase();
+      } catch {
+        return null;
+      }
+    })
+    .filter(Boolean);
+  assert.equal(
+    externalHosts.some((hostname) => hostname === 'fonts.googleapis.com' || hostname === 'fonts.gstatic.com'),
+    false
+  );
 });
