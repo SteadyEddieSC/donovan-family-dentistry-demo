@@ -80,7 +80,7 @@ async function checkProductionDns(failures) {
 
     const txt = (await resolveTxt('donovanfamilydentistry.com')).map((parts) => parts.join(''));
     if (!txt.includes('v=spf1 include:secureserver.net -all')) failures.push('Approved SPF record is missing.');
-    if (!txt.includes('NETORGFT12395633.onmicrosoft.com')) failures.push('Microsoft 365 tenant-verification record is missing.');
+    if (!txt.some((value) => value === 'NETORGFT12395633.onmicrosoft.com')) failures.push('Microsoft 365 tenant-verification record is missing.');
 
     for (const host of ['cpanel', 'ftp', 'webdisk', 'whm']) {
       const addresses = await resolve4(`${host}.donovanfamilydentistry.com`);

@@ -57,7 +57,8 @@ test('Release 16.12 removes captions and prevents provider photo upscaling or fo
   assert.match(css, /max-width:\s*30rem/);
   assert.match(css, /aspect-ratio:\s*auto/);
   assert.match(css, /object-fit:\s*contain/);
-  assert.match(materializer, /if \(existsSync\(target\)\) continue;/);
+  assert.ok(materializer.includes("writeFileSync(target, bytes, { flag: 'wx' })"));
+  assert.equal(materializer.includes('existsSync'), false);
   assert.doesNotMatch(materializer, /asset\.replace/);
   assert.match(classicLayout, /release-16-11\.css[\s\S]*release-16-12\.css/);
   assert.match(modernLayout, /release-16-11\.css[\s\S]*release-16-12\.css/);

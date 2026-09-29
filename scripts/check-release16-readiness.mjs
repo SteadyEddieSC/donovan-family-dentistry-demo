@@ -148,7 +148,10 @@ export function evaluateRelease16Readiness({
   for (const target of REQUIRED_GENERATED_FORM_TARGETS) {
     if (!generatedTargets.has(target)) failures.push(`Asset manifest is missing patient PDF target ${target}.`);
   }
-  if (!materializer.includes('if (existsSync(target)) continue;')) {
+  const preservesExistingAssets =
+    materializer.includes("writeFileSync(target, bytes, { flag: 'wx' })") &&
+    materializer.includes("error?.code === 'EEXIST'");
+  if (!preservesExistingAssets) {
     failures.push('Asset materialization must preserve a PDF committed through Pages CMS instead of overwriting it.');
   }
 

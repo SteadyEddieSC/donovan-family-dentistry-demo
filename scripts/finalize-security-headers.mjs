@@ -2,6 +2,7 @@ import { createHash } from 'node:crypto';
 import { readdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { parse } from 'parse5';
 
 const repositoryRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const distRoot = path.join(repositoryRoot, 'dist');
@@ -19,16 +20,38 @@ async function filesUnder(directory) {
   return files;
 }
 
+function inlineScriptBodies(html) {
+  const document = parse(html, { sourceCodeLocationInfo: true });
+  const bodies = [];
+
+  function visit(node) {
+    if (node.nodeName === 'script') {
+      const hasSrc = (node.attrs ?? []).some((attribute) => attribute.name.toLowerCase() === 'src');
+      if (!hasSrc) {
+        const location = node.sourceCodeLocation;
+        if (!location?.startTag || !location?.endTag) {
+          throw new Error('Inline script is missing source locations; refusing to calculate a normalized CSP hash.');
+        }
+        const body = html.slice(location.startTag.endOffset, location.endTag.startOffset);
+        if (body.length > 0) bodies.push(body);
+      }
+    }
+
+    for (const child of node.childNodes ?? []) visit(child);
+    if (node.content) visit(node.content);
+  }
+
+  visit(document);
+  return bodies;
+}
+
 const htmlFiles = (await filesUnder(distRoot)).filter((file) => file.endsWith('.html'));
 const hashes = new Set();
 let inlineScriptCount = 0;
 
 for (const htmlFile of htmlFiles) {
   const html = await readFile(htmlFile, 'utf8');
-  for (const match of html.matchAll(/<script(?<attributes>[^>]*)>(?<body>[\s\S]*?)<\/script>/gi)) {
-    const attributes = match.groups?.attributes ?? '';
-    const body = match.groups?.body ?? '';
-    if (/\bsrc\s*=/i.test(attributes) || body.length === 0) continue;
+  for (const body of inlineScriptBodies(html)) {
     const digest = createHash('sha256').update(body, 'utf8').digest('base64');
     hashes.add(`'sha256-${digest}'`);
     inlineScriptCount += 1;

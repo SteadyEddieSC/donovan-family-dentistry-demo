@@ -5,7 +5,8 @@ for (const path of ['/about/', '/modern/team/']) {
     await page.setViewportSize({ width: 1440, height: 1000 });
     const externalFontRequests: string[] = [];
     page.on('request', (request) => {
-      if (/fonts\.(googleapis|gstatic)\.com/i.test(request.url())) externalFontRequests.push(request.url());
+      const hostname = new URL(request.url()).hostname.toLowerCase();
+    if (hostname === 'fonts.googleapis.com' || hostname === 'fonts.gstatic.com') externalFontRequests.push(request.url());
     });
 
     await page.goto(path, { waitUntil: 'networkidle' });

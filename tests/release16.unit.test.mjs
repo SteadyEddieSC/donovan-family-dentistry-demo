@@ -20,7 +20,12 @@ const assetManifest = [
 const materializer = `
 for (const asset of manifest) {
   const target = join(root, asset.target);
-  if (existsSync(target)) continue;
+  try {
+    writeFileSync(target, bytes, { flag: 'wx' });
+  } catch (error) {
+    if (error?.code === 'EEXIST') continue;
+    throw error;
+  }
 }
 `;
 

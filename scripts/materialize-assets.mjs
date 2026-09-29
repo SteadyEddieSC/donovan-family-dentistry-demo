@@ -1,5 +1,5 @@
 import { createHash } from 'node:crypto';
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { gunzipSync } from 'node:zlib';
@@ -16,8 +16,6 @@ function decodeChunks(names) {
 
 for (const asset of manifest) {
   const target = join(root, asset.target);
-  if (existsSync(target)) continue;
-
   const baseBytes = decodeChunks(asset.chunks);
   const patchBytes = asset.appendChunks ? decodeChunks(asset.appendChunks) : Buffer.alloc(0);
   const bytes = Buffer.concat([baseBytes, patchBytes]);
@@ -34,6 +32,11 @@ for (const asset of manifest) {
   }
 
   mkdirSync(dirname(target), { recursive: true });
-  writeFileSync(target, bytes);
-  console.log(`Materialized ${asset.target}`);
+  try {
+    writeFileSync(target, bytes, { flag: 'wx' });
+    console.log(`Materialized ${asset.target}`);
+  } catch (error) {
+    if (error?.code === 'EEXIST') continue;
+    throw error;
+  }
 }

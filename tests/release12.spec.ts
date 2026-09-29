@@ -92,7 +92,8 @@ test('about and services pages render office-managed content', async ({ page }) 
 test('clean browsers make no external font requests', async ({ page }) => {
   const externalFontRequests: string[] = [];
   page.on('request', (request) => {
-    if (/fonts\.(googleapis|gstatic)\.com/i.test(request.url())) externalFontRequests.push(request.url());
+    const hostname = new URL(request.url()).hostname.toLowerCase();
+    if (hostname === 'fonts.googleapis.com' || hostname === 'fonts.gstatic.com') externalFontRequests.push(request.url());
   });
 
   for (const route of ['/', '/modern/', '/modern/team/']) {
