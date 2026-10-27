@@ -1,0 +1,42 @@
+name: Repository keepalive
+
+on:
+  schedule:
+    - cron: '23 7 7 * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: repository-keepalive
+  cancel-in-progress: false
+
+jobs:
+  keepalive:
+    name: Record harmless repository activity
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check out default branch
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          fetch-depth: 0
+
+      - name: Push an empty keepalive commit to the maintenance branch
+        shell: bash
+        run: |
+          set -euo pipefail
+          branch='automation/repository-keepalive'
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+
+          if git ls-remote --exit-code --heads origin "$branch" >/dev/null 2>&1; then
+            git fetch origin "$branch"
+            git switch --force-create "$branch" FETCH_HEAD
+          else
+            git switch --create "$branch"
+          fi
+
+          git commit --allow-empty -m 'chore: repository keepalive [skip ci]'
+          git push origin "HEAD:$branch"
