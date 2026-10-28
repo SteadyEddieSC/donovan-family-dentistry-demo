@@ -22,9 +22,12 @@ jobs:
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
           fetch-depth: 0
+          persist-credentials: false
 
       - name: Push an empty keepalive commit to the maintenance branch
         shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
           branch='automation/repository-keepalive'
@@ -39,4 +42,4 @@ jobs:
           fi
 
           git commit --allow-empty -m 'chore: repository keepalive [skip ci]'
-          git push origin "HEAD:$branch"
+          git push "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" "HEAD:$branch"
