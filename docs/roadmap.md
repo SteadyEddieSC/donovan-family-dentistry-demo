@@ -1,16 +1,20 @@
 # Donovan Family Dentistry Website Roadmap
 
-## Product direction
+## Current product direction
 
-The modern concept is the patient-facing digital front door. Each page has one primary responsibility:
+The **Classic** concept at `/` is the current public production website and patient-facing digital front door. The **Modern** concept at `/modern/` is retained as a future-design demo; it remains outside the public sitemap/navigation and must remain `noindex` unless a separately approved product decision changes that boundary.
+
+For current production operations, live repository/provider state plus the current README and operating guides outrank historical release-planning language below. Earlier release sections are preserved as provenance for decisions made while the replacement site was still being prepared.
+
+The public production experience prioritizes these patient jobs:
 
 - **Home:** orient visitors and route them to the correct next step.
 - **About:** explain the care approach, verified provider background, values, and Lowcountry setting.
 - **Services:** serve as the detailed source of truth for published procedures.
-- **Team:** contain dentist biographies and staff or role-based team profiles.
-- **New Patients:** explain the first-call, paperwork, arrival, payment, and urgent-contact journey.
 - **Patient Forms:** provide reviewed downloads and clear privacy instructions.
-- **Contact:** provide directions, hours, phone access, and a limited administrative inquiry path.
+- **Contact:** provide directions, hours, phone access, office email, and other approved administrative contact paths.
+
+Modern-only concepts such as a dedicated **Team** or **New Patients** experience may continue as design exploration, but they do not replace the Classic production source of truth unless a future approved release explicitly promotes them.
 
 ## Completed foundation
 
@@ -158,24 +162,25 @@ See:
 - `docs/release-16-5-private-review-center.md`
 - `docs/physical-device-review-guide.md`
 
-## Release 17 — governed production-domain cutover
+### Release 17 — governed production-domain cutover (completed 2026-08-13)
 
-Release 17 begins only after every required Release 15 and Release 16.x item is verified or explicitly approved for deferral.
+The governed production-domain cutover was completed on **August 13, 2026** under the separately recorded owner authorization. The authoritative repository evidence is `docs/evidence/production-cutover-2026-08-13.md`.
 
-- Export and review the authoritative DNS zone, TTLs, proxy settings, registrar, and account ownership.
-- Confirm the exact GoDaddy hosting product, subscription owner, backups, renewal, cancellation timing, and rollback target.
-- Confirm MX, SPF, every DKIM selector, DMARC, autodiscover, mail-related records, portal, scheduling, payment, review, remote-access, and other vendor records.
-- Decide whether the simplest safe architecture is a limited web-host change or a complete Cloudflare Free authoritative-DNS migration.
-- Complete the physical-device/browser matrix and human WCAG/PDF review.
-- Complete Pages CMS owner acceptance by recording the full website-check and restoration result.
-- Obtain the provider, service, insurance/payment, urgent-care, and administrative-inquiry decisions.
-- Prepare the selected modern routing and production canonical host.
-- Attach the real domain in Cloudflare Pages without moving unrelated services.
-- Change only the minimum approved web or authoritative-DNS records during the change window.
-- Verify TLS, redirects, canonical URLs, indexing policy, forms, PDFs, analytics decision, email, application subdomains, sitemap, and search ownership.
-- Keep named operators available through the monitoring window.
-- Restore the prior web records and deployment immediately when a rollback threshold is met.
-- Keep legacy hosting active through the agreed monitoring and rollback period, then cancel it only after the office confirms no dependency remains.
+Recorded accepted outcomes include:
+
+- authoritative DNS delegation moved to Cloudflare after the accepted zone was reconciled;
+- `donovanfamilydentistry.com` and `www.donovanfamilydentistry.com` became active Cloudflare Pages custom domains with SSL;
+- the apex is the canonical production host and `www` uses a path/query-preserving redirect;
+- only the web path changed while accepted non-web/mail records were preserved;
+- Classic became the public production experience;
+- Modern and private-review surfaces retained their noindex/non-public boundaries;
+- the legacy GoDaddy hosting path was retained as the bounded rollback target during the launch window;
+- production validation covered routes, PDFs, redirects, TLS/security headers, metadata, desktop navigation, and mobile layout;
+- remaining physical-device and broader human accessibility evidence was explicitly recorded as approved-deferred rather than falsely claimed complete.
+
+These are **historical cutover outcomes, not instructions to repeat the migration**. Do not re-delegate nameservers, reattach the production domain, change canonical/indexing policy, alter mail/non-web DNS, or retire the rollback path merely because older release documents contain launch steps. Any new provider/DNS change requires fresh live-state verification and the applicable current authorization.
+
+Current follow-up is routine production maintenance and eventual customer ownership handoff preparation. Issue #65 remains the separate activation gate for moving GitHub/Cloudflare operational ownership to Donovan-controlled identities; it does not reopen or repeat the 2026-08-13 website launch.
 
 ## Optional later release — secure patient workflow
 

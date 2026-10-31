@@ -1,5 +1,7 @@
 # Release 17 — Production cutover record and checklist
 
+> **Historical launch record.** The production-domain cutover described below was completed on **August 13, 2026**. Preserve the checklist as launch evidence; do not execute its DNS/domain/indexing steps as a current operating runbook. See `docs/evidence/production-cutover-2026-08-13.md` for the accepted cutover evidence and use the current README, `docs/cloudflare-pages.md`, and `docs/HANDOFF_READINESS.md` for present-state guidance. Issue #65 governs the separate future ownership transfer and does not reopen this launch procedure.
+
 ## Decisions now recorded
 
 - The Classic concept at `/` is the approved initial public website.
