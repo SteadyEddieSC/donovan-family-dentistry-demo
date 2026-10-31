@@ -1,10 +1,10 @@
-# Donovan Family Dentistry launch candidate
+# Donovan Family Dentistry production site
 
-Private launch-readiness website for Donovan Family Dentistry in Beaufort, South Carolina. The Classic concept at `/` is the approved initial production design. The Modern concept remains available at `/modern/` as a future-design demo and must remain permanently noindex and absent from the public sitemap. The repository remains in private preview until the governed launch evidence and owner acceptance work are complete.
+Current maintained website source for Donovan Family Dentistry in Beaufort, South Carolina. The Classic concept at `/` is the approved production design and is served on the public practice domain. The Modern concept remains available at `/modern/` as a future-design demo and must remain permanently noindex and absent from the public sitemap.
 
 ## Safety boundary
 
-This repository does not modify the production domain, nameservers, DNS records, existing email service, scheduling system, patient portal, analytics account, payment service, or text-messaging service. Public indexing remains disabled.
+This repository is the maintained production source until the owner explicitly activates the customer-ownership transfer tracked in issue #65. Routine source, dependency, content, and verification maintenance may continue through normal controls, but repository changes do not by themselves authorize DNS, registrar, mail, provider-account, billing, or ownership changes. Treat live Cloudflare, DNS, registrar, and account state as authoritative for those facts. Public indexing is appropriate for the approved Classic production site; `/modern/`, `/review/`, and other explicitly private/demo surfaces retain their noindex boundaries.
 
 The Contact page contains a non-PHI administrative-request experience. It remains preview-only by default. A same-origin Cloudflare Pages Function is included for eventual activation, but it fails closed unless the office-owned Basin endpoint, Turnstile secret, allowed origins, notification recipient, retention procedure, response owner, backup owner, and rate-limiting control are configured. Medical and dental history is not submitted through the website.
 
@@ -199,7 +199,7 @@ Use these project settings:
 
 The `functions/` directory deploys the same-origin `/api/administrative-inquiry` route. `public/_routes.json` limits Function invocation to `/api/*`, so ordinary static page requests remain static.
 
-Use the current branch or exact-commit Cloudflare preview to proof hours, email, provider content, contact-card behavior, mobile layout, and other release changes before merge. Do not connect `donovanfamilydentistry.com` or `www.donovanfamilydentistry.com`, remove `noindex`, enable analytics, or enable live inquiry delivery until the final Release 17 production-cutover release has been verified.
+Use the current branch or exact-commit Cloudflare preview to proof hours, email, provider content, contact-card behavior, mobile layout, and other release changes before merge. The production domain is already active; older release notes that say not to connect `donovanfamilydentistry.com` or `www.donovanfamilydentistry.com` are historical pre-cutover evidence, not current operating instructions. Do not change production DNS, indexing, analytics, live inquiry delivery, provider ownership, or other consequential production settings without the applicable current owner gate and live-state verification.
 
 ## Monitoring
 
