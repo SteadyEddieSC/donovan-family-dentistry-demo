@@ -37,11 +37,16 @@ On 2026-10-28, the public canonical site at `https://donovanfamilydentistry.com/
 
 That observation proves public reachability/content only. It does **not** prove which Cloudflare account owns the project, which DNS account is authoritative, what provider-side variables are configured, or who controls account recovery.
 
-### Documentation drift to resolve before transfer
+### Documentation drift status
 
-Some older release-era repository text still describes the site as a private/noindex pre-cutover candidate or says not to attach the production domain. Treat those statements as historical launch-stage documentation, not current provider-state proof.
+Current operator-facing status wording has been reconciled so it no longer presents the already-completed production launch as future work:
 
-Before handoff, reconcile or clearly label stale launch-era text so the receiving owner has one unambiguous current operating runbook.
+- `README.md` and `docs/cloudflare-pages.md` identify Classic as the maintained public production experience and preserve the Modern/private-review noindex boundaries;
+- `docs/roadmap.md` identifies the August 13, 2026 governed production-domain cutover as completed and points to the durable cutover evidence rather than instructing a future operator to repeat it.
+
+Older release-era documents intentionally retain the planning and execution language that was accurate when those releases were prepared. Treat that material as **historical launch evidence**, not as current provider-state proof or current permission to change DNS, indexing, domains, hosting, or account ownership. Live provider state plus current operator documentation is authoritative.
+
+Before handoff, perform one final documentation sweep for any newly introduced current-state contradictions, but do not rewrite historical evidence merely to remove old launch wording.
 
 ## 3. GitHub handoff inventory
 
