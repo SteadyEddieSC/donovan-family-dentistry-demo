@@ -20,6 +20,23 @@ Snapshot prepared from `main` at:
 
 Refresh the accepted production `main` SHA immediately before handoff.
 
+### 2026-11-11 read-only provider preflight — no production/transfer activation
+
+This is a dated factual checkpoint, **not** final transfer proof or ongoing authority. Live provider state and an exact pre-transfer backup supersede it.
+
+- Verified current source `main` at `3ff2ef2ad675480f65d77063f3a1f076712f4660` (Astro patch maintenance). The Nov 11 scheduled security baseline, CodeQL SAST, and deployed production-monitor runs passed at this same head. Repeat exact-head checks before moving source.
+- The practice-controlled GitHub organization `Donovan-Family-Dentistry` is accessible to the delegated LDW identity. Its only current website destination is the **public, README-only** placeholder `Donovan-Family-Dentistry/donovanfamilydetistry.com`, initial commit `5543f0c93e2dc82bddf0ae393b108a333e508cab`. The name is missing the **n** in `dentistry`. Owner authorized correction to `donovanfamilydentistry.com`; **rename is not yet executed**. Do not create a duplicate destination or overwrite an unrelated placeholder main history.
+- The existing production Cloudflare Pages project **`donovan-family-dentistry-demo`** was positively found in the original owner-controlled Cloudflare account, linked to source `SteadyEddieSC/donovan-family-dentistry-demo` branch `main`. Current provider build command is `npm run build`, output `dist`, root repository directory. The most recent observed successful **production** deployment points to source `3ff2ef2ad675480f65d77063f3a1f076712f4660`; newer successful preview deployments must not be confused with production.
+- Both `donovanfamilydentistry.com` and `www.donovanfamilydentistry.com` are active Pages custom domains on that original project. Their authoritative Cloudflare DNS zone is active under the original account and contained **25 records** at this checkpoint. This count is not a substitute for a **private complete DNS/settings export** at transfer time.
+- The newly created Donovan-controlled Cloudflare account is separately visible to the LDW delegate and currently has **no Pages project**. Account administration, billing recovery, site binding and the destination deployment must be independently proven before cutover.
+- The public/live zone still publishes a Microsoft-hosted MX destination and legacy mail/autodiscover records. The owner reports no known active Microsoft 365 email subscription; **DNS records alone cannot prove a working paid mailbox or that any record is safe to delete**. Preserve all mail/verification/non-web records while moving the website. Any separate email selection or routing change requires its own customer authorization and mailbox-receipt verification.
+- The public Astro repository, Cloudflare Pages and its contact route are **not PHI storage or exchange systems**. Keep completed patient forms and patient records out of the repo, Pages/CMS, logs and GitHub Actions. Healthcare messaging and intake remain separately scoped discovery.
+- The connected GitHub integration can administer the receiving repository but does not have admin control over the original personal source repo, and does not expose a rename operation. Full history-preserving transfer must follow an authenticated original-repository owner/admin route and respect the accepted rollback window.
+
+**Preparation sequence:** correct and re-verify one canonical destination repo name; obtain an owner-approved full source-history backup and privately retained authoritative DNS+project settings; check no active source writer; construct a separate customer-owned Pages preview after the source destination/permissions are settled; pass build, CI/security, routing, CMS edit, backup and rollback with synthetic content; seek exact owner/customer approval before any domain, nameserver, email, credential or production migration; retire old hosting/repo only after proved observation.
+
+**No mutation performed by this preflight.** Provider access and read-only inspection do not grant production cutover, DNS, email, credential, PHI or billing authority.
+
 Repository-observed stack:
 
 - Astro static site;
